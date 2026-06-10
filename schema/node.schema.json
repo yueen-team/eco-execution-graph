@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "eco-execution-graph/node.v1",
+  "title": "GraphNodeV1",
+  "description": "环保现场执行图谱节点。扩展自 semantic-profile-lab graph-export v2.1,新增 tier 与 lineage_ref(ADR-0002/0003)。",
+  "type": "object",
+  "required": ["node_id", "node_type", "name", "tier", "review_status"],
+  "properties": {
+    "node_id": {
+      "type": "string",
+      "minLength": 3,
+      "description": "稳定身份 ID,命名规范:<type前缀>:<域>:<slug>,例 issue:hw:label-incomplete、law:swl:art78。跨 10 域共享身份(ADR-0001),建后不改。"
+    },
+    "node_type": {
+      "enum": [
+        "industry", "process_scenario", "pollution_source", "pollutant",
+        "standard_limit", "tech_spec", "law_article", "law_obligation",
+        "issue_type", "pitfall",
+        "enterprise", "facility", "discharge_outlet", "risk_unit",
+        "issue_instance", "evidence_requirement", "evidence_instance",
+        "rectification_template", "rectification_instance",
+        "report_expression", "distill_event",
+        "stat_signal"
+      ]
+    },
+    "name": { "type": "string", "minLength": 1 },
+    "aliases": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "语义归一:同一概念的其他叫法,归一到 canonical name。"
+    },
+    "tier": {
+      "enum": ["shared", "private", "aggregate"],
+      "description": "授权层。导出按此物理过滤,见 ADR-0002。类型默认值见 ARCHITECTURE §2.2,实例可收紧(shared→private)不可放宽(放宽需 candy 审批记录)。"
+    },
+    "dimension": {
+      "type": "string",
+      "description": "所属环保维度(13 维之一),例:危废管理。"
+    },
+    "review_status": {
+      "enum": ["CANDIDATE", "HUMAN_REVIEWED", "APPROVED_BASELINE", "DEPRECATED"],
+      "description": "治理膜:ingest 产物默认 CANDIDATE;晋级需人工审核记录。"
+    },
+    "attrs": {
+      "type": "object",
+      "description": "类型专属属性。law_article 仅允许瘦字段(见 $defs.lawArticleAttrs,全文禁入,ADR-0003)。"
+    },
+    "lineage_ref": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["target_law_id", "relation"],
+        "properties": {
+          "target_law_id": { "type": "string" },
+          "relation": { "enum": ["superseded_by", "merged_into", "renumbered_as", "split_into"] },
+          "source": { "type": "string", "description": "沿革数据来源(政府法典库对接后填)" }
+        }
+      },
+      "description": "法典沿革指针,仅 law_article 使用(ADR-0003)。"
+    },
+    "provenance": {
+      "type": "object",
+      "properties": {
+        "created_by": { "type": "string" },
+        "created_at": { "type": "string" },
+        "origin": { "enum": ["field_event", "baseline_import", "law_extraction", "manual", "aggregation"] }
+      }
+    }
+  },
+  "$defs": {
+    "lawArticleAttrs": {
+      "type": "object",
+      "properties": {
+        "law_name": { "type": "string" },
+        "article_no": { "type": "string" },
+        "obligation_summary": { "type": "string", "maxLength": 300, "description": "义务谓词摘要,非全文" },
+        "effective_status": { "enum": ["现行有效", "已废止", "待生效"] },
+        "rag_doc_ref": { "type": "string", "description": "腾讯云知识引擎文档定位符,取全文用" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

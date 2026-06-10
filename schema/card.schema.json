@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "eco-execution-graph/card.v1",
+  "title": "FieldExecutionCardV1",
+  "description": "《法条↔现场执行卡》。卡片是图的切片渲染,不是独立数据:所有内容字段必须带图引用,渲染时校验一致性(ARCHITECTURE §2.4)。",
+  "type": "object",
+  "required": ["card_id", "law_article_ref", "field_manifestations", "render_views", "review_status"],
+  "properties": {
+    "card_id": { "type": "string", "pattern": "^card:[a-z0-9-]+:[a-z0-9-]+$" },
+    "title": { "type": "string" },
+    "dimension": { "type": "string", "description": "本期固定:危废管理" },
+    "law_article_ref": {
+      "type": "object",
+      "required": ["node_id"],
+      "properties": {
+        "node_id": { "type": "string" },
+        "lineage_note": { "type": "string", "description": "法典沿革提示(如'法典生效后对应第 X 条')" }
+      }
+    },
+    "field_manifestations": {
+      "type": "array", "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["issue_type_ref", "description"],
+        "properties": {
+          "issue_type_ref": { "type": "string" },
+          "description": { "type": "string", "description": "这条违法在现场长什么样" },
+          "frequency_signal": { "type": "string", "description": "聚合层统计引用(tier=aggregate),如'近 12 月 N 家企业出现'" }
+        }
+      }
+    },
+    "evidence_requirements": {
+      "type": "array",
+      "items": { "type": "object", "required": ["ref"], "properties": { "ref": { "type": "string" }, "summary": { "type": "string" } } },
+      "description": "tier=private,只在内部全量视图渲染"
+    },
+    "rectifications": {
+      "type": "array",
+      "items": { "type": "object", "required": ["ref"], "properties": { "ref": { "type": "string" }, "summary": { "type": "string" }, "pass_rate": { "type": "string" } } },
+      "description": "tier=private,只在内部全量视图渲染"
+    },
+    "report_expressions": {
+      "type": "array",
+      "items": { "type": "object", "required": ["ref"], "properties": { "ref": { "type": "string" } } },
+      "description": "tier=private,只在内部全量视图渲染"
+    },
+    "pitfalls": {
+      "type": "array",
+      "items": { "type": "object", "required": ["ref", "text"], "properties": { "ref": { "type": "string" }, "text": { "type": "string" } } },
+      "description": "踩雷点,默认 tier=shared(ADR-0007)"
+    },
+    "render_views": {
+      "type": "object",
+      "required": ["internal_full", "shared_export"],
+      "properties": {
+        "internal_full": { "type": "boolean" },
+        "shared_export": {
+          "type": "boolean",
+          "description": "共有视图:private 栏位渲染为'已建立标准(N 条)'占位,不输出内容(ADR-0008)"
+        }
+      }
+    },
+    "review_status": { "enum": ["CANDIDATE", "HUMAN_REVIEWED", "APPROVED_BASELINE", "DEPRECATED"] }
+  },
+  "additionalProperties": false
+}

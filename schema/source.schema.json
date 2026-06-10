@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "eco-execution-graph/source.v1",
+  "title": "GraphSourceV1",
+  "description": "溯源记录,沿用 semantic-profile-lab provenance v1.9 思想:每条边可回溯到来源文档/事件/页表。",
+  "type": "object",
+  "required": ["source_id", "source_type", "review_status"],
+  "properties": {
+    "source_id": { "type": "string", "minLength": 3 },
+    "source_type": {
+      "enum": ["law_or_standard_doc", "field_event", "baseline_import", "expert_note", "government_lineage", "aggregation_job"]
+    },
+    "doc_ref": { "type": "string", "description": "文档定位:文件名/RAG 文档 ID/HJ 标准号" },
+    "page_or_table": { "type": "string" },
+    "event_ref": { "type": "string", "description": "EcoCheck semantic_event v2 事件 ID(field_event 时必填)" },
+    "reviewer": { "type": "string" },
+    "review_status": { "enum": ["CANDIDATE", "HUMAN_REVIEWED", "APPROVED_BASELINE", "DEPRECATED"] },
+    "open_question_refs": { "type": "array", "items": { "type": "string" } },
+    "notes": { "type": "string" }
+  },
+  "additionalProperties": false
+}

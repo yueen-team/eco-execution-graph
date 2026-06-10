@@ -1,0 +1,26 @@
+{
+  "name": "eco-execution-graph",
+  "version": "0.1.0",
+  "private": true,
+  "description": "环保现场执行图谱:法律法规 × 技术规范 × 现场排查经验的关联图谱",
+  "packageManager": "pnpm@11.0.8",
+  "scripts": {
+    "prepare": "husky",
+    "graph:build": "python pipeline/build_graph.py",
+    "graph:export:shared": "python pipeline/export.py --tier shared",
+    "gap:report": "python pipeline/gap_report.py",
+    "ui:dev": "pnpm --dir graph-ui dev",
+    "ui:build": "pnpm --dir graph-ui build",
+    "bdd:export": "gherkin-v39 --predictable-ids \"specs/features/*.feature\" > bdd/behavior-contracts.ndjson",
+    "skills:index": "echo skills-index: not applicable in this project",
+    "verify:check": "pwsh -ExecutionPolicy Bypass -File verify/verify.ps1 check",
+    "verify:leak": "pwsh -ExecutionPolicy Bypass -File verify/verify.ps1 leak",
+    "verify:all": "pwsh -ExecutionPolicy Bypass -File verify/verify.ps1 all"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^19.0.0",
+    "@commitlint/config-conventional": "^19.0.0",
+    "husky": "^9.0.0",
+    "lint-staged": "^15.0.0"
+  }
+}

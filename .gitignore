@@ -1,0 +1,14 @@
+node_modules/
+dist/
+__pycache__/
+*.pyc
+.venv/
+.env
+.env.local
+reports/render-proof/*.png
+reports/render-proof/*.mp4
+data/exports/full_internal*/
+data/exports/demo_package*/
+*.log
+.DS_Store
+Thumbs.db

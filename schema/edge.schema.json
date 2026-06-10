@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "eco-execution-graph/edge.v1",
+  "title": "GraphEdgeV1",
+  "description": "图谱边。每条边必须有 source_ref(溯源)与 confidence(置信,由成效回写,ADR-0005)。",
+  "type": "object",
+  "required": ["edge_id", "from", "to", "edge_type", "tier", "confidence", "source_ref", "review_status"],
+  "properties": {
+    "edge_id": { "type": "string", "minLength": 3 },
+    "from": { "type": "string", "description": "node_id" },
+    "to": { "type": "string", "description": "node_id" },
+    "edge_type": {
+      "enum": [
+        "occurs_in", "emits", "limited_by", "regulated_by", "obligation_of",
+        "manifests_as", "evidenced_by", "rectified_by", "reported_as",
+        "pitfall_of", "instance_of", "located_at", "lineage", "supports_stat",
+        "often_co_occurs_with", "belongs_to_dimension"
+      ]
+    },
+    "tier": {
+      "enum": ["shared", "private", "aggregate"],
+      "description": "边的授权层不得宽于两端节点中较严者(private 端点 ⇒ 边必为 private),由 validate_no_private_leak 强制。"
+    },
+    "confidence": {
+      "type": "number", "minimum": 0, "maximum": 1,
+      "description": "初始值按来源默认表(pipeline 维护);闭环事件回写(ADR-0005)。"
+    },
+    "confidence_evidence": {
+      "type": "object",
+      "properties": {
+        "verified_count": { "type": "integer", "minimum": 0 },
+        "rejected_count": { "type": "integer", "minimum": 0 },
+        "last_updated": { "type": "string" }
+      },
+      "description": "成效计数,confidence 的计算依据,演示可展示'被现场验证 N 次'。"
+    },
+    "source_ref": { "type": "string", "description": "回指 source 记录 ID,必填,无溯源的边不允许存在。" },
+    "review_status": { "enum": ["CANDIDATE", "HUMAN_REVIEWED", "APPROVED_BASELINE", "DEPRECATED"] },
+    "attrs": { "type": "object" }
+  },
+  "additionalProperties": false
+}

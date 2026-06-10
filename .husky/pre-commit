@@ -1,0 +1,1 @@
+node scripts/git-workflow/pre-commit.mjs

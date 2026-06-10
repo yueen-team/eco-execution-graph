@@ -1,0 +1,7 @@
+{
+  "include": ["pipeline"],
+  "exclude": ["**/__pycache__", "node_modules", "graph-ui"],
+  "pythonVersion": "3.11",
+  "typeCheckingMode": "standard",
+  "reportMissingImports": true
+}
