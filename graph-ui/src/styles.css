@@ -125,7 +125,8 @@ h3 {
 }
 
 .mode-tabs,
-.view-toggle {
+.view-toggle,
+.product-toggle {
   display: grid;
   gap: 8px;
 }
@@ -134,9 +135,14 @@ h3 {
   grid-template-columns: repeat(3, 1fr);
 }
 
+.product-toggle {
+  grid-template-columns: repeat(2, 1fr);
+}
+
 .tab,
 .view-button,
-.icon-button {
+.icon-button,
+.text-button {
   border: 1px solid rgba(148, 163, 184, 0.25);
   background: #13272e;
   color: #dbeafe;
@@ -210,6 +216,24 @@ h3 {
   height: 42px;
   display: grid;
   place-items: center;
+}
+
+.stage-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 0 0 auto;
+}
+
+.text-button {
+  min-height: 42px;
+  padding: 0 12px;
+  white-space: nowrap;
+}
+
+.text-button:hover,
+.icon-button:hover {
+  border-color: #34d399;
 }
 
 #cy {

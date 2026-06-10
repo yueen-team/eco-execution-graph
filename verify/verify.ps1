@@ -70,8 +70,58 @@ if ($Target -in @("test", "all")) {
         try { Invoke-CheckedCommand -Command @("pnpm", "regulatory:check") }
         finally { Pop-Location }
     }
+    Invoke-Step "p2p3-upstream-lock" {
+        Push-Location $root
+        try { Invoke-CheckedCommand -Command @("pnpm", "upstream:lock") }
+        finally { Pop-Location }
+    }
+    Invoke-Step "p2p3-upstream-inventory" {
+        Push-Location $root
+        try { Invoke-CheckedCommand -Command @("pnpm", "upstream:inventory") }
+        finally { Pop-Location }
+    }
+    Invoke-Step "p2p3-eco-kb-import" {
+        Push-Location $root
+        try { Invoke-CheckedCommand -Command @("pnpm", "upstream:import:eco-kb") }
+        finally { Pop-Location }
+    }
+    Invoke-Step "p2p3-spl-contracts" {
+        Push-Location $root
+        try { Invoke-CheckedCommand -Command @("pnpm", "upstream:contracts:spl") }
+        finally { Pop-Location }
+    }
+    Invoke-Step "p2p3-spl-compat" {
+        Push-Location $root
+        try { Invoke-CheckedCommand -Command @("pnpm", "upstream:compat") }
+        finally { Pop-Location }
+    }
+    Invoke-Step "p2p3-rag-resolve" {
+        Push-Location $root
+        try { Invoke-CheckedCommand -Command @("pnpm", "rag:resolve") }
+        finally { Pop-Location }
+    }
+    Invoke-Step "p2p3-full-graph" {
+        Push-Location $root
+        try { Invoke-CheckedCommand -Command @("pnpm", "graph:build:full") }
+        finally { Pop-Location }
+    }
+    Invoke-Step "p2p3-full-reports" {
+        Push-Location $root
+        try {
+            Invoke-CheckedCommand -Command @("pnpm", "gap:report:full")
+            Invoke-CheckedCommand -Command @("pnpm", "monthly:compare:full")
+            Invoke-CheckedCommand -Command @("pnpm", "pitfall:map:full")
+            Invoke-CheckedCommand -Command @("pnpm", "lineage:check")
+            Invoke-CheckedCommand -Command @("pnpm", "demo:pack")
+        }
+        finally { Pop-Location }
+    }
     Invoke-Step "pipeline-unit" {
-        if (Test-Path "$root\pipeline\tests") { python -m pytest "$root\pipeline\tests" -q; if ($LASTEXITCODE -ne 0) { throw "pytest failed" } }
+        if (Test-Path "$root\tests") {
+            python -m unittest discover -s "$root\tests" -p "test_*.py"
+            if ($LASTEXITCODE -ne 0) { throw "unittest failed" }
+        }
+        elseif (Test-Path "$root\pipeline\tests") { python -m pytest "$root\pipeline\tests" -q; if ($LASTEXITCODE -ne 0) { throw "pytest failed" } }
         else { Write-Host "  (pipeline tests 尚未建立 — AFK baseline=null,见 afk-test.config.json TODO)" -ForegroundColor Yellow }
     }
 }
@@ -93,6 +143,16 @@ if ($Target -in @("leak", "all")) {
             }
         }
     }
+    Invoke-Step "p2p3-private-leak-contract" {
+        Push-Location $root
+        try { Invoke-CheckedCommand -Command @("pnpm", "leak:full") }
+        finally { Pop-Location }
+    }
+    Invoke-Step "p2p3-regulatory-consistency" {
+        Push-Location $root
+        try { Invoke-CheckedCommand -Command @("pnpm", "regulatory:check:full") }
+        finally { Pop-Location }
+    }
 }
 
 if ($Target -in @("build", "all")) {
@@ -106,6 +166,11 @@ if ($Target -in @("build", "all")) {
             if (Test-Path "$root\pipeline\final_delivery.py") { Invoke-CheckedCommand -Command @("pnpm", "delivery:report") }
             else { Write-Host "  (final_delivery.py 尚未建立)" -ForegroundColor Yellow }
         }
+        finally { Pop-Location }
+    }
+    Invoke-Step "p2p3-delivery-report" {
+        Push-Location $root
+        try { Invoke-CheckedCommand -Command @("pnpm", "delivery:p2p3") }
         finally { Pop-Location }
     }
 }

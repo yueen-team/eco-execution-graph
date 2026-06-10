@@ -7,6 +7,8 @@ __pycache__/
 .env.local
 reports/render-proof/*.png
 reports/render-proof/*.mp4
+reports/render-proof-p2p3/*.png
+reports/render-proof-p2p3/*.mp4
 data/exports/full_internal*/
 data/exports/demo_package*/
 *.log

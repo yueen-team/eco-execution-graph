@@ -1,0 +1,107 @@
+[
+  {
+    "synthetic_company": "合成企业1",
+    "industry_scene": "危废管理",
+    "issue_type": "issue:hw:ledger-incomplete",
+    "evidence_categories": [
+      "现场照片",
+      "台账记录"
+    ],
+    "citation_status": "blocked_or_manual_upstream_basis",
+    "source_trace": {
+      "source_refs": [
+        "src:demo:aggregation",
+        "src:demo:eto-review",
+        "src:demo:law-map",
+        "src:demo:private-standards"
+      ],
+      "origin_repo": "P1 seed compatibility sample",
+      "origin_commit": "local",
+      "origin_asset": "data/candidates/graph_seed_p1_hazardous_waste.json"
+    }
+  },
+  {
+    "synthetic_company": "合成企业2",
+    "industry_scene": "危废管理",
+    "issue_type": "issue:hw:storage-partition",
+    "evidence_categories": [
+      "现场照片",
+      "台账记录"
+    ],
+    "citation_status": "blocked_or_manual_upstream_basis",
+    "source_trace": {
+      "source_refs": [
+        "src:demo:aggregation",
+        "src:demo:eto-review",
+        "src:demo:law-map",
+        "src:demo:private-standards"
+      ],
+      "origin_repo": "P1 seed compatibility sample",
+      "origin_commit": "local",
+      "origin_asset": "data/candidates/graph_seed_p1_hazardous_waste.json"
+    }
+  },
+  {
+    "synthetic_company": "合成企业3",
+    "industry_scene": "危废管理",
+    "issue_type": "issue:hw:label-incomplete",
+    "evidence_categories": [
+      "现场照片",
+      "台账记录"
+    ],
+    "citation_status": "blocked_or_manual_upstream_basis",
+    "source_trace": {
+      "source_refs": [
+        "src:demo:aggregation",
+        "src:demo:eto-review",
+        "src:demo:law-map",
+        "src:demo:private-standards"
+      ],
+      "origin_repo": "P1 seed compatibility sample",
+      "origin_commit": "local",
+      "origin_asset": "data/candidates/graph_seed_p1_hazardous_waste.json"
+    }
+  },
+  {
+    "synthetic_company": "合成企业4",
+    "industry_scene": "危废管理",
+    "issue_type": "issue:hw:warning-sign-missing",
+    "evidence_categories": [
+      "现场照片",
+      "台账记录"
+    ],
+    "citation_status": "blocked_or_manual_upstream_basis",
+    "source_trace": {
+      "source_refs": [
+        "src:demo:aggregation",
+        "src:demo:eto-review",
+        "src:demo:law-map",
+        "src:demo:private-standards"
+      ],
+      "origin_repo": "P1 seed compatibility sample",
+      "origin_commit": "local",
+      "origin_asset": "data/candidates/graph_seed_p1_hazardous_waste.json"
+    }
+  },
+  {
+    "synthetic_company": "合成企业5",
+    "industry_scene": "危废管理",
+    "issue_type": "issue:hw:transfer-record-mismatch",
+    "evidence_categories": [
+      "现场照片",
+      "台账记录"
+    ],
+    "citation_status": "blocked_or_manual_upstream_basis",
+    "source_trace": {
+      "source_refs": [
+        "src:demo:aggregation",
+        "src:demo:eto-review",
+        "src:demo:law-map",
+        "src:demo:private-standards"
+      ],
+      "origin_repo": "P1 seed compatibility sample",
+      "origin_commit": "local",
+      "origin_asset": "data/candidates/graph_seed_p1_hazardous_waste.json"
+    }
+  }
+]

@@ -7,6 +7,7 @@ from pathlib import Path
 
 from common import EXPORTS_DIR, REPORTS_DIR, read_json, write_json, write_text
 from export import FORBIDDEN_SHARED_NODE_TYPES
+from p2p3_common import validate_full_leak
 
 PRIVATE_TEXT_PATTERNS = [
     re.compile(pattern, re.IGNORECASE)
@@ -47,6 +48,12 @@ def check_package(package_dir: Path) -> list[dict]:
 
 
 def main() -> None:
+    if "--scope" in sys.argv and "full" in sys.argv:
+        result = validate_full_leak()
+        print(json.dumps(result, ensure_ascii=False))
+        if result["violations"]:
+            sys.exit(1)
+        return
     packages = [path for path in EXPORTS_DIR.glob("*shared*") if path.is_dir()]
     violations: list[dict] = []
     for package in packages:

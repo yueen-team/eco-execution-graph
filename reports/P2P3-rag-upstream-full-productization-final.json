@@ -1,0 +1,65 @@
+{
+  "zhang_director_ready": "conditional",
+  "reason": "full package generated; RAG citation app layer conditional",
+  "safe_to_show": [
+    "shared_product_v1",
+    "upstream utilization report",
+    "gap report full",
+    "pitfall map full",
+    "monthly comparison full"
+  ],
+  "must_not_show": [
+    "private runtime details",
+    "raw RAG response",
+    "real enterprise data",
+    "keys",
+    "local cache"
+  ],
+  "blockers": [],
+  "degraded": [
+    "Tencent ADP BotAppKey missing; citation retrieval via app is blocked, embedding smoke passed."
+  ],
+  "not_done": [
+    "government lineage real import",
+    "Tencent ADP app citation retrieval"
+  ],
+  "next_steps": [
+    "publish Tencent ADP app with two knowledge bases",
+    "fill TENCENT_ADP_BOT_APP_KEY",
+    "import government lineage exchange file when provided"
+  ],
+  "recommended_demo_order": [
+    "只有法条",
+    "法条落到行业/场景/问题",
+    "证据类别",
+    "shared/internal",
+    "缺口报告",
+    "月报对比"
+  ],
+  "rag_real_smoke": "pass",
+  "upstream_real_import": "pass",
+  "private_leak_violations": 0,
+  "regulatory_findings": 0,
+  "full_graph": {
+    "nodes": 513,
+    "edges": 1007,
+    "sources": 10
+  },
+  "shared_graph": {
+    "nodes": 483,
+    "edges": 977,
+    "sources": 6
+  },
+  "cards": {
+    "status": "pass",
+    "total_cards": 90,
+    "showcase_cards": 20,
+    "ready_cards": 70,
+    "candidate_cards": 0,
+    "hazardous_showcase_cards": 19
+  },
+  "render_proof": {
+    "status": "pass",
+    "screenshots": 4
+  }
+}

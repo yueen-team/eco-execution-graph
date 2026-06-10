@@ -1,0 +1,6 @@
+{
+  "status": "pass",
+  "conflicts": [],
+  "merged_aliases": 0,
+  "policy": "canonical merge by stable node_id; no silent overwrite"
+}

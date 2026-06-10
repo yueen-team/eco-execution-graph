@@ -1,0 +1,83 @@
+{
+  "status": "pass",
+  "lock_status": "pass",
+  "assets": [
+    {
+      "asset": "approved_show_if_rules",
+      "status": "available",
+      "path": "E:\\eco-semantic-knowledge-base\\data\\approved_baseline\\approved_show_if_rules_v1_0.csv",
+      "bytes": 114589,
+      "sha256": "ed7ebe77fb5e76531ef4922da769de6c11c445da5f00610fe133439cf81f5ada"
+    },
+    {
+      "asset": "pollutant_domain_approved_baseline",
+      "status": "available",
+      "path": "E:\\eco-semantic-knowledge-base\\data\\approved_baseline\\pollutant_domain_v8_5\\pollutant_domain_approved_baseline_v8_5.csv",
+      "bytes": 314897,
+      "sha256": "a905b986b6729b940d6f6fb1357b9b103180d0482007fc254501fca88d4b03fe"
+    },
+    {
+      "asset": "pollutant_standard_link_map",
+      "status": "available",
+      "path": "E:\\eco-semantic-knowledge-base\\data\\approved_baseline\\pollutant_domain_v8_5\\pollutant_standard_link_map_v8_6.csv",
+      "bytes": 546014,
+      "sha256": "4595324bd90f6af9ceaba30fa0620447dab8d9cc5ed6ad190f54b14e5eec0740"
+    },
+    {
+      "asset": "approved_specialized_inspection_items",
+      "status": "available",
+      "path": "E:\\eco-semantic-knowledge-base\\data\\approved_baseline\\approved_specialized_inspection_items_v1_0.csv",
+      "bytes": 89261,
+      "sha256": "b3948cafa35b9f9a7f302d85feda9045a6238c7eada4685202558a16c185add5"
+    },
+    {
+      "asset": "scenario_activation_rules",
+      "status": "available",
+      "path": "E:\\eco-semantic-knowledge-base\\data\\approved_baseline\\scenario_activation_rules_v1_0.json",
+      "bytes": 31413,
+      "sha256": "799c2420de7ab6b5bc71c1ea2dea99909bc332f04ba1c6be46e52ffed1b6a818"
+    },
+    {
+      "asset": "graph_export_contract",
+      "status": "available",
+      "path": "E:\\semantic-profile-lab\\contracts\\graph-export.v2_1.md",
+      "bytes": 1374,
+      "sha256": "948c779724cd9c7d8cdfc562fecdfbe89fe7c0f1d1999400e8b44952d6672288"
+    },
+    {
+      "asset": "graph_export_cases",
+      "status": "available",
+      "path": "E:\\semantic-profile-lab\\tests\\graph-export-cases.v2_1.json",
+      "bytes": 964,
+      "sha256": "fb2dc76d2ae63430db454c45e94b7059612d70670101b386953bcf3b5e41c43c"
+    },
+    {
+      "asset": "graph_consumption_governance",
+      "status": "available",
+      "path": "E:\\semantic-profile-lab\\contracts\\graph-consumption-governance.v1_8.md",
+      "bytes": 2116,
+      "sha256": "eb24bc09fce01bed06e63a59e1d9fcbbd3e1e27a5d706b284c07ad4ab9c7b7d4"
+    },
+    {
+      "asset": "manual_adoption",
+      "status": "available",
+      "path": "E:\\semantic-profile-lab\\contracts\\manual-adoption-to-review-field.v2.md",
+      "bytes": 1673,
+      "sha256": "f0b4fb8f3471be02af1445d195e3077d059a33f1b4e857752106dadc9b7d06ce"
+    },
+    {
+      "asset": "provenance",
+      "status": "available",
+      "path": "E:\\semantic-profile-lab\\contracts\\evidence-risk-graph-provenance.v1_9.md",
+      "bytes": 1660,
+      "sha256": "ca76430c687d03f75a8b6bf36a9f1220e99cf2e355b707a5485b6327aeb0cae5"
+    },
+    {
+      "asset": "evidence_risk_link",
+      "status": "available",
+      "path": "E:\\semantic-profile-lab\\contracts\\evidence-risk-graph-link.v1_7.md",
+      "bytes": 2357,
+      "sha256": "085c818e000ad0c2db74f6d1c0378106eca38b0628837e4e562c839bc14b7140"
+    }
+  ]
+}

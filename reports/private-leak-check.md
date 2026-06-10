@@ -1,5 +1,5 @@
 # Private Leak Check
 
 - status: `pass`
-- checked_packages: 1
+- checked_packages: 2
 - violations: 0

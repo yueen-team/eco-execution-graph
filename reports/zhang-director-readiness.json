@@ -1,0 +1,21 @@
+{
+  "safe_to_show": [
+    "shared_product_v1",
+    "showcase-card-pack",
+    "gap-report-full",
+    "yunnan-pitfall-map-full"
+  ],
+  "must_not_show": [
+    "private runtime details",
+    "raw RAG response",
+    "real enterprise data"
+  ],
+  "recommended_demo_order": [
+    "法条",
+    "场景",
+    "问题",
+    "shared/internal",
+    "缺口报告",
+    "月报对比"
+  ]
+}

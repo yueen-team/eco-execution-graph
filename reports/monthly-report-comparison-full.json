@@ -1,0 +1,167 @@
+{
+  "status": "pass",
+  "bundles": [
+    {
+      "synthetic_company": "合成企业1",
+      "industry_scene": "危废管理",
+      "issue_type": "issue:hw:ledger-incomplete",
+      "evidence_categories": [
+        "现场照片",
+        "台账记录"
+      ],
+      "citation_status": "blocked_or_manual_upstream_basis",
+      "source_trace": {
+        "source_refs": [
+          "src:demo:aggregation",
+          "src:demo:eto-review",
+          "src:demo:law-map",
+          "src:demo:private-standards"
+        ],
+        "origin_repo": "P1 seed compatibility sample",
+        "origin_commit": "local",
+        "origin_asset": "data/candidates/graph_seed_p1_hazardous_waste.json"
+      }
+    },
+    {
+      "synthetic_company": "合成企业2",
+      "industry_scene": "危废管理",
+      "issue_type": "issue:hw:storage-partition",
+      "evidence_categories": [
+        "现场照片",
+        "台账记录"
+      ],
+      "citation_status": "blocked_or_manual_upstream_basis",
+      "source_trace": {
+        "source_refs": [
+          "src:demo:aggregation",
+          "src:demo:eto-review",
+          "src:demo:law-map",
+          "src:demo:private-standards"
+        ],
+        "origin_repo": "P1 seed compatibility sample",
+        "origin_commit": "local",
+        "origin_asset": "data/candidates/graph_seed_p1_hazardous_waste.json"
+      }
+    },
+    {
+      "synthetic_company": "合成企业3",
+      "industry_scene": "危废管理",
+      "issue_type": "issue:hw:label-incomplete",
+      "evidence_categories": [
+        "现场照片",
+        "台账记录"
+      ],
+      "citation_status": "blocked_or_manual_upstream_basis",
+      "source_trace": {
+        "source_refs": [
+          "src:demo:aggregation",
+          "src:demo:eto-review",
+          "src:demo:law-map",
+          "src:demo:private-standards"
+        ],
+        "origin_repo": "P1 seed compatibility sample",
+        "origin_commit": "local",
+        "origin_asset": "data/candidates/graph_seed_p1_hazardous_waste.json"
+      }
+    },
+    {
+      "synthetic_company": "合成企业4",
+      "industry_scene": "危废管理",
+      "issue_type": "issue:hw:warning-sign-missing",
+      "evidence_categories": [
+        "现场照片",
+        "台账记录"
+      ],
+      "citation_status": "blocked_or_manual_upstream_basis",
+      "source_trace": {
+        "source_refs": [
+          "src:demo:aggregation",
+          "src:demo:eto-review",
+          "src:demo:law-map",
+          "src:demo:private-standards"
+        ],
+        "origin_repo": "P1 seed compatibility sample",
+        "origin_commit": "local",
+        "origin_asset": "data/candidates/graph_seed_p1_hazardous_waste.json"
+      }
+    },
+    {
+      "synthetic_company": "合成企业5",
+      "industry_scene": "危废管理",
+      "issue_type": "issue:hw:transfer-record-mismatch",
+      "evidence_categories": [
+        "现场照片",
+        "台账记录"
+      ],
+      "citation_status": "blocked_or_manual_upstream_basis",
+      "source_trace": {
+        "source_refs": [
+          "src:demo:aggregation",
+          "src:demo:eto-review",
+          "src:demo:law-map",
+          "src:demo:private-standards"
+        ],
+        "origin_repo": "P1 seed compatibility sample",
+        "origin_commit": "local",
+        "origin_asset": "data/candidates/graph_seed_p1_hazardous_waste.json"
+      }
+    }
+  ],
+  "comparisons": [
+    {
+      "case_id": "monthly-full-1",
+      "plain_ai": "合成企业1存在环保管理问题,建议整改。",
+      "graph_context": "合成企业1在危废管理场景下存在危废台账不完整执行卡相关管理风险。建议结合现场照片、台账记录和上游 approved baseline 来源进行复核；在 RAG 引用未完成正式解析前,对外表述应使用“参考相关要求”和管理建议。",
+      "improvement": [
+        "更具体",
+        "有场景",
+        "有证据类别",
+        "有引用边界"
+      ]
+    },
+    {
+      "case_id": "monthly-full-2",
+      "plain_ai": "合成企业2存在环保管理问题,建议整改。",
+      "graph_context": "合成企业2在危废管理场景下存在危废暂存间分区/分类贮存不规范执行卡相关管理风险。建议结合现场照片、台账记录和上游 approved baseline 来源进行复核；在 RAG 引用未完成正式解析前,对外表述应使用“参考相关要求”和管理建议。",
+      "improvement": [
+        "更具体",
+        "有场景",
+        "有证据类别",
+        "有引用边界"
+      ]
+    },
+    {
+      "case_id": "monthly-full-3",
+      "plain_ai": "合成企业3存在环保管理问题,建议整改。",
+      "graph_context": "合成企业3在危废管理场景下存在危废标签不规范执行卡相关管理风险。建议结合现场照片、台账记录和上游 approved baseline 来源进行复核；在 RAG 引用未完成正式解析前,对外表述应使用“参考相关要求”和管理建议。",
+      "improvement": [
+        "更具体",
+        "有场景",
+        "有证据类别",
+        "有引用边界"
+      ]
+    },
+    {
+      "case_id": "monthly-full-4",
+      "plain_ai": "合成企业4存在环保管理问题,建议整改。",
+      "graph_context": "合成企业4在危废管理场景下存在危废识别标志/警示标识设置不规范执行卡相关管理风险。建议结合现场照片、台账记录和上游 approved baseline 来源进行复核；在 RAG 引用未完成正式解析前,对外表述应使用“参考相关要求”和管理建议。",
+      "improvement": [
+        "更具体",
+        "有场景",
+        "有证据类别",
+        "有引用边界"
+      ]
+    },
+    {
+      "case_id": "monthly-full-5",
+      "plain_ai": "合成企业5存在环保管理问题,建议整改。",
+      "graph_context": "合成企业5在危废管理场景下存在危废转移、入库、出库记录不一致执行卡相关管理风险。建议结合现场照片、台账记录和上游 approved baseline 来源进行复核；在 RAG 引用未完成正式解析前,对外表述应使用“参考相关要求”和管理建议。",
+      "improvement": [
+        "更具体",
+        "有场景",
+        "有证据类别",
+        "有引用边界"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "package_name": "shared_product_v1",
+  "demo_package": true,
+  "tier_filter": "shared",
+  "record_counts": {
+    "nodes": 483,
+    "edges": 977,
+    "sources": 6
+  },
+  "files": {
+    "graph.json": {
+      "sha256": "fc2c0934f5d2aaf0f021c5cc4cd2fa4526bf478214cd38251ba0729c6dfde2e4"
+    },
+    "graph.ndjson": {
+      "sha256": "01ea840e45505e8420d04d0f46bb09e1f4fd8e02f31fca05c3fb2b29307b149e"
+    },
+    "manifest.json": {
+      "sha256": "8f2e1baff4e528d27ed0746ad4fdec6867ffc8245aec2507c4034d3ca54253a4"
+    }
+  },
+  "scope": "full_product",
+  "contains_real_enterprise_data": false,
+  "rag_real_smoke": "pass",
+  "upstream_real_import": "pass",
+  "cards": 90
+}

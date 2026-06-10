@@ -1,0 +1,31 @@
+{
+  "status": "pass",
+  "manual_command": "pnpm --dir graph-ui preview -- --port 4173",
+  "screenshots": [
+    {
+      "path": "reports/render-proof-p2p3/desktop-director.png",
+      "exists": true,
+      "bytes": 209565,
+      "sha256": "24b744b4ef2a1c7113757d244f4649df63cef09aaf4a2649318076d82303a5b5"
+    },
+    {
+      "path": "reports/render-proof-p2p3/desktop-shared.png",
+      "exists": true,
+      "bytes": 160065,
+      "sha256": "b0184fd0b06ff1d879d9998d7d242e7b5b4b10650081ec47a45c80c532577078"
+    },
+    {
+      "path": "reports/render-proof-p2p3/mobile-director.png",
+      "exists": true,
+      "bytes": 37877,
+      "sha256": "afe3eda7abced2fe8965d5422f5a53513bf694deb728a5358a103f19a7eb34c7"
+    },
+    {
+      "path": "reports/render-proof-p2p3/mobile-director-fullpage.png",
+      "exists": true,
+      "bytes": 128509,
+      "sha256": "7998b5b04d9acfee7629426dd1f076cbdcc2da9808bec19f0e3608862ae101d1"
+    }
+  ],
+  "note": "screenshots may be gitignored; manifest records expected capture paths"
+}

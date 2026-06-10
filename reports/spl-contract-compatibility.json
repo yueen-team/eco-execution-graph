@@ -1,0 +1,96 @@
+{
+  "status": "pass",
+  "source_commit": "53a3d284d3f2a643e88808b09c6d417516444c9b",
+  "contracts": [
+    {
+      "path": "contracts/graph-export.v2_1.md",
+      "status": "imported",
+      "title": "Graph Export v2.1",
+      "sha256": "948c779724cd9c7d8cdfc562fecdfbe89fe7c0f1d1999400e8b44952d6672288",
+      "bytes": 1374,
+      "commit": "53a3d284d3f2a643e88808b09c6d417516444c9b"
+    },
+    {
+      "path": "contracts/graph-consumption-governance.v1_8.md",
+      "status": "imported",
+      "title": "Graph Consumption Governance v1.8",
+      "sha256": "eb24bc09fce01bed06e63a59e1d9fcbbd3e1e27a5d706b284c07ad4ab9c7b7d4",
+      "bytes": 2116,
+      "commit": "53a3d284d3f2a643e88808b09c6d417516444c9b"
+    },
+    {
+      "path": "contracts/evidence-risk-graph-provenance.v1_9.md",
+      "status": "imported",
+      "title": "Evidence Risk Graph Provenance v1.9",
+      "sha256": "ca76430c687d03f75a8b6bf36a9f1220e99cf2e355b707a5485b6327aeb0cae5",
+      "bytes": 1660,
+      "commit": "53a3d284d3f2a643e88808b09c6d417516444c9b"
+    },
+    {
+      "path": "contracts/evidence-risk-graph-link.v1_7.md",
+      "status": "imported",
+      "title": "Evidence Risk Graph Link v1.7",
+      "sha256": "085c818e000ad0c2db74f6d1c0378106eca38b0628837e4e562c839bc14b7140",
+      "bytes": 2357,
+      "commit": "53a3d284d3f2a643e88808b09c6d417516444c9b"
+    },
+    {
+      "path": "contracts/manual-adoption-to-review-field.v2.md",
+      "status": "imported",
+      "title": "Manual Adoption To Review Field v2",
+      "sha256": "f0b4fb8f3471be02af1445d195e3077d059a33f1b4e857752106dadc9b7d06ce",
+      "bytes": 1673,
+      "commit": "53a3d284d3f2a643e88808b09c6d417516444c9b"
+    },
+    {
+      "path": "tests/graph-export-cases.v2_1.json",
+      "status": "imported",
+      "title": "tests/graph-export-cases.v2_1.json",
+      "sha256": "fb2dc76d2ae63430db454c45e94b7059612d70670101b386953bcf3b5e41c43c",
+      "bytes": 964,
+      "commit": "53a3d284d3f2a643e88808b09c6d417516444c9b"
+    },
+    {
+      "path": "samples/graph-export.sample.json",
+      "status": "imported",
+      "title": "samples/graph-export.sample.json",
+      "sha256": "a4ca0c4cf1791f1f10cfe32c0397fb0aaf28f1fb90ec8fd3571ef93eb609c1ff",
+      "bytes": 3921,
+      "commit": "53a3d284d3f2a643e88808b09c6d417516444c9b"
+    }
+  ],
+  "checks": [
+    {
+      "check": "graph-export node/edge/source arrays",
+      "status": "compatible",
+      "evidence": "本仓库 graph package 使用 nodes/edges/sources 三段式。"
+    },
+    {
+      "check": "source_ref required on edges",
+      "status": "compatible",
+      "evidence": "P1/P2 edge builder 强制写 source_ref。"
+    },
+    {
+      "check": "confidence required on edges",
+      "status": "compatible",
+      "evidence": "P1/P2 edge builder 强制写 confidence。"
+    },
+    {
+      "check": "candidate governance",
+      "status": "extension",
+      "evidence": "本仓库沿用 CANDIDATE/HUMAN_REVIEWED/APPROVED_BASELINE,并加 tier/legal_basis_status。"
+    },
+    {
+      "check": "shared/private/aggregate consumption governance",
+      "status": "extension",
+      "evidence": "SPL consumption governance 被扩展为三层授权物理过滤。"
+    },
+    {
+      "check": "full text boundary",
+      "status": "compatible",
+      "evidence": "本仓库禁止 law_article/tech_spec/standard_limit 存全文。"
+    }
+  ],
+  "conflicts": [],
+  "can_drive_full_graph_contract": true
+}

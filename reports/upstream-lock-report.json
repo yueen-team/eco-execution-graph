@@ -1,0 +1,445 @@
+{
+  "generated_at": "2026-06-10",
+  "repos": [
+    {
+      "name": "coco830/eco-semantic-knowledge-base",
+      "local_path": "E:\\eco-semantic-knowledge-base",
+      "status": "pass",
+      "branch": "main",
+      "commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "remote": "origin\tgit@github.com:coco830/eco-semantic-knowledge-base.git (fetch)"
+    },
+    {
+      "name": "coco830/semantic-profile-lab",
+      "local_path": "E:\\semantic-profile-lab",
+      "status": "pass",
+      "branch": "main",
+      "commit": "53a3d284d3f2a643e88808b09c6d417516444c9b",
+      "remote": "origin\tgit@github.com:coco830/semantic-profile-lab.git (fetch)"
+    }
+  ],
+  "assets": [
+    {
+      "repo": "coco830/eco-semantic-knowledge-base",
+      "path": "manifests/approved_baseline_knowledge_manifest_v1_0.json",
+      "bytes": 1768,
+      "sha256": "1b8c0a38199fba321ae44c8c168b04340f0c8194fb7fb9cb1c5b0529410764c1"
+    },
+    {
+      "repo": "coco830/eco-semantic-knowledge-base",
+      "path": "manifests/approved_specialized_inspection_items_manifest_v1_0.json",
+      "bytes": 1914,
+      "sha256": "db1266b3440a2cccc2f7d0d325a73d4cc8554ad5ed99ff1be750d895e349a585"
+    },
+    {
+      "repo": "coco830/eco-semantic-knowledge-base",
+      "path": "manifests/ecocheck_candidate_coverage_industry_influence_factor_samples_manifest_v1_0.json",
+      "bytes": 3676,
+      "sha256": "5c782d06b2962e36561e2c50724ac28608768f8815a4f8bd92a9f63ccf011173"
+    },
+    {
+      "repo": "coco830/eco-semantic-knowledge-base",
+      "path": "manifests/knowledge_base_manifest_v0_3.json",
+      "bytes": 1869,
+      "sha256": "98a61f2584068a4aaa7f7891bb3daa6cf3ec775b5539e127f15a194f9065e899"
+    },
+    {
+      "repo": "coco830/eco-semantic-knowledge-base",
+      "path": "manifests/knowledge_base_manifest_v0_4.json",
+      "bytes": 2156,
+      "sha256": "9ed0ba48f437ecbf77abf38c9c3b455d0ea63c742812810c3356fc348efbd900"
+    },
+    {
+      "repo": "coco830/eco-semantic-knowledge-base",
+      "path": "manifests/knowledge_base_manifest_v0_4_1.json",
+      "bytes": 1510,
+      "sha256": "49e83b1fdfde5bbf338a7db0698786f29485e0157b19ba25efe725c31219fcff"
+    },
+    {
+      "repo": "coco830/eco-semantic-knowledge-base",
+      "path": "manifests/knowledge_base_manifest_v0_5.json",
+      "bytes": 654,
+      "sha256": "3ecb73e86ebf4c5bf03a7b75c7e02530ba0481418f4c53eac854545c46424eab"
+    },
+    {
+      "repo": "coco830/eco-semantic-knowledge-base",
+      "path": "manifests/knowledge_base_manifest_v0_8.json",
+      "bytes": 644,
+      "sha256": "533cc16be8565d21cccfcc8f3529e5ff484fc19e5cd5b39cdd57c576127d1d05"
+    },
+    {
+      "repo": "coco830/eco-semantic-knowledge-base",
+      "path": "manifests/knowledge_base_manifest_v0_9.json",
+      "bytes": 433,
+      "sha256": "7ec9f10c0e052e947dfa426613986d2206c4fc60320a64dc76654df7c7f70ea5"
+    },
+    {
+      "repo": "coco830/eco-semantic-knowledge-base",
+      "path": "manifests/knowledge_base_manifest_v1_0_rc.json",
+      "bytes": 994,
+      "sha256": "c64aec8eca5b5d2affb41106e9d237688febbe6fc64105554832674ae78986e2"
+    },
+    {
+      "repo": "coco830/eco-semantic-knowledge-base",
+      "path": "manifests/knowledge_base_manifest_v1_1.json",
+      "bytes": 721,
+      "sha256": "26636f599bd07739b67b1adb46c63e9e264720f23aa51adae643f772e3dfd1bb"
+    },
+    {
+      "repo": "coco830/eco-semantic-knowledge-base",
+      "path": "manifests/knowledge_base_manifest_v1_2_to_v1_7.json",
+      "bytes": 740,
+      "sha256": "f24a55549f5f00e67e4e6fcacac9afc6c2323c766b0dc1b2f849d092f9c5fa51"
+    },
+    {
+      "repo": "coco830/eco-semantic-knowledge-base",
+      "path": "manifests/knowledge_base_manifest_v1_8_noise_radiation_extension.json",
+      "bytes": 2202,
+      "sha256": "26e62e8a31fa008e7f13b0fa1def4007f9c6a41cda271e3d6f661111d4153f95"
+    },
+    {
+      "repo": "coco830/eco-semantic-knowledge-base",
+      "path": "manifests/knowledge_base_v0_1_manifest.json",
+      "bytes": 2638,
+      "sha256": "c86b1964f3035751b25205e84fff844fae5162ae46492cbcfd3e5b5b05c7d675"
+    },
+    {
+      "repo": "coco830/eco-semantic-knowledge-base",
+      "path": "manifests/pollutant_domain_approved_baseline_manifest_v8_5.json",
+      "bytes": 2119,
+      "sha256": "8effdf55e65aeb3b0a129a0a949541553f6e0e902bbd012e6a6df499ec3005a4"
+    },
+    {
+      "repo": "coco830/eco-semantic-knowledge-base",
+      "path": "manifests/pollutant_standard_limit_runtime_execution_manifest_v8_7.json",
+      "bytes": 1567,
+      "sha256": "2eb010c8bbc3ad6b33b87bb6ad54832df7b3aaff8c2a6fc4ab5b01c9f5b8f28f"
+    },
+    {
+      "repo": "coco830/eco-semantic-knowledge-base",
+      "path": "manifests/pollutant_standard_limit_runtime_import_manifest_v8_7.json",
+      "bytes": 1440,
+      "sha256": "8aebe93470e06c6b0d4c73da4826417eac9894bb9e6a35f6c065f83c824dfdea"
+    },
+    {
+      "repo": "coco830/eco-semantic-knowledge-base",
+      "path": "manifests/pollutant_standard_link_graph_manifest_v8_6.json",
+      "bytes": 4684,
+      "sha256": "c2b514e05ac6d8676d03957312d22fc8820bc3d9a850e285037d31bdca3abdcb"
+    },
+    {
+      "repo": "coco830/eco-semantic-knowledge-base",
+      "path": "manifests/runtime_import_candidate_manifest_v1_0_rc.json",
+      "bytes": 503,
+      "sha256": "1fede4bcc340c5a923228ccb8751b169cddc0849a97fcd3df0c2d3b9a19fdfeb"
+    },
+    {
+      "repo": "coco830/eco-semantic-knowledge-base",
+      "path": "manifests/scenario_activation_rules_manifest_v1_0.json",
+      "bytes": 1980,
+      "sha256": "732273a4cb891c45d0c09965646989b558e1109bec656a438a647699c4afcd92"
+    },
+    {
+      "repo": "coco830/semantic-profile-lab",
+      "path": "manifests/consumer-package-hardening.v6_5.json",
+      "bytes": 7440,
+      "sha256": "e5dba3b8dd84ab41b1835451e507a489dca7d87ef59c2e515c5aeca4a6993c70"
+    },
+    {
+      "repo": "coco830/semantic-profile-lab",
+      "path": "manifests/industry-evidence-matrix.v6_2.json",
+      "bytes": 1380,
+      "sha256": "37ab899aa5a15e6346910cb4389c901393a6366cad78489b6e076e80cab8dd61"
+    },
+    {
+      "repo": "coco830/semantic-profile-lab",
+      "path": "manifests/method-applicability-rules.v6_3.json",
+      "bytes": 1140,
+      "sha256": "2990402671c6f18614780b288e68bab0239000ffe6f39730841fc185673eaf7e"
+    },
+    {
+      "repo": "coco830/semantic-profile-lab",
+      "path": "manifests/pollutant-domain-approved-baseline.v8_5.json",
+      "bytes": 2062,
+      "sha256": "d036020212ea8f9184af4518c6e719e93d86e60e9481684f6bc9e136d3d64d8c"
+    },
+    {
+      "repo": "coco830/semantic-profile-lab",
+      "path": "manifests/pollutant-domain-evidence-risk-graph.v8_2.json",
+      "bytes": 1412,
+      "sha256": "bf7e9f7ac0ed1db8b307e0170f129cf58295d84ec44a131b0d417e6411ceb3e8"
+    },
+    {
+      "repo": "coco830/semantic-profile-lab",
+      "path": "manifests/pollutant-domain-promotion-register.v8_4.json",
+      "bytes": 1830,
+      "sha256": "5d1ea54ddd91c9655f66c9e5588b1aceae1d01574545eeaa826014df45ad71f8"
+    },
+    {
+      "repo": "coco830/semantic-profile-lab",
+      "path": "manifests/pollutant-domain-review-queue.v8_3.json",
+      "bytes": 1493,
+      "sha256": "50bfad72571fe72d681bfd4fcf9adda6ba7fede343b40cd08cad73641b96b404"
+    },
+    {
+      "repo": "coco830/semantic-profile-lab",
+      "path": "manifests/pollutant-domain-source-inventory.v8_0.json",
+      "bytes": 1913,
+      "sha256": "741d10ad84380677fb89f9ee25ffd5f56cd629a642f0d242ff9dbfc5f841268a"
+    },
+    {
+      "repo": "coco830/semantic-profile-lab",
+      "path": "manifests/pollutant-domain-typed-claims.v8_1.json",
+      "bytes": 1779,
+      "sha256": "56726c9e3dcbfb41c6d597c4f8f31a5297e463c41be5d3415cdc6e8b2bc89cc9"
+    },
+    {
+      "repo": "coco830/semantic-profile-lab",
+      "path": "manifests/rag-graph-eval-bench.v6_6.json",
+      "bytes": 1091,
+      "sha256": "a3008e536e755539393a2361d3fc21577aa8d17c3a9f5361f70cb7d0ce70c87c"
+    },
+    {
+      "repo": "coco830/semantic-profile-lab",
+      "path": "manifests/review-governance-console.v6_4.json",
+      "bytes": 2752,
+      "sha256": "c24e4e68e91ea3a7ba7a9adcd534b39462aa54985ba98887c1baf293d6c51f6f"
+    },
+    {
+      "repo": "coco830/semantic-profile-lab",
+      "path": "manifests/runtime-promotion-sandbox.v7_0.json",
+      "bytes": 1780,
+      "sha256": "3d40cc122e6bcc689acffd4d44f086f0e3f98dc5e9b25b74fcdc41a539a59719"
+    },
+    {
+      "repo": "coco830/semantic-profile-lab",
+      "path": "manifests/source-authority-lock.v6_0.json",
+      "bytes": 1893,
+      "sha256": "e0a9d095077bb6cea9f8d3b739ad7e9e87c290735a8b1e52e6da7b8c798c1406"
+    },
+    {
+      "repo": "coco830/semantic-profile-lab",
+      "path": "manifests/typed-claims.v6_1.json",
+      "bytes": 1942,
+      "sha256": "a18f6faf643859f02186d9869fa2e1dba48eaa5a8a1bbbab4ea16519d5144b40"
+    },
+    {
+      "repo": "coco830/semantic-profile-lab",
+      "path": "contracts/coefficient-method-knowledge-base.v2_5.md",
+      "bytes": 3354,
+      "sha256": "b1c04eb6afdeb078cc1860837451144bdf9fc305c4d034149afe394012c96e08"
+    },
+    {
+      "repo": "coco830/semantic-profile-lab",
+      "path": "contracts/coefficient-method-knowledge-base.v2_6.md",
+      "bytes": 2956,
+      "sha256": "4cae67af435795f49063887483e0db7b0628000a2b4e33e005cf2bdf49dd9e00"
+    },
+    {
+      "repo": "coco830/semantic-profile-lab",
+      "path": "contracts/consumer-package-hardening.v6_5.md",
+      "bytes": 1789,
+      "sha256": "e99c0af19758e747f792ad646f57f0a716040605ad6c9041b1df5ea0ea691257"
+    },
+    {
+      "repo": "coco830/semantic-profile-lab",
+      "path": "contracts/enterprise-semantic-profile.v0.md",
+      "bytes": 3836,
+      "sha256": "9d09abba00320970fc26f206e11565e33ca360c3f7215964b7c3b60724ee3d5e"
+    },
+    {
+      "repo": "coco830/semantic-profile-lab",
+      "path": "contracts/evidence-risk-graph-link.v1_7.md",
+      "bytes": 2357,
+      "sha256": "085c818e000ad0c2db74f6d1c0378106eca38b0628837e4e562c839bc14b7140"
+    },
+    {
+      "repo": "coco830/semantic-profile-lab",
+      "path": "contracts/evidence-risk-graph-provenance.v1_9.md",
+      "bytes": 1660,
+      "sha256": "ca76430c687d03f75a8b6bf36a9f1220e99cf2e355b707a5485b6327aeb0cae5"
+    },
+    {
+      "repo": "coco830/semantic-profile-lab",
+      "path": "contracts/graph-consumption-governance.v1_8.md",
+      "bytes": 2116,
+      "sha256": "eb24bc09fce01bed06e63a59e1d9fcbbd3e1e27a5d706b284c07ad4ab9c7b7d4"
+    },
+    {
+      "repo": "coco830/semantic-profile-lab",
+      "path": "contracts/graph-export.v2_1.md",
+      "bytes": 1374,
+      "sha256": "948c779724cd9c7d8cdfc562fecdfbe89fe7c0f1d1999400e8b44952d6672288"
+    },
+    {
+      "repo": "coco830/semantic-profile-lab",
+      "path": "contracts/industry-evidence-matrix.v6_2.md",
+      "bytes": 1240,
+      "sha256": "b934aa693112a3607f6f1636414cbc24d8aa680c8bafc04b54efd9a0e64c46b4"
+    },
+    {
+      "repo": "coco830/semantic-profile-lab",
+      "path": "contracts/manual-adoption-to-review-field.v2.md",
+      "bytes": 1673,
+      "sha256": "f0b4fb8f3471be02af1445d195e3077d059a33f1b4e857752106dadc9b7d06ce"
+    },
+    {
+      "repo": "coco830/semantic-profile-lab",
+      "path": "contracts/method-applicability-reasoner.v6_3.md",
+      "bytes": 933,
+      "sha256": "b90de282ff334238203555418dec8166d82b05512bac2368cce7fe8f56e3bd43"
+    },
+    {
+      "repo": "coco830/semantic-profile-lab",
+      "path": "contracts/noise-radiation-domain-extension.v1_4.md",
+      "bytes": 2307,
+      "sha256": "6adbbe8b716424c99eede8c568ef39cad80039dcf4fc031d39b415a0310f6e78"
+    },
+    {
+      "repo": "coco830/semantic-profile-lab",
+      "path": "contracts/noise-radiation-graph-bridge.v1_6.md",
+      "bytes": 2502,
+      "sha256": "c459494b49390a00795972af1b71fcc438f9f1f24dc9e4dddf17501f8d340da3"
+    },
+    {
+      "repo": "coco830/semantic-profile-lab",
+      "path": "contracts/noise-radiation-readonly-hints.v1_5.md",
+      "bytes": 1823,
+      "sha256": "51ceec6deb7b4a8c7018118939d967e0f1cba8175717dff1ff57441377026396"
+    },
+    {
+      "repo": "coco830/semantic-profile-lab",
+      "path": "contracts/north-star-v6-consumer-field-contract.md",
+      "bytes": 7224,
+      "sha256": "e41a28b68ba828b05171f8cfefcd158db24ace0e0064d4e2aa794b29a2a91548"
+    },
+    {
+      "repo": "coco830/semantic-profile-lab",
+      "path": "contracts/pollutant-domain-approved-baseline-package.v8_5.md",
+      "bytes": 1455,
+      "sha256": "713b5888ba727c98b2f76821b9c4e9c2ac4d71e9a9457568f21d88c710618434"
+    },
+    {
+      "repo": "coco830/semantic-profile-lab",
+      "path": "contracts/pollutant-domain-source-backbone.v8_0.md",
+      "bytes": 1839,
+      "sha256": "a560baed152f04bf4e7d927fe780349987ba599c6984a271f8d705576a892ab6"
+    },
+    {
+      "repo": "coco830/semantic-profile-lab",
+      "path": "contracts/rag-graph-eval-bench.v6_6.md",
+      "bytes": 1539,
+      "sha256": "a0d65105bcbbac6c6d147c437ebf8103cf962ee17af58e3341a58f239a6c8683"
+    },
+    {
+      "repo": "coco830/semantic-profile-lab",
+      "path": "contracts/readonly-datasource-governance.v1_3.md",
+      "bytes": 3085,
+      "sha256": "c7246098dc97c2c4a1638db285a0bfc8407fa967b4b13f6cd19a44a04aea1d17"
+    },
+    {
+      "repo": "coco830/semantic-profile-lab",
+      "path": "contracts/review-governance-console.v6_4.md",
+      "bytes": 1725,
+      "sha256": "e0a3e64482b5d2154997f6e07f4fd17bfe2344f96bd5ed83d02483dde630bb7f"
+    },
+    {
+      "repo": "coco830/semantic-profile-lab",
+      "path": "contracts/review-workbench-readonly-hints.v1.md",
+      "bytes": 3071,
+      "sha256": "b5615fb157a1b6db07d56c60553a018c4d768a55740eb248ec01ed7034989938"
+    },
+    {
+      "repo": "coco830/semantic-profile-lab",
+      "path": "contracts/runtime-guard-design.v2_2.md",
+      "bytes": 2060,
+      "sha256": "653ad951f6b54035254bb6c148b6331d9ea1ab01c141eb6a354dd15277c2a7bd"
+    },
+    {
+      "repo": "coco830/semantic-profile-lab",
+      "path": "contracts/runtime-promotion-sandbox.v7_0.md",
+      "bytes": 1772,
+      "sha256": "0ef1228251692d29e0ec5173de1c6c1bf9efd710a3eac037e51ee70504ec79c4"
+    },
+    {
+      "repo": "coco830/semantic-profile-lab",
+      "path": "contracts/semantic-coefficient-bridge.v2_3.md",
+      "bytes": 4942,
+      "sha256": "b9c317caa0351d9c9add09e2e0de81c59e3e3b292f12234ec77fc615a60d983e"
+    },
+    {
+      "repo": "coco830/semantic-profile-lab",
+      "path": "contracts/semantic-coefficient-readonly-service.v2_4.md",
+      "bytes": 2477,
+      "sha256": "4d40003f08569f54434b79311b7b14c4c69aa76bc37cc0d846eca0f8450f3b75"
+    },
+    {
+      "repo": "coco830/semantic-profile-lab",
+      "path": "contracts/source-authority-lock.v6_0.md",
+      "bytes": 2960,
+      "sha256": "38dd2303886061e00d09f898500826d881d652354b17b2449b78628eaf301b5d"
+    },
+    {
+      "repo": "coco830/semantic-profile-lab",
+      "path": "contracts/source-backbone.v2_7.md",
+      "bytes": 7212,
+      "sha256": "ba541053c91782d22a089b9ed8d1bdf272996f722eb0579842c0ed0049286cf9"
+    },
+    {
+      "repo": "coco830/semantic-profile-lab",
+      "path": "contracts/typed-claims.v6_1.md",
+      "bytes": 1218,
+      "sha256": "13ee1b0786beaa2f694ddeaf4f04550a9d1913c0757d6b586ee0b2e420cee866"
+    },
+    {
+      "repo": "coco830/semantic-profile-lab",
+      "path": "contracts/enterprise-semantic-profile.schema.json",
+      "bytes": 6235,
+      "sha256": "65403c0dbc0cbd4ab785141433890eec6b7a8f473bd8c25b248669cb9e1b1567"
+    },
+    {
+      "repo": "coco830/semantic-profile-lab",
+      "path": "contracts/review-workbench-readonly-hints.schema.json",
+      "bytes": 3937,
+      "sha256": "94697196d99b5180e19ee3f524b6cd5a835b5b59bcbf53ed678adeafd61dfa0e"
+    },
+    {
+      "repo": "coco830/semantic-profile-lab",
+      "path": "tests/evidence-risk-graph-link-cases.v1_7.json",
+      "bytes": 2813,
+      "sha256": "2f8f76771c3c2aac5d4fc4c931e439936c407768abc7c5e94dc47ae763b2b7c7"
+    },
+    {
+      "repo": "coco830/semantic-profile-lab",
+      "path": "tests/evidence-risk-graph-provenance-cases.v1_9.json",
+      "bytes": 1457,
+      "sha256": "960f8956e42980ac37a5b841efe4a4dd02d63e9fd4346f488e377df99701635a"
+    },
+    {
+      "repo": "coco830/semantic-profile-lab",
+      "path": "tests/graph-consumption-governance-cases.v1_8.json",
+      "bytes": 2046,
+      "sha256": "e09cffef6d061d33e620c9041af46a9002e8b12f5ea53f9390b5aff6c1acc547"
+    },
+    {
+      "repo": "coco830/semantic-profile-lab",
+      "path": "tests/graph-export-cases.v2_1.json",
+      "bytes": 964,
+      "sha256": "fb2dc76d2ae63430db454c45e94b7059612d70670101b386953bcf3b5e41c43c"
+    },
+    {
+      "repo": "coco830/semantic-profile-lab",
+      "path": "tests/noise-radiation-graph-bridge-cases.v1_6.json",
+      "bytes": 1798,
+      "sha256": "6d4a4bc5abfbe9c8e0edb4e9b4b3bf403bfb610a122dbc9d6892ed475039bcda"
+    },
+    {
+      "repo": "coco830/semantic-profile-lab",
+      "path": "tests/rag-graph-eval-bench-cases.v6_6.json",
+      "bytes": 1217,
+      "sha256": "f3c4a66014793d81932754d876b632053857d004c250c3212d20ec2fa8e2bd6f"
+    }
+  ],
+  "asset_count": 70,
+  "status": "pass"
+}

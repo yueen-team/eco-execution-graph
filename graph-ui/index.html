@@ -10,7 +10,7 @@
       <div class="shell">
         <header class="topbar">
           <div>
-            <p class="eyebrow">危废精品切片 · P1</p>
+            <p class="eyebrow">P2/P3 Full Product · eco-kb × SPL × RAG metadata</p>
             <h1>环保现场执行图谱</h1>
           </div>
           <div class="metric-strip" aria-label="图谱统计">
@@ -29,6 +29,18 @@
                 <button class="tab is-active" data-entry="law">法条</button>
                 <button class="tab" data-entry="issue">问题</button>
                 <button class="tab" data-entry="industry">行业</button>
+              </div>
+            </section>
+
+            <section class="control-block">
+              <h2>产品包</h2>
+              <div class="product-toggle" role="group" aria-label="产品数据源">
+                <button class="view-button is-active" data-product="full" title="P2/P3 full product">
+                  <span>Full</span>
+                </button>
+                <button class="view-button" data-product="p1" title="P1 兼容样例">
+                  <span>P1 样例</span>
+                </button>
               </div>
             </section>
 
@@ -67,9 +79,12 @@
                 <p class="eyebrow">当前中心</p>
                 <h2 id="centerTitle">加载中</h2>
               </div>
-              <button id="fitButton" class="icon-button" title="重置视图" aria-label="重置视图">
-                <i data-lucide="scan"></i>
-              </button>
+              <div class="stage-actions">
+                <button id="directorButton" class="text-button" title="进入主任演示" aria-label="进入主任演示">主任演示</button>
+                <button id="fitButton" class="icon-button" title="重置视图" aria-label="重置视图">
+                  <i data-lucide="scan"></i>
+                </button>
+              </div>
             </div>
             <div id="cy" aria-label="ego 图谱画布"></div>
             <div class="legend" aria-label="图例">

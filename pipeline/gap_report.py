@@ -1,5 +1,14 @@
 from __future__ import annotations
 
+import sys
+
+from p2p3_common import gap_full
+
+if "--scope" in sys.argv and "full" in sys.argv:
+    import json
+    print(json.dumps(gap_full(), ensure_ascii=False))
+    raise SystemExit(0)
+
 import json
 
 from common import REPORTS_DIR, load_internal_graph, write_json, write_text

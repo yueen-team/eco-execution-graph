@@ -1,0 +1,4960 @@
+[
+  {
+    "card_id": "card:full:0001",
+    "title": "危废台账不完整执行卡",
+    "root_issue_type": "issue:hw:ledger-incomplete",
+    "dimension": "危废管理",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "issue:hw:ledger-incomplete",
+        "description": "危废产生、入库、出库和月度汇总环节"
+      }
+    ],
+    "related_obligations": [
+      "obl:hw:ledger-management"
+    ],
+    "law_refs": [],
+    "tech_spec_refs": [
+      "spec:hj1259:ledger"
+    ],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "issue:hw:ledger-incomplete"
+      ],
+      "edges": [
+        "edge:evidence-cat:ledger-incomplete:label-photo",
+        "edge:evidence-cat:ledger-incomplete:ledger-record",
+        "edge:evidence-cat:ledger-incomplete:site-photo",
+        "edge:evidence-cat:ledger-incomplete:transfer-manifest",
+        "edge:evidence-field:ledger-incomplete",
+        "edge:evidence-private:ledger-incomplete",
+        "edge:limited:ledger-incomplete",
+        "edge:manifest:ledger-incomplete",
+        "edge:pitfall:ledger-incomplete",
+        "edge:rectify:ledger-incomplete",
+        "edge:regulated:ledger-incomplete",
+        "edge:stat:ledger-incomplete"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:demo:aggregation",
+        "src:demo:eto-review",
+        "src:demo:law-map",
+        "src:demo:private-standards"
+      ],
+      "origin_repo": "P1 seed compatibility sample",
+      "origin_commit": "local",
+      "origin_asset": "data/candidates/graph_seed_p1_hazardous_waste.json"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.86,
+      "evidence_count": 14,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "showcase",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0002",
+    "title": "危废暂存间分区/分类贮存不规范执行卡",
+    "root_issue_type": "issue:hw:storage-partition",
+    "dimension": "危废管理",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "issue:hw:storage-partition",
+        "description": "危废暂存间分类分区与容器摆放环节"
+      }
+    ],
+    "related_obligations": [
+      "obl:hw:storage-partition"
+    ],
+    "law_refs": [],
+    "tech_spec_refs": [
+      "spec:gb18597:storage"
+    ],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "issue:hw:storage-partition"
+      ],
+      "edges": [
+        "edge:evidence-cat:storage-partition:label-photo",
+        "edge:evidence-cat:storage-partition:ledger-record",
+        "edge:evidence-cat:storage-partition:site-photo",
+        "edge:evidence-cat:storage-partition:transfer-manifest",
+        "edge:evidence-field:storage-partition",
+        "edge:evidence-private:storage-partition",
+        "edge:limited:storage-partition",
+        "edge:manifest:storage-partition",
+        "edge:pitfall:storage-partition",
+        "edge:rectify:storage-partition",
+        "edge:regulated:storage-partition",
+        "edge:stat:storage-partition"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:demo:aggregation",
+        "src:demo:eto-review",
+        "src:demo:law-map",
+        "src:demo:private-standards"
+      ],
+      "origin_repo": "P1 seed compatibility sample",
+      "origin_commit": "local",
+      "origin_asset": "data/candidates/graph_seed_p1_hazardous_waste.json"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.86,
+      "evidence_count": 14,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "showcase",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0003",
+    "title": "危废标签不规范执行卡",
+    "root_issue_type": "issue:hw:label-incomplete",
+    "dimension": "危废管理",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "issue:hw:label-incomplete",
+        "description": "危废暂存间包装容器张贴标签环节"
+      }
+    ],
+    "related_obligations": [
+      "obl:hw:label-management"
+    ],
+    "law_refs": [],
+    "tech_spec_refs": [
+      "spec:gb18597:label"
+    ],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "issue:hw:label-incomplete"
+      ],
+      "edges": [
+        "edge:evidence-cat:label-incomplete:label-photo",
+        "edge:evidence-cat:label-incomplete:ledger-record",
+        "edge:evidence-cat:label-incomplete:site-photo",
+        "edge:evidence-cat:label-incomplete:transfer-manifest",
+        "edge:evidence-field:label-incomplete",
+        "edge:evidence-private:label-incomplete",
+        "edge:limited:label-incomplete",
+        "edge:manifest:label-incomplete",
+        "edge:pitfall:label-incomplete",
+        "edge:rectify:label-incomplete",
+        "edge:regulated:label-incomplete",
+        "edge:stat:label-incomplete"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:demo:aggregation",
+        "src:demo:eto-review",
+        "src:demo:law-map",
+        "src:demo:private-standards"
+      ],
+      "origin_repo": "P1 seed compatibility sample",
+      "origin_commit": "local",
+      "origin_asset": "data/candidates/graph_seed_p1_hazardous_waste.json"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.88,
+      "evidence_count": 14,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "showcase",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0004",
+    "title": "危废识别标志/警示标识设置不规范执行卡",
+    "root_issue_type": "issue:hw:warning-sign-missing",
+    "dimension": "危废管理",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "issue:hw:warning-sign-missing",
+        "description": "危废暂存间入口、分区和容器警示标识设置环节"
+      }
+    ],
+    "related_obligations": [
+      "obl:hw:warning-sign"
+    ],
+    "law_refs": [],
+    "tech_spec_refs": [
+      "spec:gb15562:sign"
+    ],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "issue:hw:warning-sign-missing"
+      ],
+      "edges": [
+        "edge:evidence-cat:warning-sign-missing:label-photo",
+        "edge:evidence-cat:warning-sign-missing:ledger-record",
+        "edge:evidence-cat:warning-sign-missing:site-photo",
+        "edge:evidence-cat:warning-sign-missing:transfer-manifest",
+        "edge:evidence-field:warning-sign-missing",
+        "edge:evidence-private:warning-sign-missing",
+        "edge:limited:warning-sign-missing",
+        "edge:manifest:warning-sign-missing",
+        "edge:pitfall:warning-sign-missing",
+        "edge:rectify:warning-sign-missing",
+        "edge:regulated:warning-sign-missing",
+        "edge:stat:warning-sign-missing"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:demo:aggregation",
+        "src:demo:eto-review",
+        "src:demo:law-map",
+        "src:demo:private-standards"
+      ],
+      "origin_repo": "P1 seed compatibility sample",
+      "origin_commit": "local",
+      "origin_asset": "data/candidates/graph_seed_p1_hazardous_waste.json"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.86,
+      "evidence_count": 14,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "showcase",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0005",
+    "title": "危废转移、入库、出库记录不一致执行卡",
+    "root_issue_type": "issue:hw:transfer-record-mismatch",
+    "dimension": "危废管理",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "issue:hw:transfer-record-mismatch",
+        "description": "危废出入库、转移联单和台账核对环节"
+      }
+    ],
+    "related_obligations": [
+      "obl:hw:transfer-record"
+    ],
+    "law_refs": [],
+    "tech_spec_refs": [
+      "spec:hj1259:transfer"
+    ],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "issue:hw:transfer-record-mismatch"
+      ],
+      "edges": [
+        "edge:evidence-cat:transfer-record-mismatch:label-photo",
+        "edge:evidence-cat:transfer-record-mismatch:ledger-record",
+        "edge:evidence-cat:transfer-record-mismatch:site-photo",
+        "edge:evidence-cat:transfer-record-mismatch:transfer-manifest",
+        "edge:evidence-field:transfer-record-mismatch",
+        "edge:evidence-private:transfer-record-mismatch",
+        "edge:limited:transfer-record-mismatch",
+        "edge:manifest:transfer-record-mismatch",
+        "edge:pitfall:transfer-record-mismatch",
+        "edge:rectify:transfer-record-mismatch",
+        "edge:regulated:transfer-record-mismatch",
+        "edge:stat:transfer-record-mismatch"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:demo:aggregation",
+        "src:demo:eto-review",
+        "src:demo:law-map",
+        "src:demo:private-standards"
+      ],
+      "origin_repo": "P1 seed compatibility sample",
+      "origin_commit": "local",
+      "origin_asset": "data/candidates/graph_seed_p1_hazardous_waste.json"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.86,
+      "evidence_count": 14,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "showcase",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0006",
+    "title": "不相容危废隔离贮存执行卡",
+    "root_issue_type": "issue:eco-kb:FIRST_S07_SPEC_HAZWASTE_COMPATIBILITY_SEPARATION",
+    "dimension": "solid_waste_hazardous_waste",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "issue:eco-kb:FIRST_S07_SPEC_HAZWASTE_COMPATIBILITY_SEPARATION",
+        "description": "危废暂存规范"
+      }
+    ],
+    "related_obligations": [],
+    "law_refs": [],
+    "tech_spec_refs": [],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "issue:eco-kb:FIRST_S07_SPEC_HAZWASTE_COMPATIBILITY_SEPARATION"
+      ],
+      "edges": [
+        "edge:specialized-evidence:FIRST_S07_SPEC_HAZWASTE_COMPATIBILITY_SEPARATION",
+        "edge:specialized-manifest:FIRST_S07_SPEC_HAZWASTE_COMPATIBILITY_SEPARATION",
+        "edge:specialized-occurs:FIRST_S07_SPEC_HAZWASTE_COMPATIBILITY_SEPARATION"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:eco-kb:specialized-items"
+      ],
+      "origin_repo": "coco830/eco-semantic-knowledge-base",
+      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.88,
+      "evidence_count": 3,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "showcase",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0007",
+    "title": "危废产生后即时称重执行卡",
+    "root_issue_type": "issue:eco-kb:FIRST_S07_SPEC_HAZWASTE_FIVE_CODE_WEIGHING",
+    "dimension": "solid_waste_hazardous_waste",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "issue:eco-kb:FIRST_S07_SPEC_HAZWASTE_FIVE_CODE_WEIGHING",
+        "description": "危废五即一码"
+      }
+    ],
+    "related_obligations": [],
+    "law_refs": [],
+    "tech_spec_refs": [],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "issue:eco-kb:FIRST_S07_SPEC_HAZWASTE_FIVE_CODE_WEIGHING"
+      ],
+      "edges": [
+        "edge:specialized-evidence:FIRST_S07_SPEC_HAZWASTE_FIVE_CODE_WEIGHING",
+        "edge:specialized-manifest:FIRST_S07_SPEC_HAZWASTE_FIVE_CODE_WEIGHING",
+        "edge:specialized-occurs:FIRST_S07_SPEC_HAZWASTE_FIVE_CODE_WEIGHING"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:eco-kb:specialized-items"
+      ],
+      "origin_repo": "coco830/eco-semantic-knowledge-base",
+      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.88,
+      "evidence_count": 3,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "showcase",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0008",
+    "title": "危废入库扫码与贮存位置绑定执行卡",
+    "root_issue_type": "issue:eco-kb:FIRST_S07_SPEC_HAZWASTE_FIVE_CODE_INBOUND_SCAN",
+    "dimension": "solid_waste_hazardous_waste",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "issue:eco-kb:FIRST_S07_SPEC_HAZWASTE_FIVE_CODE_INBOUND_SCAN",
+        "description": "危废五即一码"
+      }
+    ],
+    "related_obligations": [],
+    "law_refs": [],
+    "tech_spec_refs": [],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "issue:eco-kb:FIRST_S07_SPEC_HAZWASTE_FIVE_CODE_INBOUND_SCAN"
+      ],
+      "edges": [
+        "edge:specialized-evidence:FIRST_S07_SPEC_HAZWASTE_FIVE_CODE_INBOUND_SCAN",
+        "edge:specialized-manifest:FIRST_S07_SPEC_HAZWASTE_FIVE_CODE_INBOUND_SCAN",
+        "edge:specialized-occurs:FIRST_S07_SPEC_HAZWASTE_FIVE_CODE_INBOUND_SCAN"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:eco-kb:specialized-items"
+      ],
+      "origin_repo": "coco830/eco-semantic-knowledge-base",
+      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.88,
+      "evidence_count": 3,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "showcase",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0009",
+    "title": "危废出库转移联单与容器码闭环执行卡",
+    "root_issue_type": "issue:eco-kb:FIRST_S07_SPEC_HAZWASTE_FIVE_CODE_TRANSFER_LEDGER",
+    "dimension": "solid_waste_hazardous_waste",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "issue:eco-kb:FIRST_S07_SPEC_HAZWASTE_FIVE_CODE_TRANSFER_LEDGER",
+        "description": "危废五即一码"
+      }
+    ],
+    "related_obligations": [],
+    "law_refs": [],
+    "tech_spec_refs": [],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "issue:eco-kb:FIRST_S07_SPEC_HAZWASTE_FIVE_CODE_TRANSFER_LEDGER"
+      ],
+      "edges": [
+        "edge:specialized-evidence:FIRST_S07_SPEC_HAZWASTE_FIVE_CODE_TRANSFER_LEDGER",
+        "edge:specialized-manifest:FIRST_S07_SPEC_HAZWASTE_FIVE_CODE_TRANSFER_LEDGER",
+        "edge:specialized-occurs:FIRST_S07_SPEC_HAZWASTE_FIVE_CODE_TRANSFER_LEDGER"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:eco-kb:specialized-items"
+      ],
+      "origin_repo": "coco830/eco-semantic-knowledge-base",
+      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.88,
+      "evidence_count": 3,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "showcase",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0010",
+    "title": "危废分类分区贮存执行卡",
+    "root_issue_type": "issue:eco-kb:FIRST_S07_SPEC_HAZWASTE_CLASSIFIED_STORAGE",
+    "dimension": "solid_waste_hazardous_waste",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "issue:eco-kb:FIRST_S07_SPEC_HAZWASTE_CLASSIFIED_STORAGE",
+        "description": "危废暂存规范"
+      }
+    ],
+    "related_obligations": [],
+    "law_refs": [],
+    "tech_spec_refs": [],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "issue:eco-kb:FIRST_S07_SPEC_HAZWASTE_CLASSIFIED_STORAGE"
+      ],
+      "edges": [
+        "edge:specialized-evidence:FIRST_S07_SPEC_HAZWASTE_CLASSIFIED_STORAGE",
+        "edge:specialized-manifest:FIRST_S07_SPEC_HAZWASTE_CLASSIFIED_STORAGE",
+        "edge:specialized-occurs:FIRST_S07_SPEC_HAZWASTE_CLASSIFIED_STORAGE"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:eco-kb:specialized-items"
+      ],
+      "origin_repo": "coco830/eco-semantic-knowledge-base",
+      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.88,
+      "evidence_count": 3,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "showcase",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0011",
+    "title": "危废包装容器一物一码执行卡",
+    "root_issue_type": "issue:eco-kb:FIRST_S07_SPEC_HAZWASTE_FIVE_CODE_CONTAINER_QR",
+    "dimension": "solid_waste_hazardous_waste",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "issue:eco-kb:FIRST_S07_SPEC_HAZWASTE_FIVE_CODE_CONTAINER_QR",
+        "description": "危废五即一码"
+      }
+    ],
+    "related_obligations": [],
+    "law_refs": [],
+    "tech_spec_refs": [],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "issue:eco-kb:FIRST_S07_SPEC_HAZWASTE_FIVE_CODE_CONTAINER_QR"
+      ],
+      "edges": [
+        "edge:specialized-evidence:FIRST_S07_SPEC_HAZWASTE_FIVE_CODE_CONTAINER_QR",
+        "edge:specialized-manifest:FIRST_S07_SPEC_HAZWASTE_FIVE_CODE_CONTAINER_QR",
+        "edge:specialized-occurs:FIRST_S07_SPEC_HAZWASTE_FIVE_CODE_CONTAINER_QR"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:eco-kb:specialized-items"
+      ],
+      "origin_repo": "coco830/eco-semantic-knowledge-base",
+      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.88,
+      "evidence_count": 3,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "showcase",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0012",
+    "title": "危废暂存防渗和泄漏收集执行卡",
+    "root_issue_type": "issue:eco-kb:FIRST_S07_SPEC_HAZWASTE_LEAKAGE_COLLECTION",
+    "dimension": "solid_waste_hazardous_waste",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "issue:eco-kb:FIRST_S07_SPEC_HAZWASTE_LEAKAGE_COLLECTION",
+        "description": "危废暂存规范"
+      }
+    ],
+    "related_obligations": [],
+    "law_refs": [],
+    "tech_spec_refs": [],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "issue:eco-kb:FIRST_S07_SPEC_HAZWASTE_LEAKAGE_COLLECTION"
+      ],
+      "edges": [
+        "edge:specialized-evidence:FIRST_S07_SPEC_HAZWASTE_LEAKAGE_COLLECTION",
+        "edge:specialized-manifest:FIRST_S07_SPEC_HAZWASTE_LEAKAGE_COLLECTION",
+        "edge:specialized-occurs:FIRST_S07_SPEC_HAZWASTE_LEAKAGE_COLLECTION"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:eco-kb:specialized-items"
+      ],
+      "origin_repo": "coco830/eco-semantic-knowledge-base",
+      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.88,
+      "evidence_count": 3,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "showcase",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0013",
+    "title": "危废泄漏应急物资和演练记录执行卡",
+    "root_issue_type": "issue:eco-kb:FIRST_S13_SPEC_HAZWASTE_EMERGENCY_MATERIALS",
+    "dimension": "environmental_emergency_hazardous_waste",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "issue:eco-kb:FIRST_S13_SPEC_HAZWASTE_EMERGENCY_MATERIALS",
+        "description": "危废环境应急"
+      }
+    ],
+    "related_obligations": [],
+    "law_refs": [],
+    "tech_spec_refs": [],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "issue:eco-kb:FIRST_S13_SPEC_HAZWASTE_EMERGENCY_MATERIALS"
+      ],
+      "edges": [
+        "edge:specialized-evidence:FIRST_S13_SPEC_HAZWASTE_EMERGENCY_MATERIALS",
+        "edge:specialized-manifest:FIRST_S13_SPEC_HAZWASTE_EMERGENCY_MATERIALS",
+        "edge:specialized-occurs:FIRST_S13_SPEC_HAZWASTE_EMERGENCY_MATERIALS"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:eco-kb:specialized-items"
+      ],
+      "origin_repo": "coco830/eco-semantic-knowledge-base",
+      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.88,
+      "evidence_count": 3,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "showcase",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0014",
+    "title": "危废贮存设施和分区识别标志执行卡",
+    "root_issue_type": "issue:eco-kb:FIRST_S07_SPEC_HAZWASTE_FIVE_CODE_STORAGE_SIGN",
+    "dimension": "solid_waste_hazardous_waste",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "issue:eco-kb:FIRST_S07_SPEC_HAZWASTE_FIVE_CODE_STORAGE_SIGN",
+        "description": "危废五即一码"
+      }
+    ],
+    "related_obligations": [],
+    "law_refs": [],
+    "tech_spec_refs": [],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "issue:eco-kb:FIRST_S07_SPEC_HAZWASTE_FIVE_CODE_STORAGE_SIGN"
+      ],
+      "edges": [
+        "edge:specialized-evidence:FIRST_S07_SPEC_HAZWASTE_FIVE_CODE_STORAGE_SIGN",
+        "edge:specialized-manifest:FIRST_S07_SPEC_HAZWASTE_FIVE_CODE_STORAGE_SIGN",
+        "edge:specialized-occurs:FIRST_S07_SPEC_HAZWASTE_FIVE_CODE_STORAGE_SIGN"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:eco-kb:specialized-items"
+      ],
+      "origin_repo": "coco830/eco-semantic-knowledge-base",
+      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.88,
+      "evidence_count": 3,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "showcase",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0015",
+    "title": "洗车水/洗版废液、废擦拭布及废包装物收集闭环核查执行卡",
+    "root_issue_type": "issue:eco-kb:FIRST_S10_SPEC_PROCESS_PRINTING_GLUING_CLEANING_SOLVENT_HAZWASTE_CLOSURE",
+    "dimension": "vocs_emission",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "issue:eco-kb:FIRST_S10_SPEC_PROCESS_PRINTING_GLUING_CLEANING_SOLVENT_HAZWASTE_CLOSURE",
+        "description": "印刷/粘合/覆膜"
+      }
+    ],
+    "related_obligations": [],
+    "law_refs": [],
+    "tech_spec_refs": [],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "issue:eco-kb:FIRST_S10_SPEC_PROCESS_PRINTING_GLUING_CLEANING_SOLVENT_HAZWASTE_CLOSURE"
+      ],
+      "edges": [
+        "edge:specialized-evidence:FIRST_S10_SPEC_PROCESS_PRINTING_GLUING_CLEANING_SOLVENT_HAZWASTE_CLOSURE",
+        "edge:specialized-manifest:FIRST_S10_SPEC_PROCESS_PRINTING_GLUING_CLEANING_SOLVENT_HAZWASTE_CLOSURE",
+        "edge:specialized-occurs:FIRST_S10_SPEC_PROCESS_PRINTING_GLUING_CLEANING_SOLVENT_HAZWASTE_CLOSURE"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:eco-kb:specialized-items"
+      ],
+      "origin_repo": "coco830/eco-semantic-knowledge-base",
+      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.88,
+      "evidence_count": 3,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "showcase",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0016",
+    "title": "脱水系统运行及污泥危废属性核查执行卡",
+    "root_issue_type": "issue:eco-kb:FIRST_S06_SPEC_PROCESS_WASTEWATER_TREATMENT_STATION_SLUDGE_DEWATERING_HAZWASTE_ATTRIBUTE",
+    "dimension": "wastewater_station",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "issue:eco-kb:FIRST_S06_SPEC_PROCESS_WASTEWATER_TREATMENT_STATION_SLUDGE_DEWATERING_HAZWASTE_ATTRIBUTE",
+        "description": "污水处理站/废水预处理"
+      }
+    ],
+    "related_obligations": [],
+    "law_refs": [],
+    "tech_spec_refs": [],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "issue:eco-kb:FIRST_S06_SPEC_PROCESS_WASTEWATER_TREATMENT_STATION_SLUDGE_DEWATERING_HAZWASTE_ATTRIBUTE"
+      ],
+      "edges": [
+        "edge:specialized-evidence:FIRST_S06_SPEC_PROCESS_WASTEWATER_TREATMENT_STATION_SLUDGE_DEWATERING_HAZWASTE_ATTRIBUTE",
+        "edge:specialized-manifest:FIRST_S06_SPEC_PROCESS_WASTEWATER_TREATMENT_STATION_SLUDGE_DEWATERING_HAZWASTE_ATTRIBUTE",
+        "edge:specialized-occurs:FIRST_S06_SPEC_PROCESS_WASTEWATER_TREATMENT_STATION_SLUDGE_DEWATERING_HAZWASTE_ATTRIBUTE"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:eco-kb:specialized-items"
+      ],
+      "origin_repo": "coco830/eco-semantic-knowledge-base",
+      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.88,
+      "evidence_count": 3,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "showcase",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0017",
+    "title": "不相容危废隔离贮存执行卡",
+    "root_issue_type": "inspection:specialized:FIRST_S07_SPEC_HAZWASTE_COMPATIBILITY_SEPARATION",
+    "dimension": "solid_waste_hazardous_waste",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "inspection:specialized:FIRST_S07_SPEC_HAZWASTE_COMPATIBILITY_SEPARATION",
+        "description": "不相容危废隔离贮存"
+      }
+    ],
+    "related_obligations": [],
+    "law_refs": [],
+    "tech_spec_refs": [],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "inspection:specialized:FIRST_S07_SPEC_HAZWASTE_COMPATIBILITY_SEPARATION"
+      ],
+      "edges": [
+        "edge:specialized-manifest:FIRST_S07_SPEC_HAZWASTE_COMPATIBILITY_SEPARATION"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:eco-kb:specialized-items"
+      ],
+      "origin_repo": "coco830/eco-semantic-knowledge-base",
+      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.86,
+      "evidence_count": 1,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "showcase",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0018",
+    "title": "危废产生后即时称重执行卡",
+    "root_issue_type": "inspection:specialized:FIRST_S07_SPEC_HAZWASTE_FIVE_CODE_WEIGHING",
+    "dimension": "solid_waste_hazardous_waste",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "inspection:specialized:FIRST_S07_SPEC_HAZWASTE_FIVE_CODE_WEIGHING",
+        "description": "危废产生后即时称重"
+      }
+    ],
+    "related_obligations": [],
+    "law_refs": [],
+    "tech_spec_refs": [],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "inspection:specialized:FIRST_S07_SPEC_HAZWASTE_FIVE_CODE_WEIGHING"
+      ],
+      "edges": [
+        "edge:specialized-manifest:FIRST_S07_SPEC_HAZWASTE_FIVE_CODE_WEIGHING"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:eco-kb:specialized-items"
+      ],
+      "origin_repo": "coco830/eco-semantic-knowledge-base",
+      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.86,
+      "evidence_count": 1,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "showcase",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0019",
+    "title": "危废入库扫码与贮存位置绑定执行卡",
+    "root_issue_type": "inspection:specialized:FIRST_S07_SPEC_HAZWASTE_FIVE_CODE_INBOUND_SCAN",
+    "dimension": "solid_waste_hazardous_waste",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "inspection:specialized:FIRST_S07_SPEC_HAZWASTE_FIVE_CODE_INBOUND_SCAN",
+        "description": "危废入库扫码与贮存位置绑定"
+      }
+    ],
+    "related_obligations": [],
+    "law_refs": [],
+    "tech_spec_refs": [],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "inspection:specialized:FIRST_S07_SPEC_HAZWASTE_FIVE_CODE_INBOUND_SCAN"
+      ],
+      "edges": [
+        "edge:specialized-manifest:FIRST_S07_SPEC_HAZWASTE_FIVE_CODE_INBOUND_SCAN"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:eco-kb:specialized-items"
+      ],
+      "origin_repo": "coco830/eco-semantic-knowledge-base",
+      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.86,
+      "evidence_count": 1,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "showcase",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0020",
+    "title": "危废出库转移联单与容器码闭环执行卡",
+    "root_issue_type": "inspection:specialized:FIRST_S07_SPEC_HAZWASTE_FIVE_CODE_TRANSFER_LEDGER",
+    "dimension": "solid_waste_hazardous_waste",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "inspection:specialized:FIRST_S07_SPEC_HAZWASTE_FIVE_CODE_TRANSFER_LEDGER",
+        "description": "危废出库转移联单与容器码闭环"
+      }
+    ],
+    "related_obligations": [],
+    "law_refs": [],
+    "tech_spec_refs": [],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "inspection:specialized:FIRST_S07_SPEC_HAZWASTE_FIVE_CODE_TRANSFER_LEDGER"
+      ],
+      "edges": [
+        "edge:specialized-manifest:FIRST_S07_SPEC_HAZWASTE_FIVE_CODE_TRANSFER_LEDGER"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:eco-kb:specialized-items"
+      ],
+      "origin_repo": "coco830/eco-semantic-knowledge-base",
+      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.86,
+      "evidence_count": 1,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "showcase",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0021",
+    "title": "危废分类分区贮存执行卡",
+    "root_issue_type": "inspection:specialized:FIRST_S07_SPEC_HAZWASTE_CLASSIFIED_STORAGE",
+    "dimension": "solid_waste_hazardous_waste",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "inspection:specialized:FIRST_S07_SPEC_HAZWASTE_CLASSIFIED_STORAGE",
+        "description": "危废分类分区贮存"
+      }
+    ],
+    "related_obligations": [],
+    "law_refs": [],
+    "tech_spec_refs": [],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "inspection:specialized:FIRST_S07_SPEC_HAZWASTE_CLASSIFIED_STORAGE"
+      ],
+      "edges": [
+        "edge:specialized-manifest:FIRST_S07_SPEC_HAZWASTE_CLASSIFIED_STORAGE"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:eco-kb:specialized-items"
+      ],
+      "origin_repo": "coco830/eco-semantic-knowledge-base",
+      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.86,
+      "evidence_count": 1,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "ready",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0022",
+    "title": "危废包装容器一物一码执行卡",
+    "root_issue_type": "inspection:specialized:FIRST_S07_SPEC_HAZWASTE_FIVE_CODE_CONTAINER_QR",
+    "dimension": "solid_waste_hazardous_waste",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "inspection:specialized:FIRST_S07_SPEC_HAZWASTE_FIVE_CODE_CONTAINER_QR",
+        "description": "危废包装容器一物一码"
+      }
+    ],
+    "related_obligations": [],
+    "law_refs": [],
+    "tech_spec_refs": [],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "inspection:specialized:FIRST_S07_SPEC_HAZWASTE_FIVE_CODE_CONTAINER_QR"
+      ],
+      "edges": [
+        "edge:specialized-manifest:FIRST_S07_SPEC_HAZWASTE_FIVE_CODE_CONTAINER_QR"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:eco-kb:specialized-items"
+      ],
+      "origin_repo": "coco830/eco-semantic-knowledge-base",
+      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.86,
+      "evidence_count": 1,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "ready",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0023",
+    "title": "危废暂存防渗和泄漏收集执行卡",
+    "root_issue_type": "inspection:specialized:FIRST_S07_SPEC_HAZWASTE_LEAKAGE_COLLECTION",
+    "dimension": "solid_waste_hazardous_waste",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "inspection:specialized:FIRST_S07_SPEC_HAZWASTE_LEAKAGE_COLLECTION",
+        "description": "危废暂存防渗和泄漏收集"
+      }
+    ],
+    "related_obligations": [],
+    "law_refs": [],
+    "tech_spec_refs": [],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "inspection:specialized:FIRST_S07_SPEC_HAZWASTE_LEAKAGE_COLLECTION"
+      ],
+      "edges": [
+        "edge:specialized-manifest:FIRST_S07_SPEC_HAZWASTE_LEAKAGE_COLLECTION"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:eco-kb:specialized-items"
+      ],
+      "origin_repo": "coco830/eco-semantic-knowledge-base",
+      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.86,
+      "evidence_count": 1,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "ready",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0024",
+    "title": "危废泄漏应急物资和演练记录执行卡",
+    "root_issue_type": "inspection:specialized:FIRST_S13_SPEC_HAZWASTE_EMERGENCY_MATERIALS",
+    "dimension": "environmental_emergency_hazardous_waste",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "inspection:specialized:FIRST_S13_SPEC_HAZWASTE_EMERGENCY_MATERIALS",
+        "description": "危废泄漏应急物资和演练记录"
+      }
+    ],
+    "related_obligations": [],
+    "law_refs": [],
+    "tech_spec_refs": [],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "inspection:specialized:FIRST_S13_SPEC_HAZWASTE_EMERGENCY_MATERIALS"
+      ],
+      "edges": [
+        "edge:specialized-manifest:FIRST_S13_SPEC_HAZWASTE_EMERGENCY_MATERIALS"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:eco-kb:specialized-items"
+      ],
+      "origin_repo": "coco830/eco-semantic-knowledge-base",
+      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.86,
+      "evidence_count": 1,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "ready",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0025",
+    "title": "危废贮存设施和分区识别标志执行卡",
+    "root_issue_type": "inspection:specialized:FIRST_S07_SPEC_HAZWASTE_FIVE_CODE_STORAGE_SIGN",
+    "dimension": "solid_waste_hazardous_waste",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "inspection:specialized:FIRST_S07_SPEC_HAZWASTE_FIVE_CODE_STORAGE_SIGN",
+        "description": "危废贮存设施和分区识别标志"
+      }
+    ],
+    "related_obligations": [],
+    "law_refs": [],
+    "tech_spec_refs": [],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "inspection:specialized:FIRST_S07_SPEC_HAZWASTE_FIVE_CODE_STORAGE_SIGN"
+      ],
+      "edges": [
+        "edge:specialized-manifest:FIRST_S07_SPEC_HAZWASTE_FIVE_CODE_STORAGE_SIGN"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:eco-kb:specialized-items"
+      ],
+      "origin_repo": "coco830/eco-semantic-knowledge-base",
+      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.86,
+      "evidence_count": 1,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "ready",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0026",
+    "title": "危险废物识别、暂存与转移 FIRST执行卡",
+    "root_issue_type": "inspection:show-if:SHOWIF::SCN_HAZWASTE_STORAGE_TRANSFER::FIRST",
+    "dimension": "危废管理",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "inspection:show-if:SHOWIF::SCN_HAZWASTE_STORAGE_TRANSFER::FIRST",
+        "description": "危险废物识别、暂存与转移 FIRST"
+      }
+    ],
+    "related_obligations": [],
+    "law_refs": [],
+    "tech_spec_refs": [],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "inspection:show-if:SHOWIF::SCN_HAZWASTE_STORAGE_TRANSFER::FIRST"
+      ],
+      "edges": [
+        "edge:show-if:SHOWIF::SCN_HAZWASTE_STORAGE_TRANSFER::FIRST"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:eco-kb:show-if"
+      ],
+      "origin_repo": "coco830/eco-semantic-knowledge-base",
+      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_asset": "data/approved_baseline/approved_show_if_rules_v1_0.csv"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.88,
+      "evidence_count": 1,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "ready",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0027",
+    "title": "危险废物识别、暂存与转移 MONTHLY执行卡",
+    "root_issue_type": "inspection:show-if:SHOWIF::SCN_HAZWASTE_STORAGE_TRANSFER::MONTHLY",
+    "dimension": "危废管理",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "inspection:show-if:SHOWIF::SCN_HAZWASTE_STORAGE_TRANSFER::MONTHLY",
+        "description": "危险废物识别、暂存与转移 MONTHLY"
+      }
+    ],
+    "related_obligations": [],
+    "law_refs": [],
+    "tech_spec_refs": [],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "inspection:show-if:SHOWIF::SCN_HAZWASTE_STORAGE_TRANSFER::MONTHLY"
+      ],
+      "edges": [
+        "edge:show-if:SHOWIF::SCN_HAZWASTE_STORAGE_TRANSFER::MONTHLY"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:eco-kb:show-if"
+      ],
+      "origin_repo": "coco830/eco-semantic-knowledge-base",
+      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_asset": "data/approved_baseline/approved_show_if_rules_v1_0.csv"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.88,
+      "evidence_count": 1,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "ready",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0028",
+    "title": "实验室废液与检测试剂危废候选 FIRST执行卡",
+    "root_issue_type": "inspection:show-if:SHOWIF::NEW_SCN_LAB_WASTE_CANDIDATE::FIRST",
+    "dimension": "危废管理",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "inspection:show-if:SHOWIF::NEW_SCN_LAB_WASTE_CANDIDATE::FIRST",
+        "description": "实验室废液与检测试剂危废候选 FIRST"
+      }
+    ],
+    "related_obligations": [],
+    "law_refs": [],
+    "tech_spec_refs": [],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "inspection:show-if:SHOWIF::NEW_SCN_LAB_WASTE_CANDIDATE::FIRST"
+      ],
+      "edges": [
+        "edge:show-if:SHOWIF::NEW_SCN_LAB_WASTE_CANDIDATE::FIRST"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:eco-kb:show-if"
+      ],
+      "origin_repo": "coco830/eco-semantic-knowledge-base",
+      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_asset": "data/approved_baseline/approved_show_if_rules_v1_0.csv"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.88,
+      "evidence_count": 1,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "ready",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0029",
+    "title": "实验室废液与检测试剂危废候选 MONTHLY执行卡",
+    "root_issue_type": "inspection:show-if:SHOWIF::NEW_SCN_LAB_WASTE_CANDIDATE::MONTHLY",
+    "dimension": "危废管理",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "inspection:show-if:SHOWIF::NEW_SCN_LAB_WASTE_CANDIDATE::MONTHLY",
+        "description": "实验室废液与检测试剂危废候选 MONTHLY"
+      }
+    ],
+    "related_obligations": [],
+    "law_refs": [],
+    "tech_spec_refs": [],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "inspection:show-if:SHOWIF::NEW_SCN_LAB_WASTE_CANDIDATE::MONTHLY"
+      ],
+      "edges": [
+        "edge:show-if:SHOWIF::NEW_SCN_LAB_WASTE_CANDIDATE::MONTHLY"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:eco-kb:show-if"
+      ],
+      "origin_repo": "coco830/eco-semantic-knowledge-base",
+      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_asset": "data/approved_baseline/approved_show_if_rules_v1_0.csv"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.88,
+      "evidence_count": 1,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "ready",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0030",
+    "title": "洗车水/洗版废液、废擦拭布及废包装物收集闭环核查执行卡",
+    "root_issue_type": "inspection:specialized:FIRST_S10_SPEC_PROCESS_PRINTING_GLUING_CLEANING_SOLVENT_HAZWASTE_CLOSURE",
+    "dimension": "vocs_emission",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "inspection:specialized:FIRST_S10_SPEC_PROCESS_PRINTING_GLUING_CLEANING_SOLVENT_HAZWASTE_CLOSURE",
+        "description": "洗车水/洗版废液、废擦拭布及废包装物收集闭环核查"
+      }
+    ],
+    "related_obligations": [],
+    "law_refs": [],
+    "tech_spec_refs": [],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "inspection:specialized:FIRST_S10_SPEC_PROCESS_PRINTING_GLUING_CLEANING_SOLVENT_HAZWASTE_CLOSURE"
+      ],
+      "edges": [
+        "edge:specialized-manifest:FIRST_S10_SPEC_PROCESS_PRINTING_GLUING_CLEANING_SOLVENT_HAZWASTE_CLOSURE"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:eco-kb:specialized-items"
+      ],
+      "origin_repo": "coco830/eco-semantic-knowledge-base",
+      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.86,
+      "evidence_count": 1,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "ready",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0031",
+    "title": "脱水系统运行及污泥危废属性核查执行卡",
+    "root_issue_type": "inspection:specialized:FIRST_S06_SPEC_PROCESS_WASTEWATER_TREATMENT_STATION_SLUDGE_DEWATERING_HAZWASTE_ATTRIBUTE",
+    "dimension": "wastewater_station",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "inspection:specialized:FIRST_S06_SPEC_PROCESS_WASTEWATER_TREATMENT_STATION_SLUDGE_DEWATERING_HAZWASTE_ATTRIBUTE",
+        "description": "脱水系统运行及污泥危废属性核查"
+      }
+    ],
+    "related_obligations": [],
+    "law_refs": [],
+    "tech_spec_refs": [],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "inspection:specialized:FIRST_S06_SPEC_PROCESS_WASTEWATER_TREATMENT_STATION_SLUDGE_DEWATERING_HAZWASTE_ATTRIBUTE"
+      ],
+      "edges": [
+        "edge:specialized-manifest:FIRST_S06_SPEC_PROCESS_WASTEWATER_TREATMENT_STATION_SLUDGE_DEWATERING_HAZWASTE_ATTRIBUTE"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:eco-kb:specialized-items"
+      ],
+      "origin_repo": "coco830/eco-semantic-knowledge-base",
+      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.86,
+      "evidence_count": 1,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "ready",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0032",
+    "title": "一类重金属及特殊废水（含氰、含铬、含镍）独立收集与防腐防渗核查执行卡",
+    "root_issue_type": "issue:eco-kb:FIRST_S06_SPEC_PROCESS_ELECTROPLATING_ACID_PICKLING_HEAVY_METAL_SPECIAL_WASTEWATER_SEPARATION",
+    "dimension": "wastewater_discharge_route",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "issue:eco-kb:FIRST_S06_SPEC_PROCESS_ELECTROPLATING_ACID_PICKLING_HEAVY_METAL_SPECIAL_WASTEWATER_SEPARATION",
+        "description": "电镀/酸洗/磷化/表面处理"
+      }
+    ],
+    "related_obligations": [],
+    "law_refs": [],
+    "tech_spec_refs": [],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "issue:eco-kb:FIRST_S06_SPEC_PROCESS_ELECTROPLATING_ACID_PICKLING_HEAVY_METAL_SPECIAL_WASTEWATER_SEPARATION"
+      ],
+      "edges": [
+        "edge:specialized-evidence:FIRST_S06_SPEC_PROCESS_ELECTROPLATING_ACID_PICKLING_HEAVY_METAL_SPECIAL_WASTEWATER_SEPARATION",
+        "edge:specialized-manifest:FIRST_S06_SPEC_PROCESS_ELECTROPLATING_ACID_PICKLING_HEAVY_METAL_SPECIAL_WASTEWATER_SEPARATION",
+        "edge:specialized-occurs:FIRST_S06_SPEC_PROCESS_ELECTROPLATING_ACID_PICKLING_HEAVY_METAL_SPECIAL_WASTEWATER_SEPARATION"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:eco-kb:specialized-items"
+      ],
+      "origin_repo": "coco830/eco-semantic-knowledge-base",
+      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.88,
+      "evidence_count": 3,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "ready",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0033",
+    "title": "低VOCs涂料/油墨/胶黏剂替代及MSDS核查执行卡",
+    "root_issue_type": "issue:eco-kb:FIRST_S10_SPEC_PROCESS_SPRAYING_COATING_LOW_VOCS_MSDS_LEDGER",
+    "dimension": "vocs_emission",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "issue:eco-kb:FIRST_S10_SPEC_PROCESS_SPRAYING_COATING_LOW_VOCS_MSDS_LEDGER",
+        "description": "喷涂/涂装/涂布"
+      }
+    ],
+    "related_obligations": [],
+    "law_refs": [],
+    "tech_spec_refs": [],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "issue:eco-kb:FIRST_S10_SPEC_PROCESS_SPRAYING_COATING_LOW_VOCS_MSDS_LEDGER"
+      ],
+      "edges": [
+        "edge:specialized-evidence:FIRST_S10_SPEC_PROCESS_SPRAYING_COATING_LOW_VOCS_MSDS_LEDGER",
+        "edge:specialized-manifest:FIRST_S10_SPEC_PROCESS_SPRAYING_COATING_LOW_VOCS_MSDS_LEDGER",
+        "edge:specialized-occurs:FIRST_S10_SPEC_PROCESS_SPRAYING_COATING_LOW_VOCS_MSDS_LEDGER"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:eco-kb:specialized-items"
+      ],
+      "origin_repo": "coco830/eco-semantic-knowledge-base",
+      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.88,
+      "evidence_count": 3,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "ready",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0034",
+    "title": "侧吸风罩收集效果及洗涤塔加药核查执行卡",
+    "root_issue_type": "issue:eco-kb:FIRST_S06_SPEC_PROCESS_ELECTROPLATING_ACID_PICKLING_ACID_MIST_HOOD_SCRUBBER_DOSING",
+    "dimension": "wastewater_discharge_route",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "issue:eco-kb:FIRST_S06_SPEC_PROCESS_ELECTROPLATING_ACID_PICKLING_ACID_MIST_HOOD_SCRUBBER_DOSING",
+        "description": "电镀/酸洗/磷化/表面处理"
+      }
+    ],
+    "related_obligations": [],
+    "law_refs": [],
+    "tech_spec_refs": [],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "issue:eco-kb:FIRST_S06_SPEC_PROCESS_ELECTROPLATING_ACID_PICKLING_ACID_MIST_HOOD_SCRUBBER_DOSING"
+      ],
+      "edges": [
+        "edge:specialized-evidence:FIRST_S06_SPEC_PROCESS_ELECTROPLATING_ACID_PICKLING_ACID_MIST_HOOD_SCRUBBER_DOSING",
+        "edge:specialized-manifest:FIRST_S06_SPEC_PROCESS_ELECTROPLATING_ACID_PICKLING_ACID_MIST_HOOD_SCRUBBER_DOSING",
+        "edge:specialized-occurs:FIRST_S06_SPEC_PROCESS_ELECTROPLATING_ACID_PICKLING_ACID_MIST_HOOD_SCRUBBER_DOSING"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:eco-kb:specialized-items"
+      ],
+      "origin_repo": "coco830/eco-semantic-knowledge-base",
+      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.88,
+      "evidence_count": 3,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "ready",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0035",
+    "title": "医废暂存间警示标志和专用包装执行卡",
+    "root_issue_type": "issue:eco-kb:FIRST_S07_SPEC_MEDWASTE_TEMP_STORAGE_SIGNAGE",
+    "dimension": "solid_waste_medical_waste",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "issue:eco-kb:FIRST_S07_SPEC_MEDWASTE_TEMP_STORAGE_SIGNAGE",
+        "description": "医疗废物暂存"
+      }
+    ],
+    "related_obligations": [],
+    "law_refs": [],
+    "tech_spec_refs": [],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "issue:eco-kb:FIRST_S07_SPEC_MEDWASTE_TEMP_STORAGE_SIGNAGE"
+      ],
+      "edges": [
+        "edge:specialized-evidence:FIRST_S07_SPEC_MEDWASTE_TEMP_STORAGE_SIGNAGE",
+        "edge:specialized-manifest:FIRST_S07_SPEC_MEDWASTE_TEMP_STORAGE_SIGNAGE",
+        "edge:specialized-occurs:FIRST_S07_SPEC_MEDWASTE_TEMP_STORAGE_SIGNAGE"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:eco-kb:specialized-items"
+      ],
+      "origin_repo": "coco830/eco-semantic-knowledge-base",
+      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.88,
+      "evidence_count": 3,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "ready",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0036",
+    "title": "医疗废水/医废/放射诊疗专项核查执行卡",
+    "root_issue_type": "issue:eco-kb:FIRST_S06_SPEC_PROCESS_MEDICAL_WASTEWATER_WASTE_RADIATION",
+    "dimension": "medical_waste",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "issue:eco-kb:FIRST_S06_SPEC_PROCESS_MEDICAL_WASTEWATER_WASTE_RADIATION",
+        "description": "医疗废水/医废/放射诊疗"
+      }
+    ],
+    "related_obligations": [],
+    "law_refs": [],
+    "tech_spec_refs": [],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "issue:eco-kb:FIRST_S06_SPEC_PROCESS_MEDICAL_WASTEWATER_WASTE_RADIATION"
+      ],
+      "edges": [
+        "edge:specialized-evidence:FIRST_S06_SPEC_PROCESS_MEDICAL_WASTEWATER_WASTE_RADIATION",
+        "edge:specialized-manifest:FIRST_S06_SPEC_PROCESS_MEDICAL_WASTEWATER_WASTE_RADIATION",
+        "edge:specialized-occurs:FIRST_S06_SPEC_PROCESS_MEDICAL_WASTEWATER_WASTE_RADIATION"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:eco-kb:specialized-items"
+      ],
+      "origin_repo": "coco830/eco-semantic-knowledge-base",
+      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.88,
+      "evidence_count": 3,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "ready",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0037",
+    "title": "医疗废水消毒加药和检测记录闭环执行卡",
+    "root_issue_type": "issue:eco-kb:FIRST_S06_SPEC_HOSPITAL_DISINFECTION_DOSING_RECORD",
+    "dimension": "wastewater_treatment_medical_disinfection",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "issue:eco-kb:FIRST_S06_SPEC_HOSPITAL_DISINFECTION_DOSING_RECORD",
+        "description": "医疗废水消毒"
+      }
+    ],
+    "related_obligations": [],
+    "law_refs": [],
+    "tech_spec_refs": [],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "issue:eco-kb:FIRST_S06_SPEC_HOSPITAL_DISINFECTION_DOSING_RECORD"
+      ],
+      "edges": [
+        "edge:specialized-evidence:FIRST_S06_SPEC_HOSPITAL_DISINFECTION_DOSING_RECORD",
+        "edge:specialized-manifest:FIRST_S06_SPEC_HOSPITAL_DISINFECTION_DOSING_RECORD",
+        "edge:specialized-occurs:FIRST_S06_SPEC_HOSPITAL_DISINFECTION_DOSING_RECORD"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:eco-kb:specialized-items"
+      ],
+      "origin_repo": "coco830/eco-semantic-knowledge-base",
+      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.88,
+      "evidence_count": 3,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "ready",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0038",
+    "title": "医疗废水消毒接触时间执行卡",
+    "root_issue_type": "issue:eco-kb:FIRST_S06_SPEC_HOSPITAL_CONTACT_TIME_1H",
+    "dimension": "wastewater_treatment_medical_disinfection",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "issue:eco-kb:FIRST_S06_SPEC_HOSPITAL_CONTACT_TIME_1H",
+        "description": "医疗废水消毒"
+      }
+    ],
+    "related_obligations": [],
+    "law_refs": [],
+    "tech_spec_refs": [],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "issue:eco-kb:FIRST_S06_SPEC_HOSPITAL_CONTACT_TIME_1H"
+      ],
+      "edges": [
+        "edge:specialized-evidence:FIRST_S06_SPEC_HOSPITAL_CONTACT_TIME_1H",
+        "edge:specialized-manifest:FIRST_S06_SPEC_HOSPITAL_CONTACT_TIME_1H",
+        "edge:specialized-occurs:FIRST_S06_SPEC_HOSPITAL_CONTACT_TIME_1H"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:eco-kb:specialized-items"
+      ],
+      "origin_repo": "coco830/eco-semantic-knowledge-base",
+      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.88,
+      "evidence_count": 3,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "ready",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0039",
+    "title": "医疗废水消毒接触池出口总余氯执行卡",
+    "root_issue_type": "issue:eco-kb:FIRST_S06_SPEC_HOSPITAL_RESIDUAL_CHLORINE_3_10",
+    "dimension": "wastewater_treatment_medical_disinfection",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "issue:eco-kb:FIRST_S06_SPEC_HOSPITAL_RESIDUAL_CHLORINE_3_10",
+        "description": "医疗废水消毒"
+      }
+    ],
+    "related_obligations": [],
+    "law_refs": [],
+    "tech_spec_refs": [],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "issue:eco-kb:FIRST_S06_SPEC_HOSPITAL_RESIDUAL_CHLORINE_3_10"
+      ],
+      "edges": [
+        "edge:specialized-evidence:FIRST_S06_SPEC_HOSPITAL_RESIDUAL_CHLORINE_3_10",
+        "edge:specialized-manifest:FIRST_S06_SPEC_HOSPITAL_RESIDUAL_CHLORINE_3_10",
+        "edge:specialized-occurs:FIRST_S06_SPEC_HOSPITAL_RESIDUAL_CHLORINE_3_10"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:eco-kb:specialized-items"
+      ],
+      "origin_repo": "coco830/eco-semantic-knowledge-base",
+      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.88,
+      "evidence_count": 3,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "ready",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0040",
+    "title": "医疗废物48小时内转运核查执行卡",
+    "root_issue_type": "issue:eco-kb:FIRST_S07_SPEC_MEDWASTE_48H_TRANSFER",
+    "dimension": "solid_waste_medical_waste",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "issue:eco-kb:FIRST_S07_SPEC_MEDWASTE_48H_TRANSFER",
+        "description": "医疗废物暂存"
+      }
+    ],
+    "related_obligations": [],
+    "law_refs": [],
+    "tech_spec_refs": [],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "issue:eco-kb:FIRST_S07_SPEC_MEDWASTE_48H_TRANSFER"
+      ],
+      "edges": [
+        "edge:specialized-evidence:FIRST_S07_SPEC_MEDWASTE_48H_TRANSFER",
+        "edge:specialized-manifest:FIRST_S07_SPEC_MEDWASTE_48H_TRANSFER",
+        "edge:specialized-occurs:FIRST_S07_SPEC_MEDWASTE_48H_TRANSFER"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:eco-kb:specialized-items"
+      ],
+      "origin_repo": "coco830/eco-semantic-knowledge-base",
+      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.88,
+      "evidence_count": 3,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "ready",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0041",
+    "title": "印刷/粘合/覆膜专项核查执行卡",
+    "root_issue_type": "issue:eco-kb:FIRST_S10_SPEC_PROCESS_PRINTING_GLUING",
+    "dimension": "vocs_emission",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "issue:eco-kb:FIRST_S10_SPEC_PROCESS_PRINTING_GLUING",
+        "description": "印刷/粘合/覆膜"
+      }
+    ],
+    "related_obligations": [],
+    "law_refs": [],
+    "tech_spec_refs": [],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "issue:eco-kb:FIRST_S10_SPEC_PROCESS_PRINTING_GLUING"
+      ],
+      "edges": [
+        "edge:specialized-evidence:FIRST_S10_SPEC_PROCESS_PRINTING_GLUING",
+        "edge:specialized-manifest:FIRST_S10_SPEC_PROCESS_PRINTING_GLUING",
+        "edge:specialized-occurs:FIRST_S10_SPEC_PROCESS_PRINTING_GLUING"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:eco-kb:specialized-items"
+      ],
+      "origin_repo": "coco830/eco-semantic-knowledge-base",
+      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.88,
+      "evidence_count": 3,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "ready",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0042",
+    "title": "厂界噪声监测/执行标准专项核查执行卡",
+    "root_issue_type": "issue:eco-kb:FIRST_S10_SPEC_PROCESS_BOUNDARY_NOISE_MONITORING",
+    "dimension": "noise_source",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "issue:eco-kb:FIRST_S10_SPEC_PROCESS_BOUNDARY_NOISE_MONITORING",
+        "description": "厂界噪声监测/执行标准"
+      }
+    ],
+    "related_obligations": [],
+    "law_refs": [],
+    "tech_spec_refs": [],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "issue:eco-kb:FIRST_S10_SPEC_PROCESS_BOUNDARY_NOISE_MONITORING"
+      ],
+      "edges": [
+        "edge:specialized-evidence:FIRST_S10_SPEC_PROCESS_BOUNDARY_NOISE_MONITORING",
+        "edge:specialized-manifest:FIRST_S10_SPEC_PROCESS_BOUNDARY_NOISE_MONITORING",
+        "edge:specialized-occurs:FIRST_S10_SPEC_PROCESS_BOUNDARY_NOISE_MONITORING"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:eco-kb:specialized-items"
+      ],
+      "origin_repo": "coco830/eco-semantic-knowledge-base",
+      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.88,
+      "evidence_count": 3,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "ready",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0043",
+    "title": "发酵/蒸馏/酒类酿造专项核查执行卡",
+    "root_issue_type": "issue:eco-kb:FIRST_S06_SPEC_PROCESS_FERMENTATION_DISTILLATION",
+    "dimension": "wastewater_generation",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "issue:eco-kb:FIRST_S06_SPEC_PROCESS_FERMENTATION_DISTILLATION",
+        "description": "发酵/蒸馏/酒类酿造"
+      }
+    ],
+    "related_obligations": [],
+    "law_refs": [],
+    "tech_spec_refs": [],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "issue:eco-kb:FIRST_S06_SPEC_PROCESS_FERMENTATION_DISTILLATION"
+      ],
+      "edges": [
+        "edge:specialized-evidence:FIRST_S06_SPEC_PROCESS_FERMENTATION_DISTILLATION",
+        "edge:specialized-manifest:FIRST_S06_SPEC_PROCESS_FERMENTATION_DISTILLATION",
+        "edge:specialized-occurs:FIRST_S06_SPEC_PROCESS_FERMENTATION_DISTILLATION"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:eco-kb:specialized-items"
+      ],
+      "origin_repo": "coco830/eco-semantic-knowledge-base",
+      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.88,
+      "evidence_count": 3,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "ready",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0044",
+    "title": "含卤素、重金属及酸碱废液隔离贮存核查执行卡",
+    "root_issue_type": "issue:eco-kb:FIRST_S07_SPEC_PROCESS_LABORATORY_WASTE_LIQUID_WASTE_LIQUID_COMPATIBILITY_STORAGE",
+    "dimension": "hazardous_waste",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "issue:eco-kb:FIRST_S07_SPEC_PROCESS_LABORATORY_WASTE_LIQUID_WASTE_LIQUID_COMPATIBILITY_STORAGE",
+        "description": "实验室废液/检测试剂"
+      }
+    ],
+    "related_obligations": [],
+    "law_refs": [],
+    "tech_spec_refs": [],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "issue:eco-kb:FIRST_S07_SPEC_PROCESS_LABORATORY_WASTE_LIQUID_WASTE_LIQUID_COMPATIBILITY_STORAGE"
+      ],
+      "edges": [
+        "edge:specialized-evidence:FIRST_S07_SPEC_PROCESS_LABORATORY_WASTE_LIQUID_WASTE_LIQUID_COMPATIBILITY_STORAGE",
+        "edge:specialized-manifest:FIRST_S07_SPEC_PROCESS_LABORATORY_WASTE_LIQUID_WASTE_LIQUID_COMPATIBILITY_STORAGE",
+        "edge:specialized-occurs:FIRST_S07_SPEC_PROCESS_LABORATORY_WASTE_LIQUID_WASTE_LIQUID_COMPATIBILITY_STORAGE"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:eco-kb:specialized-items"
+      ],
+      "origin_repo": "coco830/eco-semantic-knowledge-base",
+      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.88,
+      "evidence_count": 3,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "ready",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0045",
+    "title": "含天然放射性工业废渣/建材放射性专项核查执行卡",
+    "root_issue_type": "issue:eco-kb:FIRST_S12_SPEC_PROCESS_NORM_INDUSTRIAL_RESIDUE_RADIOACTIVITY",
+    "dimension": "radiation",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "issue:eco-kb:FIRST_S12_SPEC_PROCESS_NORM_INDUSTRIAL_RESIDUE_RADIOACTIVITY",
+        "description": "含天然放射性工业废渣/建材放射性"
+      }
+    ],
+    "related_obligations": [],
+    "law_refs": [],
+    "tech_spec_refs": [],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "issue:eco-kb:FIRST_S12_SPEC_PROCESS_NORM_INDUSTRIAL_RESIDUE_RADIOACTIVITY"
+      ],
+      "edges": [
+        "edge:specialized-evidence:FIRST_S12_SPEC_PROCESS_NORM_INDUSTRIAL_RESIDUE_RADIOACTIVITY",
+        "edge:specialized-manifest:FIRST_S12_SPEC_PROCESS_NORM_INDUSTRIAL_RESIDUE_RADIOACTIVITY",
+        "edge:specialized-occurs:FIRST_S12_SPEC_PROCESS_NORM_INDUSTRIAL_RESIDUE_RADIOACTIVITY"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:eco-kb:specialized-items"
+      ],
+      "origin_repo": "coco830/eco-semantic-knowledge-base",
+      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.88,
+      "evidence_count": 3,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "ready",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0046",
+    "title": "喷涂/涂装/涂布专项核查执行卡",
+    "root_issue_type": "issue:eco-kb:FIRST_S10_SPEC_PROCESS_SPRAYING_COATING",
+    "dimension": "vocs_emission",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "issue:eco-kb:FIRST_S10_SPEC_PROCESS_SPRAYING_COATING",
+        "description": "喷涂/涂装/涂布"
+      }
+    ],
+    "related_obligations": [],
+    "law_refs": [],
+    "tech_spec_refs": [],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "issue:eco-kb:FIRST_S10_SPEC_PROCESS_SPRAYING_COATING"
+      ],
+      "edges": [
+        "edge:specialized-evidence:FIRST_S10_SPEC_PROCESS_SPRAYING_COATING",
+        "edge:specialized-manifest:FIRST_S10_SPEC_PROCESS_SPRAYING_COATING",
+        "edge:specialized-occurs:FIRST_S10_SPEC_PROCESS_SPRAYING_COATING"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:eco-kb:specialized-items"
+      ],
+      "origin_repo": "coco830/eco-semantic-knowledge-base",
+      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.88,
+      "evidence_count": 3,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "ready",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0047",
+    "title": "垃圾焚烧/填埋专项核查执行卡",
+    "root_issue_type": "issue:eco-kb:FIRST_S10_SPEC_PROCESS_WASTE_INCINERATION_LANDFILL",
+    "dimension": "dust_particulate",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "issue:eco-kb:FIRST_S10_SPEC_PROCESS_WASTE_INCINERATION_LANDFILL",
+        "description": "垃圾焚烧/填埋"
+      }
+    ],
+    "related_obligations": [],
+    "law_refs": [],
+    "tech_spec_refs": [],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "issue:eco-kb:FIRST_S10_SPEC_PROCESS_WASTE_INCINERATION_LANDFILL"
+      ],
+      "edges": [
+        "edge:specialized-evidence:FIRST_S10_SPEC_PROCESS_WASTE_INCINERATION_LANDFILL",
+        "edge:specialized-manifest:FIRST_S10_SPEC_PROCESS_WASTE_INCINERATION_LANDFILL",
+        "edge:specialized-occurs:FIRST_S10_SPEC_PROCESS_WASTE_INCINERATION_LANDFILL"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:eco-kb:specialized-items"
+      ],
+      "origin_repo": "coco830/eco-semantic-knowledge-base",
+      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.88,
+      "evidence_count": 3,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "ready",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0048",
+    "title": "夜间生产/敏感点噪声风险专项核查执行卡",
+    "root_issue_type": "issue:eco-kb:FIRST_S10_SPEC_PROCESS_NIGHT_OPERATION_SENSITIVE_RECEPTOR",
+    "dimension": "noise_source",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "issue:eco-kb:FIRST_S10_SPEC_PROCESS_NIGHT_OPERATION_SENSITIVE_RECEPTOR",
+        "description": "夜间生产/敏感点噪声风险"
+      }
+    ],
+    "related_obligations": [],
+    "law_refs": [],
+    "tech_spec_refs": [],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "issue:eco-kb:FIRST_S10_SPEC_PROCESS_NIGHT_OPERATION_SENSITIVE_RECEPTOR"
+      ],
+      "edges": [
+        "edge:specialized-evidence:FIRST_S10_SPEC_PROCESS_NIGHT_OPERATION_SENSITIVE_RECEPTOR",
+        "edge:specialized-manifest:FIRST_S10_SPEC_PROCESS_NIGHT_OPERATION_SENSITIVE_RECEPTOR",
+        "edge:specialized-occurs:FIRST_S10_SPEC_PROCESS_NIGHT_OPERATION_SENSITIVE_RECEPTOR"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:eco-kb:specialized-items"
+      ],
+      "origin_repo": "coco830/eco-semantic-knowledge-base",
+      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.88,
+      "evidence_count": 3,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "ready",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0049",
+    "title": "实验室废液/检测试剂专项核查执行卡",
+    "root_issue_type": "issue:eco-kb:FIRST_S07_SPEC_PROCESS_LABORATORY_WASTE_LIQUID",
+    "dimension": "hazardous_waste",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "issue:eco-kb:FIRST_S07_SPEC_PROCESS_LABORATORY_WASTE_LIQUID",
+        "description": "实验室废液/检测试剂"
+      }
+    ],
+    "related_obligations": [],
+    "law_refs": [],
+    "tech_spec_refs": [],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "issue:eco-kb:FIRST_S07_SPEC_PROCESS_LABORATORY_WASTE_LIQUID"
+      ],
+      "edges": [
+        "edge:specialized-evidence:FIRST_S07_SPEC_PROCESS_LABORATORY_WASTE_LIQUID",
+        "edge:specialized-manifest:FIRST_S07_SPEC_PROCESS_LABORATORY_WASTE_LIQUID",
+        "edge:specialized-occurs:FIRST_S07_SPEC_PROCESS_LABORATORY_WASTE_LIQUID"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:eco-kb:specialized-items"
+      ],
+      "origin_repo": "coco830/eco-semantic-knowledge-base",
+      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.88,
+      "evidence_count": 3,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "ready",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0050",
+    "title": "密封放射源/废放射源专项核查执行卡",
+    "root_issue_type": "issue:eco-kb:FIRST_S12_SPEC_PROCESS_SEALED_RADIOACTIVE_SOURCE",
+    "dimension": "radiation",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "issue:eco-kb:FIRST_S12_SPEC_PROCESS_SEALED_RADIOACTIVE_SOURCE",
+        "description": "密封放射源/废放射源"
+      }
+    ],
+    "related_obligations": [],
+    "law_refs": [],
+    "tech_spec_refs": [],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "issue:eco-kb:FIRST_S12_SPEC_PROCESS_SEALED_RADIOACTIVE_SOURCE"
+      ],
+      "edges": [
+        "edge:specialized-evidence:FIRST_S12_SPEC_PROCESS_SEALED_RADIOACTIVE_SOURCE",
+        "edge:specialized-manifest:FIRST_S12_SPEC_PROCESS_SEALED_RADIOACTIVE_SOURCE",
+        "edge:specialized-occurs:FIRST_S12_SPEC_PROCESS_SEALED_RADIOACTIVE_SOURCE"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:eco-kb:specialized-items"
+      ],
+      "origin_repo": "coco830/eco-semantic-knowledge-base",
+      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.88,
+      "evidence_count": 3,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "ready",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0051",
+    "title": "射线装置/核技术利用专项核查执行卡",
+    "root_issue_type": "issue:eco-kb:FIRST_S12_SPEC_PROCESS_RADIATION_DEVICE_SOURCE",
+    "dimension": "radiation",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "issue:eco-kb:FIRST_S12_SPEC_PROCESS_RADIATION_DEVICE_SOURCE",
+        "description": "射线装置/核技术利用"
+      }
+    ],
+    "related_obligations": [],
+    "law_refs": [],
+    "tech_spec_refs": [],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "issue:eco-kb:FIRST_S12_SPEC_PROCESS_RADIATION_DEVICE_SOURCE"
+      ],
+      "edges": [
+        "edge:specialized-evidence:FIRST_S12_SPEC_PROCESS_RADIATION_DEVICE_SOURCE",
+        "edge:specialized-manifest:FIRST_S12_SPEC_PROCESS_RADIATION_DEVICE_SOURCE",
+        "edge:specialized-occurs:FIRST_S12_SPEC_PROCESS_RADIATION_DEVICE_SOURCE"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:eco-kb:specialized-items"
+      ],
+      "origin_repo": "coco830/eco-semantic-knowledge-base",
+      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.88,
+      "evidence_count": 3,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "ready",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0052",
+    "title": "尾矿库/尾矿输送与回水专项核查执行卡",
+    "root_issue_type": "issue:eco-kb:FIRST_S06_SPEC_PROCESS_TAILINGS_STORAGE",
+    "dimension": "rainwater_accident_risk",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "issue:eco-kb:FIRST_S06_SPEC_PROCESS_TAILINGS_STORAGE",
+        "description": "尾矿库/尾矿输送与回水"
+      }
+    ],
+    "related_obligations": [],
+    "law_refs": [],
+    "tech_spec_refs": [],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "issue:eco-kb:FIRST_S06_SPEC_PROCESS_TAILINGS_STORAGE"
+      ],
+      "edges": [
+        "edge:specialized-evidence:FIRST_S06_SPEC_PROCESS_TAILINGS_STORAGE",
+        "edge:specialized-manifest:FIRST_S06_SPEC_PROCESS_TAILINGS_STORAGE",
+        "edge:specialized-occurs:FIRST_S06_SPEC_PROCESS_TAILINGS_STORAGE"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:eco-kb:specialized-items"
+      ],
+      "origin_repo": "coco830/eco-semantic-knowledge-base",
+      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.88,
+      "evidence_count": 3,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "ready",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0053",
+    "title": "工业噪声源/厂界噪声专项核查执行卡",
+    "root_issue_type": "issue:eco-kb:FIRST_S10_SPEC_PROCESS_INDUSTRIAL_NOISE_SOURCE",
+    "dimension": "noise_source",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "issue:eco-kb:FIRST_S10_SPEC_PROCESS_INDUSTRIAL_NOISE_SOURCE",
+        "description": "工业噪声源/厂界噪声"
+      }
+    ],
+    "related_obligations": [],
+    "law_refs": [],
+    "tech_spec_refs": [],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "issue:eco-kb:FIRST_S10_SPEC_PROCESS_INDUSTRIAL_NOISE_SOURCE"
+      ],
+      "edges": [
+        "edge:specialized-evidence:FIRST_S10_SPEC_PROCESS_INDUSTRIAL_NOISE_SOURCE",
+        "edge:specialized-manifest:FIRST_S10_SPEC_PROCESS_INDUSTRIAL_NOISE_SOURCE",
+        "edge:specialized-occurs:FIRST_S10_SPEC_PROCESS_INDUSTRIAL_NOISE_SOURCE"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:eco-kb:specialized-items"
+      ],
+      "origin_repo": "coco830/eco-semantic-knowledge-base",
+      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.88,
+      "evidence_count": 3,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "ready",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0054",
+    "title": "建材工业废渣放射性物质限制专项核查执行卡",
+    "root_issue_type": "issue:eco-kb:FIRST_S12_SPEC_PROCESS_BUILDING_MATERIAL_SLAG_RADIONUCLIDE",
+    "dimension": "radiation",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "issue:eco-kb:FIRST_S12_SPEC_PROCESS_BUILDING_MATERIAL_SLAG_RADIONUCLIDE",
+        "description": "建材工业废渣放射性物质限制"
+      }
+    ],
+    "related_obligations": [],
+    "law_refs": [],
+    "tech_spec_refs": [],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "issue:eco-kb:FIRST_S12_SPEC_PROCESS_BUILDING_MATERIAL_SLAG_RADIONUCLIDE"
+      ],
+      "edges": [
+        "edge:specialized-evidence:FIRST_S12_SPEC_PROCESS_BUILDING_MATERIAL_SLAG_RADIONUCLIDE",
+        "edge:specialized-manifest:FIRST_S12_SPEC_PROCESS_BUILDING_MATERIAL_SLAG_RADIONUCLIDE",
+        "edge:specialized-occurs:FIRST_S12_SPEC_PROCESS_BUILDING_MATERIAL_SLAG_RADIONUCLIDE"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:eco-kb:specialized-items"
+      ],
+      "origin_repo": "coco830/eco-semantic-knowledge-base",
+      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.88,
+      "evidence_count": 3,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "ready",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0055",
+    "title": "损伤性医疗废物利器盒管理执行卡",
+    "root_issue_type": "issue:eco-kb:FIRST_S07_SPEC_MEDWASTE_SHARPS_CONTAINER",
+    "dimension": "solid_waste_medical_waste",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "issue:eco-kb:FIRST_S07_SPEC_MEDWASTE_SHARPS_CONTAINER",
+        "description": "医疗废物分类收集"
+      }
+    ],
+    "related_obligations": [],
+    "law_refs": [],
+    "tech_spec_refs": [],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "issue:eco-kb:FIRST_S07_SPEC_MEDWASTE_SHARPS_CONTAINER"
+      ],
+      "edges": [
+        "edge:specialized-evidence:FIRST_S07_SPEC_MEDWASTE_SHARPS_CONTAINER",
+        "edge:specialized-manifest:FIRST_S07_SPEC_MEDWASTE_SHARPS_CONTAINER",
+        "edge:specialized-occurs:FIRST_S07_SPEC_MEDWASTE_SHARPS_CONTAINER"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:eco-kb:specialized-items"
+      ],
+      "origin_repo": "coco830/eco-semantic-knowledge-base",
+      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.88,
+      "evidence_count": 3,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "ready",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0056",
+    "title": "放射性废物包/固化体/高完整性容器专项核查执行卡",
+    "root_issue_type": "issue:eco-kb:FIRST_S12_SPEC_PROCESS_RADIOACTIVE_WASTE_PACKAGE_CONTAINER",
+    "dimension": "radiation",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "issue:eco-kb:FIRST_S12_SPEC_PROCESS_RADIOACTIVE_WASTE_PACKAGE_CONTAINER",
+        "description": "放射性废物包/固化体/高完整性容器"
+      }
+    ],
+    "related_obligations": [],
+    "law_refs": [],
+    "tech_spec_refs": [],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "issue:eco-kb:FIRST_S12_SPEC_PROCESS_RADIOACTIVE_WASTE_PACKAGE_CONTAINER"
+      ],
+      "edges": [
+        "edge:specialized-evidence:FIRST_S12_SPEC_PROCESS_RADIOACTIVE_WASTE_PACKAGE_CONTAINER",
+        "edge:specialized-manifest:FIRST_S12_SPEC_PROCESS_RADIOACTIVE_WASTE_PACKAGE_CONTAINER",
+        "edge:specialized-occurs:FIRST_S12_SPEC_PROCESS_RADIOACTIVE_WASTE_PACKAGE_CONTAINER"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:eco-kb:specialized-items"
+      ],
+      "origin_repo": "coco830/eco-semantic-knowledge-base",
+      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.88,
+      "evidence_count": 3,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "ready",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0057",
+    "title": "放射性废物处置设施/场址专项核查执行卡",
+    "root_issue_type": "issue:eco-kb:FIRST_S12_SPEC_PROCESS_RADIOACTIVE_WASTE_DISPOSAL_FACILITY",
+    "dimension": "radiation",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "issue:eco-kb:FIRST_S12_SPEC_PROCESS_RADIOACTIVE_WASTE_DISPOSAL_FACILITY",
+        "description": "放射性废物处置设施/场址"
+      }
+    ],
+    "related_obligations": [],
+    "law_refs": [],
+    "tech_spec_refs": [],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "issue:eco-kb:FIRST_S12_SPEC_PROCESS_RADIOACTIVE_WASTE_DISPOSAL_FACILITY"
+      ],
+      "edges": [
+        "edge:specialized-evidence:FIRST_S12_SPEC_PROCESS_RADIOACTIVE_WASTE_DISPOSAL_FACILITY",
+        "edge:specialized-manifest:FIRST_S12_SPEC_PROCESS_RADIOACTIVE_WASTE_DISPOSAL_FACILITY",
+        "edge:specialized-occurs:FIRST_S12_SPEC_PROCESS_RADIOACTIVE_WASTE_DISPOSAL_FACILITY"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:eco-kb:specialized-items"
+      ],
+      "origin_repo": "coco830/eco-semantic-knowledge-base",
+      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.88,
+      "evidence_count": 3,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "ready",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0058",
+    "title": "放射性废物贮存/转移/处置专项核查执行卡",
+    "root_issue_type": "issue:eco-kb:FIRST_S12_SPEC_PROCESS_RADIOACTIVE_WASTE_STORAGE",
+    "dimension": "radiation",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "issue:eco-kb:FIRST_S12_SPEC_PROCESS_RADIOACTIVE_WASTE_STORAGE",
+        "description": "放射性废物贮存/转移/处置"
+      }
+    ],
+    "related_obligations": [],
+    "law_refs": [],
+    "tech_spec_refs": [],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "issue:eco-kb:FIRST_S12_SPEC_PROCESS_RADIOACTIVE_WASTE_STORAGE"
+      ],
+      "edges": [
+        "edge:specialized-evidence:FIRST_S12_SPEC_PROCESS_RADIOACTIVE_WASTE_STORAGE",
+        "edge:specialized-manifest:FIRST_S12_SPEC_PROCESS_RADIOACTIVE_WASTE_STORAGE",
+        "edge:specialized-occurs:FIRST_S12_SPEC_PROCESS_RADIOACTIVE_WASTE_STORAGE"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:eco-kb:specialized-items"
+      ],
+      "origin_repo": "coco830/eco-semantic-knowledge-base",
+      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.88,
+      "evidence_count": 3,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "ready",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0059",
+    "title": "放射性物品运输专项核查执行卡",
+    "root_issue_type": "issue:eco-kb:FIRST_S12_SPEC_PROCESS_RADIOACTIVE_MATERIAL_TRANSPORT",
+    "dimension": "radiation",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "issue:eco-kb:FIRST_S12_SPEC_PROCESS_RADIOACTIVE_MATERIAL_TRANSPORT",
+        "description": "放射性物品运输"
+      }
+    ],
+    "related_obligations": [],
+    "law_refs": [],
+    "tech_spec_refs": [],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "issue:eco-kb:FIRST_S12_SPEC_PROCESS_RADIOACTIVE_MATERIAL_TRANSPORT"
+      ],
+      "edges": [
+        "edge:specialized-evidence:FIRST_S12_SPEC_PROCESS_RADIOACTIVE_MATERIAL_TRANSPORT",
+        "edge:specialized-manifest:FIRST_S12_SPEC_PROCESS_RADIOACTIVE_MATERIAL_TRANSPORT",
+        "edge:specialized-occurs:FIRST_S12_SPEC_PROCESS_RADIOACTIVE_MATERIAL_TRANSPORT"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:eco-kb:specialized-items"
+      ],
+      "origin_repo": "coco830/eco-semantic-knowledge-base",
+      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.88,
+      "evidence_count": 3,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "ready",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0060",
+    "title": "末端VOCs处理设施关键运行参数闭环核查执行卡",
+    "root_issue_type": "issue:eco-kb:FIRST_S10_SPEC_PROCESS_SPRAYING_COATING_VOCS_TREATMENT_PARAMETERS",
+    "dimension": "vocs_emission",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "issue:eco-kb:FIRST_S10_SPEC_PROCESS_SPRAYING_COATING_VOCS_TREATMENT_PARAMETERS",
+        "description": "喷涂/涂装/涂布"
+      }
+    ],
+    "related_obligations": [],
+    "law_refs": [],
+    "tech_spec_refs": [],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "issue:eco-kb:FIRST_S10_SPEC_PROCESS_SPRAYING_COATING_VOCS_TREATMENT_PARAMETERS"
+      ],
+      "edges": [
+        "edge:specialized-evidence:FIRST_S10_SPEC_PROCESS_SPRAYING_COATING_VOCS_TREATMENT_PARAMETERS",
+        "edge:specialized-manifest:FIRST_S10_SPEC_PROCESS_SPRAYING_COATING_VOCS_TREATMENT_PARAMETERS",
+        "edge:specialized-occurs:FIRST_S10_SPEC_PROCESS_SPRAYING_COATING_VOCS_TREATMENT_PARAMETERS"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:eco-kb:specialized-items"
+      ],
+      "origin_repo": "coco830/eco-semantic-knowledge-base",
+      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.88,
+      "evidence_count": 3,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "ready",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0061",
+    "title": "核燃料循环流出物/核设施退役专项核查执行卡",
+    "root_issue_type": "issue:eco-kb:FIRST_S12_SPEC_PROCESS_NUCLEAR_FUEL_EFFLUENT_DECOMMISSIONING",
+    "dimension": "radiation",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "issue:eco-kb:FIRST_S12_SPEC_PROCESS_NUCLEAR_FUEL_EFFLUENT_DECOMMISSIONING",
+        "description": "核燃料循环流出物/核设施退役"
+      }
+    ],
+    "related_obligations": [],
+    "law_refs": [],
+    "tech_spec_refs": [],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "issue:eco-kb:FIRST_S12_SPEC_PROCESS_NUCLEAR_FUEL_EFFLUENT_DECOMMISSIONING"
+      ],
+      "edges": [
+        "edge:specialized-evidence:FIRST_S12_SPEC_PROCESS_NUCLEAR_FUEL_EFFLUENT_DECOMMISSIONING",
+        "edge:specialized-manifest:FIRST_S12_SPEC_PROCESS_NUCLEAR_FUEL_EFFLUENT_DECOMMISSIONING",
+        "edge:specialized-occurs:FIRST_S12_SPEC_PROCESS_NUCLEAR_FUEL_EFFLUENT_DECOMMISSIONING"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:eco-kb:specialized-items"
+      ],
+      "origin_repo": "coco830/eco-semantic-knowledge-base",
+      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.88,
+      "evidence_count": 3,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "ready",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0062",
+    "title": "氨水/尿素消耗、氨逃逸及脱硫药剂核查执行卡",
+    "root_issue_type": "issue:eco-kb:FIRST_S10_SPEC_PROCESS_BOILER_COMBUSTION_DESULFURIZATION_DENITRATION_BYPRODUCTS",
+    "dimension": "boiler_combustion",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "issue:eco-kb:FIRST_S10_SPEC_PROCESS_BOILER_COMBUSTION_DESULFURIZATION_DENITRATION_BYPRODUCTS",
+        "description": "锅炉/燃烧供热"
+      }
+    ],
+    "related_obligations": [],
+    "law_refs": [],
+    "tech_spec_refs": [],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "issue:eco-kb:FIRST_S10_SPEC_PROCESS_BOILER_COMBUSTION_DESULFURIZATION_DENITRATION_BYPRODUCTS"
+      ],
+      "edges": [
+        "edge:specialized-evidence:FIRST_S10_SPEC_PROCESS_BOILER_COMBUSTION_DESULFURIZATION_DENITRATION_BYPRODUCTS",
+        "edge:specialized-manifest:FIRST_S10_SPEC_PROCESS_BOILER_COMBUSTION_DESULFURIZATION_DENITRATION_BYPRODUCTS",
+        "edge:specialized-occurs:FIRST_S10_SPEC_PROCESS_BOILER_COMBUSTION_DESULFURIZATION_DENITRATION_BYPRODUCTS"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:eco-kb:specialized-items"
+      ],
+      "origin_repo": "coco830/eco-semantic-knowledge-base",
+      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.88,
+      "evidence_count": 3,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "ready",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0063",
+    "title": "污水处理站/废水预处理专项核查执行卡",
+    "root_issue_type": "issue:eco-kb:FIRST_S06_SPEC_PROCESS_WASTEWATER_TREATMENT_STATION",
+    "dimension": "wastewater_station",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "issue:eco-kb:FIRST_S06_SPEC_PROCESS_WASTEWATER_TREATMENT_STATION",
+        "description": "污水处理站/废水预处理"
+      }
+    ],
+    "related_obligations": [],
+    "law_refs": [],
+    "tech_spec_refs": [],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "issue:eco-kb:FIRST_S06_SPEC_PROCESS_WASTEWATER_TREATMENT_STATION"
+      ],
+      "edges": [
+        "edge:specialized-evidence:FIRST_S06_SPEC_PROCESS_WASTEWATER_TREATMENT_STATION",
+        "edge:specialized-manifest:FIRST_S06_SPEC_PROCESS_WASTEWATER_TREATMENT_STATION",
+        "edge:specialized-occurs:FIRST_S06_SPEC_PROCESS_WASTEWATER_TREATMENT_STATION"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:eco-kb:specialized-items"
+      ],
+      "origin_repo": "coco830/eco-semantic-knowledge-base",
+      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.88,
+      "evidence_count": 3,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "ready",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0064",
+    "title": "电镀/酸洗/磷化/表面处理专项核查执行卡",
+    "root_issue_type": "issue:eco-kb:FIRST_S06_SPEC_PROCESS_ELECTROPLATING_ACID_PICKLING",
+    "dimension": "wastewater_discharge_route",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "issue:eco-kb:FIRST_S06_SPEC_PROCESS_ELECTROPLATING_ACID_PICKLING",
+        "description": "电镀/酸洗/磷化/表面处理"
+      }
+    ],
+    "related_obligations": [],
+    "law_refs": [],
+    "tech_spec_refs": [],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "issue:eco-kb:FIRST_S06_SPEC_PROCESS_ELECTROPLATING_ACID_PICKLING"
+      ],
+      "edges": [
+        "edge:specialized-evidence:FIRST_S06_SPEC_PROCESS_ELECTROPLATING_ACID_PICKLING",
+        "edge:specialized-manifest:FIRST_S06_SPEC_PROCESS_ELECTROPLATING_ACID_PICKLING",
+        "edge:specialized-occurs:FIRST_S06_SPEC_PROCESS_ELECTROPLATING_ACID_PICKLING"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:eco-kb:specialized-items"
+      ],
+      "origin_repo": "coco830/eco-semantic-knowledge-base",
+      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.88,
+      "evidence_count": 3,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "ready",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0065",
+    "title": "社会生活噪声源专项核查执行卡",
+    "root_issue_type": "issue:eco-kb:FIRST_S10_SPEC_PROCESS_SOCIAL_LIFE_NOISE_SOURCE",
+    "dimension": "noise_source",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "issue:eco-kb:FIRST_S10_SPEC_PROCESS_SOCIAL_LIFE_NOISE_SOURCE",
+        "description": "社会生活噪声源"
+      }
+    ],
+    "related_obligations": [],
+    "law_refs": [],
+    "tech_spec_refs": [],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "issue:eco-kb:FIRST_S10_SPEC_PROCESS_SOCIAL_LIFE_NOISE_SOURCE"
+      ],
+      "edges": [
+        "edge:specialized-evidence:FIRST_S10_SPEC_PROCESS_SOCIAL_LIFE_NOISE_SOURCE",
+        "edge:specialized-manifest:FIRST_S10_SPEC_PROCESS_SOCIAL_LIFE_NOISE_SOURCE",
+        "edge:specialized-occurs:FIRST_S10_SPEC_PROCESS_SOCIAL_LIFE_NOISE_SOURCE"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:eco-kb:specialized-items"
+      ],
+      "origin_repo": "coco830/eco-semantic-knowledge-base",
+      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.88,
+      "evidence_count": 3,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "ready",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0066",
+    "title": "药剂消耗闭环与生化池运行状态核查执行卡",
+    "root_issue_type": "issue:eco-kb:FIRST_S06_SPEC_PROCESS_WASTEWATER_TREATMENT_STATION_DOSING_BIOCHEMICAL_OPERATION",
+    "dimension": "wastewater_station",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "issue:eco-kb:FIRST_S06_SPEC_PROCESS_WASTEWATER_TREATMENT_STATION_DOSING_BIOCHEMICAL_OPERATION",
+        "description": "污水处理站/废水预处理"
+      }
+    ],
+    "related_obligations": [],
+    "law_refs": [],
+    "tech_spec_refs": [],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "issue:eco-kb:FIRST_S06_SPEC_PROCESS_WASTEWATER_TREATMENT_STATION_DOSING_BIOCHEMICAL_OPERATION"
+      ],
+      "edges": [
+        "edge:specialized-evidence:FIRST_S06_SPEC_PROCESS_WASTEWATER_TREATMENT_STATION_DOSING_BIOCHEMICAL_OPERATION",
+        "edge:specialized-manifest:FIRST_S06_SPEC_PROCESS_WASTEWATER_TREATMENT_STATION_DOSING_BIOCHEMICAL_OPERATION",
+        "edge:specialized-occurs:FIRST_S06_SPEC_PROCESS_WASTEWATER_TREATMENT_STATION_DOSING_BIOCHEMICAL_OPERATION"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:eco-kb:specialized-items"
+      ],
+      "origin_repo": "coco830/eco-semantic-knowledge-base",
+      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.88,
+      "evidence_count": 3,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "ready",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0067",
+    "title": "调漆、喷涂、流平、烘干全流程封闭与微负压核查执行卡",
+    "root_issue_type": "issue:eco-kb:FIRST_S10_SPEC_PROCESS_SPRAYING_COATING_ENCLOSURE_MICRO_NEGATIVE_PRESSURE",
+    "dimension": "vocs_emission",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "issue:eco-kb:FIRST_S10_SPEC_PROCESS_SPRAYING_COATING_ENCLOSURE_MICRO_NEGATIVE_PRESSURE",
+        "description": "喷涂/涂装/涂布"
+      }
+    ],
+    "related_obligations": [],
+    "law_refs": [],
+    "tech_spec_refs": [],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "issue:eco-kb:FIRST_S10_SPEC_PROCESS_SPRAYING_COATING_ENCLOSURE_MICRO_NEGATIVE_PRESSURE"
+      ],
+      "edges": [
+        "edge:specialized-evidence:FIRST_S10_SPEC_PROCESS_SPRAYING_COATING_ENCLOSURE_MICRO_NEGATIVE_PRESSURE",
+        "edge:specialized-manifest:FIRST_S10_SPEC_PROCESS_SPRAYING_COATING_ENCLOSURE_MICRO_NEGATIVE_PRESSURE",
+        "edge:specialized-occurs:FIRST_S10_SPEC_PROCESS_SPRAYING_COATING_ENCLOSURE_MICRO_NEGATIVE_PRESSURE"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:eco-kb:specialized-items"
+      ],
+      "origin_repo": "coco830/eco-semantic-knowledge-base",
+      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.88,
+      "evidence_count": 3,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "ready",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0068",
+    "title": "铀钍矿冶放射性废物专项核查执行卡",
+    "root_issue_type": "issue:eco-kb:FIRST_S12_SPEC_PROCESS_URANIUM_THORIUM_MINING_RAD_WASTE",
+    "dimension": "radiation",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "issue:eco-kb:FIRST_S12_SPEC_PROCESS_URANIUM_THORIUM_MINING_RAD_WASTE",
+        "description": "铀钍矿冶放射性废物"
+      }
+    ],
+    "related_obligations": [],
+    "law_refs": [],
+    "tech_spec_refs": [],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "issue:eco-kb:FIRST_S12_SPEC_PROCESS_URANIUM_THORIUM_MINING_RAD_WASTE"
+      ],
+      "edges": [
+        "edge:specialized-evidence:FIRST_S12_SPEC_PROCESS_URANIUM_THORIUM_MINING_RAD_WASTE",
+        "edge:specialized-manifest:FIRST_S12_SPEC_PROCESS_URANIUM_THORIUM_MINING_RAD_WASTE",
+        "edge:specialized-occurs:FIRST_S12_SPEC_PROCESS_URANIUM_THORIUM_MINING_RAD_WASTE"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:eco-kb:specialized-items"
+      ],
+      "origin_repo": "coco830/eco-semantic-knowledge-base",
+      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.88,
+      "evidence_count": 3,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "ready",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0069",
+    "title": "锅炉/燃烧供热专项核查执行卡",
+    "root_issue_type": "issue:eco-kb:FIRST_S10_SPEC_PROCESS_BOILER_COMBUSTION",
+    "dimension": "boiler_combustion",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "issue:eco-kb:FIRST_S10_SPEC_PROCESS_BOILER_COMBUSTION",
+        "description": "锅炉/燃烧供热"
+      }
+    ],
+    "related_obligations": [],
+    "law_refs": [],
+    "tech_spec_refs": [],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "issue:eco-kb:FIRST_S10_SPEC_PROCESS_BOILER_COMBUSTION"
+      ],
+      "edges": [
+        "edge:specialized-evidence:FIRST_S10_SPEC_PROCESS_BOILER_COMBUSTION",
+        "edge:specialized-manifest:FIRST_S10_SPEC_PROCESS_BOILER_COMBUSTION",
+        "edge:specialized-occurs:FIRST_S10_SPEC_PROCESS_BOILER_COMBUSTION"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:eco-kb:specialized-items"
+      ],
+      "origin_repo": "coco830/eco-semantic-knowledge-base",
+      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.88,
+      "evidence_count": 3,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "ready",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0070",
+    "title": "VOCs溶剂使用、无组织排放与废气治理 FIRST执行卡",
+    "root_issue_type": "inspection:show-if:SHOWIF::SCN_VOCS_SOLVENT_AND_TREATMENT::FIRST",
+    "dimension": "环保现场管理",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "inspection:show-if:SHOWIF::SCN_VOCS_SOLVENT_AND_TREATMENT::FIRST",
+        "description": "VOCs溶剂使用、无组织排放与废气治理 FIRST"
+      }
+    ],
+    "related_obligations": [],
+    "law_refs": [],
+    "tech_spec_refs": [],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "inspection:show-if:SHOWIF::SCN_VOCS_SOLVENT_AND_TREATMENT::FIRST"
+      ],
+      "edges": [
+        "edge:show-if:SHOWIF::SCN_VOCS_SOLVENT_AND_TREATMENT::FIRST"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:eco-kb:show-if"
+      ],
+      "origin_repo": "coco830/eco-semantic-knowledge-base",
+      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_asset": "data/approved_baseline/approved_show_if_rules_v1_0.csv"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.88,
+      "evidence_count": 1,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "ready",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0071",
+    "title": "VOCs溶剂使用、无组织排放与废气治理 MONTHLY执行卡",
+    "root_issue_type": "inspection:show-if:SHOWIF::SCN_VOCS_SOLVENT_AND_TREATMENT::MONTHLY",
+    "dimension": "环保现场管理",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "inspection:show-if:SHOWIF::SCN_VOCS_SOLVENT_AND_TREATMENT::MONTHLY",
+        "description": "VOCs溶剂使用、无组织排放与废气治理 MONTHLY"
+      }
+    ],
+    "related_obligations": [],
+    "law_refs": [],
+    "tech_spec_refs": [],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "inspection:show-if:SHOWIF::SCN_VOCS_SOLVENT_AND_TREATMENT::MONTHLY"
+      ],
+      "edges": [
+        "edge:show-if:SHOWIF::SCN_VOCS_SOLVENT_AND_TREATMENT::MONTHLY"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:eco-kb:show-if"
+      ],
+      "origin_repo": "coco830/eco-semantic-knowledge-base",
+      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_asset": "data/approved_baseline/approved_show_if_rules_v1_0.csv"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.88,
+      "evidence_count": 1,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "ready",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0072",
+    "title": "一类重金属及特殊废水（含氰、含铬、含镍）独立收集与防腐防渗核查执行卡",
+    "root_issue_type": "inspection:specialized:FIRST_S06_SPEC_PROCESS_ELECTROPLATING_ACID_PICKLING_HEAVY_METAL_SPECIAL_WASTEWATER_SEPARATION",
+    "dimension": "wastewater_discharge_route",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "inspection:specialized:FIRST_S06_SPEC_PROCESS_ELECTROPLATING_ACID_PICKLING_HEAVY_METAL_SPECIAL_WASTEWATER_SEPARATION",
+        "description": "一类重金属及特殊废水（含氰、含铬、含镍）独立收集与防腐防渗核查"
+      }
+    ],
+    "related_obligations": [],
+    "law_refs": [],
+    "tech_spec_refs": [],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "inspection:specialized:FIRST_S06_SPEC_PROCESS_ELECTROPLATING_ACID_PICKLING_HEAVY_METAL_SPECIAL_WASTEWATER_SEPARATION"
+      ],
+      "edges": [
+        "edge:specialized-manifest:FIRST_S06_SPEC_PROCESS_ELECTROPLATING_ACID_PICKLING_HEAVY_METAL_SPECIAL_WASTEWATER_SEPARATION"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:eco-kb:specialized-items"
+      ],
+      "origin_repo": "coco830/eco-semantic-knowledge-base",
+      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.86,
+      "evidence_count": 1,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "ready",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0073",
+    "title": "低VOCs涂料/油墨/胶黏剂替代及MSDS核查执行卡",
+    "root_issue_type": "inspection:specialized:FIRST_S10_SPEC_PROCESS_SPRAYING_COATING_LOW_VOCS_MSDS_LEDGER",
+    "dimension": "vocs_emission",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "inspection:specialized:FIRST_S10_SPEC_PROCESS_SPRAYING_COATING_LOW_VOCS_MSDS_LEDGER",
+        "description": "低VOCs涂料/油墨/胶黏剂替代及MSDS核查"
+      }
+    ],
+    "related_obligations": [],
+    "law_refs": [],
+    "tech_spec_refs": [],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "inspection:specialized:FIRST_S10_SPEC_PROCESS_SPRAYING_COATING_LOW_VOCS_MSDS_LEDGER"
+      ],
+      "edges": [
+        "edge:specialized-manifest:FIRST_S10_SPEC_PROCESS_SPRAYING_COATING_LOW_VOCS_MSDS_LEDGER"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:eco-kb:specialized-items"
+      ],
+      "origin_repo": "coco830/eco-semantic-knowledge-base",
+      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.86,
+      "evidence_count": 1,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "ready",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0074",
+    "title": "侧吸风罩收集效果及洗涤塔加药核查执行卡",
+    "root_issue_type": "inspection:specialized:FIRST_S06_SPEC_PROCESS_ELECTROPLATING_ACID_PICKLING_ACID_MIST_HOOD_SCRUBBER_DOSING",
+    "dimension": "wastewater_discharge_route",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "inspection:specialized:FIRST_S06_SPEC_PROCESS_ELECTROPLATING_ACID_PICKLING_ACID_MIST_HOOD_SCRUBBER_DOSING",
+        "description": "侧吸风罩收集效果及洗涤塔加药核查"
+      }
+    ],
+    "related_obligations": [],
+    "law_refs": [],
+    "tech_spec_refs": [],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "inspection:specialized:FIRST_S06_SPEC_PROCESS_ELECTROPLATING_ACID_PICKLING_ACID_MIST_HOOD_SCRUBBER_DOSING"
+      ],
+      "edges": [
+        "edge:specialized-manifest:FIRST_S06_SPEC_PROCESS_ELECTROPLATING_ACID_PICKLING_ACID_MIST_HOOD_SCRUBBER_DOSING"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:eco-kb:specialized-items"
+      ],
+      "origin_repo": "coco830/eco-semantic-knowledge-base",
+      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.86,
+      "evidence_count": 1,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "ready",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0075",
+    "title": "加油站油气回收、地下储罐与土壤地下水风险 FIRST执行卡",
+    "root_issue_type": "inspection:show-if:SHOWIF::SCN_GAS_STATION_VAPOR_UST::FIRST",
+    "dimension": "环保现场管理",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "inspection:show-if:SHOWIF::SCN_GAS_STATION_VAPOR_UST::FIRST",
+        "description": "加油站油气回收、地下储罐与土壤地下水风险 FIRST"
+      }
+    ],
+    "related_obligations": [],
+    "law_refs": [],
+    "tech_spec_refs": [],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "inspection:show-if:SHOWIF::SCN_GAS_STATION_VAPOR_UST::FIRST"
+      ],
+      "edges": [
+        "edge:show-if:SHOWIF::SCN_GAS_STATION_VAPOR_UST::FIRST"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:eco-kb:show-if"
+      ],
+      "origin_repo": "coco830/eco-semantic-knowledge-base",
+      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_asset": "data/approved_baseline/approved_show_if_rules_v1_0.csv"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.88,
+      "evidence_count": 1,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "ready",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0076",
+    "title": "加油站油气回收、地下储罐与土壤地下水风险 MONTHLY执行卡",
+    "root_issue_type": "inspection:show-if:SHOWIF::SCN_GAS_STATION_VAPOR_UST::MONTHLY",
+    "dimension": "环保现场管理",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "inspection:show-if:SHOWIF::SCN_GAS_STATION_VAPOR_UST::MONTHLY",
+        "description": "加油站油气回收、地下储罐与土壤地下水风险 MONTHLY"
+      }
+    ],
+    "related_obligations": [],
+    "law_refs": [],
+    "tech_spec_refs": [],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "inspection:show-if:SHOWIF::SCN_GAS_STATION_VAPOR_UST::MONTHLY"
+      ],
+      "edges": [
+        "edge:show-if:SHOWIF::SCN_GAS_STATION_VAPOR_UST::MONTHLY"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:eco-kb:show-if"
+      ],
+      "origin_repo": "coco830/eco-semantic-knowledge-base",
+      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_asset": "data/approved_baseline/approved_show_if_rules_v1_0.csv"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.88,
+      "evidence_count": 1,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "ready",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0077",
+    "title": "医废暂存间警示标志和专用包装执行卡",
+    "root_issue_type": "inspection:specialized:FIRST_S07_SPEC_MEDWASTE_TEMP_STORAGE_SIGNAGE",
+    "dimension": "solid_waste_medical_waste",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "inspection:specialized:FIRST_S07_SPEC_MEDWASTE_TEMP_STORAGE_SIGNAGE",
+        "description": "医废暂存间警示标志和专用包装"
+      }
+    ],
+    "related_obligations": [],
+    "law_refs": [],
+    "tech_spec_refs": [],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "inspection:specialized:FIRST_S07_SPEC_MEDWASTE_TEMP_STORAGE_SIGNAGE"
+      ],
+      "edges": [
+        "edge:specialized-manifest:FIRST_S07_SPEC_MEDWASTE_TEMP_STORAGE_SIGNAGE"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:eco-kb:specialized-items"
+      ],
+      "origin_repo": "coco830/eco-semantic-knowledge-base",
+      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.86,
+      "evidence_count": 1,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "ready",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0078",
+    "title": "医疗废水/医废/放射诊疗专项核查执行卡",
+    "root_issue_type": "inspection:specialized:FIRST_S06_SPEC_PROCESS_MEDICAL_WASTEWATER_WASTE_RADIATION",
+    "dimension": "medical_waste",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "inspection:specialized:FIRST_S06_SPEC_PROCESS_MEDICAL_WASTEWATER_WASTE_RADIATION",
+        "description": "医疗废水/医废/放射诊疗专项核查"
+      }
+    ],
+    "related_obligations": [],
+    "law_refs": [],
+    "tech_spec_refs": [],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "inspection:specialized:FIRST_S06_SPEC_PROCESS_MEDICAL_WASTEWATER_WASTE_RADIATION"
+      ],
+      "edges": [
+        "edge:specialized-manifest:FIRST_S06_SPEC_PROCESS_MEDICAL_WASTEWATER_WASTE_RADIATION"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:eco-kb:specialized-items"
+      ],
+      "origin_repo": "coco830/eco-semantic-knowledge-base",
+      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.86,
+      "evidence_count": 1,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "ready",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0079",
+    "title": "医疗废水消毒加药和检测记录闭环执行卡",
+    "root_issue_type": "inspection:specialized:FIRST_S06_SPEC_HOSPITAL_DISINFECTION_DOSING_RECORD",
+    "dimension": "wastewater_treatment_medical_disinfection",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "inspection:specialized:FIRST_S06_SPEC_HOSPITAL_DISINFECTION_DOSING_RECORD",
+        "description": "医疗废水消毒加药和检测记录闭环"
+      }
+    ],
+    "related_obligations": [],
+    "law_refs": [],
+    "tech_spec_refs": [],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "inspection:specialized:FIRST_S06_SPEC_HOSPITAL_DISINFECTION_DOSING_RECORD"
+      ],
+      "edges": [
+        "edge:specialized-manifest:FIRST_S06_SPEC_HOSPITAL_DISINFECTION_DOSING_RECORD"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:eco-kb:specialized-items"
+      ],
+      "origin_repo": "coco830/eco-semantic-knowledge-base",
+      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.86,
+      "evidence_count": 1,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "ready",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0080",
+    "title": "医疗废水消毒接触时间执行卡",
+    "root_issue_type": "inspection:specialized:FIRST_S06_SPEC_HOSPITAL_CONTACT_TIME_1H",
+    "dimension": "wastewater_treatment_medical_disinfection",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "inspection:specialized:FIRST_S06_SPEC_HOSPITAL_CONTACT_TIME_1H",
+        "description": "医疗废水消毒接触时间"
+      }
+    ],
+    "related_obligations": [],
+    "law_refs": [],
+    "tech_spec_refs": [],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "inspection:specialized:FIRST_S06_SPEC_HOSPITAL_CONTACT_TIME_1H"
+      ],
+      "edges": [
+        "edge:specialized-manifest:FIRST_S06_SPEC_HOSPITAL_CONTACT_TIME_1H"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:eco-kb:specialized-items"
+      ],
+      "origin_repo": "coco830/eco-semantic-knowledge-base",
+      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.86,
+      "evidence_count": 1,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "ready",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0081",
+    "title": "医疗废水消毒接触池出口总余氯执行卡",
+    "root_issue_type": "inspection:specialized:FIRST_S06_SPEC_HOSPITAL_RESIDUAL_CHLORINE_3_10",
+    "dimension": "wastewater_treatment_medical_disinfection",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "inspection:specialized:FIRST_S06_SPEC_HOSPITAL_RESIDUAL_CHLORINE_3_10",
+        "description": "医疗废水消毒接触池出口总余氯"
+      }
+    ],
+    "related_obligations": [],
+    "law_refs": [],
+    "tech_spec_refs": [],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "inspection:specialized:FIRST_S06_SPEC_HOSPITAL_RESIDUAL_CHLORINE_3_10"
+      ],
+      "edges": [
+        "edge:specialized-manifest:FIRST_S06_SPEC_HOSPITAL_RESIDUAL_CHLORINE_3_10"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:eco-kb:specialized-items"
+      ],
+      "origin_repo": "coco830/eco-semantic-knowledge-base",
+      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.86,
+      "evidence_count": 1,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "ready",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0082",
+    "title": "医疗废物48小时内转运核查执行卡",
+    "root_issue_type": "inspection:specialized:FIRST_S07_SPEC_MEDWASTE_48H_TRANSFER",
+    "dimension": "solid_waste_medical_waste",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "inspection:specialized:FIRST_S07_SPEC_MEDWASTE_48H_TRANSFER",
+        "description": "医疗废物48小时内转运核查"
+      }
+    ],
+    "related_obligations": [],
+    "law_refs": [],
+    "tech_spec_refs": [],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "inspection:specialized:FIRST_S07_SPEC_MEDWASTE_48H_TRANSFER"
+      ],
+      "edges": [
+        "edge:specialized-manifest:FIRST_S07_SPEC_MEDWASTE_48H_TRANSFER"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:eco-kb:specialized-items"
+      ],
+      "origin_repo": "coco830/eco-semantic-knowledge-base",
+      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.86,
+      "evidence_count": 1,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "ready",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0083",
+    "title": "医疗废物、医疗废水与放射诊疗确认 FIRST执行卡",
+    "root_issue_type": "inspection:show-if:SHOWIF::SCN_MEDICAL_WASTE_RADIATION::FIRST",
+    "dimension": "环保现场管理",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "inspection:show-if:SHOWIF::SCN_MEDICAL_WASTE_RADIATION::FIRST",
+        "description": "医疗废物、医疗废水与放射诊疗确认 FIRST"
+      }
+    ],
+    "related_obligations": [],
+    "law_refs": [],
+    "tech_spec_refs": [],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "inspection:show-if:SHOWIF::SCN_MEDICAL_WASTE_RADIATION::FIRST"
+      ],
+      "edges": [
+        "edge:show-if:SHOWIF::SCN_MEDICAL_WASTE_RADIATION::FIRST"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:eco-kb:show-if"
+      ],
+      "origin_repo": "coco830/eco-semantic-knowledge-base",
+      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_asset": "data/approved_baseline/approved_show_if_rules_v1_0.csv"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.88,
+      "evidence_count": 1,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "ready",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0084",
+    "title": "医疗废物、医疗废水与放射诊疗确认 MONTHLY执行卡",
+    "root_issue_type": "inspection:show-if:SHOWIF::SCN_MEDICAL_WASTE_RADIATION::MONTHLY",
+    "dimension": "环保现场管理",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "inspection:show-if:SHOWIF::SCN_MEDICAL_WASTE_RADIATION::MONTHLY",
+        "description": "医疗废物、医疗废水与放射诊疗确认 MONTHLY"
+      }
+    ],
+    "related_obligations": [],
+    "law_refs": [],
+    "tech_spec_refs": [],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "inspection:show-if:SHOWIF::SCN_MEDICAL_WASTE_RADIATION::MONTHLY"
+      ],
+      "edges": [
+        "edge:show-if:SHOWIF::SCN_MEDICAL_WASTE_RADIATION::MONTHLY"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:eco-kb:show-if"
+      ],
+      "origin_repo": "coco830/eco-semantic-knowledge-base",
+      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_asset": "data/approved_baseline/approved_show_if_rules_v1_0.csv"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.88,
+      "evidence_count": 1,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "ready",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0085",
+    "title": "印刷/粘合/覆膜专项核查执行卡",
+    "root_issue_type": "inspection:specialized:FIRST_S10_SPEC_PROCESS_PRINTING_GLUING",
+    "dimension": "vocs_emission",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "inspection:specialized:FIRST_S10_SPEC_PROCESS_PRINTING_GLUING",
+        "description": "印刷/粘合/覆膜专项核查"
+      }
+    ],
+    "related_obligations": [],
+    "law_refs": [],
+    "tech_spec_refs": [],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "inspection:specialized:FIRST_S10_SPEC_PROCESS_PRINTING_GLUING"
+      ],
+      "edges": [
+        "edge:specialized-manifest:FIRST_S10_SPEC_PROCESS_PRINTING_GLUING"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:eco-kb:specialized-items"
+      ],
+      "origin_repo": "coco830/eco-semantic-knowledge-base",
+      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.86,
+      "evidence_count": 1,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "ready",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0086",
+    "title": "厂界噪声监测/执行标准专项核查执行卡",
+    "root_issue_type": "inspection:specialized:FIRST_S10_SPEC_PROCESS_BOUNDARY_NOISE_MONITORING",
+    "dimension": "noise_source",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "inspection:specialized:FIRST_S10_SPEC_PROCESS_BOUNDARY_NOISE_MONITORING",
+        "description": "厂界噪声监测/执行标准专项核查"
+      }
+    ],
+    "related_obligations": [],
+    "law_refs": [],
+    "tech_spec_refs": [],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "inspection:specialized:FIRST_S10_SPEC_PROCESS_BOUNDARY_NOISE_MONITORING"
+      ],
+      "edges": [
+        "edge:specialized-manifest:FIRST_S10_SPEC_PROCESS_BOUNDARY_NOISE_MONITORING"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:eco-kb:specialized-items"
+      ],
+      "origin_repo": "coco830/eco-semantic-knowledge-base",
+      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.86,
+      "evidence_count": 1,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "ready",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0087",
+    "title": "厂界噪声监测、执行标准与台账 FIRST执行卡",
+    "root_issue_type": "inspection:show-if:SHOWIF::SCN_NOISE_BOUNDARY_MONITORING_LEDGER::FIRST",
+    "dimension": "环保现场管理",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "inspection:show-if:SHOWIF::SCN_NOISE_BOUNDARY_MONITORING_LEDGER::FIRST",
+        "description": "厂界噪声监测、执行标准与台账 FIRST"
+      }
+    ],
+    "related_obligations": [],
+    "law_refs": [],
+    "tech_spec_refs": [],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "inspection:show-if:SHOWIF::SCN_NOISE_BOUNDARY_MONITORING_LEDGER::FIRST"
+      ],
+      "edges": [
+        "edge:show-if:SHOWIF::SCN_NOISE_BOUNDARY_MONITORING_LEDGER::FIRST"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:eco-kb:show-if"
+      ],
+      "origin_repo": "coco830/eco-semantic-knowledge-base",
+      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_asset": "data/approved_baseline/approved_show_if_rules_v1_0.csv"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.88,
+      "evidence_count": 1,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "ready",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0088",
+    "title": "厂界噪声监测、执行标准与台账 MONTHLY执行卡",
+    "root_issue_type": "inspection:show-if:SHOWIF::SCN_NOISE_BOUNDARY_MONITORING_LEDGER::MONTHLY",
+    "dimension": "环保现场管理",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "inspection:show-if:SHOWIF::SCN_NOISE_BOUNDARY_MONITORING_LEDGER::MONTHLY",
+        "description": "厂界噪声监测、执行标准与台账 MONTHLY"
+      }
+    ],
+    "related_obligations": [],
+    "law_refs": [],
+    "tech_spec_refs": [],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "inspection:show-if:SHOWIF::SCN_NOISE_BOUNDARY_MONITORING_LEDGER::MONTHLY"
+      ],
+      "edges": [
+        "edge:show-if:SHOWIF::SCN_NOISE_BOUNDARY_MONITORING_LEDGER::MONTHLY"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:eco-kb:show-if"
+      ],
+      "origin_repo": "coco830/eco-semantic-knowledge-base",
+      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_asset": "data/approved_baseline/approved_show_if_rules_v1_0.csv"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.88,
+      "evidence_count": 1,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "ready",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0089",
+    "title": "发酵/蒸馏/酒类酿造专项核查执行卡",
+    "root_issue_type": "inspection:specialized:FIRST_S06_SPEC_PROCESS_FERMENTATION_DISTILLATION",
+    "dimension": "wastewater_generation",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "inspection:specialized:FIRST_S06_SPEC_PROCESS_FERMENTATION_DISTILLATION",
+        "description": "发酵/蒸馏/酒类酿造专项核查"
+      }
+    ],
+    "related_obligations": [],
+    "law_refs": [],
+    "tech_spec_refs": [],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "inspection:specialized:FIRST_S06_SPEC_PROCESS_FERMENTATION_DISTILLATION"
+      ],
+      "edges": [
+        "edge:specialized-manifest:FIRST_S06_SPEC_PROCESS_FERMENTATION_DISTILLATION"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:eco-kb:specialized-items"
+      ],
+      "origin_repo": "coco830/eco-semantic-knowledge-base",
+      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.86,
+      "evidence_count": 1,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "ready",
+    "review_status": "APPROVED_BASELINE"
+  },
+  {
+    "card_id": "card:full:0090",
+    "title": "含卤素、重金属及酸碱废液隔离贮存核查执行卡",
+    "root_issue_type": "inspection:specialized:FIRST_S07_SPEC_PROCESS_LABORATORY_WASTE_LIQUID_WASTE_LIQUID_COMPATIBILITY_STORAGE",
+    "dimension": "hazardous_waste",
+    "field_manifestations": [
+      {
+        "issue_type_ref": "inspection:specialized:FIRST_S07_SPEC_PROCESS_LABORATORY_WASTE_LIQUID_WASTE_LIQUID_COMPATIBILITY_STORAGE",
+        "description": "含卤素、重金属及酸碱废液隔离贮存核查"
+      }
+    ],
+    "related_obligations": [],
+    "law_refs": [],
+    "tech_spec_refs": [],
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
+    "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
+    "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
+    "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
+    "pitfalls": [],
+    "graph_slice_refs": {
+      "nodes": [
+        "inspection:specialized:FIRST_S07_SPEC_PROCESS_LABORATORY_WASTE_LIQUID_WASTE_LIQUID_COMPATIBILITY_STORAGE"
+      ],
+      "edges": [
+        "edge:specialized-manifest:FIRST_S07_SPEC_PROCESS_LABORATORY_WASTE_LIQUID_WASTE_LIQUID_COMPATIBILITY_STORAGE"
+      ]
+    },
+    "source_trace": {
+      "source_refs": [
+        "src:eco-kb:specialized-items"
+      ],
+      "origin_repo": "coco830/eco-semantic-knowledge-base",
+      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
+    },
+    "tier_policy": {
+      "shared": true,
+      "private_detail": false
+    },
+    "render_views": {
+      "internal_full": true,
+      "shared_export": true
+    },
+    "quality_score": {
+      "confidence": 0.86,
+      "evidence_count": 1,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "legal_basis_status": "internal_reviewed",
+    "show_or_not_for_director_demo": "ready",
+    "review_status": "APPROVED_BASELINE"
+  }
+]

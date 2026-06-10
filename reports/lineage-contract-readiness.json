@@ -1,0 +1,20 @@
+{
+  "status": "blocked",
+  "government_lineage_real_import": "blocked",
+  "supported_edges": [
+    "replaced_by",
+    "amended_by",
+    "split_into",
+    "merged_into",
+    "inherits_from",
+    "conflicts_with"
+  ],
+  "fixture_cases": [
+    {
+      "old_law_article": "law:swl:art77",
+      "new_code_article": "code:demo:art-x",
+      "edge_type": "inherits_from",
+      "status": "contract_only"
+    }
+  ]
+}

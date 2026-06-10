@@ -4,6 +4,7 @@ import argparse
 import json
 
 from common import EXPORTS_DIR, REPORTS_DIR, load_internal_graph, read_json, write_graph_package, write_json, write_text
+from p2p3_common import FULL_INTERNAL, FULL_SHARED, export_full_packages
 
 FORBIDDEN_SHARED_NODE_TYPES = {
     "enterprise", "facility", "discharge_outlet", "risk_unit", "issue_instance",
@@ -53,8 +54,14 @@ def write_export_report(manifest: dict) -> None:
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--tier", choices=["shared"], default="shared")
+    parser.add_argument("--tier", choices=["shared", "internal"], default="shared")
+    parser.add_argument("--scope", choices=["p1", "full"], default="p1")
     args = parser.parse_args()
+    if args.scope == "full":
+        manifests = export_full_packages()
+        selected = manifests["shared" if args.tier == "shared" else "internal"]
+        print(json.dumps({"exported": str(FULL_SHARED if args.tier == "shared" else FULL_INTERNAL), "counts": selected["record_counts"]}, ensure_ascii=False))
+        return
     graph = load_internal_graph()
     if args.tier == "shared":
         shared = filter_shared(graph)

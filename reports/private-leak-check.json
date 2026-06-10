@@ -1,7 +1,8 @@
 {
   "status": "pass",
   "checked_packages": [
-    "E:\\eco-execution-graph\\data\\exports\\shared_hazardous_waste_v1"
+    "E:\\eco-execution-graph\\data\\exports\\shared_hazardous_waste_v1",
+    "E:\\eco-execution-graph\\data\\exports\\shared_product_v1"
   ],
   "violations": []
 }

@@ -1,13 +1,15 @@
 import cytoscape from "cytoscape";
-import { createIcons, LockKeyholeOpen, Scan, ShieldCheck } from "lucide";
+import { createIcons, LockKeyholeOpen, PlayCircle, Scan, ShieldCheck } from "lucide";
 import "./styles.css";
 
-createIcons({ icons: { LockKeyholeOpen, Scan, ShieldCheck } });
+createIcons({ icons: { LockKeyholeOpen, PlayCircle, Scan, ShieldCheck } });
 
 const state = {
   graph: null,
+  datasets: {},
   cards: [],
   view: "internal",
+  product: "full",
   entry: "law",
   centerId: null,
   activeEdgeTypes: new Set(["manifests_as", "regulated_by", "evidenced_by", "pitfall_of", "supports_stat"]),
@@ -15,9 +17,16 @@ const state = {
 };
 
 const entryCenters = {
-  law: "law:swl:art77",
-  issue: "issue:hw:label-incomplete",
-  industry: "industry:demo:manufacturing",
+  full: {
+    law: "law:swl:art77",
+    issue: "issue:hw:label-incomplete",
+    industry: "scenario:危险废物识别、暂存与转移",
+  },
+  p1: {
+    law: "law:swl:art77",
+    issue: "issue:hw:label-incomplete",
+    industry: "industry:demo:manufacturing",
+  },
 };
 
 const nodeTypeLabel = {
@@ -45,7 +54,7 @@ function byId(collection, idKey) {
 }
 
 function allowedNode(node) {
-  return state.view === "internal" || node.tier !== "private";
+  return state.view === "internal" || node.tier === "shared";
 }
 
 function allowedEdge(edge, visibleNodeIds) {
@@ -55,9 +64,31 @@ function allowedEdge(edge, visibleNodeIds) {
 }
 
 function buildElements() {
-  const nodes = state.graph.nodes.filter(allowedNode);
-  const visibleNodeIds = new Set(nodes.map((node) => node.node_id));
-  const edges = state.graph.edges.filter((edge) => allowedEdge(edge, visibleNodeIds));
+  const allowedNodes = state.graph.nodes.filter(allowedNode);
+  const visibleNodeIds = new Set(allowedNodes.map((node) => node.node_id));
+  const allowedEdges = state.graph.edges.filter((edge) => allowedEdge(edge, visibleNodeIds));
+  const centerId = visibleNodeIds.has(state.centerId) ? state.centerId : entryCenters[state.product].issue;
+  const egoIds = new Set([centerId]);
+  const firstHop = allowedEdges
+    .filter((edge) => edge.from === centerId || edge.to === centerId)
+    .slice(0, 36);
+  firstHop.forEach((edge) => {
+    egoIds.add(edge.from);
+    egoIds.add(edge.to);
+  });
+  if (egoIds.size < 42) {
+    const firstHopIds = new Set(egoIds);
+    for (const edge of allowedEdges) {
+      if (egoIds.size >= 72) break;
+      if (firstHopIds.has(edge.from) || firstHopIds.has(edge.to)) {
+        egoIds.add(edge.from);
+        egoIds.add(edge.to);
+      }
+    }
+  }
+  const nodes = allowedNodes.filter((node) => egoIds.has(node.node_id));
+  const nodeIds = new Set(nodes.map((node) => node.node_id));
+  const edges = allowedEdges.filter((edge) => nodeIds.has(edge.from) && nodeIds.has(edge.to));
   return [
     ...nodes.map((node) => ({
       data: {
@@ -87,7 +118,7 @@ function buildElements() {
 function renderGraph() {
   const elements = buildElements();
   const centerExists = elements.some((item) => item.data.id === state.centerId);
-  if (!centerExists) state.centerId = entryCenters.issue;
+  if (!centerExists) state.centerId = entryCenters[state.product].issue;
 
   if (!state.cy) {
     state.cy = cytoscape({
@@ -150,6 +181,7 @@ function renderGraph() {
 function findCardForNode(nodeId) {
   return state.cards.find((card) => card.field_manifestations?.some((item) => item.issue_type_ref === nodeId))
     || state.cards.find((card) => card.law_article_ref?.node_id === nodeId)
+    || state.cards.find((card) => card.root_issue_type === nodeId)
     || state.cards[0];
 }
 
@@ -175,9 +207,11 @@ function selectNode(nodeId, fit = true) {
 
   const manifestation = card.field_manifestations?.[0]?.description || node.attrs?.summary || node.attrs?.obligation_summary || "-";
   document.getElementById("manifestation").textContent = manifestation;
-  document.getElementById("evidenceList").innerHTML = (card.evidence_categories || [])
-    .map((item) => `<li>${item.label}<span>${item.tier}</span></li>`)
-    .join("");
+  const evidenceItems = card.evidence_categories?.map((item) => ({ label: item.label, hint: item.tier }))
+    || (card.evidence_summary ? [{ label: card.evidence_summary, hint: "shared 概念级" }] : []);
+  document.getElementById("evidenceList").innerHTML = evidenceItems
+    .map((item) => `<li>${item.label}<span>${item.hint}</span></li>`)
+    .join("") || "<li>暂无证据类别</li>";
   const boundary = state.view === "shared"
     ? "共有视图仅展示问题分类、法条瘦引用、证据类别、概念级字段和聚合统计；判定标准、整改模板、报告表达不进入共有包。"
     : "内部视图可见 private runtime 节点，用于证明能力存在；导出时由物理过滤和泄漏检测兜底。";
@@ -209,16 +243,27 @@ function bindControls() {
     button.addEventListener("click", () => {
       state.view = button.dataset.view;
       document.querySelectorAll("[data-view]").forEach((item) => item.classList.toggle("is-active", item === button));
+      applyDataset();
       document.getElementById("viewStatus").textContent = state.view === "shared"
-        ? "共有视图: private 节点已物理隐藏,只保留共有口径。"
+        ? "共有视图: 已加载 shared_product_v1 导出包,只保留共有口径。"
         : "内部全量视图: 可见 private runtime 节点。";
+      renderGraph();
+    });
+  });
+  document.querySelectorAll("[data-product]").forEach((button) => {
+    button.addEventListener("click", () => {
+      state.product = button.dataset.product;
+      document.querySelectorAll("[data-product]").forEach((item) => item.classList.toggle("is-active", item === button));
+      applyDataset();
+      state.centerId = entryCenters[state.product][state.entry];
+      updateMetrics();
       renderGraph();
     });
   });
   document.querySelectorAll("[data-entry]").forEach((button) => {
     button.addEventListener("click", () => {
       state.entry = button.dataset.entry;
-      state.centerId = entryCenters[state.entry];
+      state.centerId = entryCenters[state.product][state.entry];
       document.querySelectorAll("[data-entry]").forEach((item) => item.classList.toggle("is-active", item === button));
       selectNode(state.centerId);
     });
@@ -231,19 +276,67 @@ function bindControls() {
     });
   });
   document.getElementById("fitButton").addEventListener("click", () => state.cy?.fit(undefined, 40));
+  document.getElementById("directorButton").addEventListener("click", () => {
+    enterDirectorMode();
+  });
+}
+
+function syncActiveControls() {
+  document.querySelectorAll("[data-product]").forEach((item) => item.classList.toggle("is-active", item.dataset.product === state.product));
+  document.querySelectorAll("[data-view]").forEach((item) => item.classList.toggle("is-active", item.dataset.view === state.view));
+  document.querySelectorAll("[data-entry]").forEach((item) => item.classList.toggle("is-active", item.dataset.entry === state.entry));
+}
+
+function enterDirectorMode() {
+  state.product = "full";
+  state.view = "shared";
+  state.entry = "issue";
+  applyDataset();
+  state.centerId = entryCenters.full.issue;
+  syncActiveControls();
+  document.getElementById("viewStatus").textContent = "主任演示: shared_product_v1 + 19 张危废展示卡, private runtime 不进入画布。";
+  updateMetrics();
+  renderGraph();
+}
+
+function applyDataset() {
+  const key = state.product === "full" && state.view === "shared" ? "fullShared" : state.product;
+  const dataset = state.datasets[key] || state.datasets.full || state.datasets.p1;
+  state.graph = dataset.graph;
+  state.cards = dataset.cards;
 }
 
 async function boot() {
-  const [graph, cards] = await Promise.all([
+  const [fullGraph, fullCards, fullSharedGraph, fullSharedCards, p1Graph, p1Cards] = await Promise.all([
+    fetch("/demo-data/full-graph.json").then((response) => response.json()),
+    fetch("/demo-data/full-cards.json").then((response) => response.json()),
+    fetch("/demo-data/full-shared-graph.json").then((response) => response.json()),
+    fetch("/demo-data/full-shared-cards.json").then((response) => response.json()),
     fetch("/demo-data/graph.json").then((response) => response.json()),
     fetch("/demo-data/cards.json").then((response) => response.json()),
   ]);
-  state.graph = graph;
-  state.cards = cards;
-  state.centerId = entryCenters.law;
+  state.datasets = {
+    full: { graph: fullGraph, cards: fullCards },
+    fullShared: { graph: fullSharedGraph, cards: fullSharedCards },
+    p1: { graph: p1Graph, cards: p1Cards },
+  };
+  applyDataset();
+  state.centerId = entryCenters.full.law;
   updateMetrics();
   bindControls();
-  renderGraph();
+  const params = new URLSearchParams(window.location.search);
+  if (params.get("director") === "1") enterDirectorMode();
+  else if (params.get("view") === "shared") {
+    state.view = "shared";
+    applyDataset();
+    state.centerId = entryCenters.full.law;
+    syncActiveControls();
+    document.getElementById("viewStatus").textContent = "共有视图: 已加载 shared_product_v1 导出包,只保留共有口径。";
+    updateMetrics();
+    renderGraph();
+  } else {
+    renderGraph();
+  }
 }
 
 boot().catch((error) => {

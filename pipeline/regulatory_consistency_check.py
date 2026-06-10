@@ -1,5 +1,15 @@
 from __future__ import annotations
 
+import sys
+
+from p2p3_common import regulatory_full
+
+if "--scope" in sys.argv and "full" in sys.argv:
+    import json
+    result = regulatory_full()
+    print(json.dumps(result, ensure_ascii=False))
+    raise SystemExit(1 if result["findings"] else 0)
+
 import json
 import re
 

@@ -1,0 +1,13 @@
+{
+  "status": "pass",
+  "nodes_by_origin": {
+    "coco830/eco-semantic-knowledge-base": 446,
+    "P1 seed compatibility sample": 67
+  },
+  "edges_by_origin": {
+    "coco830/eco-semantic-knowledge-base": 912,
+    "P1 seed compatibility sample": 95
+  },
+  "cards": 90,
+  "p1_seed_role": "compatibility_sample_only"
+}
