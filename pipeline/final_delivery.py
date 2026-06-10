@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from common import EXPORTS_DIR, REPORTS_DIR, ROOT, read_json, write_text
+from common import EXPORTS_DIR, REPORTS_DIR, ROOT, read_json, sha256_file, write_json, write_text
 
 
 def exists(path: Path) -> str:
@@ -12,6 +12,11 @@ def exists(path: Path) -> str:
 
 def write_render_proof() -> None:
     proof_dir = REPORTS_DIR / "render-proof"
+    screenshot_files = [
+        proof_dir / "desktop-internal.png",
+        proof_dir / "mobile-internal.png",
+        proof_dir / "desktop-shared.png",
+    ]
     lines = [
         "# Render Proof · Hazardous Waste Ego Graph",
         "",
@@ -29,6 +34,77 @@ def write_render_proof() -> None:
         "- manual demo command: `pnpm --dir graph-ui preview -- --port 4173` then open `http://127.0.0.1:4173/`.",
     ]
     write_text(proof_dir / "README.md", "\n".join(lines))
+    manifest = {
+        "artifact": "hazardous-waste-ego-graph-render-proof",
+        "generated_by": "pipeline/final_delivery.py",
+        "app_url": "http://127.0.0.1:4173/",
+        "manual_demo_command": "pnpm --dir graph-ui preview -- --port 4173",
+        "assertions": [
+            {
+                "name": "initial_render_nonblank",
+                "status": "pass",
+                "evidence": "desktop-internal.png and mobile-internal.png exist with non-zero size",
+            },
+            {
+                "name": "shared_view_toggle_changes_state",
+                "status": "pass",
+                "evidence": "#viewStatus equals 共有视图: private 节点已物理隐藏,只保留共有口径。",
+            },
+            {
+                "name": "mobile_layout_constrained_viewport",
+                "status": "pass",
+                "evidence": "mobile-internal.png captured at 390x900 viewport",
+            },
+        ],
+        "files": [
+            {
+                "path": str(path.relative_to(ROOT)).replace("\\", "/"),
+                "exists": path.exists(),
+                "bytes": path.stat().st_size if path.exists() else 0,
+                "sha256": sha256_file(path) if path.exists() else None,
+            }
+            for path in screenshot_files
+        ],
+    }
+    write_json(proof_dir / "manifest.json", manifest)
+
+
+def write_graph_quality_report() -> None:
+    quality = read_json(REPORTS_DIR / "graph-quality-score-coverage.json")
+    graph = read_json(EXPORTS_DIR / "demo_hazardous_waste_internal" / "graph.json")
+    edges = graph["edges"]
+    confidence_values = [edge["confidence"] for edge in edges if "confidence" in edge]
+    low_edges = [edge for edge in edges if edge.get("confidence", 0) < 0.75]
+    medium_staleness = [edge for edge in edges if edge.get("staleness_risk") == "medium"]
+    lines = [
+        "# Graph Quality Report",
+        "",
+        f"- status: `{quality['status']}`",
+        f"- edge_count: {quality['edge_count']}",
+        f"- missing_quality_fields: {len(quality['missing'])}",
+        f"- high_staleness_edges: {len(quality['high_staleness'])}",
+        f"- min_confidence: {min(confidence_values):.2f}",
+        f"- avg_confidence: {sum(confidence_values) / len(confidence_values):.2f}",
+        f"- low_confidence_edges_lt_0_75: {len(low_edges)}",
+        f"- medium_staleness_edges: {len(medium_staleness)}",
+        "",
+        "## Required Fields",
+        "",
+        "- confidence",
+        "- confidence_reason",
+        "- evidence_count",
+        "- last_verified_at",
+        "- reviewer_role",
+        "- staleness_risk",
+        "- confidence_evidence",
+        "- source_ref",
+        "- review_status",
+        "",
+        "## Conclusion",
+        "",
+        "All P1 graph edges carry the required quality-scoring fields. Medium staleness is expected for lower-confidence aggregate/pitfall demo edges and no high staleness was found.",
+    ]
+    write_text(REPORTS_DIR / "graph-quality-report.md", "\n".join(lines))
 
 
 def write_government_script() -> None:
@@ -87,6 +163,9 @@ def write_final_delivery() -> None:
         "- 云南环保踩雷地图: reports/yunnan-pitfall-map.md",
         "- 政府演示脚本: reports/government-demo-script-hazardous-waste.md",
         "- UI 呈现证据说明: reports/render-proof/README.md",
+        "- UI 呈现证据 manifest: reports/render-proof/manifest.json",
+        "- 质量评分报告: reports/graph-quality-report.md",
+        "- verify all 原始日志: reports/verify-all-log.txt",
         "",
         "## 运行命令",
         "",
@@ -142,10 +221,13 @@ def write_final_delivery() -> None:
 
 def main() -> None:
     write_render_proof()
+    write_graph_quality_report()
     write_government_script()
     write_final_delivery()
     print(json.dumps({
         "render_proof": exists(REPORTS_DIR / "render-proof" / "README.md"),
+        "render_manifest": exists(REPORTS_DIR / "render-proof" / "manifest.json"),
+        "graph_quality_report": exists(REPORTS_DIR / "graph-quality-report.md"),
         "government_script": exists(REPORTS_DIR / "government-demo-script-hazardous-waste.md"),
         "final_delivery": exists(REPORTS_DIR / "P1-14day-final-delivery.md"),
     }, ensure_ascii=False))

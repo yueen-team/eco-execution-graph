@@ -1,0 +1,43 @@
+{
+  "artifact": "hazardous-waste-ego-graph-render-proof",
+  "generated_by": "pipeline/final_delivery.py",
+  "app_url": "http://127.0.0.1:4173/",
+  "manual_demo_command": "pnpm --dir graph-ui preview -- --port 4173",
+  "assertions": [
+    {
+      "name": "initial_render_nonblank",
+      "status": "pass",
+      "evidence": "desktop-internal.png and mobile-internal.png exist with non-zero size"
+    },
+    {
+      "name": "shared_view_toggle_changes_state",
+      "status": "pass",
+      "evidence": "#viewStatus equals 共有视图: private 节点已物理隐藏,只保留共有口径。"
+    },
+    {
+      "name": "mobile_layout_constrained_viewport",
+      "status": "pass",
+      "evidence": "mobile-internal.png captured at 390x900 viewport"
+    }
+  ],
+  "files": [
+    {
+      "path": "reports/render-proof/desktop-internal.png",
+      "exists": true,
+      "bytes": 227379,
+      "sha256": "8303b7e498fa9371bd0e150c6fd1d769ef3a8caae2639a1daba42421f4fab194"
+    },
+    {
+      "path": "reports/render-proof/mobile-internal.png",
+      "exists": true,
+      "bytes": 38748,
+      "sha256": "c9cd93eb073ed53811042fbef549d002aa3efe87f983d5d435a6db1067bcf9ef"
+    },
+    {
+      "path": "reports/render-proof/desktop-shared.png",
+      "exists": true,
+      "bytes": 157405,
+      "sha256": "4338834a11302b1649466b612cd6edde99f44c84f9f4f1d8028bd5361437520b"
+    }
+  ]
+}

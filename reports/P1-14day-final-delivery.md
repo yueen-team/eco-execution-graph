@@ -13,6 +13,9 @@
 - 云南环保踩雷地图: reports/yunnan-pitfall-map.md
 - 政府演示脚本: reports/government-demo-script-hazardous-waste.md
 - UI 呈现证据说明: reports/render-proof/README.md
+- UI 呈现证据 manifest: reports/render-proof/manifest.json
+- 质量评分报告: reports/graph-quality-report.md
+- verify all 原始日志: reports/verify-all-log.txt
 
 ## 运行命令
 
