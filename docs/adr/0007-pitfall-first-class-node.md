@@ -1,10 +1,16 @@
-# ADR-0007 踩雷点(pitfall)为一等公民节点类型
+# ADR-0007 踩雷点(pitfall)为一等公民节点族
 
 - 状态:Accepted(2026-06-10)
 
 ## 决策
 
-"法规条款被企业普遍误解/法律要求与实际场景脱节"的知识,建模为独立节点类型 `pitfall`,带边 `pitfall_of → law_article / issue_type`,而不是 issue_type 的一个属性字段。
+"法规条款被企业普遍误解/法律要求与实际场景脱节"的知识,建模为独立节点族,带边 `pitfall_of → law_article / issue_type`,而不是 issue_type 的一个属性字段。
+
+| 节点类型 | tier | 例子 |
+|---|---|---|
+| `pitfall_class` | shared | "危废标签字段缺失易被企业误解为小问题" |
+| `pitfall_pattern_stat` | aggregate | "某行业危废标签类问题出现率较高,且复发率高" |
+| `pitfall_instance` | private | "某合成企业某次因某具体场景踩雷,ETO 如何判断与整改" |
 
 ## 理由
 
@@ -14,5 +20,5 @@
 
 ## 后果
 
-- 默认 tier=shared(培训/执法价值最大化),candy 可按实例改 private(specs/open-questions Q2)。
+- 不再默认所有 pitfall 都 shared。政府侧可看到"这类问题普遍存在"和满足最小样本数的聚合统计,但看不到企业实例、识别细节、整改闭环和报告表达。
 - 蒸馏来源:ETO delta(订正理由中的"企业以为…实际…"模式)+ 现场问询记录,P4 起系统化抽取。

@@ -12,6 +12,10 @@
   "optional": {
     "ui_build": ".\\verify\\verify.ps1 build",
     "bdd_export": "pnpm bdd:export",
+    "context_assembly_offline": "P0.5: synthetic enterprise + 3 hazardous-waste issues -> report paragraph comparison",
+    "quality_scoring": "P1: edge quality scoring coverage report",
+    "regulatory_consistency": "P1: offline regulatory consistency checker",
+    "pitfall_map": "P1: aggregate-only Yunnan pitfall map export",
     "render_proof": "frontend-render-proof(演示驾驶舱改动必跑,人工截图留 reports/)"
   },
   "artifacts": {
@@ -36,6 +40,10 @@
     "P1: 建立 pipeline 单元测试基线(当前 unit=null)",
     "P2: 建立 ingest→build→export 集成测试基线(当前 integration=null)",
     "P2: 建立演示驾驶舱 E2E(playwright)基线(当前 e2e=null)",
-    "P1: validate_no_private_leak.py 实装(当前由 verify.ps1 P0 兜底逻辑代替)"
+    "P1: validate_no_private_leak.py 实装(当前由 verify.ps1 P0 兜底逻辑代替)",
+    "P0.5: 建立上下文装配离线验证脚本与 ETO 评分表",
+    "P1: 建立图谱质量评分覆盖报告",
+    "P1: 建立监管口径一致性检查器离线脚本",
+    "P1: 建立 aggregate-only 踩雷地图导出验证"
   ]
 }

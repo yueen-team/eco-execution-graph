@@ -1,0 +1,24 @@
+# P0.5 月报段落对比 · 危废管理
+
+## 输入
+- 合成企业: 合成企业A
+- 问题: 现场常见为标签缺少产生日期、危废类别、责任人或二维码等要素,企业容易把它当作轻微格式问题。
+- 问题: 现场台账常出现产生量、贮存量、转移量前后不一致,或月末集中补录导致溯源断点。
+- 问题: 现场常见不同类别危废共用区域堆放,分区线、标识牌与实际容器位置不匹配。
+
+## 普通 AI / 通用模板式段落
+本月企业危废管理存在标签、台账、暂存管理等问题,建议按要求整改。
+
+## 图谱上下文装配后段落
+本月合成企业危废管理问题主要集中在标签完整性、台账连续性和暂存分区一致性。图谱装配显示,相关问题均可追溯到 issue_type、证据类别、法条瘦节点和整改方向;对外报告建议使用'参考相关要求'表述,避免在未取得官方确认前直接作确定性法律定性。
+
+## 差异说明
+- 更贴近现场场景
+- 带 trace 可追溯
+- 法律依据表达降级明确
+- 保留证据类别但不泄漏判断标准
+
+## Trace
+- nodes: issue:hw:label-incomplete, issue:hw:ledger-incomplete, issue:hw:storage-partition
+- edges: edge:regulated:label-incomplete, edge:manifest:label-incomplete, edge:regulated:ledger-incomplete, edge:manifest:ledger-incomplete, edge:regulated:storage-partition, edge:manifest:storage-partition
+- sources: src:demo:eto-review, src:demo:law-map

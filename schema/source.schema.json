@@ -4,11 +4,15 @@
   "title": "GraphSourceV1",
   "description": "溯源记录,沿用 semantic-profile-lab provenance v1.9 思想:每条边可回溯到来源文档/事件/页表。",
   "type": "object",
-  "required": ["source_id", "source_type", "review_status"],
+  "required": ["source_id", "source_type", "tier", "review_status"],
   "properties": {
     "source_id": { "type": "string", "minLength": 3 },
     "source_type": {
       "enum": ["law_or_standard_doc", "field_event", "baseline_import", "expert_note", "government_lineage", "aggregation_job"]
+    },
+    "tier": {
+      "enum": ["shared", "private", "aggregate"],
+      "description": "溯源记录本身的授权层。shared 导出不得携带 private source,防止通过 source 泄漏企业或审核细节。"
     },
     "doc_ref": { "type": "string", "description": "文档定位:文件名/RAG 文档 ID/HJ 标准号" },
     "page_or_table": { "type": "string" },

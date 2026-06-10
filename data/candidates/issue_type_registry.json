@@ -1,0 +1,107 @@
+[
+  {
+    "issue_type_id": "issue:hw:label-incomplete",
+    "canonical_name": "危废标签不规范",
+    "aliases": [
+      "危险废物标签缺项",
+      "危废标签信息不全",
+      "危废标签填写不完整",
+      "标签字段缺失",
+      "危废包装标签不规范"
+    ],
+    "dimension": "危废管理",
+    "typical_scene": "危废暂存间包装容器张贴标签环节",
+    "default_risk_level": "high",
+    "tier": "shared",
+    "review_status": "APPROVED_BASELINE",
+    "source_ref": "src:demo:eto-review",
+    "demo_evidence_count": 17,
+    "confidence_seed": 0.88,
+    "shared_boundary": "仅输出问题类型、现场表现、证据类别、概念级字段和聚合统计。",
+    "internal_boundary": "证据判断标准、整改模板、报告表达和企业实例保留在 private runtime。"
+  },
+  {
+    "issue_type_id": "issue:hw:ledger-incomplete",
+    "canonical_name": "危废台账不完整",
+    "aliases": [
+      "危废管理台账缺失",
+      "危废台账漏记",
+      "入库出库台账不全",
+      "危险废物记录不完整",
+      "台账字段不全"
+    ],
+    "dimension": "危废管理",
+    "typical_scene": "危废产生、入库、出库和月度汇总环节",
+    "default_risk_level": "high",
+    "tier": "shared",
+    "review_status": "APPROVED_BASELINE",
+    "source_ref": "src:demo:eto-review",
+    "demo_evidence_count": 15,
+    "confidence_seed": 0.86,
+    "shared_boundary": "仅输出问题类型、现场表现、证据类别、概念级字段和聚合统计。",
+    "internal_boundary": "证据判断标准、整改模板、报告表达和企业实例保留在 private runtime。"
+  },
+  {
+    "issue_type_id": "issue:hw:storage-partition",
+    "canonical_name": "危废暂存间分区/分类贮存不规范",
+    "aliases": [
+      "危废混放",
+      "危废暂存间未分区",
+      "分类贮存不清",
+      "危废分区标识不明确",
+      "不相容危废混存"
+    ],
+    "dimension": "危废管理",
+    "typical_scene": "危废暂存间分类分区与容器摆放环节",
+    "default_risk_level": "high",
+    "tier": "shared",
+    "review_status": "APPROVED_BASELINE",
+    "source_ref": "src:demo:eto-review",
+    "demo_evidence_count": 13,
+    "confidence_seed": 0.84,
+    "shared_boundary": "仅输出问题类型、现场表现、证据类别、概念级字段和聚合统计。",
+    "internal_boundary": "证据判断标准、整改模板、报告表达和企业实例保留在 private runtime。"
+  },
+  {
+    "issue_type_id": "issue:hw:warning-sign-missing",
+    "canonical_name": "危废识别标志/警示标识设置不规范",
+    "aliases": [
+      "危废警示标识缺失",
+      "识别标志不规范",
+      "暂存间标识不清",
+      "危险废物标志牌缺失",
+      "标识设置位置不当"
+    ],
+    "dimension": "危废管理",
+    "typical_scene": "危废暂存间入口、分区和容器警示标识设置环节",
+    "default_risk_level": "medium",
+    "tier": "shared",
+    "review_status": "APPROVED_BASELINE",
+    "source_ref": "src:demo:eto-review",
+    "demo_evidence_count": 11,
+    "confidence_seed": 0.82,
+    "shared_boundary": "仅输出问题类型、现场表现、证据类别、概念级字段和聚合统计。",
+    "internal_boundary": "证据判断标准、整改模板、报告表达和企业实例保留在 private runtime。"
+  },
+  {
+    "issue_type_id": "issue:hw:transfer-record-mismatch",
+    "canonical_name": "危废转移、入库、出库记录不一致",
+    "aliases": [
+      "危废转移联单与台账不一致",
+      "入库出库记录不一致",
+      "危废转移记录不匹配",
+      "联单台账不符",
+      "危废数量前后不一致"
+    ],
+    "dimension": "危废管理",
+    "typical_scene": "危废出入库、转移联单和台账核对环节",
+    "default_risk_level": "high",
+    "tier": "shared",
+    "review_status": "APPROVED_BASELINE",
+    "source_ref": "src:demo:eto-review",
+    "demo_evidence_count": 14,
+    "confidence_seed": 0.85,
+    "shared_boundary": "仅输出问题类型、现场表现、证据类别、概念级字段和聚合统计。",
+    "internal_boundary": "证据判断标准、整改模板、报告表达和企业实例保留在 private runtime。"
+  }
+]

@@ -1,0 +1,21 @@
+{
+  "package_name": "shared_hazardous_waste_v1",
+  "demo_package": true,
+  "tier_filter": "shared",
+  "record_counts": {
+    "nodes": 37,
+    "edges": 65,
+    "sources": 2
+  },
+  "files": {
+    "graph.json": {
+      "sha256": "e7abe9fecbb55c386865c6fa04702407ebe83048e55302309865d2f65ca6d425"
+    },
+    "graph.ndjson": {
+      "sha256": "2baa2d24fe93185685979180f319fb97fa2f4ef9a21f34e1bd043089418c5875"
+    },
+    "manifest.json": {
+      "sha256": "9fd07f74a6f454a20bda84e8b12ddbdb641f053f90f5fafe533264b7cd352c09"
+    }
+  }
+}

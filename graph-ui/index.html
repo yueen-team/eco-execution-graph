@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>环保现场执行图谱</title>
+  </head>
+  <body>
+    <div id="app">
+      <div class="shell">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">危废精品切片 · P1</p>
+            <h1>环保现场执行图谱</h1>
+          </div>
+          <div class="metric-strip" aria-label="图谱统计">
+            <span><strong id="nodeCount">0</strong> 节点</span>
+            <span><strong id="edgeCount">0</strong> 边</span>
+            <span><strong id="cardCount">0</strong> 执行卡</span>
+            <span><strong id="sharedCount">0</strong> 可共有节点</span>
+          </div>
+        </header>
+
+        <main class="workspace">
+          <aside class="rail" aria-label="入口">
+            <section class="control-block">
+              <h2>入口</h2>
+              <div class="mode-tabs" role="tablist" aria-label="图谱入口">
+                <button class="tab is-active" data-entry="law">法条</button>
+                <button class="tab" data-entry="issue">问题</button>
+                <button class="tab" data-entry="industry">行业</button>
+              </div>
+            </section>
+
+            <section class="control-block">
+              <h2>视图</h2>
+              <div class="view-toggle" role="group" aria-label="授权视图">
+                <button class="view-button is-active" data-view="internal" title="内部全量视图">
+                  <i data-lucide="lock-keyhole-open"></i>
+                  <span>内部</span>
+                </button>
+                <button class="view-button" data-view="shared" title="共有视图">
+                  <i data-lucide="shield-check"></i>
+                  <span>共有</span>
+                </button>
+              </div>
+            </section>
+
+            <section class="control-block">
+              <h2>筛选</h2>
+              <label class="check-row"><input type="checkbox" value="manifests_as" checked />现场表现</label>
+              <label class="check-row"><input type="checkbox" value="regulated_by" checked />法规约束</label>
+              <label class="check-row"><input type="checkbox" value="evidenced_by" checked />证据链</label>
+              <label class="check-row"><input type="checkbox" value="pitfall_of" checked />踩雷点</label>
+              <label class="check-row"><input type="checkbox" value="supports_stat" checked />聚合统计</label>
+            </section>
+
+            <section class="control-block status-block">
+              <h2>演示状态</h2>
+              <p id="viewStatus">内部全量视图: 可见 private runtime 节点。</p>
+            </section>
+          </aside>
+
+          <section class="graph-stage">
+            <div class="stage-toolbar">
+              <div>
+                <p class="eyebrow">当前中心</p>
+                <h2 id="centerTitle">加载中</h2>
+              </div>
+              <button id="fitButton" class="icon-button" title="重置视图" aria-label="重置视图">
+                <i data-lucide="scan"></i>
+              </button>
+            </div>
+            <div id="cy" aria-label="ego 图谱画布"></div>
+            <div class="legend" aria-label="图例">
+              <span><b class="dot shared"></b>shared</span>
+              <span><b class="dot private"></b>private</span>
+              <span><b class="dot aggregate"></b>aggregate</span>
+              <span><b class="line high"></b>高置信</span>
+              <span><b class="line mid"></b>已审核</span>
+            </div>
+          </section>
+
+          <aside class="detail" aria-label="执行卡">
+            <div class="detail-header">
+              <p class="eyebrow">执行卡</p>
+              <h2 id="cardTitle">请选择节点</h2>
+            </div>
+            <div id="tierBadge" class="tier-badge shared">shared</div>
+            <dl class="node-facts" id="nodeFacts"></dl>
+            <section class="card-section">
+              <h3>现场表现</h3>
+              <p id="manifestation">-</p>
+            </section>
+            <section class="card-section">
+              <h3>证据类别</h3>
+              <ul id="evidenceList"></ul>
+            </section>
+            <section class="card-section">
+              <h3>授权边界</h3>
+              <p id="boundaryText">-</p>
+            </section>
+            <section class="card-section">
+              <h3>置信来源</h3>
+              <ul id="confidenceList"></ul>
+            </section>
+          </aside>
+        </main>
+      </div>
+    </div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

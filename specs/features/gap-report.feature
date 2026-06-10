@@ -15,9 +15,10 @@
     而且 不得被静默丢弃或自动挂接低置信法条
 
   场景: 高频踩雷条款排行
-    假如 law_article 节点存在关联的 pitfall 节点
-    那么 报告按 pitfall 数量与关联统计信号输出条款排行
-    而且 每条排行带 pitfall 文本与溯源
+    假如 law_article 节点存在关联的 pitfall_class 或 pitfall_pattern_stat 节点
+    那么 报告按踩雷类型数量与聚合统计信号输出条款排行
+    而且 每条排行带共有级 pitfall 文本与溯源
+    而且 不得输出 pitfall_instance 或企业级踩雷细节
 
   场景: 缺口报告的共有视图
     当 以共有视图渲染缺口报告

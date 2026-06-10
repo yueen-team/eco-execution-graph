@@ -1,0 +1,126 @@
+{
+  "status": "pass",
+  "rows": [
+    {
+      "region": "云南省示例区域",
+      "industry": "合成制造业",
+      "dimension": "危废管理",
+      "signal_ref": "stat:hw:label-incomplete:yunnan-demo",
+      "signal_name": "云南危废-危废标签不规范-聚合信号",
+      "recurrence_rate": 0.36,
+      "rectification_difficulty": "low",
+      "sample_size": 17,
+      "source_ref": "src:demo:aggregation",
+      "batch_id": "pitfall-map:2026-06"
+    },
+    {
+      "region": "云南省示例区域",
+      "industry": "合成制造业",
+      "dimension": "危废管理",
+      "signal_ref": "pitfall:stat:label-incomplete",
+      "signal_name": "危废标签不规范聚合踩雷统计",
+      "recurrence_rate": 0.36,
+      "rectification_difficulty": "medium",
+      "sample_size": 17,
+      "source_ref": "src:demo:aggregation",
+      "batch_id": "pitfall-map:2026-06"
+    },
+    {
+      "region": "云南省示例区域",
+      "industry": "合成制造业",
+      "dimension": "危废管理",
+      "signal_ref": "stat:hw:ledger-incomplete:yunnan-demo",
+      "signal_name": "云南危废-危废台账不完整-聚合信号",
+      "recurrence_rate": 0.42,
+      "rectification_difficulty": "medium",
+      "sample_size": 15,
+      "source_ref": "src:demo:aggregation",
+      "batch_id": "pitfall-map:2026-06"
+    },
+    {
+      "region": "云南省示例区域",
+      "industry": "合成制造业",
+      "dimension": "危废管理",
+      "signal_ref": "pitfall:stat:ledger-incomplete",
+      "signal_name": "危废台账不完整聚合踩雷统计",
+      "recurrence_rate": 0.42,
+      "rectification_difficulty": "medium",
+      "sample_size": 15,
+      "source_ref": "src:demo:aggregation",
+      "batch_id": "pitfall-map:2026-06"
+    },
+    {
+      "region": "云南省示例区域",
+      "industry": "合成制造业",
+      "dimension": "危废管理",
+      "signal_ref": "stat:hw:storage-partition:yunnan-demo",
+      "signal_name": "云南危废-危废暂存间分区/分类贮存不规范-聚合信号",
+      "recurrence_rate": 0.31,
+      "rectification_difficulty": "medium",
+      "sample_size": 13,
+      "source_ref": "src:demo:aggregation",
+      "batch_id": "pitfall-map:2026-06"
+    },
+    {
+      "region": "云南省示例区域",
+      "industry": "合成制造业",
+      "dimension": "危废管理",
+      "signal_ref": "pitfall:stat:storage-partition",
+      "signal_name": "危废暂存间分区/分类贮存不规范聚合踩雷统计",
+      "recurrence_rate": 0.31,
+      "rectification_difficulty": "medium",
+      "sample_size": 13,
+      "source_ref": "src:demo:aggregation",
+      "batch_id": "pitfall-map:2026-06"
+    },
+    {
+      "region": "云南省示例区域",
+      "industry": "合成制造业",
+      "dimension": "危废管理",
+      "signal_ref": "stat:hw:warning-sign-missing:yunnan-demo",
+      "signal_name": "云南危废-危废识别标志/警示标识设置不规范-聚合信号",
+      "recurrence_rate": 0.28,
+      "rectification_difficulty": "low",
+      "sample_size": 11,
+      "source_ref": "src:demo:aggregation",
+      "batch_id": "pitfall-map:2026-06"
+    },
+    {
+      "region": "云南省示例区域",
+      "industry": "合成制造业",
+      "dimension": "危废管理",
+      "signal_ref": "pitfall:stat:warning-sign-missing",
+      "signal_name": "危废识别标志/警示标识设置不规范聚合踩雷统计",
+      "recurrence_rate": 0.28,
+      "rectification_difficulty": "medium",
+      "sample_size": 11,
+      "source_ref": "src:demo:aggregation",
+      "batch_id": "pitfall-map:2026-06"
+    },
+    {
+      "region": "云南省示例区域",
+      "industry": "合成制造业",
+      "dimension": "危废管理",
+      "signal_ref": "stat:hw:transfer-record-mismatch:yunnan-demo",
+      "signal_name": "云南危废-危废转移、入库、出库记录不一致-聚合信号",
+      "recurrence_rate": 0.33,
+      "rectification_difficulty": "high",
+      "sample_size": 14,
+      "source_ref": "src:demo:aggregation",
+      "batch_id": "pitfall-map:2026-06"
+    },
+    {
+      "region": "云南省示例区域",
+      "industry": "合成制造业",
+      "dimension": "危废管理",
+      "signal_ref": "pitfall:stat:transfer-record-mismatch",
+      "signal_name": "危废转移、入库、出库记录不一致聚合踩雷统计",
+      "recurrence_rate": 0.33,
+      "rectification_difficulty": "medium",
+      "sample_size": 14,
+      "source_ref": "src:demo:aggregation",
+      "batch_id": "pitfall-map:2026-06"
+    }
+  ],
+  "note": "aggregate-only synthetic demo; no enterprise-level records."
+}

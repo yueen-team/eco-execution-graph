@@ -9,13 +9,14 @@ eco-execution-graph/
 │   ├── adr/                  # 架构决策记录 0001-0009
 │   ├── api/                  # 图谱导出格式 + 上下文装配 API 契约
 │   ├── brainstorms/          # 需求文档(CE brainstorm 产物)
+│   ├── plans/                # 阶段实施计划
 │   └── references/           # 外部资源引用清单
 ├── specs/                    # BDD 行为规格(Gherkin)+ 术语表 + 开放问题
 │   └── features/
 ├── schema/                   # JSON Schema 单一事实源
 │   ├── node.schema.json      # 节点(含 tier、类型枚举)
-│   ├── edge.schema.json      # 边(含 source_ref、confidence、tier)
-│   ├── source.schema.json    # 溯源记录
+│   ├── edge.schema.json      # 边(含 source_ref、confidence、tier、legal_basis_status)
+│   ├── source.schema.json    # 溯源记录(含 tier,防 source 泄漏)
 │   └── card.schema.json      # 法条↔现场执行卡
 ├── pipeline/                 # Python 构建管道(子 AGENTS.md)
 │   ├── ingest.py             # EcoCheck outbox v2 事件 → CANDIDATE 图记录

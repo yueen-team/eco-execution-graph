@@ -15,9 +15,10 @@
       "enum": [
         "industry", "process_scenario", "pollution_source", "pollutant",
         "standard_limit", "tech_spec", "law_article", "law_obligation",
-        "issue_type", "pitfall",
+        "issue_type", "pitfall_class", "pitfall_pattern_stat", "pitfall_instance",
         "enterprise", "facility", "discharge_outlet", "risk_unit",
-        "issue_instance", "evidence_requirement", "evidence_instance",
+        "issue_instance", "evidence_category", "evidence_field_requirement",
+        "evidence_judgment_standard", "evidence_instance",
         "rectification_template", "rectification_instance",
         "report_expression", "distill_event",
         "stat_signal"
@@ -52,7 +53,12 @@
         "required": ["target_law_id", "relation"],
         "properties": {
           "target_law_id": { "type": "string" },
-          "relation": { "enum": ["superseded_by", "merged_into", "renumbered_as", "split_into"] },
+          "relation": {
+            "enum": [
+              "replaced_by", "amended_by", "split_into", "merged_into",
+              "inherits_from", "conflicts_with", "renumbered_as"
+            ]
+          },
           "source": { "type": "string", "description": "沿革数据来源(政府法典库对接后填)" }
         }
       },

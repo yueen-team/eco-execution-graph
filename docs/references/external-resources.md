@@ -35,6 +35,7 @@
 | 来源 | 吸收内容 |
 |---|---|
 | GitNexus | 图谱交互美学(ego 范式),**工具本身只用于代码导航,不用于领域图谱** |
+| Microsoft GraphRAG | 适合非结构化文本抽图 + 社区摘要探索,不作为主业务图谱 |
 | Karpathy context engineering | 上下文装配思想(docs/api/context-assembly-api.md) |
 | Every compound-engineering plugin | 本项目需求文档由其 brainstorm 流程产出(D:\agent-tools-lab 隔离试用,未安装进本项目) |
 
@@ -43,5 +44,5 @@
 | 名称 | 触发条件 | 备注 |
 |---|---|---|
 | Neo4j Community | ADR-0006 三个阈值任一 | GPLv3 边界需评估 |
-| Graphiti | 同上 | Apache-2.0 |
+| Graphiti | 同上,并出现实时/时序 agent 记忆需求 | Apache-2.0 |
 | ECC(affaan-m/ECC) | 不引入 | 2026-06-10 评估结论:与现有协议栈重叠且互相冲突,负资产 |

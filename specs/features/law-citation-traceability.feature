@@ -23,3 +23,16 @@
   场景: 结论可回溯
     假如 任何输出中出现"问题 → 法条"的判断
     那么 对应的边必须存在且带 source_ref 与 confidence
+    而且 对应边必须带 legal_basis_status
+
+  场景: 法律依据状态控制表述
+    假如 legal_basis_status 是 "official_confirmed"
+    那么 对外报告可以使用"依据"或"根据"表述
+    假如 legal_basis_status 是 "internal_reviewed"
+    那么 对外报告只能使用"参考相关要求"表述
+    假如 legal_basis_status 是 "candidate"
+    那么 该依据只能作为内部提示,不得对外引用
+    假如 legal_basis_status 是 "disputed"
+    那么 输出必须进入人工审核
+    假如 legal_basis_status 是 "no_legal_basis"
+    那么 输出只能写管理建议,不得写"违法"或"违反"

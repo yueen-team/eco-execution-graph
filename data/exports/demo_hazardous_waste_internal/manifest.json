@@ -1,0 +1,21 @@
+{
+  "package_name": "demo_hazardous_waste_internal",
+  "demo_package": true,
+  "tier_filter": null,
+  "record_counts": {
+    "nodes": 67,
+    "edges": 95,
+    "sources": 4
+  },
+  "files": {
+    "graph.json": {
+      "sha256": "d4fcdee6b095ad9942285a7aba634bbdb9d8709413132dde5e42997f14e7fe18"
+    },
+    "graph.ndjson": {
+      "sha256": "d75c079431c0546e0e34be8224e85bd195381b451106e1748f09c1dbf56e91b8"
+    },
+    "manifest.json": {
+      "sha256": "19e4d31c77092e3e62bdeec0107e66e01e9bbcc184fb314104a8483e0012783b"
+    }
+  }
+}

@@ -11,5 +11,5 @@
 
 ## 与 spl graph-export v2.1 的字段差异
 
-- 新增:node/edge `tier`(ADR-0002)、law_article `lineage_ref`(ADR-0003)、edge `confidence_evidence`(ADR-0005)。
+- 新增:node/edge/source `tier`(ADR-0002)、law_article `lineage_ref` + 关系化 lineage 边(ADR-0003)、edge `confidence_evidence`(ADR-0005)、法律判断边 `legal_basis_status`。
 - 沿用:node/edge/source 三段式、NDJSON 回放、source_ref 强制、CANDIDATE 治理膜。

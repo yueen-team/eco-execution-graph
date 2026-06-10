@@ -13,6 +13,14 @@ function Invoke-Step {
     catch { Write-Host "[$Name] FAIL: $_" -ForegroundColor Red; $script:failed += $Name }
 }
 
+function Invoke-CheckedCommand {
+    param([string[]]$Command)
+    $exe = $Command[0]
+    $args = @($Command | Select-Object -Skip 1)
+    & $exe @args
+    if ($LASTEXITCODE -ne 0) { throw "$($Command -join ' ') failed with exit code $LASTEXITCODE" }
+}
+
 if ($Target -in @("check", "all")) {
     Invoke-Step "schema-validate" {
         # JSON Schema 自身合法性(P0);P1 起增加数据实例校验
@@ -24,9 +32,44 @@ if ($Target -in @("check", "all")) {
         $required = @("README.md", "ARCHITECTURE.md", "CODEMAP.md", "AGENTS.md", "CONTEXT.md")
         foreach ($f in $required) { if (-not (Test-Path "$root\$f")) { throw "missing $f" } }
     }
+    Invoke-Step "bdd-export" {
+        Push-Location $root
+        try { Invoke-CheckedCommand -Command @("pnpm", "bdd:export") }
+        finally { Pop-Location }
+    }
 }
 
 if ($Target -in @("test", "all")) {
+    Invoke-Step "graph-build" {
+        Push-Location $root
+        try { Invoke-CheckedCommand -Command @("pnpm", "graph:build") }
+        finally { Pop-Location }
+    }
+    Invoke-Step "graph-quality" {
+        Push-Location $root
+        try { Invoke-CheckedCommand -Command @("pnpm", "graph:quality") }
+        finally { Pop-Location }
+    }
+    Invoke-Step "gap-report" {
+        Push-Location $root
+        try { Invoke-CheckedCommand -Command @("pnpm", "gap:report") }
+        finally { Pop-Location }
+    }
+    Invoke-Step "monthly-compare" {
+        Push-Location $root
+        try { Invoke-CheckedCommand -Command @("pnpm", "monthly:compare") }
+        finally { Pop-Location }
+    }
+    Invoke-Step "pitfall-map" {
+        Push-Location $root
+        try { Invoke-CheckedCommand -Command @("pnpm", "pitfall:map") }
+        finally { Pop-Location }
+    }
+    Invoke-Step "regulatory-consistency" {
+        Push-Location $root
+        try { Invoke-CheckedCommand -Command @("pnpm", "regulatory:check") }
+        finally { Pop-Location }
+    }
     Invoke-Step "pipeline-unit" {
         if (Test-Path "$root\pipeline\tests") { python -m pytest "$root\pipeline\tests" -q; if ($LASTEXITCODE -ne 0) { throw "pytest failed" } }
         else { Write-Host "  (pipeline tests 尚未建立 — AFK baseline=null,见 afk-test.config.json TODO)" -ForegroundColor Yellow }
@@ -34,6 +77,11 @@ if ($Target -in @("test", "all")) {
 }
 
 if ($Target -in @("leak", "all")) {
+    Invoke-Step "shared-export" {
+        Push-Location $root
+        try { Invoke-CheckedCommand -Command @("pnpm", "graph:export:shared") }
+        finally { Pop-Location }
+    }
     Invoke-Step "private-leak-contract" {
         if (Test-Path "$root\pipeline\validate_no_private_leak.py") { python "$root\pipeline\validate_no_private_leak.py"; if ($LASTEXITCODE -ne 0) { throw "leak detected" } }
         elseif (Test-Path "$root\data\exports") {
@@ -51,6 +99,14 @@ if ($Target -in @("build", "all")) {
     Invoke-Step "ui-build" {
         if (Test-Path "$root\graph-ui\package.json") { Push-Location "$root\graph-ui"; pnpm build; $code = $LASTEXITCODE; Pop-Location; if ($code -ne 0) { throw "ui build failed" } }
         else { Write-Host "  (graph-ui 尚未脚手架 — P2 建立)" -ForegroundColor Yellow }
+    }
+    Invoke-Step "delivery-report" {
+        Push-Location $root
+        try {
+            if (Test-Path "$root\pipeline\final_delivery.py") { Invoke-CheckedCommand -Command @("pnpm", "delivery:report") }
+            else { Write-Host "  (final_delivery.py 尚未建立)" -ForegroundColor Yellow }
+        }
+        finally { Pop-Location }
     }
 }
 

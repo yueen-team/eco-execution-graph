@@ -4,7 +4,11 @@
   "title": "GraphEdgeV1",
   "description": "图谱边。每条边必须有 source_ref(溯源)与 confidence(置信,由成效回写,ADR-0005)。",
   "type": "object",
-  "required": ["edge_id", "from", "to", "edge_type", "tier", "confidence", "source_ref", "review_status"],
+  "required": [
+    "edge_id", "from", "to", "edge_type", "tier", "confidence",
+    "confidence_reason", "evidence_count", "last_verified_at",
+    "reviewer_role", "staleness_risk", "source_ref", "review_status"
+  ],
   "properties": {
     "edge_id": { "type": "string", "minLength": 3 },
     "from": { "type": "string", "description": "node_id" },
@@ -13,7 +17,10 @@
       "enum": [
         "occurs_in", "emits", "limited_by", "regulated_by", "obligation_of",
         "manifests_as", "evidenced_by", "rectified_by", "reported_as",
-        "pitfall_of", "instance_of", "located_at", "lineage", "supports_stat",
+        "pitfall_of", "instance_of", "located_at",
+        "replaced_by", "amended_by", "split_into", "merged_into",
+        "inherits_from", "conflicts_with",
+        "supports_stat",
         "often_co_occurs_with", "belongs_to_dimension"
       ]
     },
@@ -25,18 +32,63 @@
       "type": "number", "minimum": 0, "maximum": 1,
       "description": "初始值按来源默认表(pipeline 维护);闭环事件回写(ADR-0005)。"
     },
+    "confidence_reason": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "enum": [
+          "ESO_REPORTED", "ETO_CONFIRMED", "RECTIFICATION_VERIFIED",
+          "RECTIFICATION_REJECTED", "LAW_MAPPING_REVIEWED",
+          "BASELINE_IMPORTED", "GOVERNMENT_CONFIRMED",
+          "RAG_RESOLVED", "AGGREGATE_OBSERVED", "MANUAL_REVIEWED"
+        ]
+      },
+      "description": "置信原因,用于解释 confidence 从哪里来。"
+    },
+    "evidence_count": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "支撑该边的现场事件、证据记录、审核记录或聚合样本数量。"
+    },
+    "last_verified_at": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+      "description": "最近一次被 ETO/整改闭环/法规映射审核验证的日期。"
+    },
+    "reviewer_role": {
+      "enum": ["ESO", "ETO", "GOVERNMENT", "CANDY", "SYSTEM", "UNKNOWN"],
+      "description": "最近一次确认该边的角色。"
+    },
+    "staleness_risk": {
+      "enum": ["low", "medium", "high", "unknown"],
+      "description": "因法规更新、长期未验证、样本过少或来源过旧导致的陈旧风险。"
+    },
     "confidence_evidence": {
       "type": "object",
       "properties": {
         "verified_count": { "type": "integer", "minimum": 0 },
         "rejected_count": { "type": "integer", "minimum": 0 },
+        "rectification_pass_rate": { "type": "number", "minimum": 0, "maximum": 1 },
         "last_updated": { "type": "string" }
       },
       "description": "成效计数,confidence 的计算依据,演示可展示'被现场验证 N 次'。"
     },
     "source_ref": { "type": "string", "description": "回指 source 记录 ID,必填,无溯源的边不允许存在。" },
+    "legal_basis_status": {
+      "enum": ["official_confirmed", "internal_reviewed", "candidate", "disputed", "no_legal_basis"],
+      "description": "法律依据口径状态。regulated_by/manifests_as 等法律判断边必填,用于控制报告表达强度。"
+    },
     "review_status": { "enum": ["CANDIDATE", "HUMAN_REVIEWED", "APPROVED_BASELINE", "DEPRECATED"] },
     "attrs": { "type": "object" }
   },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "edge_type": { "enum": ["regulated_by", "manifests_as"] } },
+        "required": ["edge_type"]
+      },
+      "then": { "required": ["legal_basis_status"] }
+    }
+  ],
   "additionalProperties": false
 }

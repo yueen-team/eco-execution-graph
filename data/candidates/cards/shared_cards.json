@@ -1,0 +1,617 @@
+[
+  {
+    "card_id": "card:hw:label-incomplete",
+    "title": "危废标签不规范执行卡",
+    "dimension": "危废管理",
+    "law_article_ref": {
+      "node_id": "law:swl:art77",
+      "lineage_note": "法典 lineage 待政府格式对接后校准"
+    },
+    "related_obligations": [
+      "obl:hw:label-management"
+    ],
+    "field_manifestations": [
+      {
+        "issue_type_ref": "issue:hw:label-incomplete",
+        "description": "现场常见为标签缺少产生日期、危废类别、责任人或二维码等要素,企业容易把它当作轻微格式问题。",
+        "frequency_signal": "stat:hw:label-incomplete:yunnan-demo"
+      }
+    ],
+    "evidence_categories": [
+      {
+        "ref": "evidence:category:site-photo",
+        "label": "现场照片",
+        "tier": "shared"
+      },
+      {
+        "ref": "evidence:category:ledger-record",
+        "label": "台账记录",
+        "tier": "shared"
+      },
+      {
+        "ref": "evidence:category:label-photo",
+        "label": "标签照片",
+        "tier": "shared"
+      },
+      {
+        "ref": "evidence:category:transfer-manifest",
+        "label": "转移联单",
+        "tier": "shared"
+      }
+    ],
+    "evidence_field_requirements": [
+      {
+        "ref": "evidence:field:label-incomplete",
+        "summary": "标签需核对危废名称、类别代码、产生日期、责任人和容器状态。",
+        "share_level": "shared_concept"
+      }
+    ],
+    "evidence_summary": "现场照片、台账记录、标签照片、转移联单",
+    "rectification_summary": "内部整改闭环模板已建立;shared 版只展示方向和数量占位。",
+    "report_expression_summary": "报告表达边界已建立;shared 版不输出模板全文。",
+    "pitfalls": [
+      {
+        "ref": "pitfall:class:hw-label-small-problem",
+        "text": "现场常见为标签缺少产生日期、危废类别、责任人或二维码等要素,企业容易把它当作轻微格式问题。",
+        "pitfall_type": "pitfall_class",
+        "tier": "shared"
+      }
+    ],
+    "legal_basis_status": "internal_reviewed",
+    "graph_slice_refs": {
+      "nodes": [
+        "issue:hw:label-incomplete",
+        "law:swl:art77",
+        "obl:hw:label-management",
+        "spec:gb18597:label",
+        "pitfall:class:hw-label-small-problem",
+        "evidence:field:label-incomplete",
+        "stat:hw:label-incomplete:yunnan-demo"
+      ],
+      "edges": [
+        "edge:regulated:label-incomplete",
+        "edge:obligation:label-incomplete",
+        "edge:manifest:label-incomplete",
+        "edge:limited:label-incomplete",
+        "edge:evidence-field:label-incomplete",
+        "edge:pitfall:label-incomplete"
+      ]
+    },
+    "export_policy": {
+      "tier": "shared",
+      "export_allowed": true,
+      "redaction": "internal runtime refs replaced by capability count placeholders"
+    },
+    "quality_score": {
+      "confidence": 0.88,
+      "evidence_count": 17,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "render_views": {
+      "internal_full": false,
+      "shared_export": true
+    },
+    "review_status": "APPROVED_BASELINE",
+    "internal_capability_placeholders": [
+      {
+        "kind": "evidence_standard_count",
+        "count": 1,
+        "summary": "证据判断能力已建立 1 条,不进入共有包。"
+      },
+      {
+        "kind": "rectification_standard_count",
+        "count": 1,
+        "summary": "整改标准已建立 1 条,不进入共有包。"
+      },
+      {
+        "kind": "report_rule_count",
+        "count": 1,
+        "summary": "报告表达规则已建立 1 条,不进入共有包。"
+      }
+    ],
+    "rectifications": [
+      {
+        "ref": "internal-count:rectification-template",
+        "summary": "内部整改标准已建立 1 条,不进入共有包。"
+      }
+    ],
+    "report_expressions": [
+      {
+        "ref": "internal-count:report-expression"
+      }
+    ]
+  },
+  {
+    "card_id": "card:hw:ledger-incomplete",
+    "title": "危废台账不完整执行卡",
+    "dimension": "危废管理",
+    "law_article_ref": {
+      "node_id": "law:swl:art78",
+      "lineage_note": "法典 lineage 待政府格式对接后校准"
+    },
+    "related_obligations": [
+      "obl:hw:ledger-management"
+    ],
+    "field_manifestations": [
+      {
+        "issue_type_ref": "issue:hw:ledger-incomplete",
+        "description": "现场台账常出现产生量、贮存量、转移量前后不一致,或月末集中补录导致溯源断点。",
+        "frequency_signal": "stat:hw:ledger-incomplete:yunnan-demo"
+      }
+    ],
+    "evidence_categories": [
+      {
+        "ref": "evidence:category:site-photo",
+        "label": "现场照片",
+        "tier": "shared"
+      },
+      {
+        "ref": "evidence:category:ledger-record",
+        "label": "台账记录",
+        "tier": "shared"
+      },
+      {
+        "ref": "evidence:category:label-photo",
+        "label": "标签照片",
+        "tier": "shared"
+      },
+      {
+        "ref": "evidence:category:transfer-manifest",
+        "label": "转移联单",
+        "tier": "shared"
+      }
+    ],
+    "evidence_field_requirements": [
+      {
+        "ref": "evidence:field:ledger-incomplete",
+        "summary": "台账需核对产生日期、废物类别、重量、去向、经办人和联单编号。",
+        "share_level": "shared_concept"
+      }
+    ],
+    "evidence_summary": "现场照片、台账记录、标签照片、转移联单",
+    "rectification_summary": "内部整改闭环模板已建立;shared 版只展示方向和数量占位。",
+    "report_expression_summary": "报告表达边界已建立;shared 版不输出模板全文。",
+    "pitfalls": [
+      {
+        "ref": "pitfall:class:hw-ledger-afterthought",
+        "text": "现场台账常出现产生量、贮存量、转移量前后不一致,或月末集中补录导致溯源断点。",
+        "pitfall_type": "pitfall_class",
+        "tier": "shared"
+      }
+    ],
+    "legal_basis_status": "internal_reviewed",
+    "graph_slice_refs": {
+      "nodes": [
+        "issue:hw:ledger-incomplete",
+        "law:swl:art78",
+        "obl:hw:ledger-management",
+        "spec:hj1259:ledger",
+        "pitfall:class:hw-ledger-afterthought",
+        "evidence:field:ledger-incomplete",
+        "stat:hw:ledger-incomplete:yunnan-demo"
+      ],
+      "edges": [
+        "edge:regulated:ledger-incomplete",
+        "edge:obligation:ledger-incomplete",
+        "edge:manifest:ledger-incomplete",
+        "edge:limited:ledger-incomplete",
+        "edge:evidence-field:ledger-incomplete",
+        "edge:pitfall:ledger-incomplete"
+      ]
+    },
+    "export_policy": {
+      "tier": "shared",
+      "export_allowed": true,
+      "redaction": "internal runtime refs replaced by capability count placeholders"
+    },
+    "quality_score": {
+      "confidence": 0.86,
+      "evidence_count": 15,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "render_views": {
+      "internal_full": false,
+      "shared_export": true
+    },
+    "review_status": "APPROVED_BASELINE",
+    "internal_capability_placeholders": [
+      {
+        "kind": "evidence_standard_count",
+        "count": 1,
+        "summary": "证据判断能力已建立 1 条,不进入共有包。"
+      },
+      {
+        "kind": "rectification_standard_count",
+        "count": 1,
+        "summary": "整改标准已建立 1 条,不进入共有包。"
+      },
+      {
+        "kind": "report_rule_count",
+        "count": 1,
+        "summary": "报告表达规则已建立 1 条,不进入共有包。"
+      }
+    ],
+    "rectifications": [
+      {
+        "ref": "internal-count:rectification-template",
+        "summary": "内部整改标准已建立 1 条,不进入共有包。"
+      }
+    ],
+    "report_expressions": [
+      {
+        "ref": "internal-count:report-expression"
+      }
+    ]
+  },
+  {
+    "card_id": "card:hw:storage-partition",
+    "title": "危废暂存间分区/分类贮存不规范执行卡",
+    "dimension": "危废管理",
+    "law_article_ref": {
+      "node_id": "law:swl:art81",
+      "lineage_note": "法典 lineage 待政府格式对接后校准"
+    },
+    "related_obligations": [
+      "obl:hw:storage-partition"
+    ],
+    "field_manifestations": [
+      {
+        "issue_type_ref": "issue:hw:storage-partition",
+        "description": "现场常见不同类别危废共用区域堆放,分区线、标识牌与实际容器位置不匹配。",
+        "frequency_signal": "stat:hw:storage-partition:yunnan-demo"
+      }
+    ],
+    "evidence_categories": [
+      {
+        "ref": "evidence:category:site-photo",
+        "label": "现场照片",
+        "tier": "shared"
+      },
+      {
+        "ref": "evidence:category:ledger-record",
+        "label": "台账记录",
+        "tier": "shared"
+      },
+      {
+        "ref": "evidence:category:label-photo",
+        "label": "标签照片",
+        "tier": "shared"
+      },
+      {
+        "ref": "evidence:category:transfer-manifest",
+        "label": "转移联单",
+        "tier": "shared"
+      }
+    ],
+    "evidence_field_requirements": [
+      {
+        "ref": "evidence:field:storage-partition",
+        "summary": "需核对分区标识、容器摆放、危废类别、相容性和防渗防泄漏设施。",
+        "share_level": "shared_concept"
+      }
+    ],
+    "evidence_summary": "现场照片、台账记录、标签照片、转移联单",
+    "rectification_summary": "内部整改闭环模板已建立;shared 版只展示方向和数量占位。",
+    "report_expression_summary": "报告表达边界已建立;shared 版不输出模板全文。",
+    "pitfalls": [
+      {
+        "ref": "pitfall:class:hw-storage-space",
+        "text": "现场常见不同类别危废共用区域堆放,分区线、标识牌与实际容器位置不匹配。",
+        "pitfall_type": "pitfall_class",
+        "tier": "shared"
+      }
+    ],
+    "legal_basis_status": "internal_reviewed",
+    "graph_slice_refs": {
+      "nodes": [
+        "issue:hw:storage-partition",
+        "law:swl:art81",
+        "obl:hw:storage-partition",
+        "spec:gb18597:storage",
+        "pitfall:class:hw-storage-space",
+        "evidence:field:storage-partition",
+        "stat:hw:storage-partition:yunnan-demo"
+      ],
+      "edges": [
+        "edge:regulated:storage-partition",
+        "edge:obligation:storage-partition",
+        "edge:manifest:storage-partition",
+        "edge:limited:storage-partition",
+        "edge:evidence-field:storage-partition",
+        "edge:pitfall:storage-partition"
+      ]
+    },
+    "export_policy": {
+      "tier": "shared",
+      "export_allowed": true,
+      "redaction": "internal runtime refs replaced by capability count placeholders"
+    },
+    "quality_score": {
+      "confidence": 0.84,
+      "evidence_count": 13,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "render_views": {
+      "internal_full": false,
+      "shared_export": true
+    },
+    "review_status": "APPROVED_BASELINE",
+    "internal_capability_placeholders": [
+      {
+        "kind": "evidence_standard_count",
+        "count": 1,
+        "summary": "证据判断能力已建立 1 条,不进入共有包。"
+      },
+      {
+        "kind": "rectification_standard_count",
+        "count": 1,
+        "summary": "整改标准已建立 1 条,不进入共有包。"
+      },
+      {
+        "kind": "report_rule_count",
+        "count": 1,
+        "summary": "报告表达规则已建立 1 条,不进入共有包。"
+      }
+    ],
+    "rectifications": [
+      {
+        "ref": "internal-count:rectification-template",
+        "summary": "内部整改标准已建立 1 条,不进入共有包。"
+      }
+    ],
+    "report_expressions": [
+      {
+        "ref": "internal-count:report-expression"
+      }
+    ]
+  },
+  {
+    "card_id": "card:hw:warning-sign-missing",
+    "title": "危废识别标志/警示标识设置不规范执行卡",
+    "dimension": "危废管理",
+    "law_article_ref": {
+      "node_id": "law:swl:art77",
+      "lineage_note": "法典 lineage 待政府格式对接后校准"
+    },
+    "related_obligations": [
+      "obl:hw:warning-sign"
+    ],
+    "field_manifestations": [
+      {
+        "issue_type_ref": "issue:hw:warning-sign-missing",
+        "description": "现场常见入口无警示牌、标志尺寸不规范或标识被遮挡,企业误以为只要内部人员知道即可。",
+        "frequency_signal": "stat:hw:warning-sign-missing:yunnan-demo"
+      }
+    ],
+    "evidence_categories": [
+      {
+        "ref": "evidence:category:site-photo",
+        "label": "现场照片",
+        "tier": "shared"
+      },
+      {
+        "ref": "evidence:category:ledger-record",
+        "label": "台账记录",
+        "tier": "shared"
+      },
+      {
+        "ref": "evidence:category:label-photo",
+        "label": "标签照片",
+        "tier": "shared"
+      },
+      {
+        "ref": "evidence:category:transfer-manifest",
+        "label": "转移联单",
+        "tier": "shared"
+      }
+    ],
+    "evidence_field_requirements": [
+      {
+        "ref": "evidence:field:warning-sign-missing",
+        "summary": "需核对标识位置、尺寸、文字图形、可见性和对应危废类别。",
+        "share_level": "shared_concept"
+      }
+    ],
+    "evidence_summary": "现场照片、台账记录、标签照片、转移联单",
+    "rectification_summary": "内部整改闭环模板已建立;shared 版只展示方向和数量占位。",
+    "report_expression_summary": "报告表达边界已建立;shared 版不输出模板全文。",
+    "pitfalls": [
+      {
+        "ref": "pitfall:class:hw-sign-decoration",
+        "text": "现场常见入口无警示牌、标志尺寸不规范或标识被遮挡,企业误以为只要内部人员知道即可。",
+        "pitfall_type": "pitfall_class",
+        "tier": "shared"
+      }
+    ],
+    "legal_basis_status": "internal_reviewed",
+    "graph_slice_refs": {
+      "nodes": [
+        "issue:hw:warning-sign-missing",
+        "law:swl:art77",
+        "obl:hw:warning-sign",
+        "spec:gb15562:sign",
+        "pitfall:class:hw-sign-decoration",
+        "evidence:field:warning-sign-missing",
+        "stat:hw:warning-sign-missing:yunnan-demo"
+      ],
+      "edges": [
+        "edge:regulated:warning-sign-missing",
+        "edge:obligation:warning-sign-missing",
+        "edge:manifest:warning-sign-missing",
+        "edge:limited:warning-sign-missing",
+        "edge:evidence-field:warning-sign-missing",
+        "edge:pitfall:warning-sign-missing"
+      ]
+    },
+    "export_policy": {
+      "tier": "shared",
+      "export_allowed": true,
+      "redaction": "internal runtime refs replaced by capability count placeholders"
+    },
+    "quality_score": {
+      "confidence": 0.82,
+      "evidence_count": 11,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "render_views": {
+      "internal_full": false,
+      "shared_export": true
+    },
+    "review_status": "APPROVED_BASELINE",
+    "internal_capability_placeholders": [
+      {
+        "kind": "evidence_standard_count",
+        "count": 1,
+        "summary": "证据判断能力已建立 1 条,不进入共有包。"
+      },
+      {
+        "kind": "rectification_standard_count",
+        "count": 1,
+        "summary": "整改标准已建立 1 条,不进入共有包。"
+      },
+      {
+        "kind": "report_rule_count",
+        "count": 1,
+        "summary": "报告表达规则已建立 1 条,不进入共有包。"
+      }
+    ],
+    "rectifications": [
+      {
+        "ref": "internal-count:rectification-template",
+        "summary": "内部整改标准已建立 1 条,不进入共有包。"
+      }
+    ],
+    "report_expressions": [
+      {
+        "ref": "internal-count:report-expression"
+      }
+    ]
+  },
+  {
+    "card_id": "card:hw:transfer-record-mismatch",
+    "title": "危废转移、入库、出库记录不一致执行卡",
+    "dimension": "危废管理",
+    "law_article_ref": {
+      "node_id": "law:swl:art82",
+      "lineage_note": "法典 lineage 待政府格式对接后校准"
+    },
+    "related_obligations": [
+      "obl:hw:transfer-record"
+    ],
+    "field_manifestations": [
+      {
+        "issue_type_ref": "issue:hw:transfer-record-mismatch",
+        "description": "现场常见联单、出库记录和台账重量或日期不一致,跨月补录后更难追溯。",
+        "frequency_signal": "stat:hw:transfer-record-mismatch:yunnan-demo"
+      }
+    ],
+    "evidence_categories": [
+      {
+        "ref": "evidence:category:site-photo",
+        "label": "现场照片",
+        "tier": "shared"
+      },
+      {
+        "ref": "evidence:category:ledger-record",
+        "label": "台账记录",
+        "tier": "shared"
+      },
+      {
+        "ref": "evidence:category:label-photo",
+        "label": "标签照片",
+        "tier": "shared"
+      },
+      {
+        "ref": "evidence:category:transfer-manifest",
+        "label": "转移联单",
+        "tier": "shared"
+      }
+    ],
+    "evidence_field_requirements": [
+      {
+        "ref": "evidence:field:transfer-record-mismatch",
+        "summary": "需核对联单编号、转移日期、重量、去向单位、出入库记录和经办人。",
+        "share_level": "shared_concept"
+      }
+    ],
+    "evidence_summary": "现场照片、台账记录、标签照片、转移联单",
+    "rectification_summary": "内部整改闭环模板已建立;shared 版只展示方向和数量占位。",
+    "report_expression_summary": "报告表达边界已建立;shared 版不输出模板全文。",
+    "pitfalls": [
+      {
+        "ref": "pitfall:class:hw-transfer-lag",
+        "text": "现场常见联单、出库记录和台账重量或日期不一致,跨月补录后更难追溯。",
+        "pitfall_type": "pitfall_class",
+        "tier": "shared"
+      }
+    ],
+    "legal_basis_status": "internal_reviewed",
+    "graph_slice_refs": {
+      "nodes": [
+        "issue:hw:transfer-record-mismatch",
+        "law:swl:art82",
+        "obl:hw:transfer-record",
+        "spec:hj1259:transfer",
+        "pitfall:class:hw-transfer-lag",
+        "evidence:field:transfer-record-mismatch",
+        "stat:hw:transfer-record-mismatch:yunnan-demo"
+      ],
+      "edges": [
+        "edge:regulated:transfer-record-mismatch",
+        "edge:obligation:transfer-record-mismatch",
+        "edge:manifest:transfer-record-mismatch",
+        "edge:limited:transfer-record-mismatch",
+        "edge:evidence-field:transfer-record-mismatch",
+        "edge:pitfall:transfer-record-mismatch"
+      ]
+    },
+    "export_policy": {
+      "tier": "shared",
+      "export_allowed": true,
+      "redaction": "internal runtime refs replaced by capability count placeholders"
+    },
+    "quality_score": {
+      "confidence": 0.85,
+      "evidence_count": 14,
+      "last_verified_at": "2026-06-10",
+      "staleness_risk": "low"
+    },
+    "render_views": {
+      "internal_full": false,
+      "shared_export": true
+    },
+    "review_status": "APPROVED_BASELINE",
+    "internal_capability_placeholders": [
+      {
+        "kind": "evidence_standard_count",
+        "count": 1,
+        "summary": "证据判断能力已建立 1 条,不进入共有包。"
+      },
+      {
+        "kind": "rectification_standard_count",
+        "count": 1,
+        "summary": "整改标准已建立 1 条,不进入共有包。"
+      },
+      {
+        "kind": "report_rule_count",
+        "count": 1,
+        "summary": "报告表达规则已建立 1 条,不进入共有包。"
+      }
+    ],
+    "rectifications": [
+      {
+        "ref": "internal-count:rectification-template",
+        "summary": "内部整改标准已建立 1 条,不进入共有包。"
+      }
+    ],
+    "report_expressions": [
+      {
+        "ref": "internal-count:report-expression"
+      }
+    ]
+  }
+]

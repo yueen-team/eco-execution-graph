@@ -4,13 +4,14 @@
 
 ## 硬门禁(违反即停)
 
-1. **私有层零泄漏**:`tier=private` 的任何数据不得进入 `data/exports/shared_*` 或聚合导出。改 export 逻辑必须先跑 `verify/` 泄漏契约测试。
+1. **私有层零泄漏**:`tier=private` 的任何 node / edge / source 不得进入 `data/exports/shared_*` 或聚合导出。改 export 逻辑必须先跑 `verify/` 泄漏契约测试。
 2. **企业数据脱敏也不出**:代码、文档、测试夹具、演示数据中不得出现真实企业可识别信息。演示样本用合成企业。
 3. **法条全文不进图**:law_article 节点只存 ID/条款号/义务谓词/lineage_ref。发现有人(包括你自己)往节点塞法条全文,拒绝并指向 ADR-0003。
 4. **CANDIDATE 治理膜**:ingest 产生的一切默认 CANDIDATE;晋级 approved 必须有人工审核记录;绝不自动写 Yunnan ConfirmedDataset。
 5. **密钥**:腾讯云密钥只走环境变量。提交前自查 staged 文件无密钥。
 6. **主干保护**:不直接在 main 改代码;合并/推送 main 需 candy 明确批准(git-workflow-hooks 强制)。
 7. **行为变更先更新 specs/**:涉及业务流程、AI 输出、报告生成、法规引用、数据解释的变更,先写/改 Gherkin 合同再动代码。
+8. **法律依据状态控表达**:`regulated_by` / `manifests_as` 等法律判断边必须有 `legal_basis_status`;candidate/disputed 不得对外引用,no_legal_basis 只能写管理建议。
 
 ## 常见任务地图
 
@@ -21,6 +22,10 @@
 | 改 UI | `graph-ui/`(子模块 AGENTS.md) | 只读消费 exports;改动走 frontend-render-proof 留证 |
 | 执行卡内容 | `data/candidates/cards/` | 卡片是图切片,不是独立数据;法条引用只存 ID |
 | 缺口报告 | `pipeline/gap_report.py` | 三类缺口定义见 ARCHITECTURE §2.3 |
+| 上下文装配最小验证 | `docs/api/context-assembly-api.md` + `specs/features/context-assembly-minimum.feature` | P0.5 离线验证,不接正式 EcoCheck |
+| 图谱质量评分 | `schema/edge.schema.json` + `docs/api/graph-quality-scoring.md` | 每条边必须能解释 confidence 来源与陈旧风险 |
+| 云南踩雷地图 | `docs/api/pitfall-map.md` + `specs/features/yunnan-pitfall-map.feature` | 只消费 aggregate,不得读取企业实例 |
+| 监管口径一致性检查 | `docs/api/regulatory-consistency-checker.md` + `specs/features/regulatory-consistency-checker.feature` | 先做内部质量门禁,不得当外部法律认定工具 |
 | 导出共有包 | `pipeline/export.py --tier shared` | 跑泄漏测试后才算完成 |
 | 验证 | `pnpm verify:all` 或 `.\verify\verify.ps1 all` | AFK 配置在 `verify/afk-test.config.json` |
 
@@ -43,3 +48,5 @@
 - 不在共有包/聚合导出里实现"例外白名单"机制——过滤逻辑必须无例外。
 - 不为演示硬编码假数据冒充蒸馏流(计数器必须接真实事件统计或明示"模拟")。
 - 不把 GitNexus 用于领域图谱(它只管代码导航)。
+- 不把 shared 共有层当完整产品层;shared 是口径/骨架/统计层,完整能力留在 private + internal runtime。
+- 不把执行卡做成独立手工内容库;执行卡必须能由图谱 trace 回放。

@@ -10,8 +10,14 @@
   场景: 共有包导出物理过滤私有层
     当 以 tier_filter "shared" 导出共有包
     那么 包内任何记录的 tier 都必须是 "shared"
-    而且 包内不得出现节点类型 "enterprise"、"facility"、"issue_instance"、"evidence_requirement"、"rectification_template"、"report_expression"
+    而且 包内不得出现节点类型 "enterprise"、"facility"、"issue_instance"、"pitfall_instance"、"evidence_judgment_standard"、"evidence_instance"、"rectification_template"、"report_expression"
+    而且 包内可以出现证据类别和概念级证据字段要求
     而且 manifest 必须声明 tier 过滤方式与各文件 sha256
+
+  场景: 溯源记录同样物理过滤
+    当 以 tier_filter "shared" 导出共有包
+    那么 包内任何 source 记录的 tier 都必须是 "shared"
+    而且 不得通过 source 记录暴露企业、审核笔记或现场实例细节
 
   场景: 私有端点的边不得进入共有包
     假如 一条边的任一端点节点 tier 为 "private"
