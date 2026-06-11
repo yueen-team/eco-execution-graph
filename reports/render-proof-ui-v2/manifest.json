@@ -1,0 +1,64 @@
+{
+  "generated_at": "2026-06-11",
+  "viewport_desktop": "1600x900",
+  "viewport_mobile": "390x844",
+  "build": "vite production build, preview server 127.0.0.1:4317",
+  "console_errors": 0,
+  "screenshots": [
+    {
+      "file": "act0-growth.png",
+      "sha256": "b2cb5d67a85ff2a4340681a807b2fe2aa17c417f2b54686aa22002fd8215d322",
+      "bytes": 467610
+    },
+    {
+      "file": "act1-law-only.png",
+      "sha256": "91d1762995cba5d4a81e7e69959f0419715cdafa9dcfba895454c33dc38085ae",
+      "bytes": 397016
+    },
+    {
+      "file": "act2-path.png",
+      "sha256": "ab589f8d5abe7584ae163da2c6059f2308763f55d7059b6f9c6e7d8b37e65159",
+      "bytes": 403571
+    },
+    {
+      "file": "act3-evidence.png",
+      "sha256": "0b580be1750bbecb66df39132f10acc9826fe51d26aa0ecf9e54587199034102",
+      "bytes": 472326
+    },
+    {
+      "file": "act4-shared.png",
+      "sha256": "de3295f7dc7420cd3812fc9c8f5fab569f2b59f95d9ac9f540585c817ae9b9ad",
+      "bytes": 446174
+    },
+    {
+      "file": "act5-gap.png",
+      "sha256": "8ed5831b4329c7193c6ae95bc58a2c66f8da228dee845f4eae5d6b4b26e9f0c3",
+      "bytes": 341431
+    },
+    {
+      "file": "act6-monthly.png",
+      "sha256": "dfe37c6eb1f8297f112af92cedaea98fecb26c83df6c32c877577f1d090681aa",
+      "bytes": 350945
+    },
+    {
+      "file": "desktop-internal.png",
+      "sha256": "15e8ee0ddcf971617a83594c9a92c711ff44a1275dce48ac727581f24f2df79f",
+      "bytes": 375861
+    },
+    {
+      "file": "desktop-shared.png",
+      "sha256": "9a0e9a69955dcd0700ff2374b2c10dfad902cc0a6363a08d91aef3d0e3a4cd11",
+      "bytes": 381292
+    },
+    {
+      "file": "mobile-default.png",
+      "sha256": "a4010c971e4dce55672825ef31d1eac029f4fba4254bc6d472bc293b0265ca35",
+      "bytes": 90627
+    },
+    {
+      "file": "search-dropdown.png",
+      "sha256": "5261340497950194533820ae775315f987fbe1738995ce1c34ed0622ace7f4e2",
+      "bytes": 394755
+    }
+  ]
+}

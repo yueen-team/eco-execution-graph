@@ -1,345 +1,278 @@
-import cytoscape from "cytoscape";
-import { createIcons, LockKeyholeOpen, PlayCircle, Scan, ShieldCheck } from "lucide";
+// 入口:数据装载 → 控件绑定 → 计数器 → 搜索 → 演示模式
+import {
+  createIcons, Scale, FlagTriangleRight, Factory, LockKeyholeOpen, ShieldCheck, Search,
+  Presentation, GitFork, Scan, CloudOff, Lock, Camera, Eye, KeyRound, TriangleAlert,
+  GitCommitHorizontal, Gauge, Stamp, ChevronLeft, ChevronRight, X, Check, Database,
+  BookOpen, Wrench, FilePen, FileText, FileLock, CheckCircle, Info, FlaskConical,
+  PanelRightOpen, Ruler, ClipboardCheck, Workflow, Flame, Droplets, ListChecks,
+  BarChart3, Zap, Radar, Circle, BarChart, Share2,
+} from "lucide";
 import "./styles.css";
+import {
+  state, applyDataset, ENTRY_CENTERS, EDGE_GROUPS, nodeMeta,
+} from "./state.js";
+import { initOrUpdateGraph, onNodeSelect, markCenter, relayout, fitGraph } from "./graph.js";
+import { renderPanel } from "./panel.js";
+import { initDemo, enterDemo } from "./demo.js";
 
-createIcons({ icons: { LockKeyholeOpen, PlayCircle, Scan, ShieldCheck } });
-
-const state = {
-  graph: null,
-  datasets: {},
-  cards: [],
-  view: "internal",
-  product: "full",
-  entry: "law",
-  centerId: null,
-  activeEdgeTypes: new Set(["manifests_as", "regulated_by", "evidenced_by", "pitfall_of", "supports_stat"]),
-  cy: null,
+const ICONS = {
+  Scale, FlagTriangleRight, Factory, LockKeyholeOpen, ShieldCheck, Search, Presentation,
+  GitFork, Scan, CloudOff, Lock, Camera, Eye, KeyRound, TriangleAlert, GitCommitHorizontal,
+  Gauge, Stamp, ChevronLeft, ChevronRight, X, Check, Database, BookOpen, Wrench, FilePen,
+  FileText, FileLock, CheckCircle, Info, FlaskConical, PanelRightOpen, Ruler, ClipboardCheck,
+  Workflow, Flame, Droplets, ListChecks, BarChart3, Zap, Radar, Circle, BarChart, Share2,
 };
+window.__refreshIcons = () => createIcons({ icons: ICONS });
+window.__refreshIcons();
 
-const entryCenters = {
-  full: {
-    law: "law:swl:art77",
-    issue: "issue:hw:label-incomplete",
-    industry: "scenario:危险废物识别、暂存与转移",
-  },
-  p1: {
-    law: "law:swl:art77",
-    issue: "issue:hw:label-incomplete",
-    industry: "industry:demo:manufacturing",
-  },
-};
+/* ---------- 计数器:数字滚动到真实值 ---------- */
 
-const nodeTypeLabel = {
-  law_article: "法条",
-  law_obligation: "义务",
-  issue_type: "问题",
-  pitfall_class: "踩雷类",
-  pitfall_pattern_stat: "踩雷统计",
-  pitfall_instance: "踩雷实例",
-  evidence_category: "证据类别",
-  evidence_field_requirement: "字段要求",
-  evidence_judgment_standard: "证据标准",
-  rectification_template: "整改模板",
-  report_expression: "报告表达",
-  stat_signal: "聚合信号",
-  industry: "行业",
-  process_scenario: "场景",
-  pollution_source: "产污源",
-  pollutant: "污染物",
-  tech_spec: "技术规范",
-};
-
-function byId(collection, idKey) {
-  return new Map(collection.map((item) => [item[idKey], item]));
-}
-
-function allowedNode(node) {
-  return state.view === "internal" || node.tier === "shared";
-}
-
-function allowedEdge(edge, visibleNodeIds) {
-  if (!state.activeEdgeTypes.has(edge.edge_type)) return false;
-  if (state.view === "shared" && edge.tier !== "shared") return false;
-  return visibleNodeIds.has(edge.from) && visibleNodeIds.has(edge.to);
-}
-
-function buildElements() {
-  const allowedNodes = state.graph.nodes.filter(allowedNode);
-  const visibleNodeIds = new Set(allowedNodes.map((node) => node.node_id));
-  const allowedEdges = state.graph.edges.filter((edge) => allowedEdge(edge, visibleNodeIds));
-  const centerId = visibleNodeIds.has(state.centerId) ? state.centerId : entryCenters[state.product].issue;
-  const egoIds = new Set([centerId]);
-  const firstHop = allowedEdges
-    .filter((edge) => edge.from === centerId || edge.to === centerId)
-    .slice(0, 36);
-  firstHop.forEach((edge) => {
-    egoIds.add(edge.from);
-    egoIds.add(edge.to);
-  });
-  if (egoIds.size < 42) {
-    const firstHopIds = new Set(egoIds);
-    for (const edge of allowedEdges) {
-      if (egoIds.size >= 72) break;
-      if (firstHopIds.has(edge.from) || firstHopIds.has(edge.to)) {
-        egoIds.add(edge.from);
-        egoIds.add(edge.to);
-      }
-    }
+const counterState = new Map();
+function animateCounter(id, target) {
+  const el = document.getElementById(id);
+  const from = counterState.get(id) ?? 0;
+  if (from === target) { el.textContent = target; return; }
+  const t0 = performance.now();
+  const dur = 900;
+  function tick(t) {
+    const p = Math.min((t - t0) / dur, 1);
+    const eased = 1 - Math.pow(1 - p, 3);
+    el.textContent = Math.round(from + (target - from) * eased);
+    if (p < 1) requestAnimationFrame(tick);
+    else counterState.set(id, target);
   }
-  const nodes = allowedNodes.filter((node) => egoIds.has(node.node_id));
-  const nodeIds = new Set(nodes.map((node) => node.node_id));
-  const edges = allowedEdges.filter((edge) => nodeIds.has(edge.from) && nodeIds.has(edge.to));
-  return [
-    ...nodes.map((node) => ({
-      data: {
-        id: node.node_id,
-        label: node.name,
-        nodeType: node.node_type,
-        nodeTypeLabel: nodeTypeLabel[node.node_type] || node.node_type,
-        tier: node.tier,
-        reviewStatus: node.review_status,
-      },
-    })),
-    ...edges.map((edge) => ({
-      data: {
-        id: edge.edge_id,
-        source: edge.from,
-        target: edge.to,
-        edgeType: edge.edge_type,
-        tier: edge.tier,
-        confidence: edge.confidence,
-        label: edge.edge_type,
-        reasons: (edge.confidence_reason || []).join(" · "),
-      },
-    })),
-  ];
-}
-
-function renderGraph() {
-  const elements = buildElements();
-  const centerExists = elements.some((item) => item.data.id === state.centerId);
-  if (!centerExists) state.centerId = entryCenters[state.product].issue;
-
-  if (!state.cy) {
-    state.cy = cytoscape({
-      container: document.getElementById("cy"),
-      elements,
-      minZoom: 0.45,
-      maxZoom: 2.2,
-      style: [
-        {
-          selector: "node",
-          style: {
-            "background-color": "data(tier)",
-            "border-color": "#dbeafe",
-            "border-width": 1,
-            color: "#f8fafc",
-            "font-size": 11,
-            "font-family": "Inter, system-ui, sans-serif",
-            label: "data(label)",
-            "text-halign": "center",
-            "text-valign": "bottom",
-            "text-margin-y": 7,
-            "text-wrap": "wrap",
-            "text-max-width": 120,
-            width: 44,
-            height: 44,
-          },
-        },
-        { selector: 'node[tier = "shared"]', style: { "background-color": "#047857" } },
-        { selector: 'node[tier = "private"]', style: { "background-color": "#7c2d12", "border-style": "dashed" } },
-        { selector: 'node[tier = "aggregate"]', style: { "background-color": "#7c3aed" } },
-        { selector: 'node[nodeType = "law_article"]', style: { shape: "round-rectangle", width: 72, height: 42, "background-color": "#1d4ed8" } },
-        { selector: 'node[nodeType = "issue_type"]', style: { shape: "round-rectangle", width: 78, height: 46, "background-color": "#b91c1c" } },
-        { selector: 'node[nodeType *= "evidence"]', style: { shape: "round-rectangle", "background-color": "#0f766e" } },
-        { selector: "edge", style: {
-          width: "mapData(confidence, 0.6, 0.9, 1.2, 4)",
-          "line-color": "#64748b",
-          "target-arrow-color": "#64748b",
-          "target-arrow-shape": "triangle",
-          "curve-style": "bezier",
-          opacity: "mapData(confidence, 0.6, 0.9, 0.48, 0.95)",
-        } },
-        { selector: 'edge[edgeType = "manifests_as"]', style: { "line-color": "#f59e0b", "target-arrow-color": "#f59e0b" } },
-        { selector: 'edge[edgeType = "regulated_by"], edge[edgeType = "obligation_of"]', style: { "line-color": "#38bdf8", "target-arrow-color": "#38bdf8" } },
-        { selector: 'edge[edgeType = "evidenced_by"]', style: { "line-color": "#2dd4bf", "target-arrow-color": "#2dd4bf" } },
-        { selector: 'edge[edgeType = "pitfall_of"]', style: { "line-color": "#f472b6", "target-arrow-color": "#f472b6", "line-style": "dashed" } },
-        { selector: ":selected", style: { "border-color": "#fef08a", "border-width": 3 } },
-      ],
-      layout: { name: "breadthfirst", directed: true, padding: 30, spacingFactor: 1.05 },
-    });
-    state.cy.on("tap", "node", (event) => selectNode(event.target.id()));
-  } else {
-    state.cy.elements().remove();
-    state.cy.add(elements);
-    state.cy.layout({ name: "breadthfirst", directed: true, padding: 30, spacingFactor: 1.05 }).run();
-  }
-  selectNode(state.centerId, false);
-  state.cy.fit(undefined, 40);
-}
-
-function findCardForNode(nodeId) {
-  return state.cards.find((card) => card.field_manifestations?.some((item) => item.issue_type_ref === nodeId))
-    || state.cards.find((card) => card.law_article_ref?.node_id === nodeId)
-    || state.cards.find((card) => card.root_issue_type === nodeId)
-    || state.cards[0];
-}
-
-function selectNode(nodeId, fit = true) {
-  state.centerId = nodeId;
-  const nodeMap = byId(state.graph.nodes, "node_id");
-  const edgeMap = state.graph.edges.filter((edge) => edge.from === nodeId || edge.to === nodeId);
-  const node = nodeMap.get(nodeId) || nodeMap.get(entryCenters.issue);
-  const card = findCardForNode(node.node_id);
-
-  document.getElementById("centerTitle").textContent = node.name;
-  document.getElementById("cardTitle").textContent = card.title || node.name;
-  const tierBadge = document.getElementById("tierBadge");
-  tierBadge.textContent = node.tier;
-  tierBadge.className = `tier-badge ${node.tier}`;
-
-  const facts = document.getElementById("nodeFacts");
-  facts.innerHTML = [
-    ["类型", nodeTypeLabel[node.node_type] || node.node_type],
-    ["审核", node.review_status],
-    ["节点", node.node_id],
-  ].map(([label, value]) => `<dt>${label}</dt><dd>${value}</dd>`).join("");
-
-  const manifestation = card.field_manifestations?.[0]?.description || node.attrs?.summary || node.attrs?.obligation_summary || "-";
-  document.getElementById("manifestation").textContent = manifestation;
-  const evidenceItems = card.evidence_categories?.map((item) => ({ label: item.label, hint: item.tier }))
-    || (card.evidence_summary ? [{ label: card.evidence_summary, hint: "shared 概念级" }] : []);
-  document.getElementById("evidenceList").innerHTML = evidenceItems
-    .map((item) => `<li>${item.label}<span>${item.hint}</span></li>`)
-    .join("") || "<li>暂无证据类别</li>";
-  const boundary = state.view === "shared"
-    ? "共有视图仅展示问题分类、法条瘦引用、证据类别、概念级字段和聚合统计；判定标准、整改模板、报告表达不进入共有包。"
-    : "内部视图可见 private runtime 节点，用于证明能力存在；导出时由物理过滤和泄漏检测兜底。";
-  document.getElementById("boundaryText").textContent = boundary;
-  document.getElementById("confidenceList").innerHTML = edgeMap.slice(0, 6).map((edge) => (
-    `<li><strong>${edge.edge_type}</strong><span>${edge.confidence?.toFixed(2) || "-"}</span><small>${(edge.confidence_reason || []).join(" / ")}</small></li>`
-  )).join("") || "<li>暂无邻接边</li>";
-
-  if (state.cy) {
-    state.cy.nodes().unselect();
-    const cyNode = state.cy.getElementById(node.node_id);
-    if (cyNode.length) {
-      cyNode.select();
-      if (fit) state.cy.animate({ center: { eles: cyNode }, zoom: Math.max(state.cy.zoom(), 1.05) }, { duration: 220 });
-    }
-  }
+  requestAnimationFrame(tick);
 }
 
 function updateMetrics() {
-  const sharedNodes = state.graph.nodes.filter((node) => node.tier === "shared").length;
-  document.getElementById("nodeCount").textContent = state.graph.nodes.length;
-  document.getElementById("edgeCount").textContent = state.graph.edges.length;
-  document.getElementById("cardCount").textContent = state.cards.length;
-  document.getElementById("sharedCount").textContent = sharedNodes;
+  animateCounter("nodeCount", state.graph.nodes.length);
+  animateCounter("edgeCount", state.graph.edges.length);
+  animateCounter("cardCount", state.cards.length);
+  animateCounter("sharedCount", state.graph.nodes.filter((n) => n.tier === "shared").length);
+}
+
+function setStatus(text) {
+  document.getElementById("viewStatus").textContent = text;
+}
+
+/* ---------- 选择节点 ---------- */
+
+function selectNode(nodeId, recenter = false) {
+  state.centerId = nodeId;
+  if (recenter) initOrUpdateGraph();
+  else markCenter(nodeId);
+  renderPanel(nodeId);
+  document.getElementById("centerTitle").textContent =
+    state.graph.nodes.find((n) => n.node_id === nodeId)?.name ?? nodeId;
+}
+
+onNodeSelect((id) => selectNode(id));
+
+/* ---------- 边类型筛选 chips ---------- */
+
+function renderEdgeFilters() {
+  const counts = {};
+  for (const edge of state.graph.edges) counts[edge.edge_type] = (counts[edge.edge_type] || 0) + 1;
+  const wrap = document.getElementById("edgeFilters");
+  wrap.innerHTML = Object.entries(EDGE_GROUPS).map(([key, group]) => {
+    const count = group.types.reduce((sum, t) => sum + (counts[t] || 0), 0);
+    const on = state.activeEdgeGroups.has(key);
+    return `<button class="edge-chip ${on ? "is-on" : ""}" data-group="${key}" style="--chip-color:${group.color}"
+        aria-pressed="${on}">
+      <span class="chip-dot"></span>${group.label}<span class="chip-count">${count}</span>
+    </button>`;
+  }).join("");
+  wrap.querySelectorAll(".edge-chip").forEach((chip) => {
+    chip.addEventListener("click", () => {
+      const key = chip.dataset.group;
+      if (state.activeEdgeGroups.has(key)) state.activeEdgeGroups.delete(key);
+      else state.activeEdgeGroups.add(key);
+      renderEdgeFilters();
+      initOrUpdateGraph();
+    });
+  });
+}
+
+/* ---------- 搜索 ---------- */
+
+function bindSearch() {
+  const input = document.getElementById("searchInput");
+  const list = document.getElementById("searchResults");
+  let focusIndex = -1;
+
+  function close() { list.hidden = true; list.innerHTML = ""; focusIndex = -1; }
+
+  function run(q) {
+    const query = q.trim().toLowerCase();
+    if (!query) { close(); return; }
+    const pool = state.view === "shared"
+      ? state.graph.nodes.filter((n) => n.tier === "shared")
+      : state.graph.nodes;
+    const hits = pool.filter((n) =>
+      n.name?.toLowerCase().includes(query) || n.node_id?.toLowerCase().includes(query),
+    ).slice(0, 8);
+    if (!hits.length) {
+      list.innerHTML = `<li class="sr-empty">无匹配节点 —— 试试「标签」「台账」「贮存」</li>`;
+      list.hidden = false;
+      return;
+    }
+    list.innerHTML = hits.map((n, i) => {
+      const meta = nodeMeta(n.node_type);
+      return `<li data-id="${n.node_id}" data-i="${i}">
+        <b class="dot t-${n.tier}"></b><span class="sr-name">${n.name}</span>
+        <span class="sr-type">${meta.label}</span></li>`;
+    }).join("");
+    list.hidden = false;
+    list.querySelectorAll("li[data-id]").forEach((li) => {
+      li.addEventListener("click", () => { selectNode(li.dataset.id, true); close(); input.value = ""; });
+    });
+  }
+
+  input.addEventListener("input", () => run(input.value));
+  input.addEventListener("keydown", (e) => {
+    const items = [...list.querySelectorAll("li[data-id]")];
+    if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+      e.preventDefault();
+      if (!items.length) return;
+      focusIndex = (focusIndex + (e.key === "ArrowDown" ? 1 : -1) + items.length) % items.length;
+      items.forEach((li, i) => li.classList.toggle("is-focus", i === focusIndex));
+    } else if (e.key === "Enter") {
+      const pick = items[focusIndex >= 0 ? focusIndex : 0];
+      if (pick) { selectNode(pick.dataset.id, true); close(); input.value = ""; }
+    } else if (e.key === "Escape") { close(); input.blur(); }
+  });
+  document.addEventListener("click", (e) => {
+    if (!e.target.closest(".search-box")) close();
+  });
+}
+
+/* ---------- 控件 ---------- */
+
+function syncControls() {
+  document.querySelectorAll("[data-view]").forEach((b) => b.classList.toggle("is-active", b.dataset.view === state.view));
+  document.querySelectorAll("[data-product]").forEach((b) => b.classList.toggle("is-active", b.dataset.product === state.product));
+  document.querySelectorAll("[data-entry]").forEach((b) => b.classList.toggle("is-active", b.dataset.entry === state.entry));
 }
 
 function bindControls() {
   document.querySelectorAll("[data-view]").forEach((button) => {
     button.addEventListener("click", () => {
+      if (state.view === button.dataset.view) return;
       state.view = button.dataset.view;
-      document.querySelectorAll("[data-view]").forEach((item) => item.classList.toggle("is-active", item === button));
       applyDataset();
-      document.getElementById("viewStatus").textContent = state.view === "shared"
-        ? "共有视图: 已加载 shared_product_v1 导出包,只保留共有口径。"
-        : "内部全量视图: 可见 private runtime 节点。";
-      renderGraph();
+      syncControls();
+      setStatus(state.view === "shared"
+        ? "共有视图:已加载 shared_product_v1 导出包,private runtime 已物理过滤。"
+        : "内部全量视图:可见 private runtime 节点。");
+      updateMetrics();
+      renderEdgeFilters();
+      initOrUpdateGraph();
+      renderPanel(state.centerId);
     });
   });
   document.querySelectorAll("[data-product]").forEach((button) => {
     button.addEventListener("click", () => {
+      if (state.product === button.dataset.product) return;
       state.product = button.dataset.product;
-      document.querySelectorAll("[data-product]").forEach((item) => item.classList.toggle("is-active", item === button));
       applyDataset();
-      state.centerId = entryCenters[state.product][state.entry];
+      state.centerId = ENTRY_CENTERS[state.product][state.entry];
+      syncControls();
       updateMetrics();
-      renderGraph();
+      renderEdgeFilters();
+      initOrUpdateGraph();
+      renderPanel(state.centerId);
     });
   });
   document.querySelectorAll("[data-entry]").forEach((button) => {
     button.addEventListener("click", () => {
       state.entry = button.dataset.entry;
-      state.centerId = entryCenters[state.product][state.entry];
-      document.querySelectorAll("[data-entry]").forEach((item) => item.classList.toggle("is-active", item === button));
-      selectNode(state.centerId);
+      syncControls();
+      selectNode(ENTRY_CENTERS[state.product][state.entry], true);
     });
   });
-  document.querySelectorAll(".check-row input").forEach((input) => {
-    input.addEventListener("change", () => {
-      if (input.checked) state.activeEdgeTypes.add(input.value);
-      else state.activeEdgeTypes.delete(input.value);
-      renderGraph();
-    });
+  document.getElementById("fitButton").addEventListener("click", fitGraph);
+  document.getElementById("relayoutButton").addEventListener("click", relayout);
+  document.getElementById("directorButton").addEventListener("click", enterDemo);
+  document.getElementById("detailToggle").addEventListener("click", () => {
+    document.getElementById("detailPanel").classList.toggle("is-open");
   });
-  document.getElementById("fitButton").addEventListener("click", () => state.cy?.fit(undefined, 40));
-  document.getElementById("directorButton").addEventListener("click", () => {
-    enterDirectorMode();
-  });
+  // 窄屏下显示执行卡浮动按钮
+  const mq = window.matchMedia("(max-width: 1100px)");
+  const applyMq = () => { document.getElementById("detailToggle").hidden = !mq.matches; };
+  mq.addEventListener("change", applyMq);
+  applyMq();
 }
 
-function syncActiveControls() {
-  document.querySelectorAll("[data-product]").forEach((item) => item.classList.toggle("is-active", item.dataset.product === state.product));
-  document.querySelectorAll("[data-view]").forEach((item) => item.classList.toggle("is-active", item.dataset.view === state.view));
-  document.querySelectorAll("[data-entry]").forEach((item) => item.classList.toggle("is-active", item.dataset.entry === state.entry));
-}
+/* ---------- 启动 ---------- */
 
-function enterDirectorMode() {
-  state.product = "full";
-  state.view = "shared";
-  state.entry = "issue";
-  applyDataset();
-  state.centerId = entryCenters.full.issue;
-  syncActiveControls();
-  document.getElementById("viewStatus").textContent = "主任演示: shared_product_v1 + 19 张危废展示卡, private runtime 不进入画布。";
-  updateMetrics();
-  renderGraph();
-}
-
-function applyDataset() {
-  const key = state.product === "full" && state.view === "shared" ? "fullShared" : state.product;
-  const dataset = state.datasets[key] || state.datasets.full || state.datasets.p1;
-  state.graph = dataset.graph;
-  state.cards = dataset.cards;
-}
-
-async function boot() {
-  const [fullGraph, fullCards, fullSharedGraph, fullSharedCards, p1Graph, p1Cards] = await Promise.all([
-    fetch("/demo-data/full-graph.json").then((response) => response.json()),
-    fetch("/demo-data/full-cards.json").then((response) => response.json()),
-    fetch("/demo-data/full-shared-graph.json").then((response) => response.json()),
-    fetch("/demo-data/full-shared-cards.json").then((response) => response.json()),
-    fetch("/demo-data/graph.json").then((response) => response.json()),
-    fetch("/demo-data/cards.json").then((response) => response.json()),
-  ]);
-  state.datasets = {
-    full: { graph: fullGraph, cards: fullCards },
-    fullShared: { graph: fullSharedGraph, cards: fullSharedCards },
-    p1: { graph: p1Graph, cards: p1Cards },
-  };
-  applyDataset();
-  state.centerId = entryCenters.full.law;
-  updateMetrics();
-  bindControls();
-  const params = new URLSearchParams(window.location.search);
-  if (params.get("director") === "1") enterDirectorMode();
-  else if (params.get("view") === "shared") {
-    state.view = "shared";
-    applyDataset();
-    state.centerId = entryCenters.full.law;
-    syncActiveControls();
-    document.getElementById("viewStatus").textContent = "共有视图: 已加载 shared_product_v1 导出包,只保留共有口径。";
-    updateMetrics();
-    renderGraph();
-  } else {
-    renderGraph();
+async function fetchJson(path, optional = false) {
+  try {
+    const res = await fetch(path);
+    if (!res.ok) throw new Error(`${path} → HTTP ${res.status}`);
+    return await res.json();
+  } catch (err) {
+    if (optional) return null;
+    throw err;
   }
 }
 
-boot().catch((error) => {
-  document.getElementById("centerTitle").textContent = "加载失败";
-  document.getElementById("manifestation").textContent = error.message;
-});
+async function boot() {
+  const loading = document.getElementById("stageLoading");
+  const errBox = document.getElementById("stageError");
+  loading.hidden = false;
+  errBox.hidden = true;
+  try {
+    const [fullGraph, fullCards, fullSharedGraph, fullSharedCards, p1Graph, p1Cards, gap, monthly] =
+      await Promise.all([
+        fetchJson("/demo-data/full-graph.json"),
+        fetchJson("/demo-data/full-cards.json"),
+        fetchJson("/demo-data/full-shared-graph.json"),
+        fetchJson("/demo-data/full-shared-cards.json"),
+        fetchJson("/demo-data/graph.json"),
+        fetchJson("/demo-data/cards.json"),
+        fetchJson("/demo-data/gap-report.json", true),
+        fetchJson("/demo-data/monthly-comparison.json", true),
+      ]);
+    state.datasets = {
+      full: { graph: fullGraph, cards: fullCards },
+      fullShared: { graph: fullSharedGraph, cards: fullSharedCards },
+      p1: { graph: p1Graph, cards: p1Cards },
+    };
+    state.reports = { gap, monthly };
+    applyDataset();
+    state.centerId = ENTRY_CENTERS.full.law;
+
+    bindControls();
+    bindSearch();
+    initDemo({ syncControls, updateMetrics, setStatus });
+
+    updateMetrics();
+    renderEdgeFilters();
+    loading.hidden = true;
+
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("director") === "1") {
+      enterDemo();
+    } else {
+      if (params.get("view") === "shared") {
+        state.view = "shared";
+        applyDataset();
+        syncControls();
+        setStatus("共有视图:已加载 shared_product_v1 导出包,private runtime 已物理过滤。");
+        updateMetrics();
+        renderEdgeFilters();
+      }
+      initOrUpdateGraph();
+      selectNode(state.centerId);
+    }
+    window.__refreshIcons();
+  } catch (error) {
+    loading.hidden = true;
+    errBox.hidden = false;
+    document.getElementById("stageErrorText").textContent = `数据加载失败:${error.message}`;
+    document.getElementById("retryButton").onclick = () => boot();
+    window.__refreshIcons();
+  }
+}
+
+boot();
