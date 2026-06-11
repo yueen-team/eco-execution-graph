@@ -2,18 +2,18 @@
   "generated_at": "2026-06-11",
   "viewport_desktop": "1600x900",
   "viewport_mobile": "390x844",
-  "build": "vite production build, preview server 127.0.0.1:4317",
+  "build": "vite production build, preview 127.0.0.1:4317, node-art svg tokens",
   "console_errors": 0,
   "screenshots": [
     {
       "file": "act0-growth.png",
-      "sha256": "b2cb5d67a85ff2a4340681a807b2fe2aa17c417f2b54686aa22002fd8215d322",
-      "bytes": 467610
+      "sha256": "85534453a7c157bb8182e644a6ce85dd6e345217f546305f0c7c5d334c779c34",
+      "bytes": 477025
     },
     {
       "file": "act1-law-only.png",
-      "sha256": "91d1762995cba5d4a81e7e69959f0419715cdafa9dcfba895454c33dc38085ae",
-      "bytes": 397016
+      "sha256": "f54e72772ea0faa97f2b5c4f2e1418a20373f8263cc98d01f10abc1266d0cba0",
+      "bytes": 410344
     },
     {
       "file": "act2-path.png",
@@ -27,8 +27,8 @@
     },
     {
       "file": "act4-shared.png",
-      "sha256": "de3295f7dc7420cd3812fc9c8f5fab569f2b59f95d9ac9f540585c817ae9b9ad",
-      "bytes": 446174
+      "sha256": "58ee5c7758206256fc2626407b278ef35db521d17aba08d1cb301e242ce9b453",
+      "bytes": 454589
     },
     {
       "file": "act5-gap.png",
@@ -42,18 +42,23 @@
     },
     {
       "file": "desktop-internal.png",
-      "sha256": "15e8ee0ddcf971617a83594c9a92c711ff44a1275dce48ac727581f24f2df79f",
-      "bytes": 375861
+      "sha256": "61561c7e7c87a4a76d6da62275497b473ad22a3954fbf17dd515420ec4cf6db8",
+      "bytes": 475516
     },
     {
       "file": "desktop-shared.png",
-      "sha256": "9a0e9a69955dcd0700ff2374b2c10dfad902cc0a6363a08d91aef3d0e3a4cd11",
-      "bytes": 381292
+      "sha256": "3f03389a764dfcd832a63fa37efff6c5842502f08e8688836afd3b3169621e07",
+      "bytes": 430400
     },
     {
       "file": "mobile-default.png",
       "sha256": "a4010c971e4dce55672825ef31d1eac029f4fba4254bc6d472bc293b0265ca35",
       "bytes": 90627
+    },
+    {
+      "file": "nodes-closeup.png",
+      "sha256": "a2b5efd4388d8e7f8e2b505902f268c9ff24236b7f339370754ef98c171e343a",
+      "bytes": 256591
     },
     {
       "file": "search-dropdown.png",

@@ -4,15 +4,16 @@ import dagreLayout from "cytoscape-dagre";
 import {
   state, ENTRY_CENTERS, nodeMeta, EDGE_TYPE_COLOR, EDGE_TYPE_LABEL, activeEdgeTypes,
 } from "./state.js";
+import { nodeArt, nodeKind } from "./nodeArt.js";
 
 cytoscape.use(dagreLayout);
 
 const LAYOUT = {
   name: "dagre",
   rankDir: "TB",
-  nodeSep: 30,
-  rankSep: 72,
-  edgeSep: 14,
+  nodeSep: 52,
+  rankSep: 92,
+  edgeSep: 18,
   padding: 28,
   animate: true,
   animationDuration: 480,
@@ -72,13 +73,16 @@ export function buildElements(opts = {}) {
     elements: [
       ...nodes.map((node) => {
         const meta = nodeMeta(node.node_type);
+        const kind = nodeKind(node.node_type);
         return {
           data: {
             id: node.node_id,
-            label: node.tier === "private" ? `🔒 ${node.name}` : node.name,
+            label: node.name,
             typeLabel: meta.label,
             color: meta.color,
-            shape: meta.shape,
+            shape: kind.kind === "entity" ? "ellipse" : kind.kind === "diamond" ? "diamond" : "round-rectangle",
+            size: kind.size,
+            art: nodeArt(node.node_type, node.tier),
             tier: node.tier,
             reviewStatus: node.review_status,
           },
@@ -107,13 +111,15 @@ const CY_STYLE = [
   {
     selector: "node",
     style: {
-      "background-color": "data(color)",
-      "background-opacity": 0.92,
+      "background-opacity": 0,
+      "background-image": "data(art)",
+      "background-fit": "contain",
+      "background-clip": "none",
+      "bounds-expansion": 6,
       shape: "data(shape)",
-      width: 46,
-      height: 46,
-      "border-width": 1.5,
-      "border-color": "rgba(234, 245, 237, 0.35)",
+      width: "data(size)",
+      height: "data(size)",
+      "border-width": 0,
       label: "data(label)",
       color: "#cfe3d6",
       "font-size": 11,
@@ -130,20 +136,6 @@ const CY_STYLE = [
       "transition-property": "opacity",
       "transition-duration": "0.25s",
     },
-  },
-  { selector: 'node[shape = "round-rectangle"]', style: { width: 74, height: 40 } },
-  { selector: 'node[shape = "diamond"]', style: { width: 44, height: 44 } },
-  {
-    selector: "node.tier-private",
-    style: {
-      "border-style": "dashed",
-      "border-color": "rgba(245, 184, 77, 0.85)",
-      "background-opacity": 0.55,
-    },
-  },
-  {
-    selector: "node.tier-aggregate",
-    style: { "border-style": "double", "border-width": 3, "border-color": "rgba(167, 139, 250, 0.7)" },
   },
   {
     selector: "edge",
@@ -163,11 +155,10 @@ const CY_STYLE = [
   {
     selector: "node:selected, node.is-center",
     style: {
-      "border-width": 2.5,
-      "border-color": "#2ee6a8",
       "underlay-color": "#2ee6a8",
-      "underlay-opacity": 0.18,
-      "underlay-padding": 10,
+      "underlay-opacity": 0.2,
+      "underlay-padding": 9,
+      "underlay-shape": "ellipse",
     },
   },
   { selector: "node.dimmed", style: { opacity: 0.16, "text-opacity": 0.1 } },
@@ -185,11 +176,10 @@ const CY_STYLE = [
   {
     selector: "node.leaving",
     style: {
-      "border-color": "#f5b84d",
-      "border-width": 3,
       "underlay-color": "#f5b84d",
-      "underlay-opacity": 0.3,
-      "underlay-padding": 12,
+      "underlay-opacity": 0.32,
+      "underlay-padding": 11,
+      "underlay-shape": "ellipse",
     },
   },
 ];
