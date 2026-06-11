@@ -11,8 +11,8 @@ cytoscape.use(dagreLayout);
 const LAYOUT = {
   name: "dagre",
   rankDir: "TB",
-  nodeSep: 52,
-  rankSep: 92,
+  nodeSep: 68,
+  rankSep: 96,
   edgeSep: 18,
   padding: 28,
   animate: true,
@@ -22,6 +22,12 @@ const LAYOUT = {
 
 let selectHandler = null;
 export function onNodeSelect(fn) { selectHandler = fn; }
+
+// 画布标签只展示前 N 字,完整名称走 tooltip 与右栏(中文长名防重叠)
+function shortLabel(name, max = 14) {
+  if (!name) return "";
+  return name.length > max ? `${name.slice(0, max)}…` : name;
+}
 
 // 演示模式可注入额外节点过滤(如第一幕"只有法条")
 let demoNodeFilter = null;
@@ -77,7 +83,8 @@ export function buildElements(opts = {}) {
         return {
           data: {
             id: node.node_id,
-            label: node.name,
+            label: shortLabel(node.name),
+            fullName: node.name,
             typeLabel: meta.label,
             color: meta.color,
             shape: kind.kind === "entity" ? "ellipse" : kind.kind === "diamond" ? "diamond" : "round-rectangle",
@@ -128,7 +135,9 @@ const CY_STYLE = [
       "text-valign": "bottom",
       "text-margin-y": 8,
       "text-wrap": "wrap",
-      "text-max-width": 130,
+      "text-overflow-wrap": "anywhere",
+      "text-max-width": 96,
+      "line-height": 1.3,
       "text-background-color": "#060f0b",
       "text-background-opacity": 0.65,
       "text-background-padding": 2,
@@ -296,7 +305,7 @@ function bindGraphEvents() {
     document.getElementById("cy").style.cursor = "pointer";
     if (!spotlightActive) highlightNeighborhood(event.target);
     showTooltip(
-      `<div class="tt-title">${d.label}</div>
+      `<div class="tt-title">${d.fullName || d.label}</div>
        <div class="tt-meta">${d.typeLabel} · ${d.tier} · ${d.reviewStatus || ""}</div>
        <div class="tt-meta">双击以此为中心展开</div>`,
       event.target.renderedPosition(),

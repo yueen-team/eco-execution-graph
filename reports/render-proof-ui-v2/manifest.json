@@ -2,7 +2,7 @@
   "generated_at": "2026-06-11",
   "viewport_desktop": "1600x900",
   "viewport_mobile": "390x844",
-  "build": "vite production build; svg node tokens; edge-as-first-class + hover spotlight + flow animation",
+  "build": "vite production build; svg tokens; edge cards; cjk anywhere-wrap labels",
   "console_errors": 0,
   "screenshots": [
     {
@@ -67,8 +67,13 @@
     },
     {
       "file": "nodes-closeup.png",
-      "sha256": "a2b5efd4388d8e7f8e2b505902f268c9ff24236b7f339370754ef98c171e343a",
-      "bytes": 256591
+      "sha256": "7a66247d752249c47e153bc811e3dd1fbca638b2daf2ec53abcc49afc492d574",
+      "bytes": 191046
+    },
+    {
+      "file": "nodes-zoom115.png",
+      "sha256": "1e49514722596cb71ac0e07a2a6584e6e898f1ff6f5d98609eb83f25565eb9b0",
+      "bytes": 254893
     },
     {
       "file": "search-dropdown.png",
