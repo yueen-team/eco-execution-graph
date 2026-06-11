@@ -2,7 +2,7 @@
   "generated_at": "2026-06-11",
   "viewport_desktop": "1600x900",
   "viewport_mobile": "390x844",
-  "build": "vite production build, preview 127.0.0.1:4317, node-art svg tokens",
+  "build": "vite production build; svg node tokens; edge-as-first-class + hover spotlight + flow animation",
   "console_errors": 0,
   "screenshots": [
     {
@@ -22,8 +22,8 @@
     },
     {
       "file": "act3-evidence.png",
-      "sha256": "0b580be1750bbecb66df39132f10acc9826fe51d26aa0ecf9e54587199034102",
-      "bytes": 472326
+      "sha256": "e8db05f78f0dd9052d3ea38b31c4bc9c8a0e70fe2ff672548d5bdf8dec41503f",
+      "bytes": 486355
     },
     {
       "file": "act4-shared.png",
@@ -49,6 +49,16 @@
       "file": "desktop-shared.png",
       "sha256": "3f03389a764dfcd832a63fa37efff6c5842502f08e8688836afd3b3169621e07",
       "bytes": 430400
+    },
+    {
+      "file": "edge-card.png",
+      "sha256": "d99dfe6ed2d1643a06648bb522e3f4004bd53bebfdc56f7a6d9582725ec3d480",
+      "bytes": 437733
+    },
+    {
+      "file": "hover-neighborhood.png",
+      "sha256": "9d11b3c51bc60e23e0341afcf838d35858f7092dd2fbd622f3b2bac03dac38e8",
+      "bytes": 428057
     },
     {
       "file": "mobile-default.png",

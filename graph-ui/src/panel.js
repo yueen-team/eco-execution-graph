@@ -20,6 +20,64 @@ const LEGAL_BASIS_LABEL = {
   no_legal_basis: "无法条依据·管理经验",
 };
 
+// 关联解释卡:边是一等公民 —— 谁、什么关系、谁、凭什么、来自哪
+export function renderEdgePanel(edgeId) {
+  const body = document.getElementById("detailBody");
+  const edge = state.graph?.edges.find((e) => e.edge_id === edgeId);
+  if (!edge) return;
+  const from = state.graph.nodes.find((n) => n.node_id === edge.from);
+  const to = state.graph.nodes.find((n) => n.node_id === edge.to);
+  const fromMeta = nodeMeta(from?.node_type);
+  const toMeta = nodeMeta(to?.node_type);
+  const tier = TIER_META[edge.tier] || TIER_META.shared;
+  const color = EDGE_TYPE_COLOR[edge.edge_type] || "#5b7282";
+  const conf = edge.confidence ?? 0;
+  const ev = edge.confidence_evidence || {};
+
+  body.innerHTML = `
+    <header class="dp-header">
+      <p class="dp-kind"><i data-lucide="spline"></i>关联解释</p>
+      <h2 style="color:${color}">${esc(EDGE_TYPE_LABEL[edge.edge_type] || edge.edge_type)}</h2>
+      <div class="dp-badges">
+        ${badge(tier.label, tier.badge, tier.icon)}
+        ${edge.review_status ? badge(edge.review_status, "b-plain") : ""}
+        ${edge.legal_basis_status ? badge(LEGAL_BASIS_LABEL[edge.legal_basis_status] || edge.legal_basis_status, "b-blue", "stamp") : ""}
+      </div>
+    </header>
+    <section class="dp-section">
+      <h3><i data-lucide="git-fork"></i>这条关联连接了谁</h3>
+      <button class="edge-endpoint" data-jump="${esc(edge.from)}">
+        <i data-lucide="${fromMeta.icon}"></i>
+        <span><small>${esc(fromMeta.label)}</small>${esc(from?.name || edge.from)}</span>
+      </button>
+      <div class="edge-arrow" style="--c:${color}"><i data-lucide="move-down"></i><span>${esc(EDGE_TYPE_LABEL[edge.edge_type] || edge.edge_type)}</span></div>
+      <button class="edge-endpoint" data-jump="${esc(edge.to)}">
+        <i data-lucide="${toMeta.icon}"></i>
+        <span><small>${esc(toMeta.label)}</small>${esc(to?.name || edge.to)}</span>
+      </button>
+    </section>
+    <section class="dp-section">
+      <h3><i data-lucide="shield-check"></i>凭什么连</h3>
+      <div class="quality-grid">
+        <div class="q-cell"><b>${conf.toFixed(2)}</b><span>置信度</span></div>
+        <div class="q-cell"><b>${edge.evidence_count ?? ev.verified_count ?? 0}</b><span>证据计数</span></div>
+        <div class="q-cell"><b>${esc(edge.last_verified_at || ev.last_updated || "—")}</b><span>最近验证</span></div>
+        <div class="q-cell"><b>${esc(edge.reviewer_role || "—")}</b><span>审核角色</span></div>
+      </div>
+      ${edge.confidence_reason?.length ? `<div class="chip-row">${edge.confidence_reason.map((r) => `<span class="chip">${esc(r)}</span>`).join("")}</div>` : ""}
+    </section>
+    ${edge.report_usage_policy ? section("对外口径", "file-pen", `<p>报告中只允许写:「${esc(edge.report_usage_policy)}」—— 由 legal_basis_status 约束,未经官方确认不写违法认定。</p>`) : ""}
+    ${section("来源追溯", "git-commit-horizontal", `<div class="trace-list">
+        ${edge.source_ref ? `<div class="trace-item"><span class="tk">source</span><span class="tv">${esc(edge.source_ref)}</span></div>` : ""}
+        ${edge.origin_repo ? `<div class="trace-item"><span class="tk">来源库</span><span class="tv">${esc(edge.origin_repo)}</span></div>` : ""}
+        ${edge.origin_commit ? `<div class="trace-item"><span class="tk">提交</span><span class="tv">${esc(edge.origin_commit.slice(0, 9))}</span></div>` : ""}
+        ${edge.origin_asset ? `<div class="trace-item"><span class="tk">资产</span><span class="tv">${esc(edge.origin_asset)}</span></div>` : ""}
+      </div>`)}
+    <p class="boundary-note">每条关联出生即带 tier、置信与来源;置信度不是拍的,由整改验证回写(RECTIFICATION_VERIFIED)逐步挣得。</p>
+  `;
+  window.__refreshIcons?.();
+}
+
 export function renderPanel(nodeId) {
   const body = document.getElementById("detailBody");
   const node = state.graph?.nodes.find((n) => n.node_id === nodeId);

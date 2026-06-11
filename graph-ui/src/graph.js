@@ -174,6 +174,23 @@ const CY_STYLE = [
     },
   },
   {
+    selector: "edge.flowing",
+    style: {
+      "line-style": "dashed",
+      "line-dash-pattern": [9, 7],
+    },
+  },
+  {
+    selector: "edge:selected",
+    style: {
+      width: 4.5,
+      "line-opacity": 1,
+      "underlay-color": "data(color)",
+      "underlay-opacity": 0.25,
+      "underlay-padding": 6,
+    },
+  },
+  {
     selector: "node.leaving",
     style: {
       "underlay-color": "#f5b84d",
@@ -228,12 +245,46 @@ export function initOrUpdateGraph(opts = {}) {
   return { centerId, elementCount: elements.length };
 }
 
+let edgeSelectHandler = null;
+export function onEdgeSelect(fn) { edgeSelectHandler = fn; }
+
+// 悬停邻域聚光:非邻域压暗,让"关联"自己说话
+function highlightNeighborhood(node) {
+  const cy = state.cy;
+  const hood = node.closedNeighborhood();
+  cy.elements().not(hood).addClass("dimmed");
+  hood.removeClass("dimmed");
+}
+
+/* 能量流:聚光边的虚线沿连线方向流动 */
+let flowFrame = null;
+let flowOffset = 0;
+export function startFlow(edges) {
+  stopFlow();
+  edges.addClass("flowing");
+  const step = () => {
+    flowOffset = (flowOffset - 0.55) % 1000;
+    state.cy?.edges(".flowing").style("line-dash-offset", flowOffset);
+    flowFrame = requestAnimationFrame(step);
+  };
+  flowFrame = requestAnimationFrame(step);
+}
+export function stopFlow() {
+  if (flowFrame) cancelAnimationFrame(flowFrame);
+  flowFrame = null;
+  state.cy?.edges(".flowing").removeClass("flowing").style("line-dash-offset", 0);
+}
+
 function bindGraphEvents() {
   const cy = state.cy;
   cy.on("tap", "node", (event) => {
     const id = event.target.id();
     markCenter(id, false);
     selectHandler?.(id);
+  });
+  cy.on("tap", "edge", (event) => {
+    cy.nodes().removeClass("is-center");
+    edgeSelectHandler?.(event.target.data("id"));
   });
   cy.on("dbltap", "node", (event) => {
     state.centerId = event.target.id();
@@ -243,6 +294,7 @@ function bindGraphEvents() {
   cy.on("mouseover", "node", (event) => {
     const d = event.target.data();
     document.getElementById("cy").style.cursor = "pointer";
+    if (!spotlightActive) highlightNeighborhood(event.target);
     showTooltip(
       `<div class="tt-title">${d.label}</div>
        <div class="tt-meta">${d.typeLabel} · ${d.tier} · ${d.reviewStatus || ""}</div>
@@ -264,6 +316,10 @@ function bindGraphEvents() {
   cy.on("mouseout", "node, edge", () => {
     document.getElementById("cy").style.cursor = "default";
     hideTooltip();
+    if (!spotlightActive) cy.elements().removeClass("dimmed");
+  });
+  cy.on("mouseover", "edge", () => {
+    document.getElementById("cy").style.cursor = "pointer";
   });
   cy.on("pan zoom", hideTooltip);
 }
@@ -331,11 +387,14 @@ export function privateExitAnimation(done) {
   }, 760);
 }
 
-// 聚光灯:高亮某些边类型,其余压暗
+// 聚光灯:高亮某些边类型并让其流动,其余压暗
+let spotlightActive = false;
 export function spotlightEdges(edgeTypes) {
   const cy = state.cy;
   if (!cy) return;
   cy.elements().removeClass("dimmed spotlight");
+  stopFlow();
+  spotlightActive = false;
   if (!edgeTypes || !edgeTypes.length) return;
   const wanted = new Set(edgeTypes);
   const litEdges = cy.edges().filter((e) => wanted.has(e.data("edgeType")));
@@ -343,10 +402,14 @@ export function spotlightEdges(edgeTypes) {
   cy.nodes().not(litNodes).addClass("dimmed");
   cy.edges().not(litEdges).addClass("dimmed");
   litEdges.addClass("spotlight");
+  startFlow(litEdges);
+  spotlightActive = true;
 }
 
 export function clearSpotlight() {
   state.cy?.elements().removeClass("dimmed spotlight");
+  stopFlow();
+  spotlightActive = false;
 }
 
 export function relayout() {

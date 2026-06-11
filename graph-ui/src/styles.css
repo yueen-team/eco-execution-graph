@@ -576,6 +576,33 @@ strong[data-counter], .metric strong {
   border-radius: 3px;
 }
 
+/* 关联解释卡:端点与关系箭头 */
+.edge-endpoint {
+  display: flex; align-items: center; gap: 11px;
+  width: 100%;
+  padding: 11px 13px;
+  border: 1px solid var(--line-1);
+  border-radius: var(--r-md);
+  background: var(--ink-2);
+  text-align: left;
+  font-size: 13px;
+  color: var(--text-1);
+  transition: border-color 0.16s, background 0.16s;
+}
+.edge-endpoint:hover { border-color: var(--eco-line); background: var(--ink-3); }
+.edge-endpoint svg { width: 16px; height: 16px; color: var(--text-2); flex: none; }
+.edge-endpoint span { display: flex; flex-direction: column; min-width: 0; }
+.edge-endpoint small { font-size: 10.5px; letter-spacing: 0.1em; color: var(--text-3); }
+
+.edge-arrow {
+  display: flex; align-items: center; gap: 7px;
+  padding: 2px 0 2px 13px;
+  font-size: 11.5px;
+  letter-spacing: 0.08em;
+  color: var(--c, var(--text-3));
+}
+.edge-arrow svg { width: 14px; height: 14px; }
+
 /* 来源追溯 */
 .trace-list { display: flex; flex-direction: column; gap: 6px; }
 .trace-item {

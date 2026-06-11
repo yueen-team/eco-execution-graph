@@ -5,14 +5,14 @@ import {
   GitCommitHorizontal, Gauge, Stamp, ChevronLeft, ChevronRight, X, Check, Database,
   BookOpen, Wrench, FilePen, FileText, FileLock, CheckCircle, Info, FlaskConical,
   PanelRightOpen, Ruler, ClipboardCheck, Workflow, Flame, Droplets, ListChecks,
-  BarChart3, Zap, Radar, Circle, BarChart, Share2,
+  BarChart3, Zap, Radar, Circle, BarChart, Share2, Spline, MoveDown,
 } from "lucide";
 import "./styles.css";
 import {
   state, applyDataset, ENTRY_CENTERS, EDGE_GROUPS, nodeMeta,
 } from "./state.js";
-import { initOrUpdateGraph, onNodeSelect, markCenter, relayout, fitGraph } from "./graph.js";
-import { renderPanel } from "./panel.js";
+import { initOrUpdateGraph, onNodeSelect, onEdgeSelect, markCenter, relayout, fitGraph } from "./graph.js";
+import { renderPanel, renderEdgePanel } from "./panel.js";
 import { initDemo, enterDemo } from "./demo.js";
 
 const ICONS = {
@@ -21,9 +21,11 @@ const ICONS = {
   Gauge, Stamp, ChevronLeft, ChevronRight, X, Check, Database, BookOpen, Wrench, FilePen,
   FileText, FileLock, CheckCircle, Info, FlaskConical, PanelRightOpen, Ruler, ClipboardCheck,
   Workflow, Flame, Droplets, ListChecks, BarChart3, Zap, Radar, Circle, BarChart, Share2,
+  Spline, MoveDown,
 };
 window.__refreshIcons = () => createIcons({ icons: ICONS });
 window.__refreshIcons();
+window.__app = state; // 调试与渲染验证句柄(只读使用)
 
 /* ---------- 计数器:数字滚动到真实值 ---------- */
 
@@ -67,6 +69,18 @@ function selectNode(nodeId, recenter = false) {
 }
 
 onNodeSelect((id) => selectNode(id));
+onEdgeSelect((edgeId) => {
+  renderEdgePanel(edgeId);
+  if (window.matchMedia("(max-width: 1100px)").matches) {
+    document.getElementById("detailPanel").classList.add("is-open");
+  }
+});
+
+// 关联解释卡里的端点按钮:点击跳到该节点
+document.getElementById("detailBody").addEventListener("click", (e) => {
+  const jump = e.target.closest("[data-jump]");
+  if (jump) selectNode(jump.dataset.jump, true);
+});
 
 /* ---------- 边类型筛选 chips ---------- */
 
