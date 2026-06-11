@@ -10,6 +10,8 @@
 
 当前本地 `main` 已合并全部隔离分支成果,具备推送到新的 GitHub 私有仓库作为项目归档与后续协作基线的条件。
 
+补充审核修正(2026-06-11):后续复核发现 full 版云南踩雷地图和月报对比存在演示诚信风险。修复后,张主任演示 readiness 从 `yes` 调整为 `conditional`:shared 包、showcase 卡、缺口报告可展示;full 版云南踩雷地图和月报对比在真实聚合数据与 ETO 盲评完成前不得进入 safe_to_show。
+
 本轮不是把 P1 seed 当作 full product 主数据源。P2/P3 full product 由以下来源共同驱动:
 
 - `E:\eco-semantic-knowledge-base` approved baseline
@@ -17,13 +19,14 @@
 - 腾讯云知识引擎 RAG `RetrieveKnowledge` 检索 metadata
 - P1 seed 仅作为兼容性样例和危废精品切片保底
 
-最终产品就绪状态:
+当前产品就绪状态:
 
-- `zhang_director_ready`:yes
+- `zhang_director_ready`:conditional
 - `rag_real_smoke`:pass
 - `upstream_real_import`:pass
 - `private_leak_violations`:0
 - `regulatory_findings`:0
+- `not_safe_to_show_yet`:pitfall map full / monthly comparison full
 
 ## 2. 分支合并审核
 
@@ -61,6 +64,8 @@
 - 危废精品切片:`19 hazardous showcase cards`
 - RAG citation resolved:`218`
 - 渲染证据:4 张截图记录于 `reports/render-proof-p2p3/manifest.json`
+- full 版云南踩雷地图:`blocked`,原因是真实 EcoCheck 聚合数据尚未接入;P1 compatibility sample 不作为 full product 统计依据
+- full 版月报对比:`blocked`,原因是 ETO 盲评尚未完成;当前仅证明上下文装配能生成段落,不能证明“更像专家”
 
 关键报告:
 
@@ -129,6 +134,8 @@ pnpm verify:all
 
 - 政府 lineage 真实导入尚未完成。当前只有 lineage exchange contract 和 fixture case,等待政府侧正式 lineage 文件或交换样例。
 - `RetrieveKnowledge Records` 到每条 citation 的精确 locator mapping 还需要标准化。目前已验证 RAG metadata 可取,但尚未把每条引用映射到稳定页码/段落/条目定位规范。
+- full 版云南踩雷地图需要真实 EcoCheck aggregate 节点或事件统计回灌;P1 危废样例统计不得当成 full product 演示依据。
+- 月报对比需要 5 份真实脱敏历史月报段落和 ETO 盲评完成后才能升级为 safe_to_show。
 - 腾讯云 `GetEmbedding` probe 返回资源包额度不足。当前产品 readiness 不依赖 embedding,因为 RAG 知识库检索已经通过;如果后续要做向量侧自建召回或 rerank,需要补资源包或改走已有 RAG 套件能力。
 - TokenHub DeepSeek 调用目前通过 `TENCENT_LKEAP_API_KEY` fallback 跑通。建议后续清理为专用 `TENCENT_TOKENHUB_API_KEY`,避免长期混用历史变量名。
 - 截图 PNG 文件按 `.gitignore` 不入库,仓库内保留 manifest 和 sha256。正式演示归档如需二进制截图,应单独放入受控证据包或调整归档策略。
@@ -146,6 +153,8 @@ pnpm verify:all
 
 1. `reports/P2P3-rag-upstream-full-productization-final.md` 的 readiness 表述是否足够克制。
 2. `reports/rag-citation-resolution-report.md` 是否只呈现 metadata,没有越界引用原文。
-3. `data/exports/shared_product_v1/` 是否符合 shared 可交付边界。
-4. `reports/private-leak-check-full.json` 和 `reports/regulatory-consistency-check-full.json` 是否作为门禁证据足够。
-5. 未完成项是否按真实状态陈述,没有把 contract-only 能力包装成已落地能力。
+3. `reports/yunnan-pitfall-map-full.json` 是否已经正确 blocked,且没有把 P1 compatibility sample 当作 full product 统计。
+4. `reports/monthly-report-comparison-full.json` 是否已经正确 blocked,且没有再用稻草人 plain_ai 证明效果。
+5. `data/exports/shared_product_v1/` 是否符合 shared 可交付边界。
+6. `reports/private-leak-check-full.json` 和 `reports/regulatory-consistency-check-full.json` 是否作为门禁证据足够。
+7. 未完成项是否按真实状态陈述,没有把 contract-only 能力包装成已落地能力。

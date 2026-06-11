@@ -1,5 +1,6 @@
 {
   "status": "pass",
+  "status_reason": "no coverage gaps detected",
   "law_obligation_without_issue": [],
   "issue_without_basis": [],
   "rag_unresolved": 0,

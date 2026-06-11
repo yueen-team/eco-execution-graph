@@ -1,22 +1,6 @@
 # Yunnan Pitfall Map Full
 
-- 1. 危废台账不完整执行卡 recurrence=0.183
-- 2. 危废暂存间分区/分类贮存不规范执行卡 recurrence=0.186
-- 3. 危废标签不规范执行卡 recurrence=0.189
-- 4. 危废识别标志/警示标识设置不规范执行卡 recurrence=0.192
-- 5. 危废转移、入库、出库记录不一致执行卡 recurrence=0.195
-- 6. 不相容危废隔离贮存执行卡 recurrence=0.198
-- 7. 危废产生后即时称重执行卡 recurrence=0.201
-- 8. 危废入库扫码与贮存位置绑定执行卡 recurrence=0.204
-- 9. 危废出库转移联单与容器码闭环执行卡 recurrence=0.207
-- 10. 危废分类分区贮存执行卡 recurrence=0.21
-- 11. 危废包装容器一物一码执行卡 recurrence=0.213
-- 12. 危废暂存防渗和泄漏收集执行卡 recurrence=0.216
-- 13. 危废泄漏应急物资和演练记录执行卡 recurrence=0.219
-- 14. 危废贮存设施和分区识别标志执行卡 recurrence=0.222
-- 15. 洗车水/洗版废液、废擦拭布及废包装物收集闭环核查执行卡 recurrence=0.225
-- 16. 脱水系统运行及污泥危废属性核查执行卡 recurrence=0.228
-- 17. 不相容危废隔离贮存执行卡 recurrence=0.231
-- 18. 危废产生后即时称重执行卡 recurrence=0.234
-- 19. 危废入库扫码与贮存位置绑定执行卡 recurrence=0.237
-- 20. 危废出库转移联单与容器码闭环执行卡 recurrence=0.24
+- status: `blocked`
+- reason: 等待 EcoCheck 真实聚合数据; P1 compatibility sample 不作为 full product 踩雷地图依据
+
+当前没有来自真实 EcoCheck 聚合数据的 full product 踩雷地图行; 不进入主任演示 safe_to_show。

@@ -1,365 +1,147 @@
 {
-  "status": "pass",
-  "rows": [
+  "status": "blocked",
+  "reason": "等待 EcoCheck 真实聚合数据; P1 compatibility sample 不作为 full product 踩雷地图依据",
+  "rows": [],
+  "blocked_sample_rows": [
     {
-      "rank": 1,
       "region": "云南省示例区域",
+      "industry": "合成制造业",
       "dimension": "危废管理",
-      "issue": "危废台账不完整执行卡",
-      "recurrence_rate": 0.183,
+      "signal_ref": "stat:hw:ledger-incomplete:yunnan-demo",
+      "signal_name": "云南危废-危废台账不完整-聚合信号",
+      "recurrence_rate": 0.42,
       "rectification_difficulty": "medium",
-      "tier": "aggregate"
+      "sample_size": 15,
+      "tier": "aggregate",
+      "source_ref": null,
+      "source_role": "compatibility_sample",
+      "rank": 1
     },
     {
-      "rank": 2,
-      "region": "云南省示例区域",
+      "region": null,
+      "industry": null,
       "dimension": "危废管理",
-      "issue": "危废暂存间分区/分类贮存不规范执行卡",
-      "recurrence_rate": 0.186,
-      "rectification_difficulty": "medium",
-      "tier": "aggregate"
+      "signal_ref": "pitfall:stat:ledger-incomplete",
+      "signal_name": "危废台账不完整聚合踩雷统计",
+      "recurrence_rate": 0.42,
+      "rectification_difficulty": null,
+      "sample_size": 15,
+      "tier": "aggregate",
+      "source_ref": null,
+      "source_role": "compatibility_sample",
+      "rank": 2
     },
     {
-      "rank": 3,
       "region": "云南省示例区域",
+      "industry": "合成制造业",
       "dimension": "危废管理",
-      "issue": "危废标签不规范执行卡",
-      "recurrence_rate": 0.189,
-      "rectification_difficulty": "high",
-      "tier": "aggregate"
+      "signal_ref": "stat:hw:label-incomplete:yunnan-demo",
+      "signal_name": "云南危废-危废标签不规范-聚合信号",
+      "recurrence_rate": 0.36,
+      "rectification_difficulty": "low",
+      "sample_size": 17,
+      "tier": "aggregate",
+      "source_ref": null,
+      "source_role": "compatibility_sample",
+      "rank": 3
     },
     {
-      "rank": 4,
-      "region": "云南省示例区域",
+      "region": null,
+      "industry": null,
       "dimension": "危废管理",
-      "issue": "危废识别标志/警示标识设置不规范执行卡",
-      "recurrence_rate": 0.192,
-      "rectification_difficulty": "medium",
-      "tier": "aggregate"
+      "signal_ref": "pitfall:stat:label-incomplete",
+      "signal_name": "危废标签不规范聚合踩雷统计",
+      "recurrence_rate": 0.36,
+      "rectification_difficulty": null,
+      "sample_size": 17,
+      "tier": "aggregate",
+      "source_ref": null,
+      "source_role": "compatibility_sample",
+      "rank": 4
     },
     {
-      "rank": 5,
       "region": "云南省示例区域",
+      "industry": "合成制造业",
       "dimension": "危废管理",
-      "issue": "危废转移、入库、出库记录不一致执行卡",
-      "recurrence_rate": 0.195,
-      "rectification_difficulty": "medium",
-      "tier": "aggregate"
-    },
-    {
-      "rank": 6,
-      "region": "云南省示例区域",
-      "dimension": "solid_waste_hazardous_waste",
-      "issue": "不相容危废隔离贮存执行卡",
-      "recurrence_rate": 0.198,
+      "signal_ref": "stat:hw:transfer-record-mismatch:yunnan-demo",
+      "signal_name": "云南危废-危废转移、入库、出库记录不一致-聚合信号",
+      "recurrence_rate": 0.33,
       "rectification_difficulty": "high",
-      "tier": "aggregate"
+      "sample_size": 14,
+      "tier": "aggregate",
+      "source_ref": null,
+      "source_role": "compatibility_sample",
+      "rank": 5
     },
     {
-      "rank": 7,
-      "region": "云南省示例区域",
-      "dimension": "solid_waste_hazardous_waste",
-      "issue": "危废产生后即时称重执行卡",
-      "recurrence_rate": 0.201,
-      "rectification_difficulty": "medium",
-      "tier": "aggregate"
-    },
-    {
-      "rank": 8,
-      "region": "云南省示例区域",
-      "dimension": "solid_waste_hazardous_waste",
-      "issue": "危废入库扫码与贮存位置绑定执行卡",
-      "recurrence_rate": 0.204,
-      "rectification_difficulty": "medium",
-      "tier": "aggregate"
-    },
-    {
-      "rank": 9,
-      "region": "云南省示例区域",
-      "dimension": "solid_waste_hazardous_waste",
-      "issue": "危废出库转移联单与容器码闭环执行卡",
-      "recurrence_rate": 0.207,
-      "rectification_difficulty": "high",
-      "tier": "aggregate"
-    },
-    {
-      "rank": 10,
-      "region": "云南省示例区域",
-      "dimension": "solid_waste_hazardous_waste",
-      "issue": "危废分类分区贮存执行卡",
-      "recurrence_rate": 0.21,
-      "rectification_difficulty": "medium",
-      "tier": "aggregate"
-    },
-    {
-      "rank": 11,
-      "region": "云南省示例区域",
-      "dimension": "solid_waste_hazardous_waste",
-      "issue": "危废包装容器一物一码执行卡",
-      "recurrence_rate": 0.213,
-      "rectification_difficulty": "medium",
-      "tier": "aggregate"
-    },
-    {
-      "rank": 12,
-      "region": "云南省示例区域",
-      "dimension": "solid_waste_hazardous_waste",
-      "issue": "危废暂存防渗和泄漏收集执行卡",
-      "recurrence_rate": 0.216,
-      "rectification_difficulty": "high",
-      "tier": "aggregate"
-    },
-    {
-      "rank": 13,
-      "region": "云南省示例区域",
-      "dimension": "environmental_emergency_hazardous_waste",
-      "issue": "危废泄漏应急物资和演练记录执行卡",
-      "recurrence_rate": 0.219,
-      "rectification_difficulty": "medium",
-      "tier": "aggregate"
-    },
-    {
-      "rank": 14,
-      "region": "云南省示例区域",
-      "dimension": "solid_waste_hazardous_waste",
-      "issue": "危废贮存设施和分区识别标志执行卡",
-      "recurrence_rate": 0.222,
-      "rectification_difficulty": "medium",
-      "tier": "aggregate"
-    },
-    {
-      "rank": 15,
-      "region": "云南省示例区域",
-      "dimension": "vocs_emission",
-      "issue": "洗车水/洗版废液、废擦拭布及废包装物收集闭环核查执行卡",
-      "recurrence_rate": 0.225,
-      "rectification_difficulty": "high",
-      "tier": "aggregate"
-    },
-    {
-      "rank": 16,
-      "region": "云南省示例区域",
-      "dimension": "wastewater_station",
-      "issue": "脱水系统运行及污泥危废属性核查执行卡",
-      "recurrence_rate": 0.228,
-      "rectification_difficulty": "medium",
-      "tier": "aggregate"
-    },
-    {
-      "rank": 17,
-      "region": "云南省示例区域",
-      "dimension": "solid_waste_hazardous_waste",
-      "issue": "不相容危废隔离贮存执行卡",
-      "recurrence_rate": 0.231,
-      "rectification_difficulty": "medium",
-      "tier": "aggregate"
-    },
-    {
-      "rank": 18,
-      "region": "云南省示例区域",
-      "dimension": "solid_waste_hazardous_waste",
-      "issue": "危废产生后即时称重执行卡",
-      "recurrence_rate": 0.234,
-      "rectification_difficulty": "high",
-      "tier": "aggregate"
-    },
-    {
-      "rank": 19,
-      "region": "云南省示例区域",
-      "dimension": "solid_waste_hazardous_waste",
-      "issue": "危废入库扫码与贮存位置绑定执行卡",
-      "recurrence_rate": 0.237,
-      "rectification_difficulty": "medium",
-      "tier": "aggregate"
-    },
-    {
-      "rank": 20,
-      "region": "云南省示例区域",
-      "dimension": "solid_waste_hazardous_waste",
-      "issue": "危废出库转移联单与容器码闭环执行卡",
-      "recurrence_rate": 0.24,
-      "rectification_difficulty": "medium",
-      "tier": "aggregate"
-    },
-    {
-      "rank": 21,
-      "region": "云南省示例区域",
-      "dimension": "solid_waste_hazardous_waste",
-      "issue": "危废分类分区贮存执行卡",
-      "recurrence_rate": 0.243,
-      "rectification_difficulty": "high",
-      "tier": "aggregate"
-    },
-    {
-      "rank": 22,
-      "region": "云南省示例区域",
-      "dimension": "solid_waste_hazardous_waste",
-      "issue": "危废包装容器一物一码执行卡",
-      "recurrence_rate": 0.246,
-      "rectification_difficulty": "medium",
-      "tier": "aggregate"
-    },
-    {
-      "rank": 23,
-      "region": "云南省示例区域",
-      "dimension": "solid_waste_hazardous_waste",
-      "issue": "危废暂存防渗和泄漏收集执行卡",
-      "recurrence_rate": 0.249,
-      "rectification_difficulty": "medium",
-      "tier": "aggregate"
-    },
-    {
-      "rank": 24,
-      "region": "云南省示例区域",
-      "dimension": "environmental_emergency_hazardous_waste",
-      "issue": "危废泄漏应急物资和演练记录执行卡",
-      "recurrence_rate": 0.252,
-      "rectification_difficulty": "high",
-      "tier": "aggregate"
-    },
-    {
-      "rank": 25,
-      "region": "云南省示例区域",
-      "dimension": "solid_waste_hazardous_waste",
-      "issue": "危废贮存设施和分区识别标志执行卡",
-      "recurrence_rate": 0.255,
-      "rectification_difficulty": "medium",
-      "tier": "aggregate"
-    },
-    {
-      "rank": 26,
-      "region": "云南省示例区域",
+      "region": null,
+      "industry": null,
       "dimension": "危废管理",
-      "issue": "危险废物识别、暂存与转移 FIRST执行卡",
-      "recurrence_rate": 0.258,
-      "rectification_difficulty": "medium",
-      "tier": "aggregate"
+      "signal_ref": "pitfall:stat:transfer-record-mismatch",
+      "signal_name": "危废转移、入库、出库记录不一致聚合踩雷统计",
+      "recurrence_rate": 0.33,
+      "rectification_difficulty": null,
+      "sample_size": 14,
+      "tier": "aggregate",
+      "source_ref": null,
+      "source_role": "compatibility_sample",
+      "rank": 6
     },
     {
-      "rank": 27,
       "region": "云南省示例区域",
+      "industry": "合成制造业",
       "dimension": "危废管理",
-      "issue": "危险废物识别、暂存与转移 MONTHLY执行卡",
-      "recurrence_rate": 0.261,
-      "rectification_difficulty": "high",
-      "tier": "aggregate"
+      "signal_ref": "stat:hw:storage-partition:yunnan-demo",
+      "signal_name": "云南危废-危废暂存间分区/分类贮存不规范-聚合信号",
+      "recurrence_rate": 0.31,
+      "rectification_difficulty": "medium",
+      "sample_size": 13,
+      "tier": "aggregate",
+      "source_ref": null,
+      "source_role": "compatibility_sample",
+      "rank": 7
     },
     {
-      "rank": 28,
-      "region": "云南省示例区域",
+      "region": null,
+      "industry": null,
       "dimension": "危废管理",
-      "issue": "实验室废液与检测试剂危废候选 FIRST执行卡",
-      "recurrence_rate": 0.264,
-      "rectification_difficulty": "medium",
-      "tier": "aggregate"
+      "signal_ref": "pitfall:stat:storage-partition",
+      "signal_name": "危废暂存间分区/分类贮存不规范聚合踩雷统计",
+      "recurrence_rate": 0.31,
+      "rectification_difficulty": null,
+      "sample_size": 13,
+      "tier": "aggregate",
+      "source_ref": null,
+      "source_role": "compatibility_sample",
+      "rank": 8
     },
     {
-      "rank": 29,
       "region": "云南省示例区域",
+      "industry": "合成制造业",
       "dimension": "危废管理",
-      "issue": "实验室废液与检测试剂危废候选 MONTHLY执行卡",
-      "recurrence_rate": 0.267,
-      "rectification_difficulty": "medium",
-      "tier": "aggregate"
+      "signal_ref": "stat:hw:warning-sign-missing:yunnan-demo",
+      "signal_name": "云南危废-危废识别标志/警示标识设置不规范-聚合信号",
+      "recurrence_rate": 0.28,
+      "rectification_difficulty": "low",
+      "sample_size": 11,
+      "tier": "aggregate",
+      "source_ref": null,
+      "source_role": "compatibility_sample",
+      "rank": 9
     },
     {
-      "rank": 30,
-      "region": "云南省示例区域",
-      "dimension": "vocs_emission",
-      "issue": "洗车水/洗版废液、废擦拭布及废包装物收集闭环核查执行卡",
-      "recurrence_rate": 0.27,
-      "rectification_difficulty": "high",
-      "tier": "aggregate"
-    },
-    {
-      "rank": 31,
-      "region": "云南省示例区域",
-      "dimension": "wastewater_station",
-      "issue": "脱水系统运行及污泥危废属性核查执行卡",
-      "recurrence_rate": 0.273,
-      "rectification_difficulty": "medium",
-      "tier": "aggregate"
-    },
-    {
-      "rank": 32,
-      "region": "云南省示例区域",
-      "dimension": "wastewater_discharge_route",
-      "issue": "一类重金属及特殊废水（含氰、含铬、含镍）独立收集与防腐防渗核查执行卡",
-      "recurrence_rate": 0.276,
-      "rectification_difficulty": "medium",
-      "tier": "aggregate"
-    },
-    {
-      "rank": 33,
-      "region": "云南省示例区域",
-      "dimension": "vocs_emission",
-      "issue": "低VOCs涂料/油墨/胶黏剂替代及MSDS核查执行卡",
-      "recurrence_rate": 0.279,
-      "rectification_difficulty": "high",
-      "tier": "aggregate"
-    },
-    {
-      "rank": 34,
-      "region": "云南省示例区域",
-      "dimension": "wastewater_discharge_route",
-      "issue": "侧吸风罩收集效果及洗涤塔加药核查执行卡",
-      "recurrence_rate": 0.282,
-      "rectification_difficulty": "medium",
-      "tier": "aggregate"
-    },
-    {
-      "rank": 35,
-      "region": "云南省示例区域",
-      "dimension": "solid_waste_medical_waste",
-      "issue": "医废暂存间警示标志和专用包装执行卡",
-      "recurrence_rate": 0.285,
-      "rectification_difficulty": "medium",
-      "tier": "aggregate"
-    },
-    {
-      "rank": 36,
-      "region": "云南省示例区域",
-      "dimension": "medical_waste",
-      "issue": "医疗废水/医废/放射诊疗专项核查执行卡",
-      "recurrence_rate": 0.288,
-      "rectification_difficulty": "high",
-      "tier": "aggregate"
-    },
-    {
-      "rank": 37,
-      "region": "云南省示例区域",
-      "dimension": "wastewater_treatment_medical_disinfection",
-      "issue": "医疗废水消毒加药和检测记录闭环执行卡",
-      "recurrence_rate": 0.291,
-      "rectification_difficulty": "medium",
-      "tier": "aggregate"
-    },
-    {
-      "rank": 38,
-      "region": "云南省示例区域",
-      "dimension": "wastewater_treatment_medical_disinfection",
-      "issue": "医疗废水消毒接触时间执行卡",
-      "recurrence_rate": 0.294,
-      "rectification_difficulty": "medium",
-      "tier": "aggregate"
-    },
-    {
-      "rank": 39,
-      "region": "云南省示例区域",
-      "dimension": "wastewater_treatment_medical_disinfection",
-      "issue": "医疗废水消毒接触池出口总余氯执行卡",
-      "recurrence_rate": 0.297,
-      "rectification_difficulty": "high",
-      "tier": "aggregate"
-    },
-    {
-      "rank": 40,
-      "region": "云南省示例区域",
-      "dimension": "solid_waste_medical_waste",
-      "issue": "医疗废物48小时内转运核查执行卡",
-      "recurrence_rate": 0.3,
-      "rectification_difficulty": "medium",
-      "tier": "aggregate"
+      "region": null,
+      "industry": null,
+      "dimension": "危废管理",
+      "signal_ref": "pitfall:stat:warning-sign-missing",
+      "signal_name": "危废识别标志/警示标识设置不规范聚合踩雷统计",
+      "recurrence_rate": 0.28,
+      "rectification_difficulty": null,
+      "sample_size": 11,
+      "tier": "aggregate",
+      "source_ref": null,
+      "source_role": "compatibility_sample",
+      "rank": 10
     }
   ]
 }

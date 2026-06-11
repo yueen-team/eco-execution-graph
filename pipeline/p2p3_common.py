@@ -11,6 +11,7 @@ from pathlib import Path
 from typing import Any
 
 from common import EXPORTS_DIR, REPORTS_DIR, ROOT, read_json, reset_dir, sha256_file, write_graph_package, write_json, write_text
+from tier_policy import filter_shared_graph, nested_private_violations, structural_shared_violations
 
 
 TODAY = "2026-06-10"
@@ -532,8 +533,29 @@ def generate_cards() -> dict[str, Any]:
         cards.append(card)
     shared_cards = []
     for card in cards:
-        shared = {**card}
-        shared["render_views"] = {"internal_full": False, "shared_export": True}
+        shared = {
+            "card_id": card["card_id"],
+            "title": card["title"],
+            "root_issue_type": card["root_issue_type"],
+            "dimension": card["dimension"],
+            "field_manifestations": card["field_manifestations"],
+            "related_obligations": card["related_obligations"],
+            "law_refs": card["law_refs"],
+            "tech_spec_refs": card["tech_spec_refs"],
+            "rag_citation_status": card["rag_citation_status"],
+            "evidence_summary": card["evidence_summary"],
+            "rectification_summary": card["rectification_summary"],
+            "report_expression_summary": card["report_expression_summary"],
+            "pitfalls": card["pitfalls"],
+            "graph_slice_refs": card["graph_slice_refs"],
+            "source_trace": card["source_trace"],
+            "tier_policy": card["tier_policy"],
+            "render_views": {"internal_full": False, "shared_export": True},
+            "quality_score": card["quality_score"],
+            "legal_basis_status": card["legal_basis_status"],
+            "show_or_not_for_director_demo": card["show_or_not_for_director_demo"],
+            "review_status": card["review_status"],
+        }
         shared["internal_capability_placeholders"] = [
             {"kind": "evidence_standard_count", "count": 1, "summary": "证据判断能力已建立,不进入共有包。"},
             {"kind": "rectification_standard_count", "count": 1, "summary": "整改模板能力已建立,不进入共有包。"},
@@ -548,16 +570,6 @@ def generate_cards() -> dict[str, Any]:
     write_json(REPORTS_DIR / "showcase-card-pack.json", [card for card in cards if card["show_or_not_for_director_demo"] == "showcase"])
     write_text(REPORTS_DIR / "showcase-card-pack.md", "\n".join(["# Showcase Card Pack", "", *[f"- {card['card_id']}: {card['title']}" for card in cards if card["show_or_not_for_director_demo"] == "showcase"]]))
     return report
-
-
-def filter_shared_graph(graph: dict[str, Any]) -> dict[str, Any]:
-    forbidden = {"enterprise", "facility", "discharge_outlet", "risk_unit", "issue_instance", "pitfall_instance", "evidence_judgment_standard", "evidence_instance", "rectification_template", "rectification_instance", "report_expression", "distill_event"}
-    nodes = [node for node in graph["nodes"] if node.get("tier") == "shared" and node.get("node_type") not in forbidden]
-    ids = {node["node_id"] for node in nodes}
-    sources = {source["source_id"]: source for source in graph["sources"] if source.get("tier") == "shared"}
-    edges = [edge for edge in graph["edges"] if edge.get("tier") == "shared" and edge.get("from") in ids and edge.get("to") in ids and edge.get("source_ref") in sources]
-    used = {edge["source_ref"] for edge in edges}
-    return {"nodes": nodes, "edges": edges, "sources": [source for sid, source in sources.items() if sid in used]}
 
 
 def export_full_packages() -> dict[str, Any]:
@@ -620,7 +632,11 @@ def validate_full_leak() -> dict[str, Any]:
                 if re.search(pattern, text, re.IGNORECASE):
                     violations.append({"type": "forbidden_pattern", "path": rel(path), "pattern": pattern})
     graph = read_json(FULL_SHARED / "graph.json") if (FULL_SHARED / "graph.json").exists() else {"nodes": []}
+    violations.extend(structural_shared_violations(graph))
     violations.extend(no_full_text_findings(graph))
+    for shared_file in (FULL_SHARED / "cards.shared.json", FULL_SHARED / "manifest.json"):
+        if shared_file.exists():
+            violations.extend(nested_private_violations(read_json(shared_file), rel(shared_file)))
     result = {"status": "pass" if not violations else "failed", "violations": violations, "checked_package": str(FULL_SHARED)}
     write_json(REPORTS_DIR / "private-leak-check-full.json", result)
     write_text(REPORTS_DIR / "private-leak-check-full.md", "\n".join(["# Private Leak Check Full", "", f"- status: `{result['status']}`", f"- violations: {len(violations)}"]))
@@ -660,20 +676,57 @@ def gap_full() -> dict[str, Any]:
     law_obligation_without_issue = [node["node_id"] for node in nodes if node.get("node_type") == "law_obligation" and not any(edge["edge_type"] == "manifests_as" for edge in outgoing[node["node_id"]])]
     issue_without_basis = [node["node_id"] for node in nodes if node.get("node_type") == "issue_type" and not any(edge["edge_type"] in {"regulated_by", "limited_by", "manifests_as"} for edge in incoming[node["node_id"]] + outgoing[node["node_id"]])]
     rag = read_json(REPORTS_DIR / "rag-citation-resolution-report.json")
-    report = {"status": "pass", "law_obligation_without_issue": law_obligation_without_issue[:50], "issue_without_basis": issue_without_basis[:50], "rag_unresolved": rag.get("counts", {}).get("blocked", 0), "director_top10": (law_obligation_without_issue + issue_without_basis)[:10]}
+    status = "attention" if law_obligation_without_issue or issue_without_basis else "pass"
+    report = {
+        "status": status,
+        "status_reason": "coverage gaps are product signal, not verification failure" if status == "attention" else "no coverage gaps detected",
+        "law_obligation_without_issue": law_obligation_without_issue[:50],
+        "issue_without_basis": issue_without_basis[:50],
+        "rag_unresolved": rag.get("counts", {}).get("blocked", 0),
+        "director_top10": (law_obligation_without_issue + issue_without_basis)[:10],
+    }
     write_json(REPORTS_DIR / "gap-report-full.json", report)
-    write_text(REPORTS_DIR / "gap-report-full.md", "\n".join(["# Gap Report Full", "", f"- law_obligation_without_issue: {len(law_obligation_without_issue)}", f"- issue_without_basis: {len(issue_without_basis)}", f"- rag_unresolved: {report['rag_unresolved']}"]))
+    write_text(REPORTS_DIR / "gap-report-full.md", "\n".join(["# Gap Report Full", "", f"- status: `{status}`", f"- status_reason: {report['status_reason']}", f"- law_obligation_without_issue: {len(law_obligation_without_issue)}", f"- issue_without_basis: {len(issue_without_basis)}", f"- rag_unresolved: {report['rag_unresolved']}"]))
     return report
 
 
 def pitfall_map_full() -> dict[str, Any]:
-    cards = read_json(ROOT / "data/candidates/cards/full_internal_cards.json")
+    graph = read_json(FULL_INTERNAL / "graph.json") if (FULL_INTERNAL / "graph.json").exists() else read_json(UPSTREAM_DIR / "full-graph-source.json")
     rows = []
-    for idx, card in enumerate(cards[:40], start=1):
-        rows.append({"rank": idx, "region": "云南省示例区域", "dimension": card.get("dimension"), "issue": card["title"], "recurrence_rate": round(0.18 + idx * 0.003, 3), "rectification_difficulty": "medium" if idx % 3 else "high", "tier": "aggregate"})
-    report = {"status": "pass", "rows": rows}
+    for node in graph.get("nodes", []):
+        if node.get("tier") != "aggregate" or node.get("node_type") not in {"stat_signal", "pitfall_pattern_stat"}:
+            continue
+        attrs = node.get("attrs", {})
+        sample_size = int(attrs.get("sample_size") or 0)
+        if sample_size < 5:
+            continue
+        rows.append({
+            "region": attrs.get("region"),
+            "industry": attrs.get("industry"),
+            "dimension": node.get("dimension"),
+            "signal_ref": node["node_id"],
+            "signal_name": node["name"],
+            "recurrence_rate": attrs.get("recurrence_rate"),
+            "rectification_difficulty": attrs.get("rectification_difficulty"),
+            "sample_size": sample_size,
+            "tier": "aggregate",
+            "source_ref": node.get("source_ref"),
+            "source_role": node.get("source_role"),
+        })
+    rows.sort(key=lambda row: (-(row.get("recurrence_rate") or 0), row.get("signal_name") or ""))
+    for idx, row in enumerate(rows, start=1):
+        row["rank"] = idx
+    real_rows = [row for row in rows if row.get("source_role") != "compatibility_sample"]
+    status = "pass" if real_rows else "blocked"
+    reason = "real aggregate signals available" if real_rows else "等待 EcoCheck 真实聚合数据; P1 compatibility sample 不作为 full product 踩雷地图依据"
+    report = {"status": status, "reason": reason, "rows": real_rows if real_rows else [], "blocked_sample_rows": rows[:20]}
     write_json(REPORTS_DIR / "yunnan-pitfall-map-full.json", report)
-    write_text(REPORTS_DIR / "yunnan-pitfall-map-full.md", "\n".join(["# Yunnan Pitfall Map Full", "", *[f"- {row['rank']}. {row['issue']} recurrence={row['recurrence_rate']}" for row in rows[:20]]]))
+    lines = ["# Yunnan Pitfall Map Full", "", f"- status: `{status}`", f"- reason: {reason}", ""]
+    if real_rows:
+        lines += [f"- {row['rank']}. {row['signal_name']} recurrence={row['recurrence_rate']} sample={row['sample_size']}" for row in real_rows[:20]]
+    else:
+        lines.append("当前没有来自真实 EcoCheck 聚合数据的 full product 踩雷地图行; 不进入主任演示 safe_to_show。")
+    write_text(REPORTS_DIR / "yunnan-pitfall-map-full.md", "\n".join(lines))
     return report
 
 
@@ -684,14 +737,26 @@ def monthly_full() -> dict[str, Any]:
     for idx, card in enumerate(cards, start=1):
         bundle = {"synthetic_company": f"合成企业{idx}", "industry_scene": card.get("dimension"), "issue_type": card["root_issue_type"], "evidence_categories": ["现场照片", "台账记录"], "citation_status": card.get("rag_citation_status"), "source_trace": card["source_trace"]}
         graph_paragraph = f"{bundle['synthetic_company']}在{bundle['industry_scene']}场景下存在{card['title']}相关管理风险。建议结合现场照片、台账记录、上游 approved baseline 来源和已验证的 RAG 检索 metadata 进行复核；对外表述仍需遵守 legal_basis_status,避免把管理建议写成违法认定。"
-        plain = f"{bundle['synthetic_company']}存在环保管理问题,建议整改。"
         bundles.append(bundle)
-        comparisons.append({"case_id": f"monthly-full-{idx}", "plain_ai": plain, "graph_context": graph_paragraph, "improvement": ["更具体", "有场景", "有证据类别", "有引用边界"]})
-    report = {"status": "pass", "bundles": bundles, "comparisons": comparisons}
+        comparisons.append({
+            "case_id": f"monthly-full-{idx}",
+            "comparison_basis": "synthetic_baseline_demo",
+            "plain_ai": None,
+            "graph_context": graph_paragraph,
+            "human_eto_review_status": "pending",
+            "claim": "context assembly output generated; expert-quality improvement not yet proven",
+        })
+    report = {
+        "status": "blocked",
+        "reason": "ETO blind review with real desensitized historical monthly paragraphs is pending",
+        "comparison_basis": "synthetic_baseline_demo",
+        "bundles": bundles,
+        "comparisons": comparisons,
+    }
     write_json(REPORTS_DIR / "context-assembly-demo-bundles.json", bundles)
     write_json(REPORTS_DIR / "monthly-report-comparison-full.json", report)
-    write_text(REPORTS_DIR / "monthly-report-comparison-full.md", "\n".join(["# Monthly Report Comparison Full", "", *[f"- {item['case_id']}: {item['graph_context']}" for item in comparisons]]))
-    write_text(REPORTS_DIR / "eto-review-sheet.md", "# ETO Review Sheet\n\n| case_id | plain_ai | graph_context | score | note |\n|---|---|---|---|---|\n" + "\n".join(f"| {item['case_id']} | 待评 | 待评 |  |  |" for item in comparisons))
+    write_text(REPORTS_DIR / "monthly-report-comparison-full.md", "\n".join(["# Monthly Report Comparison Full", "", "- status: `blocked`", "- reason: ETO blind review pending; this file only proves context assembly can generate paragraphs.", "", *[f"- {item['case_id']}: {item['graph_context']}" for item in comparisons]]))
+    write_text(REPORTS_DIR / "eto-review-sheet.md", "# ETO Review Sheet\n\n| case_id | historical_plain_or_old_ai | graph_context | score | note |\n|---|---|---|---|---|\n" + "\n".join(f"| {item['case_id']} | 待填真实脱敏历史段落 | 待评 |  |  |" for item in comparisons))
     return report
 
 
@@ -709,7 +774,7 @@ def lineage_contract() -> dict[str, Any]:
 
 def demo_pack() -> dict[str, Any]:
     files = {
-        "zhang-director-product-demo-script.md": "# 张主任演示脚本\n\n你们有法条,我们补现场；你们有法规知识库,我们补行业场景；你们有执法工具,我们补企业真实问题；你们有案例,我们补日常蒸馏；这套图谱不是资料库,而是法条落地到现场的执行层。\n\n1. 只有法条。\n2. 法条落到行业/场景/问题。\n3. 现场问题连接证据类别。\n4. shared/internal 切换,看得见带不走。\n5. 缺口报告、踩雷地图、月报对比回到政府与企业双侧价值。",
+        "zhang-director-product-demo-script.md": "# 张主任演示脚本\n\n你们有法条,我们补现场；你们有法规知识库,我们补行业场景；你们有执法工具,我们补企业真实问题；你们有案例,我们补日常蒸馏；这套图谱不是资料库,而是法条落地到现场的执行层。\n\n1. 只有法条。\n2. 法条落到行业/场景/问题。\n3. 现场问题连接证据类别。\n4. shared/internal 切换,看得见带不走。\n5. 缺口报告展示覆盖盲区。\n\n暂不演示:full 版云南踩雷地图和月报对比,等待真实聚合数据与 ETO 盲评。",
         "zhang-director-product-demo-checklist.md": "# 张主任演示 Checklist\n\n- shared 包已生成\n- private leak full = 0\n- regulatory full findings = 0\n- RAG smoke pass, knowledge-base citation retrieval verified\n- 不展示 private 明细\n- 不展示真实企业数据",
         "government-shared-package-readme.md": "# Government Shared Package README\n\nshared_product_v1 只包含 shared 节点、边、source 和执行卡 shared 版。不含企业实例、私有证据标准、整改模板、报告表达明细或 raw RAG response。",
         "product-positioning-one-page.md": "# 产品定位一页纸\n\n内部:环保语义操作系统。\n政府侧:生态环境法典行业现场执行图谱。\n企业侧:环保管家智能底座。",
@@ -718,9 +783,9 @@ def demo_pack() -> dict[str, Any]:
     }
     for name, text in files.items():
         write_text(REPORTS_DIR / name, text)
-    readiness = {"safe_to_show": ["shared_product_v1", "showcase-card-pack", "gap-report-full", "yunnan-pitfall-map-full"], "must_not_show": ["private runtime details", "raw RAG response", "real enterprise data"], "recommended_demo_order": ["法条", "场景", "问题", "shared/internal", "缺口报告", "月报对比"]}
+    readiness = {"safe_to_show": ["shared_product_v1", "showcase-card-pack", "gap-report-full"], "not_safe_to_show_yet": ["yunnan-pitfall-map-full", "monthly-report-comparison-full"], "must_not_show": ["private runtime details", "raw RAG response", "real enterprise data"], "recommended_demo_order": ["法条", "场景", "问题", "shared/internal", "缺口报告"]}
     write_json(REPORTS_DIR / "zhang-director-readiness.json", readiness)
-    write_text(REPORTS_DIR / "zhang-director-readiness.md", "# Zhang Director Readiness\n\n- safe_to_show: shared package and reports\n- must_not_show: private runtime and raw data")
+    write_text(REPORTS_DIR / "zhang-director-readiness.md", "# Zhang Director Readiness\n\n- safe_to_show: shared_product_v1, showcase-card-pack, gap-report-full\n- not_safe_to_show_yet: yunnan-pitfall-map-full, monthly-report-comparison-full\n- must_not_show: private runtime and raw data")
     return readiness
 
 
@@ -745,6 +810,9 @@ def final_delivery_p2p3() -> dict[str, Any]:
     internal_manifest = read_json(FULL_INTERNAL / "manifest.json")
     shared_manifest = read_json(FULL_SHARED / "manifest.json")
     render_manifest = read_json(REPORTS_DIR / "render-proof-p2p3/manifest.json") if (REPORTS_DIR / "render-proof-p2p3/manifest.json").exists() else {"screenshots": []}
+    pitfall_map = read_json(REPORTS_DIR / "yunnan-pitfall-map-full.json") if (REPORTS_DIR / "yunnan-pitfall-map-full.json").exists() else {"status": "blocked"}
+    monthly = read_json(REPORTS_DIR / "monthly-report-comparison-full.json") if (REPORTS_DIR / "monthly-report-comparison-full.json").exists() else {"status": "blocked"}
+    gap = read_json(REPORTS_DIR / "gap-report-full.json") if (REPORTS_DIR / "gap-report-full.json").exists() else {"status": "blocked"}
     ready = "yes"
     blockers = []
     degraded = []
@@ -760,19 +828,26 @@ def final_delivery_p2p3() -> dict[str, Any]:
     if cards.get("showcase_cards", 0) < 20 and ready != "no":
         ready = "conditional"
         degraded.append("showcase cards below target")
+    if pitfall_map.get("status") != "pass" and ready != "no":
+        ready = "conditional"
+        degraded.append("Yunnan pitfall map full is blocked until real aggregate data is available.")
+    if monthly.get("status") != "pass" and ready != "no":
+        ready = "conditional"
+        degraded.append("Monthly report comparison is blocked until ETO blind review is completed.")
     next_steps = ["standardize per-citation locator mapping from RetrieveKnowledge Records", "import government lineage exchange file when provided"]
     if not all(item.get("exists") and item.get("bytes", 0) > 0 for item in render_manifest.get("screenshots", [])):
         next_steps.append("capture final director screenshots")
     final = {
         "zhang_director_ready": ready,
-        "reason": "full package generated; RAG citation retrieval verified" if ready == "yes" else "full package generated; RAG citation retrieval conditional",
-        "safe_to_show": ["shared_product_v1", "upstream utilization report", "gap report full", "pitfall map full", "monthly comparison full"],
+        "reason": "full package generated; director demo has honest blocked items" if ready == "conditional" else ("full package generated; RAG citation retrieval verified" if ready == "yes" else "blocked by guardrail violation"),
+        "safe_to_show": ["shared_product_v1", "upstream utilization report", "gap report full"],
+        "not_safe_to_show_yet": ["pitfall map full", "monthly comparison full"],
         "must_not_show": ["private runtime details", "raw RAG response", "real enterprise data", "keys", "local cache"],
         "blockers": blockers,
         "degraded": degraded,
-        "not_done": ["government lineage real import"] if not degraded else ["government lineage real import", "per-citation locator mapping hardening"],
+        "not_done": ["government lineage real import", "real EcoCheck aggregate pitfall map", "ETO blind review for monthly comparison", "per-citation locator mapping hardening"],
         "next_steps": next_steps,
-        "recommended_demo_order": ["只有法条", "法条落到行业/场景/问题", "证据类别", "shared/internal", "缺口报告", "月报对比"],
+        "recommended_demo_order": ["只有法条", "法条落到行业/场景/问题", "证据类别", "shared/internal", "缺口报告"],
         "rag_real_smoke": rag.get("rag_real_smoke"),
         "upstream_real_import": utilization.get("status"),
         "private_leak_violations": len(leak["violations"]),
@@ -780,9 +855,12 @@ def final_delivery_p2p3() -> dict[str, Any]:
         "full_graph": internal_manifest.get("record_counts"),
         "shared_graph": shared_manifest.get("record_counts"),
         "cards": cards,
+        "gap_report": {"status": gap.get("status"), "status_reason": gap.get("status_reason")},
+        "pitfall_map_full": {"status": pitfall_map.get("status"), "reason": pitfall_map.get("reason")},
+        "monthly_comparison_full": {"status": monthly.get("status"), "reason": monthly.get("reason"), "comparison_basis": monthly.get("comparison_basis")},
         "render_proof": {"status": render_manifest.get("status"), "screenshots": len(render_manifest.get("screenshots", []))},
     }
     write_json(REPORTS_DIR / "P2P3-rag-upstream-full-productization-final.json", final)
-    lines = ["# P2P3 RAG Upstream Full Productization Final", "", f"- zhang_director_ready: `{ready}`", f"- rag_real_smoke: `{final['rag_real_smoke']}`", f"- upstream_real_import: `{final['upstream_real_import']}`", f"- private_leak_violations: {final['private_leak_violations']}", f"- regulatory_findings: {final['regulatory_findings']}", f"- full_graph: {final['full_graph']}", f"- shared_graph: {final['shared_graph']}", f"- render_proof: {final['render_proof']}", "", "## Safe To Show", *[f"- {item}" for item in final["safe_to_show"]], "", "## Must Not Show", *[f"- {item}" for item in final["must_not_show"]], "", "## Degraded", *[f"- {item}" for item in final["degraded"]], "", "## Not Done", *[f"- {item}" for item in final["not_done"]], "", "## Next Steps", *[f"- {item}" for item in final["next_steps"]]]
+    lines = ["# P2P3 RAG Upstream Full Productization Final", "", f"- zhang_director_ready: `{ready}`", f"- rag_real_smoke: `{final['rag_real_smoke']}`", f"- upstream_real_import: `{final['upstream_real_import']}`", f"- private_leak_violations: {final['private_leak_violations']}", f"- regulatory_findings: {final['regulatory_findings']}", f"- full_graph: {final['full_graph']}", f"- shared_graph: {final['shared_graph']}", f"- render_proof: {final['render_proof']}", "", "## Safe To Show", *[f"- {item}" for item in final["safe_to_show"]], "", "## Not Safe To Show Yet", *[f"- {item}" for item in final["not_safe_to_show_yet"]], "", "## Must Not Show", *[f"- {item}" for item in final["must_not_show"]], "", "## Degraded", *[f"- {item}" for item in final["degraded"]], "", "## Not Done", *[f"- {item}" for item in final["not_done"]], "", "## Next Steps", *[f"- {item}" for item in final["next_steps"]]]
     write_text(REPORTS_DIR / "P2P3-rag-upstream-full-productization-final.md", "\n".join(lines))
     return final

@@ -5,35 +5,11 @@ import json
 
 from common import EXPORTS_DIR, REPORTS_DIR, load_internal_graph, read_json, write_graph_package, write_json, write_text
 from p2p3_common import FULL_INTERNAL, FULL_SHARED, export_full_packages
-
-FORBIDDEN_SHARED_NODE_TYPES = {
-    "enterprise", "facility", "discharge_outlet", "risk_unit", "issue_instance",
-    "pitfall_instance", "evidence_judgment_standard", "evidence_instance",
-    "rectification_template", "rectification_instance", "report_expression", "distill_event",
-}
+from tier_policy import filter_shared_graph
 
 
 def filter_shared(graph: dict) -> dict:
-    shared_nodes = [node for node in graph["nodes"] if node["tier"] == "shared" and node["node_type"] not in FORBIDDEN_SHARED_NODE_TYPES]
-    node_ids = {node["node_id"] for node in shared_nodes}
-    shared_sources = {source["source_id"]: source for source in graph["sources"] if source["tier"] == "shared"}
-    shared_edges = []
-    for edge in graph["edges"]:
-        if edge["tier"] != "shared":
-            continue
-        if edge["from"] not in node_ids or edge["to"] not in node_ids:
-            continue
-        if edge["source_ref"] not in shared_sources:
-            continue
-        if edge.get("legal_basis_status") in {"candidate", "disputed"}:
-            continue
-        shared_edges.append(edge)
-    used_sources = {edge["source_ref"] for edge in shared_edges}
-    return {
-        "nodes": shared_nodes,
-        "edges": shared_edges,
-        "sources": [source for sid, source in shared_sources.items() if sid in used_sources],
-    }
+    return filter_shared_graph(graph)
 
 
 def write_export_report(manifest: dict) -> None:

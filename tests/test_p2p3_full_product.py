@@ -61,6 +61,54 @@ class P2P3FullProductTest(unittest.TestCase):
         self.assertEqual(leak["status"], "pass")
         self.assertEqual(regulatory["status"], "pass")
 
+    def test_demo_honesty_gates_do_not_show_unproven_reports(self):
+        final = read_json("reports/P2P3-rag-upstream-full-productization-final.json")
+        pitfall = read_json("reports/yunnan-pitfall-map-full.json")
+        monthly = read_json("reports/monthly-report-comparison-full.json")
+
+        self.assertEqual(final["zhang_director_ready"], "conditional")
+        self.assertNotIn("pitfall map full", final["safe_to_show"])
+        self.assertNotIn("monthly comparison full", final["safe_to_show"])
+        self.assertIn("pitfall map full", final["not_safe_to_show_yet"])
+        self.assertIn("monthly comparison full", final["not_safe_to_show_yet"])
+        self.assertEqual(pitfall["status"], "blocked")
+        self.assertEqual(pitfall["rows"], [])
+        self.assertEqual(monthly["status"], "blocked")
+        self.assertEqual(monthly["comparison_basis"], "synthetic_baseline_demo")
+        self.assertTrue(all(item["plain_ai"] is None for item in monthly["comparisons"]))
+
+    def test_shared_cards_are_whitelisted_not_shallow_copies(self):
+        cards = read_json("data/candidates/cards/full_shared_cards.json")
+        allowed = {
+            "card_id",
+            "title",
+            "root_issue_type",
+            "dimension",
+            "field_manifestations",
+            "related_obligations",
+            "law_refs",
+            "tech_spec_refs",
+            "rag_citation_status",
+            "evidence_summary",
+            "rectification_summary",
+            "report_expression_summary",
+            "pitfalls",
+            "graph_slice_refs",
+            "source_trace",
+            "tier_policy",
+            "render_views",
+            "quality_score",
+            "legal_basis_status",
+            "show_or_not_for_director_demo",
+            "review_status",
+            "internal_capability_placeholders",
+        }
+
+        self.assertTrue(cards)
+        for card in cards:
+            self.assertLessEqual(set(card), allowed)
+            self.assertEqual(card["render_views"], {"internal_full": False, "shared_export": True})
+
     def test_render_manifest_records_real_screenshots(self):
         manifest = read_json("reports/render-proof-p2p3/manifest.json")
 

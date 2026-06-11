@@ -1,6 +1,6 @@
 # P2P3 RAG Upstream Full Productization Final
 
-- zhang_director_ready: `yes`
+- zhang_director_ready: `conditional`
 - rag_real_smoke: `pass`
 - upstream_real_import: `pass`
 - private_leak_violations: 0
@@ -13,6 +13,8 @@
 - shared_product_v1
 - upstream utilization report
 - gap report full
+
+## Not Safe To Show Yet
 - pitfall map full
 - monthly comparison full
 
@@ -24,9 +26,14 @@
 - local cache
 
 ## Degraded
+- Yunnan pitfall map full is blocked until real aggregate data is available.
+- Monthly report comparison is blocked until ETO blind review is completed.
 
 ## Not Done
 - government lineage real import
+- real EcoCheck aggregate pitfall map
+- ETO blind review for monthly comparison
+- per-citation locator mapping hardening
 
 ## Next Steps
 - standardize per-citation locator mapping from RetrieveKnowledge Records

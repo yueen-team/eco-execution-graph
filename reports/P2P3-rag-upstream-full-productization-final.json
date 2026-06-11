@@ -1,10 +1,12 @@
 {
-  "zhang_director_ready": "yes",
-  "reason": "full package generated; RAG citation retrieval verified",
+  "zhang_director_ready": "conditional",
+  "reason": "full package generated; director demo has honest blocked items",
   "safe_to_show": [
     "shared_product_v1",
     "upstream utilization report",
-    "gap report full",
+    "gap report full"
+  ],
+  "not_safe_to_show_yet": [
     "pitfall map full",
     "monthly comparison full"
   ],
@@ -16,9 +18,15 @@
     "local cache"
   ],
   "blockers": [],
-  "degraded": [],
+  "degraded": [
+    "Yunnan pitfall map full is blocked until real aggregate data is available.",
+    "Monthly report comparison is blocked until ETO blind review is completed."
+  ],
   "not_done": [
-    "government lineage real import"
+    "government lineage real import",
+    "real EcoCheck aggregate pitfall map",
+    "ETO blind review for monthly comparison",
+    "per-citation locator mapping hardening"
   ],
   "next_steps": [
     "standardize per-citation locator mapping from RetrieveKnowledge Records",
@@ -29,8 +37,7 @@
     "法条落到行业/场景/问题",
     "证据类别",
     "shared/internal",
-    "缺口报告",
-    "月报对比"
+    "缺口报告"
   ],
   "rag_real_smoke": "pass",
   "upstream_real_import": "pass",
@@ -53,6 +60,19 @@
     "ready_cards": 70,
     "candidate_cards": 0,
     "hazardous_showcase_cards": 19
+  },
+  "gap_report": {
+    "status": "pass",
+    "status_reason": "no coverage gaps detected"
+  },
+  "pitfall_map_full": {
+    "status": "blocked",
+    "reason": "等待 EcoCheck 真实聚合数据; P1 compatibility sample 不作为 full product 踩雷地图依据"
+  },
+  "monthly_comparison_full": {
+    "status": "blocked",
+    "reason": "ETO blind review with real desensitized historical monthly paragraphs is pending",
+    "comparison_basis": "synthetic_baseline_demo"
   },
   "render_proof": {
     "status": "pass",
