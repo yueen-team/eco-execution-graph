@@ -1,6 +1,6 @@
 # P2P3 RAG Upstream Full Productization Final
 
-- zhang_director_ready: `conditional`
+- zhang_director_ready: `yes`
 - rag_real_smoke: `pass`
 - upstream_real_import: `pass`
 - private_leak_violations: 0
@@ -24,13 +24,10 @@
 - local cache
 
 ## Degraded
-- Tencent ADP BotAppKey missing; citation retrieval via app is blocked, embedding smoke passed.
 
 ## Not Done
 - government lineage real import
-- Tencent ADP app citation retrieval
 
 ## Next Steps
-- publish Tencent ADP app with two knowledge bases
-- fill TENCENT_ADP_BOT_APP_KEY
+- standardize per-citation locator mapping from RetrieveKnowledge Records
 - import government lineage exchange file when provided

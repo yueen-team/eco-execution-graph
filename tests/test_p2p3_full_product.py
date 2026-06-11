@@ -40,13 +40,15 @@ class P2P3FullProductTest(unittest.TestCase):
         self.assertNotRegex(text, r'"tier"\s*:\s*"private"')
         self.assertNotRegex(text, r"本法全文|全文如下|第一条.{20,}第二条")
 
-    def test_rag_metadata_keeps_unresolved_citations_blocked(self):
+    def test_rag_metadata_keeps_resolved_citations_metadata_only(self):
         report = read_json("reports/rag-citation-resolution-report.json")
 
-        self.assertIn(report["rag_real_smoke"], {"pass", "blocked"})
+        self.assertEqual(report["rag_real_smoke"], "pass")
+        self.assertEqual(report["rag_retrieve_probe"]["status"], "pass")
         self.assertGreaterEqual(report["citation_count"], 5)
+        self.assertGreaterEqual(report["counts"].get("resolved", 0), 5)
         self.assertTrue(all(item["cache_policy"] == "metadata_only" for item in report["p1_core_resolution"]))
-        self.assertTrue(all(item["report_usage_policy"] == "do_not_write_as_legal_basis" for item in report["p1_core_resolution"]))
+        self.assertTrue(all(item["report_usage_policy"] == "rag_metadata_only" for item in report["p1_core_resolution"]))
 
     def test_cards_and_governance_reports_are_ready(self):
         cards = read_json("reports/execution-card-index.json")

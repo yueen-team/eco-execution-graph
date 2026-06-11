@@ -16,6 +16,8 @@
     "delivery:report": "python pipeline/final_delivery.py",
     "tencent:probe": "python pipeline/tencent_lke_probe.py all",
     "tencent:probe:embedding": "python pipeline/tencent_lke_probe.py embedding",
+    "tencent:probe:tokenhub": "python pipeline/tencent_lke_probe.py tokenhub-chat",
+    "tencent:probe:rag-retrieve": "python pipeline/tencent_lke_probe.py rag-retrieve",
     "tencent:probe:ws-token": "python pipeline/tencent_lke_probe.py ws-token",
     "upstream:lock": "python pipeline/upstream_lock.py",
     "upstream:inventory": "python pipeline/upstream_inventory.py",

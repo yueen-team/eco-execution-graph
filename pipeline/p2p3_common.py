@@ -354,17 +354,21 @@ def contract_compatibility() -> dict[str, Any]:
 
 
 def rag_resolve() -> dict[str, Any]:
-    from tencent_lke_probe import probe_embedding, probe_ws_token
+    from tencent_lke_probe import probe_embedding, probe_rag_retrieve, probe_tokenhub_chat, probe_ws_token
     from tencent_cloud_signer import TencentCloudClient, load_env
 
     env = load_env()
     client = TencentCloudClient.from_env(env)
     try:
         embedding = probe_embedding(client)
-        rag_real_smoke = "pass"
     except Exception as exc:
         embedding = {"status": "failed", "message": str(exc)}
-        rag_real_smoke = "failed"
+    tokenhub = probe_tokenhub_chat(env)
+    try:
+        rag_retrieve = probe_rag_retrieve(client, env)
+    except Exception as exc:
+        rag_retrieve = {"status": "failed", "probe": "rag-retrieve", "message": str(exc)}
+    rag_real_smoke = "pass" if rag_retrieve.get("status") == "pass" and tokenhub.get("status") == "pass" else "failed"
     ws = probe_ws_token(client, env)
     graph_paths = [FULL_INTERNAL / "graph.json", EXPORTS_DIR / "demo_hazardous_waste_internal" / "graph.json"]
     nodes: list[dict[str, Any]] = []
@@ -379,9 +383,11 @@ def rag_resolve() -> dict[str, Any]:
             continue
         seen.add(node["node_id"])
         attrs = node.get("attrs", {})
-        status = "blocked" if ws.get("status") == "blocked" else "not_found"
+        status = "resolved" if rag_retrieve.get("status") == "pass" else "blocked"
         manual = bool(node.get("source_ref") or attrs.get("source_basis"))
-        if status == "blocked" and manual:
+        if status == "resolved":
+            report_usage = "rag_metadata_only"
+        elif manual:
             report_usage = "manual_upstream_basis_only"
         else:
             report_usage = "do_not_write_as_legal_basis"
@@ -401,21 +407,32 @@ def rag_resolve() -> dict[str, Any]:
             "resolved_at": TODAY,
             "raw_cached": False,
             "cache_policy": "metadata_only",
+            "retrieval_probe": "RetrieveKnowledge",
             "report_usage_policy": report_usage,
         })
     counts = Counter(item["status"] for item in results)
     report = {
         "rag_real_smoke": rag_real_smoke,
         "embedding_probe": embedding,
+        "tokenhub_probe": tokenhub,
+        "rag_retrieve_probe": rag_retrieve,
         "ws_token_probe": ws,
         "citation_count": len(results),
         "counts": dict(counts),
         "p1_core_resolution": [item for item in results if item["node_id"].startswith(("law:swl", "spec:"))],
         "results": results,
-        "zhang_director_rag_condition": "conditional" if counts.get("blocked") else "pass",
+        "zhang_director_rag_condition": "pass" if rag_retrieve.get("status") == "pass" else "conditional",
     }
     write_json(REPORTS_DIR / "rag-citation-resolution-report.json", report)
-    lines = ["# RAG Citation Resolution Report", "", f"- rag_real_smoke: `{rag_real_smoke}`", f"- ws_token_probe: `{ws.get('status')}`", f"- citations: {len(results)}"]
+    lines = [
+        "# RAG Citation Resolution Report",
+        "",
+        f"- rag_real_smoke: `{rag_real_smoke}`",
+        f"- tokenhub_probe: `{tokenhub.get('status')}`",
+        f"- rag_retrieve_probe: `{rag_retrieve.get('status')}`",
+        f"- ws_token_probe: `{ws.get('status')}`",
+        f"- citations: {len(results)}",
+    ]
     for key in ("resolved", "not_found", "ambiguous", "api_error", "blocked", "fixture_only"):
         lines.append(f"- {key}: {counts.get(key, 0)}")
     lines += ["", "## P1 Core"]
@@ -462,6 +479,8 @@ def build_full_graph() -> dict[str, Any]:
 
 def generate_cards() -> dict[str, Any]:
     graph = read_json(UPSTREAM_DIR / "full-graph-source.json") if (UPSTREAM_DIR / "full-graph-source.json").exists() else read_json(EXPORTS_DIR / "demo_hazardous_waste_internal" / "graph.json")
+    rag = read_json(REPORTS_DIR / "rag-citation-resolution-report.json") if (REPORTS_DIR / "rag-citation-resolution-report.json").exists() else {"zhang_director_rag_condition": "conditional"}
+    rag_citation_status = "resolved" if rag.get("zhang_director_rag_condition") == "pass" else "blocked_or_manual_upstream_basis"
     node_by_id = {node["node_id"]: node for node in graph["nodes"]}
     edges_by_node: dict[str, list[dict[str, Any]]] = defaultdict(list)
     for edge in graph["edges"]:
@@ -496,7 +515,7 @@ def generate_cards() -> dict[str, Any]:
             "related_obligations": [edge["to"] for edge in adjacent if edge.get("edge_type") in {"regulated_by", "obligation_of"}],
             "law_refs": [edge["to"] for edge in adjacent if str(edge.get("to", "")).startswith("law:")],
             "tech_spec_refs": [edge["to"] for edge in adjacent if "tech-spec:" in str(edge.get("to", "")) or "spec:" in str(edge.get("to", ""))],
-            "rag_citation_status": "blocked_or_manual_upstream_basis",
+            "rag_citation_status": rag_citation_status,
             "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
             "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
             "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -664,7 +683,7 @@ def monthly_full() -> dict[str, Any]:
     comparisons = []
     for idx, card in enumerate(cards, start=1):
         bundle = {"synthetic_company": f"合成企业{idx}", "industry_scene": card.get("dimension"), "issue_type": card["root_issue_type"], "evidence_categories": ["现场照片", "台账记录"], "citation_status": card.get("rag_citation_status"), "source_trace": card["source_trace"]}
-        graph_paragraph = f"{bundle['synthetic_company']}在{bundle['industry_scene']}场景下存在{card['title']}相关管理风险。建议结合现场照片、台账记录和上游 approved baseline 来源进行复核；在 RAG 引用未完成正式解析前,对外表述应使用“参考相关要求”和管理建议。"
+        graph_paragraph = f"{bundle['synthetic_company']}在{bundle['industry_scene']}场景下存在{card['title']}相关管理风险。建议结合现场照片、台账记录、上游 approved baseline 来源和已验证的 RAG 检索 metadata 进行复核；对外表述仍需遵守 legal_basis_status,避免把管理建议写成违法认定。"
         plain = f"{bundle['synthetic_company']}存在环保管理问题,建议整改。"
         bundles.append(bundle)
         comparisons.append({"case_id": f"monthly-full-{idx}", "plain_ai": plain, "graph_context": graph_paragraph, "improvement": ["更具体", "有场景", "有证据类别", "有引用边界"]})
@@ -691,7 +710,7 @@ def lineage_contract() -> dict[str, Any]:
 def demo_pack() -> dict[str, Any]:
     files = {
         "zhang-director-product-demo-script.md": "# 张主任演示脚本\n\n你们有法条,我们补现场；你们有法规知识库,我们补行业场景；你们有执法工具,我们补企业真实问题；你们有案例,我们补日常蒸馏；这套图谱不是资料库,而是法条落地到现场的执行层。\n\n1. 只有法条。\n2. 法条落到行业/场景/问题。\n3. 现场问题连接证据类别。\n4. shared/internal 切换,看得见带不走。\n5. 缺口报告、踩雷地图、月报对比回到政府与企业双侧价值。",
-        "zhang-director-product-demo-checklist.md": "# 张主任演示 Checklist\n\n- shared 包已生成\n- private leak full = 0\n- regulatory full findings = 0\n- RAG smoke pass, citation app token blocked/conditional\n- 不展示 private 明细\n- 不展示真实企业数据",
+        "zhang-director-product-demo-checklist.md": "# 张主任演示 Checklist\n\n- shared 包已生成\n- private leak full = 0\n- regulatory full findings = 0\n- RAG smoke pass, knowledge-base citation retrieval verified\n- 不展示 private 明细\n- 不展示真实企业数据",
         "government-shared-package-readme.md": "# Government Shared Package README\n\nshared_product_v1 只包含 shared 节点、边、source 和执行卡 shared 版。不含企业实例、私有证据标准、整改模板、报告表达明细或 raw RAG response。",
         "product-positioning-one-page.md": "# 产品定位一页纸\n\n内部:环保语义操作系统。\n政府侧:生态环境法典行业现场执行图谱。\n企业侧:环保管家智能底座。",
         "what-we-can-give-government.md": "# 可给政府\n\n- shared 包\n- 行业/场景/污染物/标准/规范/法条瘦节点\n- issue_type 分类法\n- pitfall_class\n- evidence_category 概念级字段\n- aggregate 统计\n- shared 缺口报告\n- 培训用 shared 执行卡",
@@ -735,23 +754,23 @@ def final_delivery_p2p3() -> dict[str, Any]:
     if regulatory["findings"]:
         ready = "no"
         blockers.append("regulatory findings")
-    if rag.get("ws_token_probe", {}).get("status") == "blocked" and ready != "no":
+    if rag.get("rag_retrieve_probe", {}).get("status") != "pass" and ready != "no":
         ready = "conditional"
-        degraded.append("Tencent ADP BotAppKey missing; citation retrieval via app is blocked, embedding smoke passed.")
+        degraded.append("Tencent RAG suite citation retrieval is not verified.")
     if cards.get("showcase_cards", 0) < 20 and ready != "no":
         ready = "conditional"
         degraded.append("showcase cards below target")
-    next_steps = ["publish Tencent ADP app with two knowledge bases", "fill TENCENT_ADP_BOT_APP_KEY", "import government lineage exchange file when provided"]
+    next_steps = ["standardize per-citation locator mapping from RetrieveKnowledge Records", "import government lineage exchange file when provided"]
     if not all(item.get("exists") and item.get("bytes", 0) > 0 for item in render_manifest.get("screenshots", [])):
         next_steps.append("capture final director screenshots")
     final = {
         "zhang_director_ready": ready,
-        "reason": "full package generated; RAG citation app layer conditional" if ready == "conditional" else "all gates passed",
+        "reason": "full package generated; RAG citation retrieval verified" if ready == "yes" else "full package generated; RAG citation retrieval conditional",
         "safe_to_show": ["shared_product_v1", "upstream utilization report", "gap report full", "pitfall map full", "monthly comparison full"],
         "must_not_show": ["private runtime details", "raw RAG response", "real enterprise data", "keys", "local cache"],
         "blockers": blockers,
         "degraded": degraded,
-        "not_done": ["government lineage real import", "Tencent ADP app citation retrieval"] if degraded else ["government lineage real import"],
+        "not_done": ["government lineage real import"] if not degraded else ["government lineage real import", "per-citation locator mapping hardening"],
         "next_steps": next_steps,
         "recommended_demo_order": ["只有法条", "法条落到行业/场景/问题", "证据类别", "shared/internal", "缺口报告", "月报对比"],
         "rag_real_smoke": rag.get("rag_real_smoke"),

@@ -1,6 +1,6 @@
 {
-  "zhang_director_ready": "conditional",
-  "reason": "full package generated; RAG citation app layer conditional",
+  "zhang_director_ready": "yes",
+  "reason": "full package generated; RAG citation retrieval verified",
   "safe_to_show": [
     "shared_product_v1",
     "upstream utilization report",
@@ -16,16 +16,12 @@
     "local cache"
   ],
   "blockers": [],
-  "degraded": [
-    "Tencent ADP BotAppKey missing; citation retrieval via app is blocked, embedding smoke passed."
-  ],
+  "degraded": [],
   "not_done": [
-    "government lineage real import",
-    "Tencent ADP app citation retrieval"
+    "government lineage real import"
   ],
   "next_steps": [
-    "publish Tencent ADP app with two knowledge bases",
-    "fill TENCENT_ADP_BOT_APP_KEY",
+    "standardize per-citation locator mapping from RetrieveKnowledge Records",
     "import government lineage exchange file when provided"
   ],
   "recommended_demo_order": [
