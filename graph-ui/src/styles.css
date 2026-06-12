@@ -180,6 +180,16 @@ strong[data-counter], .metric strong {
 }
 .seg-btn svg { width: 14px; height: 14px; }
 .seg-btn:hover { color: var(--text-1); background: var(--ink-3); }
+.seg-btn:disabled,
+.seg-btn[aria-disabled="true"] {
+  cursor: not-allowed;
+  opacity: 0.62;
+}
+.seg-btn:disabled:hover,
+.seg-btn[aria-disabled="true"]:hover {
+  color: var(--text-2);
+  background: transparent;
+}
 .seg-btn.is-active {
   color: var(--eco);
   background: var(--eco-soft);

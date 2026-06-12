@@ -12,6 +12,7 @@ export const state = {
   activeEdgeGroups: new Set(["law", "field", "evidence", "scene", "pitfall", "stat"]),
   cy: null,
   demo: { active: false, act: 0 },
+  deployPolicy: { readonlyShared: false },
 };
 
 export const ENTRY_CENTERS = {
@@ -102,10 +103,16 @@ export function activeEdgeTypes() {
 }
 
 export function applyDataset() {
-  const key = state.product === "full" && state.view === "shared" ? "fullShared" : state.product;
+  const view = state.deployPolicy.readonlyShared ? "shared" : state.view;
+  const product = state.deployPolicy.readonlyShared ? "full" : state.product;
+  const key = product === "full" && view === "shared" ? "fullShared" : product;
   const dataset = state.datasets[key] || state.datasets.full || state.datasets.p1;
   state.graph = dataset.graph;
   state.cards = dataset.cards;
+  if (state.deployPolicy.readonlyShared) {
+    state.view = "shared";
+    state.product = "full";
+  }
 }
 
 export function byId(collection, idKey) {

@@ -1,0 +1,15 @@
+{
+  "readonly_shared": true,
+  "allowed_dataset": "shared_product_v1",
+  "disabled_controls": [
+    "view-switch",
+    "product-switch"
+  ],
+  "card_count": 90,
+  "node_count": 483,
+  "edge_count": 977,
+  "private_nodes": 0,
+  "private_edges": 0,
+  "private_node_types": 0,
+  "monthly_exists": false
+}

@@ -166,11 +166,16 @@ function syncControls() {
   document.querySelectorAll("[data-view]").forEach((b) => b.classList.toggle("is-active", b.dataset.view === state.view));
   document.querySelectorAll("[data-product]").forEach((b) => b.classList.toggle("is-active", b.dataset.product === state.product));
   document.querySelectorAll("[data-entry]").forEach((b) => b.classList.toggle("is-active", b.dataset.entry === state.entry));
+  document.querySelectorAll("[data-view], [data-product]").forEach((b) => {
+    b.disabled = Boolean(state.deployPolicy.readonlyShared);
+    b.setAttribute("aria-disabled", state.deployPolicy.readonlyShared ? "true" : "false");
+  });
 }
 
 function bindControls() {
   document.querySelectorAll("[data-view]").forEach((button) => {
     button.addEventListener("click", () => {
+      if (state.deployPolicy.readonlyShared) return;
       if (state.view === button.dataset.view) return;
       state.view = button.dataset.view;
       applyDataset();
@@ -186,6 +191,7 @@ function bindControls() {
   });
   document.querySelectorAll("[data-product]").forEach((button) => {
     button.addEventListener("click", () => {
+      if (state.deployPolicy.readonlyShared) return;
       if (state.product === button.dataset.product) return;
       state.product = button.dataset.product;
       applyDataset();
@@ -247,6 +253,12 @@ async function boot() {
         fetchJson("/demo-data/gap-report.json", true),
         fetchJson("/demo-data/monthly-comparison.json", true),
       ]);
+    const deployPolicy = await fetchJson("/demo-data/deploy-policy.json", true);
+    if (deployPolicy?.readonly_shared === true) {
+      state.deployPolicy.readonlyShared = true;
+      state.view = "shared";
+      state.product = "full";
+    }
     state.datasets = {
       full: { graph: fullGraph, cards: fullCards },
       fullShared: { graph: fullSharedGraph, cards: fullSharedCards },
@@ -265,7 +277,16 @@ async function boot() {
     loading.hidden = true;
 
     const params = new URLSearchParams(window.location.search);
-    if (params.get("director") === "1") {
+    if (state.deployPolicy.readonlyShared && params.get("director") === "1") {
+      syncControls();
+      setStatus("CloudBase 只读共享演示:正在播放主任演示主线。");
+      enterDemo();
+    } else if (state.deployPolicy.readonlyShared) {
+      syncControls();
+      setStatus("CloudBase 只读共享演示:仅加载 shared_product_v1,内部能力不进入静态包。");
+      initOrUpdateGraph();
+      selectNode(state.centerId);
+    } else if (params.get("director") === "1") {
       enterDemo();
     } else {
       if (params.get("view") === "shared") {
