@@ -16,6 +16,10 @@
 - `mobile-review.png`:390px 窄屏,tab 双列、卡片无溢出。
 - `demo-fallback-banner.png`:graph-api 停止后回落演示数据,琥珀横幅「不会落库」。
 - `cn-labels-panel.png`:图谱主界面英文枚举中文化(已审核基线 / ETO 已确认 / 私有运行层括注),DOM 快照核对无裸英文枚举残留。
+- `landing-hero.png`:着陆页首屏,真实 P1 图谱生长背景 + 实时数字带(483/977/90/54 取自共有导出包,非写死)。
+- `landing-bottom.png`:授权红线三层 + 行动区 + 页脚诚实声明与 ICP 占位。
+- `landing-mobile.png`:390px 着陆页,无溢出。
+- `login-page.png`:企业微信扫码登录页(无手机号/邮箱注册,令牌为折叠应急通道)。
 
 ## 落库比对记录
 

@@ -54,6 +54,30 @@
       "sha256": "f159e1f0b8bdb1d725221efb17690a6e02b97790333853f91e05c0cc51fe9be0"
     },
     {
+      "path": "reports/render-proof-review-polish/landing-bottom.png",
+      "exists": true,
+      "bytes": 124626,
+      "sha256": "4f8067bb9bce7ff61d2d8e7e4e2504dccd1286388f35429f60df7d572b5143e4"
+    },
+    {
+      "path": "reports/render-proof-review-polish/landing-hero.png",
+      "exists": true,
+      "bytes": 451145,
+      "sha256": "0cd5e5574c92babf2574bc3b3096d737058f99ea8de8c400d8912dea0ec94945"
+    },
+    {
+      "path": "reports/render-proof-review-polish/landing-mobile.png",
+      "exists": true,
+      "bytes": 214050,
+      "sha256": "12307b3f24c9995ab7f05525cc8f7fe7ae645fbc62a693ab40af835fa2d67c34"
+    },
+    {
+      "path": "reports/render-proof-review-polish/login-page.png",
+      "exists": true,
+      "bytes": 89320,
+      "sha256": "2a3f8fb819349109f7e03187925042a8f0ce271a92612aeb17e817e92343218f"
+    },
+    {
       "path": "reports/render-proof-review-polish/mobile-review.png",
       "exists": true,
       "bytes": 115901,

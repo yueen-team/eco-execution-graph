@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="robots" content="noindex" />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230d9468'/%3E%3Crect x='9' y='9' width='14' height='14' rx='3' fill='none' stroke='%23060f0b' stroke-width='3' transform='rotate(45 16 16)'/%3E%3C/svg%3E" />
+    <title>内部登录 · 环保现场执行图谱</title>
+  </head>
+  <body class="login-page">
+    <main class="login-shell">
+      <section class="login-card" aria-label="内部登录">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <h1>环保现场执行图谱</h1>
+        <p class="login-sub">内部工作区:全量视图与现场经验入图审核台</p>
+
+        <button id="wecomLogin" class="btn-primary login-wecom">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M12 2C6.48 2 2 5.94 2 10.8c0 2.66 1.36 5.04 3.5 6.65L4.6 21l3.83-2.1c1.1.32 2.3.5 3.57.5 5.52 0 10-3.94 10-8.8S17.52 2 12 2z"/></svg>
+          企业微信扫码登录
+        </button>
+        <p id="wecomHint" class="login-hint">仅限本企业成员;不提供手机号或邮箱注册。</p>
+
+        <details class="login-token">
+          <summary>使用内部访问令牌(应急通道)</summary>
+          <div class="login-token-body">
+            <input id="tokenInput" type="password" placeholder="粘贴内部访问令牌" autocomplete="off" />
+            <button id="tokenLogin" class="btn-ghost">验证并进入</button>
+          </div>
+        </details>
+
+        <p id="loginNotice" class="login-notice" hidden></p>
+        <p class="login-foot"><a href="/landing.html">← 返回首页</a> · 共有演示包无需登录</p>
+      </section>
+    </main>
+    <script type="module" src="/src/login.js"></script>
+  </body>
+</html>

@@ -1,0 +1,56 @@
+import "./login.css";
+
+const notice = document.getElementById("loginNotice");
+const wecomButton = document.getElementById("wecomLogin");
+const wecomHint = document.getElementById("wecomHint");
+
+function setNotice(text, ok = false) {
+  notice.textContent = text;
+  notice.className = `login-notice${ok ? " ok" : ""}`;
+  notice.hidden = !text;
+}
+
+async function fetchJson(path, options) {
+  const res = await fetch(path, { cache: "no-store", ...options });
+  let data = null;
+  try { data = await res.json(); } catch { /* 非 JSON 响应按状态码处理 */ }
+  return { ok: res.ok, status: res.status, data };
+}
+
+async function boot() {
+  // 已有企业微信会话 → 直接进入内部工作区
+  const session = await fetchJson("/auth/session").catch(() => null);
+  if (session?.ok) {
+    setNotice(`已登录:${session.data?.userid || ""},正在进入…`, true);
+    window.location.replace("/?workspace=review");
+    return;
+  }
+  if (session && session.data?.wecom_configured === false) {
+    wecomButton.disabled = true;
+    wecomHint.textContent = "企业微信登录尚未在服务端配置(ECO_GRAPH_WECOM_*);可先使用内部访问令牌。";
+  }
+}
+
+wecomButton.addEventListener("click", () => {
+  window.location.href = "/auth/wecom/start";
+});
+
+document.getElementById("tokenLogin").addEventListener("click", async () => {
+  const token = document.getElementById("tokenInput").value.trim();
+  if (!token) {
+    setNotice("请先粘贴内部访问令牌。");
+    return;
+  }
+  const check = await fetchJson("/api/review/field-events", {
+    headers: { Authorization: `Bearer ${token}` },
+  }).catch(() => null);
+  if (check?.ok) {
+    sessionStorage.setItem("ecoGraphReviewToken", token);
+    setNotice("令牌有效,正在进入审核台…", true);
+    window.location.href = "/?workspace=review";
+  } else {
+    setNotice(check?.data?.reason || "令牌无效或审核服务不可达,请确认 graph-api 正在运行。");
+  }
+});
+
+boot();

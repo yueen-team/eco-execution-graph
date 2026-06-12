@@ -5,6 +5,10 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { applyReviewDecision, buildPitfallBatch, normalizeFieldEvent } from "./review-store.js";
 import { readJsonl, upsertByReviewId, writeJsonl } from "./storage.js";
+import {
+  wecomConfigFromEnv, isWecomConfigured, buildWecomLoginUrl, exchangeWecomCode,
+  isUserAllowed, issueSession, verifySession, parseCookies, sessionCookie,
+} from "./auth.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..", "..");
@@ -57,8 +61,18 @@ async function readBody(req, maxBodyBytes = DEFAULT_MAX_BODY_BYTES) {
   return JSON.parse(Buffer.concat(chunks).toString("utf8"));
 }
 
-export function isAuthorized(headers, token = API_TOKEN) {
-  if (!token) return true;
+export function isAuthorized(headers, token = API_TOKEN, sessionSecret = "") {
+  // 企业微信会话优先:cookie 里有有效会话即放行
+  if (sessionSecret) {
+    const cookies = parseCookies(headers.cookie || "");
+    if (verifySession(cookies.eco_graph_session, sessionSecret)) return true;
+  }
+  if (!token) return !sessionSecret || !isProductionLike({
+    nodeEnv: process.env.NODE_ENV,
+    ecoGraphEnv: process.env.ECO_GRAPH_ENV,
+    deployTarget: process.env.ECO_GRAPH_DEPLOY_TARGET,
+    tcbEnv: process.env.TCB_ENV,
+  });
   const header = headers.authorization || "";
   const prefix = "Bearer ";
   if (!header.startsWith(prefix)) return false;
@@ -68,7 +82,13 @@ export function isAuthorized(headers, token = API_TOKEN) {
   return crypto.timingSafeEqual(given, expected);
 }
 
-function createHandler({ stagingPath = STAGING_PATH, apiToken = API_TOKEN, maxBodyBytes = DEFAULT_MAX_BODY_BYTES } = {}) {
+function createHandler({
+  stagingPath = STAGING_PATH,
+  apiToken = API_TOKEN,
+  maxBodyBytes = DEFAULT_MAX_BODY_BYTES,
+  wecom = wecomConfigFromEnv(),
+  exchangeCode = exchangeWecomCode,
+} = {}) {
   validateRuntimeConfig({ apiToken });
   return async function handler(req, res) {
   const url = new URL(req.url, `http://${req.headers.host || "localhost"}`);
@@ -77,8 +97,49 @@ function createHandler({ stagingPath = STAGING_PATH, apiToken = API_TOKEN, maxBo
       send(res, 200, { status: "pass", service: "graph field review api" });
       return;
     }
-    if (url.pathname.startsWith("/api/") && !isAuthorized(req.headers, apiToken)) {
-      send(res, 401, { status: "fail", reason: "缺少或无效的 graph 内部访问令牌" });
+    // 企业微信扫码登录:内部/小范围使用,不做手机号或邮箱注册
+    if (req.method === "GET" && url.pathname === "/auth/wecom/start") {
+      if (!isWecomConfigured(wecom)) {
+        send(res, 503, { status: "fail", reason: "企业微信登录未配置,请先设置 ECO_GRAPH_WECOM_* 与 ECO_GRAPH_SESSION_SECRET" });
+        return;
+      }
+      res.writeHead(302, { location: buildWecomLoginUrl(wecom), "cache-control": "no-store" });
+      res.end();
+      return;
+    }
+    if (req.method === "GET" && url.pathname === "/auth/wecom/callback") {
+      if (!isWecomConfigured(wecom)) {
+        send(res, 503, { status: "fail", reason: "企业微信登录未配置" });
+        return;
+      }
+      const code = url.searchParams.get("code");
+      if (!code) {
+        send(res, 400, { status: "fail", reason: "缺少授权 code" });
+        return;
+      }
+      const userid = await exchangeCode(code, wecom);
+      if (!isUserAllowed(userid, wecom)) {
+        send(res, 403, { status: "fail", reason: "该企业微信账号不在审核台允许名单内" });
+        return;
+      }
+      const token = issueSession(userid, wecom.sessionSecret);
+      res.writeHead(302, {
+        location: "/?workspace=review",
+        "set-cookie": sessionCookie(token, { secure: req.headers["x-forwarded-proto"] === "https" }),
+        "cache-control": "no-store",
+      });
+      res.end();
+      return;
+    }
+    if (req.method === "GET" && url.pathname === "/auth/session") {
+      const cookies = parseCookies(req.headers.cookie || "");
+      const userid = verifySession(cookies.eco_graph_session, wecom.sessionSecret);
+      if (userid) send(res, 200, { status: "pass", userid, login: "wecom" });
+      else send(res, 401, { status: "fail", reason: "未登录", wecom_configured: isWecomConfigured(wecom) });
+      return;
+    }
+    if (url.pathname.startsWith("/api/") && !isAuthorized(req.headers, apiToken, wecom.sessionSecret)) {
+      send(res, 401, { status: "fail", reason: "请先通过企业微信登录,或提供有效的内部访问令牌" });
       return;
     }
     if (req.method === "POST" && url.pathname === "/api/ecocheck/field-events") {

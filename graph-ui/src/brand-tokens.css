@@ -1,0 +1,82 @@
+/* 品牌令牌:与主应用 styles.css 同源的色彩/字体体系,供着陆页与登录页复用。
+   主应用样式自带一份,两边改动需同步(见 docs/adr/0010)。 */
+
+:root {
+  --ink-0: #060f0b;
+  --ink-1: #0a1611;
+  --ink-2: #0e1f17;
+  --ink-3: #14291f;
+  --line-1: rgba(140, 190, 162, 0.12);
+  --line-2: rgba(140, 190, 162, 0.24);
+  --text-0: #f6fbf8;
+  --text-1: #eaf5ed;
+  --text-2: #a8c4b2;
+  --text-3: #6f8d7c;
+  --eco: #2ee6a8;
+  --eco-soft: rgba(46, 230, 168, 0.14);
+  --eco-line: rgba(46, 230, 168, 0.45);
+  --blue: #5aa7ff;
+  --blue-soft: rgba(90, 167, 255, 0.14);
+  --blue-line: rgba(90, 167, 255, 0.45);
+  --amber: #f5b84d;
+  --rose: #fb7185;
+  --violet: #a78bfa;
+  --teal: #2dd4bf;
+  --font-sans: "Noto Sans SC", "Microsoft YaHei UI", "Microsoft YaHei", sans-serif;
+  --font-serif: "Noto Serif SC", "Source Han Serif SC", "STZhongsong", serif;
+  --font-mono: ui-monospace, "Cascadia Mono", Consolas, monospace;
+  --r-sm: 8px;
+  --r-md: 12px;
+  --r-lg: 16px;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--text-1);
+  background: var(--ink-0);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection { background: var(--eco-soft); color: var(--eco); }
+
+button, input { font-family: inherit; font-size: inherit; color: inherit; }
+
+a { color: inherit; text-decoration: none; }
+
+.btn-primary {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 12px 26px;
+  border: none;
+  border-radius: var(--r-md);
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  color: #04130c;
+  background: linear-gradient(135deg, #43f0b4, #19c98c);
+  box-shadow: 0 0 26px rgba(46, 230, 168, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  cursor: pointer;
+  transition: transform 0.15s var(--ease-out), box-shadow 0.2s var(--ease-out);
+}
+.btn-primary:hover { transform: translateY(-1px); box-shadow: 0 0 34px rgba(46, 230, 168, 0.48), inset 0 1px 0 rgba(255, 255, 255, 0.25); }
+.btn-primary:active { transform: translateY(0); }
+
+.btn-ghost {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 11px 24px;
+  border: 1px solid var(--line-2);
+  border-radius: var(--r-md);
+  background: none;
+  color: var(--text-1);
+  font-size: 15px;
+  cursor: pointer;
+  transition: border-color 0.18s, color 0.18s;
+}
+.btn-ghost:hover { border-color: var(--eco-line); color: var(--eco); }
+
+.tabular { font-variant-numeric: tabular-nums; }
