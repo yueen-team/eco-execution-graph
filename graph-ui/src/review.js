@@ -403,7 +403,7 @@ export async function initReviewWorkspace({ readonlyShared, setStatus }) {
     graphWorkspace.hidden = false;
     reviewWorkspace.hidden = true;
     button.classList.remove("is-reviewing");
-    setStatus?.("内部全量视图:可见 private runtime 节点。");
+    setStatus?.("内部全量视图:可见私有运行层(private runtime)节点。");
   }
 
   button.addEventListener("click", () => {

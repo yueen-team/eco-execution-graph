@@ -45,6 +45,24 @@ class ReviewUiContractTest(unittest.TestCase):
         self.assertNotIn("window.alert", review_js)
         self.assertIn("review-notice", review_js)
 
+    def test_graph_surface_maps_english_enums_to_chinese(self):
+        state_js = (ROOT / "graph-ui/src/state.js").read_text(encoding="utf-8")
+        panel_js = (ROOT / "graph-ui/src/panel.js").read_text(encoding="utf-8")
+        graph_js = (ROOT / "graph-ui/src/graph.js").read_text(encoding="utf-8")
+        demo_js = (ROOT / "graph-ui/src/demo.js").read_text(encoding="utf-8")
+
+        # 审核状态/置信来源/法条依据的英文枚举必须有中文映射,且被各渲染面消费
+        for label in ["已审核基线", "候选待审", "人工已审", "整改验证通过", "ETO 已确认"]:
+            self.assertIn(label, state_js)
+        for surface in (panel_js, graph_js):
+            self.assertIn("reviewStatusLabel", surface)
+            self.assertIn("confidenceReasonLabel", surface)
+        self.assertIn("reviewStatusLabel", demo_js)
+        # 不允许把原始枚举直接拼进徽章(允许在注释或映射表中出现)
+        self.assertNotIn("esc(card?.review_status ||", demo_js)
+        self.assertNotIn("badge(node.review_status", panel_js)
+        self.assertNotIn("badge(edge.review_status", panel_js)
+
     def test_review_demo_data_uses_chinese_keys_for_eto_surface(self):
         data = json.loads((ROOT / "graph-ui/public/review-data/field-event-review-demo.json").read_text(encoding="utf-8"))
         required = {"审核编号", "来源阶段", "建议问题类型", "现场问题摘要", "当前审核状态", "是否允许进入聚合", "技术追溯"}

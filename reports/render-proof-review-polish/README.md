@@ -15,6 +15,7 @@
 - `api-merge-success.png`:填入图谱已有问题类型(datalist 候选)后合并成功。
 - `mobile-review.png`:390px 窄屏,tab 双列、卡片无溢出。
 - `demo-fallback-banner.png`:graph-api 停止后回落演示数据,琥珀横幅「不会落库」。
+- `cn-labels-panel.png`:图谱主界面英文枚举中文化(已审核基线 / ETO 已确认 / 私有运行层括注),DOM 快照核对无裸英文枚举残留。
 
 ## 落库比对记录
 

@@ -182,8 +182,8 @@ function bindControls() {
       applyDataset();
       syncControls();
       setStatus(state.view === "shared"
-        ? "共有视图:已加载 shared_product_v1 导出包,private runtime 已物理过滤。"
-        : "内部全量视图:可见 private runtime 节点。");
+        ? "共有视图:已加载共有导出包(shared_product_v1),私有运行层已物理过滤。"
+        : "内部全量视图:可见私有运行层(private runtime)节点。");
       updateMetrics();
       renderEdgeFilters();
       initOrUpdateGraph();
@@ -281,11 +281,11 @@ async function boot() {
     const params = new URLSearchParams(window.location.search);
     if (state.deployPolicy.readonlyShared && params.get("director") === "1") {
       syncControls();
-      setStatus("CloudBase 只读共享演示:正在播放主任演示主线。");
+      setStatus("云端只读演示:正在播放主任演示主线。");
       enterDemo();
     } else if (state.deployPolicy.readonlyShared) {
       syncControls();
-      setStatus("CloudBase 只读共享演示:仅加载 shared_product_v1,内部能力不进入静态包。");
+      setStatus("云端只读演示:仅加载共有导出包(shared_product_v1),内部能力不进入静态包。");
       initOrUpdateGraph();
       selectNode(state.centerId);
     } else if (params.get("director") === "1") {
@@ -295,7 +295,7 @@ async function boot() {
         state.view = "shared";
         applyDataset();
         syncControls();
-        setStatus("共有视图:已加载 shared_product_v1 导出包,private runtime 已物理过滤。");
+        setStatus("共有视图:已加载共有导出包(shared_product_v1),私有运行层已物理过滤。");
         updateMetrics();
         renderEdgeFilters();
       }

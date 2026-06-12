@@ -1,5 +1,8 @@
 // 右栏执行卡:DataHub 范式 —— 概览 → 现场表现 → 证据 → 能力胶囊 → 来源追溯 → 置信 → 质量
-import { state, nodeMeta, TIER_META, EDGE_TYPE_COLOR, EDGE_TYPE_LABEL, findCardForNode } from "./state.js";
+import {
+  state, nodeMeta, TIER_META, EDGE_TYPE_COLOR, EDGE_TYPE_LABEL,
+  findCardForNode, reviewStatusLabel, LEGAL_BASIS_LABEL, confidenceReasonLabel,
+} from "./state.js";
 
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 
@@ -11,14 +14,6 @@ function section(title, icon, body) {
   if (!body) return "";
   return `<section class="dp-section"><h3><i data-lucide="${icon}"></i>${title}</h3>${body}</section>`;
 }
-
-const LEGAL_BASIS_LABEL = {
-  official_confirmed: "官方口径已确认",
-  internal_reviewed: "内部已审核",
-  candidate: "候选口径",
-  disputed: "口径存疑",
-  no_legal_basis: "无法条依据·管理经验",
-};
 
 // 关联解释卡:边是一等公民 —— 谁、什么关系、谁、凭什么、来自哪
 export function renderEdgePanel(edgeId) {
@@ -40,7 +35,7 @@ export function renderEdgePanel(edgeId) {
       <h2 style="color:${color}">${esc(EDGE_TYPE_LABEL[edge.edge_type] || edge.edge_type)}</h2>
       <div class="dp-badges">
         ${badge(tier.label, tier.badge, tier.icon)}
-        ${edge.review_status ? badge(edge.review_status, "b-plain") : ""}
+        ${edge.review_status ? badge(reviewStatusLabel(edge.review_status), "b-plain") : ""}
         ${edge.legal_basis_status ? badge(LEGAL_BASIS_LABEL[edge.legal_basis_status] || edge.legal_basis_status, "b-blue", "stamp") : ""}
       </div>
     </header>
@@ -64,16 +59,16 @@ export function renderEdgePanel(edgeId) {
         <div class="q-cell"><b>${esc(edge.last_verified_at || ev.last_updated || "—")}</b><span>最近验证</span></div>
         <div class="q-cell"><b>${esc(edge.reviewer_role || "—")}</b><span>审核角色</span></div>
       </div>
-      ${edge.confidence_reason?.length ? `<div class="chip-row">${edge.confidence_reason.map((r) => `<span class="chip">${esc(r)}</span>`).join("")}</div>` : ""}
+      ${edge.confidence_reason?.length ? `<div class="chip-row">${edge.confidence_reason.map((r) => `<span class="chip">${esc(confidenceReasonLabel(r))}</span>`).join("")}</div>` : ""}
     </section>
-    ${edge.report_usage_policy ? section("对外口径", "file-pen", `<p>报告中只允许写:「${esc(edge.report_usage_policy)}」—— 由 legal_basis_status 约束,未经官方确认不写违法认定。</p>`) : ""}
+    ${edge.report_usage_policy ? section("对外口径", "file-pen", `<p>报告中只允许写:「${esc(edge.report_usage_policy)}」—— 由法条依据状态(legal_basis_status)约束,未经官方确认不写违法认定。</p>`) : ""}
     ${section("来源追溯", "git-commit-horizontal", `<div class="trace-list">
-        ${edge.source_ref ? `<div class="trace-item"><span class="tk">source</span><span class="tv">${esc(edge.source_ref)}</span></div>` : ""}
+        ${edge.source_ref ? `<div class="trace-item"><span class="tk">来源引用</span><span class="tv">${esc(edge.source_ref)}</span></div>` : ""}
         ${edge.origin_repo ? `<div class="trace-item"><span class="tk">来源库</span><span class="tv">${esc(edge.origin_repo)}</span></div>` : ""}
         ${edge.origin_commit ? `<div class="trace-item"><span class="tk">提交</span><span class="tv">${esc(edge.origin_commit.slice(0, 9))}</span></div>` : ""}
         ${edge.origin_asset ? `<div class="trace-item"><span class="tk">资产</span><span class="tv">${esc(edge.origin_asset)}</span></div>` : ""}
       </div>`)}
-    <p class="boundary-note">每条关联出生即带 tier、置信与来源;置信度不是拍的,由整改验证回写(RECTIFICATION_VERIFIED)逐步挣得。</p>
+    <p class="boundary-note">每条关联出生即带授权层级、置信与来源;置信度不是拍的,由整改验证回写(RECTIFICATION_VERIFIED)逐步挣得。</p>
   `;
   window.__refreshIcons?.();
 }
@@ -141,7 +136,7 @@ export function renderPanel(nodeId) {
         ${origin ? `<div class="trace-item"><span class="tk">来源库</span><span class="tv">${esc(origin)}</span></div>` : ""}
         ${commit ? `<div class="trace-item"><span class="tk">提交</span><span class="tv">${esc(commit)}</span></div>` : ""}
         ${asset ? `<div class="trace-item"><span class="tk">资产</span><span class="tv">${esc(asset)}</span></div>` : ""}
-        ${sourceRefs.length ? `<div class="trace-item"><span class="tk">source</span><span class="tv">${sourceRefs.map(esc).join("<br>")}</span></div>` : ""}
+        ${sourceRefs.length ? `<div class="trace-item"><span class="tk">来源引用</span><span class="tv">${sourceRefs.map(esc).join("<br>")}</span></div>` : ""}
       </div>`
     : "";
 
@@ -153,7 +148,7 @@ export function renderPanel(nodeId) {
       <div class="conf-head"><b class="dot" style="background:${color}"></b>${esc(EDGE_TYPE_LABEL[edge.edge_type] || edge.edge_type)}
         <span class="cv">${conf.toFixed(2)}</span></div>
       <div class="conf-bar"><i style="width:${Math.round(conf * 100)}%"></i></div>
-      ${edge.confidence_reason?.length ? `<div class="conf-reason">${esc(edge.confidence_reason.join(" / "))}</div>` : ""}
+      ${edge.confidence_reason?.length ? `<div class="conf-reason">${esc(edge.confidence_reason.map(confidenceReasonLabel).join(" / "))}</div>` : ""}
     </div>`;
   }).join("");
 
@@ -170,7 +165,7 @@ export function renderPanel(nodeId) {
 
   const boundary = state.view === "shared"
     ? "共有视图仅含问题分类、法条瘦引用、证据类别与聚合统计;判定标准、整改模板、报告表达以能力计数呈现 —— 看得见,带不走。"
-    : "内部全量视图:private runtime 节点可见,用于证明能力存在;对外导出由 tier 物理过滤 + 双重泄漏检测兜底。";
+    : "内部全量视图:私有运行层(private runtime)节点可见,用于证明能力存在;对外导出按授权层级物理过滤 + 双重泄漏检测兜底。";
 
   const legalStatus = card?.legal_basis_status || adjacent.find((e) => e.legal_basis_status)?.legal_basis_status;
 
@@ -180,7 +175,7 @@ export function renderPanel(nodeId) {
       <h2>${esc(card?.title || node.name)}</h2>
       <div class="dp-badges">
         ${badge(tier.label, tier.badge, tier.icon)}
-        ${node.review_status ? badge(node.review_status, "b-plain") : ""}
+        ${node.review_status ? badge(reviewStatusLabel(node.review_status), "b-plain") : ""}
         ${legalStatus ? badge(LEGAL_BASIS_LABEL[legalStatus] || legalStatus, "b-blue", "stamp") : ""}
       </div>
     </header>

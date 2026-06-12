@@ -1,5 +1,5 @@
 // 主任演示模式:审核后的 5 张执行卡主线。所有数字与文本来自 pipeline 真实导出,诚实标注未证明项。
-import { state, applyDataset, ENTRY_CENTERS } from "./state.js";
+import { state, applyDataset, ENTRY_CENTERS, reviewStatusLabel, LEGAL_BASIS_LABEL } from "./state.js";
 import {
   initOrUpdateGraph, privateExitAnimation, spotlightEdges,
   clearSpotlight, setDemoNodeFilter, hideTooltip,
@@ -51,7 +51,7 @@ function directorCards() {
   return DIRECTOR_CARD_IDS.map((cardId) => byCardId.get(cardId) || {
     card_id: cardId,
     title: `${DIRECTOR_CARD_FALLBACK_TITLES[cardId]}执行卡`,
-    external_expression: "审核卡数据未装载,请等待父线程同步 full-cards 导出。",
+    external_expression: "执行卡数据未装载,请刷新页面或检查执行卡导出(full-cards)。",
   });
 }
 
@@ -69,7 +69,7 @@ function focusDirectorCard(cardId) {
   renderPanel(centerId);
   renderDirectorCardOverlay(card);
   setTimeout(() => spotlightEdges(["manifests_as", "evidenced_by", "rectified_by", "reported_as"]), 450);
-  hooks?.setStatus(`主任演示:正在查看 ${card?.card_id || cardId},定位 root_issue_type=${centerId}。`);
+  hooks?.setStatus(`主任演示:正在查看执行卡 ${card?.card_id || cardId},已定位到根问题类型。`);
 }
 
 /* ---------- 各幕 ---------- */
@@ -149,10 +149,10 @@ function renderDirectorCardOverlay(card) {
         <h4 class="ps-title">${esc(cleanCardTitle(item))}</h4>
         ${isActive ? `<p class="ps-text">${esc(expression)}</p>
           <div class="ps-extra">
-            <span class="badge b-blue"><i data-lucide="git-fork"></i>root_issue_type: ${esc(rootIssue)}</span>
-            <span class="badge b-plain"><i data-lucide="shield-check"></i>${esc(card?.review_status || "待装载审核状态")}</span>
-            <span class="badge b-blue"><i data-lucide="stamp"></i>${esc(card?.legal_basis_status || "internal_reviewed")}: 不写违法认定</span>
-            ${quality ? `<span class="badge b-shared"><i data-lucide="gauge"></i>confidence ${esc((quality.confidence ?? 0).toFixed(2))}</span>` : ""}
+            <span class="badge b-blue"><i data-lucide="git-fork"></i>根问题类型 ${esc(rootIssue)}</span>
+            <span class="badge b-plain"><i data-lucide="shield-check"></i>${esc(reviewStatusLabel(card?.review_status) || "待装载审核状态")}</span>
+            <span class="badge b-blue"><i data-lucide="stamp"></i>${esc(LEGAL_BASIS_LABEL[card?.legal_basis_status] || "内部已审核")} · 不写违法认定</span>
+            ${quality ? `<span class="badge b-shared"><i data-lucide="gauge"></i>置信度 ${esc((quality.confidence ?? 0).toFixed(2))}</span>` : ""}
           </div>
           <p class="ps-text">${esc(evidence)}</p>` : ""}
       </div>
@@ -212,7 +212,7 @@ function renderBoundaryAct() {
       initOrUpdateGraph();
       renderPanel(centerId);
       renderBoundaryPanel();
-      hooks?.setStatus("共有视图:已加载 shared_product_v1 导出包,private runtime 已物理过滤。");
+      hooks?.setStatus("共有视图:已加载共有导出包(shared_product_v1),私有运行层已物理过滤。");
     });
   }, 900);
 }
@@ -221,7 +221,7 @@ function renderBoundaryPanel() {
   overlay().innerHTML = `
     <div class="report-panel">
       <h3>授权边界:看得见,带不走</h3>
-      <p class="rp-sub">共有视图只消费 shared_product_v1 物理过滤导出;private runtime 不进入前端共有包。</p>
+      <p class="rp-sub">共有视图只消费物理过滤后的共有导出包(shared_product_v1);私有运行层(private runtime)不进入前端共有包。</p>
       <div class="compare-grid">
         <div class="compare-col">
           <h4><i data-lucide="share-2"></i>可以交付</h4>
@@ -233,7 +233,7 @@ function renderBoundaryPanel() {
         </div>
       </div>
       <div class="honest-note"><i data-lucide="shield-check"></i><span>
-        本次主任演示收束在 5 张 APPROVED_BASELINE 卡、缺口报告和授权边界。不演示云南踩雷地图,不演示月报对比,不把“建议核查/建议完善/存在管理风险”升级成违法认定。
+        本次主任演示收束在 5 张已审核基线(APPROVED_BASELINE)卡、缺口报告和授权边界。不演示云南踩雷地图,不演示月报对比,不把“建议核查/建议完善/存在管理风险”升级成违法认定。
       </span></div>
     </div>`;
   overlay().hidden = false;
@@ -286,7 +286,7 @@ export function exitDemo() {
   state.centerId = ENTRY_CENTERS.full.law;
   initOrUpdateGraph();
   renderPanel(state.centerId);
-  hooks?.setStatus("内部全量视图:可见 private runtime 节点。");
+  hooks?.setStatus("内部全量视图:可见私有运行层(private runtime)节点。");
 }
 
 function bindDemoControls() {

@@ -42,6 +42,12 @@
       "sha256": "41c252edf15761d7dbe866a55d6d72f469935461977eabb6c20bc13341c7e73c"
     },
     {
+      "path": "reports/render-proof-review-polish/cn-labels-panel.png",
+      "exists": true,
+      "bytes": 376852,
+      "sha256": "aa26194290a17ec0de1df86c5baf68e06368294e39edcae234739d581fbb3a56"
+    },
+    {
       "path": "reports/render-proof-review-polish/demo-fallback-banner.png",
       "exists": true,
       "bytes": 201642,

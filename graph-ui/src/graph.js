@@ -3,6 +3,7 @@ import cytoscape from "cytoscape";
 import dagreLayout from "cytoscape-dagre";
 import {
   state, ENTRY_CENTERS, nodeMeta, EDGE_TYPE_COLOR, EDGE_TYPE_LABEL, activeEdgeTypes,
+  tierShort, reviewStatusLabel, confidenceReasonLabel,
 } from "./state.js";
 import { nodeArt, nodeKind } from "./nodeArt.js";
 
@@ -106,7 +107,7 @@ export function buildElements(opts = {}) {
           color: EDGE_TYPE_COLOR[edge.edge_type] || "#5b7282",
           tier: edge.tier,
           confidence: edge.confidence ?? 0.7,
-          reasons: (edge.confidence_reason || []).join(" · "),
+          reasons: (edge.confidence_reason || []).map(confidenceReasonLabel).join(" · "),
           dashed: edge.edge_type === "pitfall_of" || edge.edge_type === "supports_stat" ? "dashed" : "solid",
         },
       })),
@@ -306,7 +307,7 @@ function bindGraphEvents() {
     if (!spotlightActive) highlightNeighborhood(event.target);
     showTooltip(
       `<div class="tt-title">${d.fullName || d.label}</div>
-       <div class="tt-meta">${d.typeLabel} · ${d.tier} · ${d.reviewStatus || ""}</div>
+       <div class="tt-meta">${d.typeLabel} · ${tierShort(d.tier)}${d.reviewStatus ? ` · ${reviewStatusLabel(d.reviewStatus)}` : ""}</div>
        <div class="tt-meta">双击以此为中心展开</div>`,
       event.target.renderedPosition(),
     );

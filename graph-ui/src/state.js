@@ -89,9 +89,48 @@ export const EDGE_TYPE_LABEL = {
 };
 
 export const TIER_META = {
-  shared: { label: "共有 shared", badge: "b-shared", icon: "share-2" },
-  private: { label: "私有 private", badge: "b-private", icon: "lock" },
-  aggregate: { label: "聚合 aggregate", badge: "b-aggregate", icon: "bar-chart" },
+  shared: { label: "共有 shared", short: "共有", badge: "b-shared", icon: "share-2" },
+  private: { label: "私有 private", short: "私有", badge: "b-private", icon: "lock" },
+  aggregate: { label: "聚合 aggregate", short: "聚合", badge: "b-aggregate", icon: "bar-chart" },
+};
+
+export function tierShort(tier) {
+  return TIER_META[tier]?.short || tier || "";
+}
+
+// 节点/边/卡的审核状态:界面一律展示中文,原始英文枚举只留在数据与追溯层
+export const REVIEW_STATUS_LABEL = {
+  APPROVED_BASELINE: "已审核基线",
+  HUMAN_REVIEWED: "人工已审",
+  CANDIDATE: "候选待审",
+};
+
+export function reviewStatusLabel(value) {
+  return REVIEW_STATUS_LABEL[value] || value || "";
+}
+
+// 置信来源代码:解释"这条边凭什么可信",界面展示中文,代码留在数据层
+export const CONFIDENCE_REASON_LABEL = {
+  ETO_CONFIRMED: "ETO 已确认",
+  RECTIFICATION_VERIFIED: "整改验证通过",
+  MANUAL_REVIEWED: "人工已复核",
+  LAW_MAPPING_REVIEWED: "法条映射已审",
+  AGGREGATE_OBSERVED: "聚合观测支持",
+  UPSTREAM_APPROVED_BASELINE: "上游基线已审",
+  UPSTREAM_CANDIDATE_MAP: "上游候选映射",
+};
+
+export function confidenceReasonLabel(value) {
+  return CONFIDENCE_REASON_LABEL[value] || value || "";
+}
+
+// 法条依据状态:影响报告口径的关键字段,必须让 ETO 一眼读懂
+export const LEGAL_BASIS_LABEL = {
+  official_confirmed: "官方口径已确认",
+  internal_reviewed: "内部已审核",
+  candidate: "候选口径",
+  disputed: "口径存疑",
+  no_legal_basis: "无法条依据·管理经验",
 };
 
 export function activeEdgeTypes() {
