@@ -8,7 +8,7 @@ EcoCheck 负责现场业务事实确认,graph Web 端负责现场经验入图审
 
 `POST /api/ecocheck/field-events`
 
-云托管环境必须设置 `ECO_GRAPH_API_TOKEN`;设置后请求头必须携带:
+云托管环境必须设置 `ECO_GRAPH_API_TOKEN`;服务启动时会校验生产或 CloudBase 环境是否配置该变量,未配置不得启动。设置后请求头必须携带:
 
 ```http
 Authorization: Bearer <ECO_GRAPH_API_TOKEN>
@@ -90,6 +90,11 @@ graph 必须生成一条中文审核记录:
 
 只有 `通过，进入聚合候选` 和 `合并到已有问题类型` 可以把 `是否允许进入聚合` 置为 `true`。
 
+状态语义:
+
+- `已通过`:ETO 直接确认可入图,并允许进入聚合统计。
+- `已进入聚合候选`:ETO 选择合并到已有问题类型后进入聚合候选,聚合时按合并目标问题类型归并。
+
 ## 聚合批次
 
 `POST /api/aggregate/pitfall-batches`
@@ -127,6 +132,11 @@ graph 必须生成一条中文审核记录:
 ## 部署边界
 
 - `graph-ui/` 继续部署到 CloudBase 静态托管。
-- `graph-api/` 部署到 CloudBase 云托管。
-- `data/private-staging/` 是内部运行态存储位置,真实文件不得提交。
+- `graph-api/` 部署到 CloudBase 云托管,必须设置 `ECO_GRAPH_API_TOKEN`、`ECO_GRAPH_ENV=production` 或 `ECO_GRAPH_DEPLOY_TARGET=cloudbase`。
+- `graph-ui` 调用有锁后端时必须通过 CloudBase 网关或同源代理传递内部鉴权,不得把长期服务密钥硬编码进静态前端。
+- 第一版文件化 `data/private-staging/` 只允许本地或单实例试运行。CloudBase 云托管正式部署前必须迁移到 CloudBase 云数据库、CFS 或其他持久化存储,否则容器重启或扩缩会丢失审核记录。
 - CloudBase 只读 shared 静态包不装载审核数据。
+
+## 请求大小
+
+`graph-api` 默认限制单次请求体不超过 1 MiB。可通过 `ECO_GRAPH_MAX_BODY_BYTES` 调整,但不得用它接收原始照片、附件或报告全文。

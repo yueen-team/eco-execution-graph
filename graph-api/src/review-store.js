@@ -69,6 +69,10 @@ function text(value, fallback = "未提供") {
   return String(value);
 }
 
+function issueTypeRef(item) {
+  return item["合并目标问题类型"] || item["问题类型引用"];
+}
+
 function scanForbidden(value, path = "$", violations = []) {
   if (Array.isArray(value)) {
     value.forEach((item, index) => scanForbidden(item, `${path}[${index}]`, violations));
@@ -164,14 +168,16 @@ export function applyReviewDecision(item, decision, now = new Date().toISOString
   next["进入聚合候选时间"] = null;
 
   if (decisionText === "通过，进入聚合候选") {
-    next["当前审核状态"] = REVIEW_STATUS.aggregateReady;
+    next["当前审核状态"] = REVIEW_STATUS.approved;
     next["是否允许进入聚合"] = true;
     next["进入聚合候选时间"] = now;
   } else if (decisionText === "合并到已有问题类型") {
+    const mergeTarget = text(decision?.["合并目标问题类型"], "");
+    if (!mergeTarget) throw new Error("合并到已有问题类型时必须填写合并目标问题类型");
     next["当前审核状态"] = REVIEW_STATUS.aggregateReady;
     next["是否允许进入聚合"] = true;
     next["进入聚合候选时间"] = now;
-    next["合并目标问题类型"] = text(decision?.["合并目标问题类型"], "");
+    next["合并目标问题类型"] = mergeTarget;
   } else if (decisionText === "仅保留内部案例") {
     next["当前审核状态"] = REVIEW_STATUS.internalOnly;
   } else if (decisionText === "退回补充") {
@@ -188,7 +194,7 @@ function groupKey(item) {
     item["区域"],
     item["行业"],
     item["环保维度"],
-    item["问题类型引用"],
+    issueTypeRef(item),
     law,
   ].join("|");
 }
@@ -204,7 +210,7 @@ function difficulty(items) {
 export function buildPitfallBatch(items, batchId = "pitfall-map:review-preview") {
   const groups = new Map();
   for (const item of items) {
-    if (item["当前审核状态"] !== REVIEW_STATUS.aggregateReady || item["是否允许进入聚合"] !== true) continue;
+    if (!new Set([REVIEW_STATUS.approved, REVIEW_STATUS.aggregateReady]).has(item["当前审核状态"]) || item["是否允许进入聚合"] !== true) continue;
     const key = groupKey(item);
     if (!groups.has(key)) groups.set(key, []);
     groups.get(key).push(item);

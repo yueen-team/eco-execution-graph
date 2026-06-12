@@ -10,7 +10,7 @@ sys.path.insert(0, str(ROOT / "pipeline"))
 from ecocheck_aggregation import build_aggregate_rows, validate_no_aggregate_leak  # noqa: E402
 
 
-def review_item(company: str, status: str = "已进入聚合候选", allow: bool = True):
+def review_item(company: str, status: str = "已进入聚合候选", allow: bool = True, issue_ref: str = "issue:hw:label-incomplete", merge_target: str = ""):
     return {
         "审核编号": f"review:{company}",
         "事件编号": f"synthetic:{company}",
@@ -20,7 +20,8 @@ def review_item(company: str, status: str = "已进入聚合候选", allow: bool
         "区域": "昆明市",
         "行业": "汽车维修",
         "环保维度": "危险废物管理",
-        "问题类型引用": "issue:hw:label-incomplete",
+        "问题类型引用": issue_ref,
+        "合并目标问题类型": merge_target,
         "建议问题类型": "危废标签内容不完整",
         "整改结果": "已通过",
         "法条规范候选": [{"引用编号": "law:swl:art77", "名称": "固体废物污染环境防治法 第七十七条"}],
@@ -58,6 +59,21 @@ class EcoCheckFieldReviewAggregationTest(unittest.TestCase):
         self.assertNotIn("企业名称快照", text)
         self.assertNotIn("合成企业", text)
         self.assertEqual(validate_no_aggregate_leak(result), [])
+
+    def test_directly_approved_items_enter_aggregate(self):
+        result = build_aggregate_rows([review_item(str(i), "已通过") for i in range(5)], "pitfall-map:test")
+
+        self.assertEqual(result["status"], "pass")
+        self.assertEqual(result["rows"][0]["sample_size"], 5)
+
+    def test_merge_target_issue_type_is_used_for_grouping(self):
+        result = build_aggregate_rows([
+            review_item(str(i), "已进入聚合候选", issue_ref=f"issue:temporary:{i}", merge_target="issue:hw:label-incomplete")
+            for i in range(5)
+        ], "pitfall-map:test")
+
+        self.assertEqual(result["status"], "pass")
+        self.assertEqual(result["rows"][0]["issue_type_ref"], "issue:hw:label-incomplete")
 
 
 if __name__ == "__main__":

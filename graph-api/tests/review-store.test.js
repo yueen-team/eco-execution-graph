@@ -29,7 +29,7 @@ test("只有通过入图审核的记录才能进入聚合候选", () => {
   const approved = applyReviewDecision(item, { "审核结论": "通过，进入聚合候选", "审核人": "ETO" });
 
   assert.equal(kept["是否允许进入聚合"], false);
-  assert.equal(approved["当前审核状态"], "已进入聚合候选");
+  assert.equal(approved["当前审核状态"], "已通过");
   assert.equal(approved["是否允许进入聚合"], true);
 });
 
@@ -56,4 +56,23 @@ test("五家不同企业通过审核后输出不含企业字段的聚合行", ()
   assert.equal(batch.rows.length, 1);
   assert.equal(batch.rows[0].sample_size, 5);
   assert.doesNotMatch(text, /企业名称|企业内部标识|合成企业/);
+});
+
+test("合并到已有问题类型后按合并目标聚合", () => {
+  const items = Array.from({ length: 5 }, (_, index) => {
+    const payload = clone(fixture);
+    payload.field_issue_uid = `synthetic-merge-${index + 1}`;
+    payload.source_context.company_id = `synthetic-company-${index + 1}`;
+    payload.standard_issue_type_candidate.issue_type_ref = `issue:temporary-${index + 1}`;
+    return applyReviewDecision(normalizeFieldEvent(payload), {
+      "审核结论": "合并到已有问题类型",
+      "审核人": "ETO",
+      "合并目标问题类型": "issue:hw:label-incomplete",
+    });
+  });
+  const batch = buildPitfallBatch(items, "pitfall-map:merge-test");
+
+  assert.equal(batch.rows.length, 1);
+  assert.equal(batch.rows[0].issue_type_ref, "issue:hw:label-incomplete");
+  assert.equal(batch.rows[0].sample_size, 5);
 });

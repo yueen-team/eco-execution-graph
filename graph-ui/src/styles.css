@@ -1027,6 +1027,17 @@ strong[data-counter], .metric strong {
   overflow: auto;
 }
 
+.review-mode-banner {
+  margin-bottom: 14px;
+  padding: 10px 12px;
+  border: 1px solid rgba(196, 121, 28, 0.36);
+  border-radius: var(--r-sm);
+  color: #ffd6a0;
+  background: rgba(196, 121, 28, 0.12);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
 .review-detail-head {
   padding-bottom: 16px;
   border-bottom: 1px solid var(--line-1);

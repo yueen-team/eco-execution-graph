@@ -6,6 +6,9 @@ let reviewState = {
   activeStatus: "待审核",
   selectedId: null,
   items: [],
+  source: "demo",
+  apiBase: "",
+  authToken: "",
 };
 
 function esc(value) {
@@ -18,9 +21,15 @@ function esc(value) {
   }[char]));
 }
 
+function authHeaders(extra = {}) {
+  return reviewState.authToken
+    ? { ...extra, Authorization: `Bearer ${reviewState.authToken}` }
+    : extra;
+}
+
 async function fetchJson(path, optional = false) {
   try {
-    const res = await fetch(path, { cache: "no-store" });
+    const res = await fetch(path, { cache: "no-store", headers: authHeaders() });
     if (!res.ok) throw new Error(`${res.status}`);
     return await res.json();
   } catch (error) {
@@ -30,9 +39,6 @@ async function fetchJson(path, optional = false) {
 }
 
 function visibleItems() {
-  if (reviewState.activeStatus === "已通过") {
-    return reviewState.items.filter((item) => item["当前审核状态"] === "已进入聚合候选");
-  }
   return reviewState.items.filter((item) => item["当前审核状态"] === reviewState.activeStatus);
 }
 
@@ -40,7 +46,6 @@ function statusCounts() {
   const counts = Object.fromEntries(STATUS_TABS.map((status) => [status, 0]));
   for (const item of reviewState.items) {
     const status = item["当前审核状态"];
-    if (status === "已进入聚合候选") counts["已通过"] += 1;
     if (counts[status] !== undefined) counts[status] += 1;
   }
   return counts;
@@ -125,7 +130,9 @@ function renderDetail() {
   }
   const evidence = item["证据摘要"] || {};
   const laws = item["法条规范候选"] || [];
+  const isDemo = reviewState.source !== "api";
   detail.innerHTML = `
+    ${isDemo ? "<div class=\"review-mode-banner\">演示模式:审核决定只在本浏览器临时生效,不会落库。</div>" : ""}
     <div class="review-detail-head">
       <span class="review-card-status">${esc(item["当前审核状态"])}</span>
       <h2>${esc(item["建议问题类型"])}</h2>
@@ -171,6 +178,7 @@ function renderDetail() {
         ${ACTIONS.map((action) => `<button class="review-action" data-review-action="${esc(action)}">${esc(action)}</button>`).join("")}
       </div>
       <textarea id="reviewComment" class="review-comment" placeholder="审核意见:说明通过、退回或不入图的原因">${esc(item["审核意见"] || "")}</textarea>
+      <input id="mergeTargetIssue" class="review-comment" value="${esc(item["合并目标问题类型"] || "")}" placeholder="合并目标问题类型:仅在选择合并时填写">
     `)}
     <details class="review-trace">
       <summary>追溯信息</summary>
@@ -180,27 +188,68 @@ function renderDetail() {
     </details>
   `;
   detail.querySelectorAll("[data-review-action]").forEach((button) => {
-    button.addEventListener("click", () => applyLocalDecision(item["审核编号"], button.dataset.reviewAction));
+    button.addEventListener("click", () => submitReviewDecision(item["审核编号"], button.dataset.reviewAction));
   });
 }
 
-function applyLocalDecision(id, action) {
-  const item = reviewState.items.find((record) => record["审核编号"] === id);
-  if (!item) return;
-  const comment = document.getElementById("reviewComment")?.value || "";
+function applyDecisionToItem(item, action, comment, mergeTarget = "") {
   item["审核人"] = "ETO";
   item["审核时间"] = new Date().toISOString();
   item["审核意见"] = comment;
   item["是否允许进入聚合"] = false;
   item["进入聚合候选时间"] = null;
-  if (action === "通过，进入聚合候选" || action === "合并到已有问题类型") {
+  if (action === "通过，进入聚合候选") {
+    item["当前审核状态"] = "已通过";
+    item["是否允许进入聚合"] = true;
+    item["进入聚合候选时间"] = item["审核时间"];
+  } else if (action === "合并到已有问题类型") {
     item["当前审核状态"] = "已进入聚合候选";
     item["是否允许进入聚合"] = true;
     item["进入聚合候选时间"] = item["审核时间"];
+    item["合并目标问题类型"] = mergeTarget;
   } else if (action === "仅保留内部案例") item["当前审核状态"] = "仅保留内部案例";
   else if (action === "退回补充") item["当前审核状态"] = "退回补充";
   else if (action === "不入图") item["当前审核状态"] = "不入图";
-  reviewState.activeStatus = item["当前审核状态"];
+  return item;
+}
+
+function replaceItem(updated) {
+  reviewState.items = reviewState.items.map((record) => (
+    record["审核编号"] === updated["审核编号"] ? updated : record
+  ));
+}
+
+async function submitReviewDecision(id, action) {
+  const item = reviewState.items.find((record) => record["审核编号"] === id);
+  if (!item) return;
+  const comment = document.getElementById("reviewComment")?.value || "";
+  const mergeTarget = document.getElementById("mergeTargetIssue")?.value || "";
+  if (reviewState.source === "api") {
+    const res = await fetch(`${reviewState.apiBase}/api/review/field-events/${encodeURIComponent(id)}/decision`, {
+      method: "POST",
+      cache: "no-store",
+      headers: authHeaders({ "content-type": "application/json" }),
+      body: JSON.stringify({
+        "审核结论": action,
+        "审核人": "ETO",
+        "审核意见": comment,
+        "合并目标问题类型": mergeTarget,
+      }),
+    });
+    if (!res.ok) {
+      const error = await res.json().catch(() => ({ reason: "提交失败" }));
+      window.alert?.(`审核决定未保存:${error.reason || res.status}`);
+      return;
+    }
+    const data = await res.json();
+    replaceItem(data.item);
+    reviewState.activeStatus = data.item["当前审核状态"];
+    reviewState.selectedId = data.item["审核编号"];
+  } else {
+    const updated = applyDecisionToItem(item, action, comment, mergeTarget);
+    replaceItem(updated);
+    reviewState.activeStatus = updated["当前审核状态"];
+  }
   renderReviewWorkspace();
 }
 
@@ -220,9 +269,13 @@ export async function initReviewWorkspace({ readonlyShared, setStatus }) {
     return;
   }
   button.hidden = false;
-  const apiData = await fetchJson("/api/review/field-events", true);
+  const params = new URLSearchParams(window.location.search);
+  reviewState.authToken = sessionStorage.getItem("ecoGraphReviewToken") || "";
+  reviewState.apiBase = window.ECO_GRAPH_API_BASE || "";
+  const apiData = await fetchJson(`${reviewState.apiBase}/api/review/field-events`, true);
   const demoData = await fetchJson("/review-data/field-event-review-demo.json", true);
-  reviewState.items = apiData?.items?.length ? apiData.items : demoData?.items || [];
+  reviewState.source = apiData?.items?.length ? "api" : "demo";
+  reviewState.items = reviewState.source === "api" ? apiData.items : demoData?.items || [];
   reviewState.selectedId = visibleItems()[0]?.["审核编号"] || reviewState.items[0]?.["审核编号"] || null;
   renderReviewWorkspace();
 
@@ -246,6 +299,5 @@ export async function initReviewWorkspace({ readonlyShared, setStatus }) {
     if (reviewState.enabled) showGraph();
     else showReview();
   });
-  const params = new URLSearchParams(window.location.search);
   if (params.get("workspace") === "review") showReview();
 }

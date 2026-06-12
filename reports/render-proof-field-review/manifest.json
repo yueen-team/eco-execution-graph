@@ -1,7 +1,7 @@
 {
   "status": "pass",
-  "target": "http://127.0.0.1:5191/?workspace=review",
-  "evidence_type": "Playwright screenshots",
+  "target": "http://127.0.0.1:5192/?workspace=review",
+  "evidence_type": "Playwright screenshots + API persisted decision smoke",
   "screenshots": [
     {
       "path": "reports/render-proof-field-review/desktop-approved-state.png",
@@ -26,7 +26,19 @@
       "exists": true,
       "bytes": 241592,
       "sha256": "4ccb43b8fc3eb31240310a9f0bb420de1ef7ca7c58435f7cec913a925f271a7a"
+    },
+    {
+      "path": "reports/render-proof-field-review/api-backed-approved-state.png",
+      "exists": true,
+      "bytes": 188284,
+      "sha256": "639d2b19b259e9074aeba1f0ab735573ac4c8dfc1fcad6ad35415e0bb191766e"
     }
   ],
-  "generated_at": "2026-06-12T06:13:49"
+  "generated_at": "2026-06-12T12:28:17.049Z",
+  "api_persistence": {
+    "status": "pass",
+    "review_id": "review:9a30eef16f972e76",
+    "persisted_status": "已通过",
+    "persisted_comment": "render proof: 真实接口已保存"
+  }
 }

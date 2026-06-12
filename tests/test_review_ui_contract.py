@@ -26,6 +26,13 @@ class ReviewUiContractTest(unittest.TestCase):
         for marker in ["event_type", "business_key", "payload_json", "CANDIDATE", "PENDING"]:
             self.assertNotIn(marker, visible_surface)
 
+    def test_review_ui_submits_decision_to_backend_before_local_fallback(self):
+        review_js = (ROOT / "graph-ui/src/review.js").read_text(encoding="utf-8")
+
+        self.assertIn("/decision", review_js)
+        self.assertIn("submitReviewDecision", review_js)
+        self.assertIn("演示模式", review_js)
+
     def test_review_demo_data_uses_chinese_keys_for_eto_surface(self):
         data = json.loads((ROOT / "graph-ui/public/review-data/field-event-review-demo.json").read_text(encoding="utf-8"))
         required = {"审核编号", "来源阶段", "建议问题类型", "现场问题摘要", "当前审核状态", "是否允许进入聚合", "技术追溯"}
