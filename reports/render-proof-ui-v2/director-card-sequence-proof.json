@@ -1,0 +1,32 @@
+{
+  "status": "pass",
+  "url": "http://127.0.0.1:4173/?director=1",
+  "build_command": "pnpm --dir graph-ui build",
+  "build_status": "pass",
+  "preview_command": "pnpm --dir graph-ui preview -- --host 127.0.0.1 --port 4173",
+  "screenshots": [
+    {
+      "viewport": "desktop",
+      "path": "reports/render-proof-ui-v2/desktop-director-act1.png",
+      "assertion": "主任演示首幕显示 card:full:0003,5 张审核卡主线和不写违法认定提示。"
+    },
+    {
+      "viewport": "mobile",
+      "path": "reports/render-proof-ui-v2/mobile-director-act1.png",
+      "assertion": "移动端可进入主任演示,底部演示条显示第一张卡和下一幕按钮。"
+    }
+  ],
+  "verified_content": [
+    "危废包装容器标签信息不完整或与实物、台账不一致",
+    "危废包装容器“一物一码”与平台记录核查",
+    "危险废物管理台账记录不完整",
+    "危废出入库记录、电子标签二维码与转移联单不一致",
+    "危废暂存场所防渗、防漏及泄漏收集措施不完善"
+  ],
+  "honesty_boundary": [
+    "不进入云南踩雷地图",
+    "不演示月报对比",
+    "不作违法认定",
+    "只使用建议核查、建议完善、存在管理风险"
+  ]
+}
