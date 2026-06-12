@@ -1,4 +1,28 @@
 {
   "status": "pass",
-  "findings": []
+  "scope": "demo",
+  "graph_input": "data/exports/demo_hazardous_waste_internal/graph.json",
+  "summary": {
+    "findings": 0,
+    "blocking": 0,
+    "warning": 0,
+    "conclusions_checked": 1
+  },
+  "findings": [],
+  "conclusion_results": [
+    {
+      "status": "pass",
+      "audience": "enterprise",
+      "conclusion_id": "monthly-report-comparison-hazardous-waste.graph_context_paragraph",
+      "findings": [],
+      "trace_summary": {
+        "nodes": 6,
+        "edges": 6,
+        "sources": 2,
+        "law_articles": 0,
+        "legal_edges": 6,
+        "evidence_chain_present": false
+      }
+    }
+  ]
 }

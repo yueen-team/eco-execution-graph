@@ -1,4 +1,98 @@
 {
   "status": "pass",
-  "findings": []
+  "scope": "full",
+  "graph_input": "data/exports/full_internal_product_v1/graph.json",
+  "summary": {
+    "findings": 0,
+    "blocking": 0,
+    "warning": 0,
+    "conclusions_checked": 6
+  },
+  "findings": [],
+  "conclusion_results": [
+    {
+      "status": "pass",
+      "audience": "enterprise",
+      "conclusion_id": "monthly-report-comparison-hazardous-waste.graph_context_paragraph",
+      "findings": [],
+      "trace_summary": {
+        "nodes": 6,
+        "edges": 6,
+        "sources": 2,
+        "law_articles": 0,
+        "legal_edges": 6,
+        "evidence_chain_present": false
+      }
+    },
+    {
+      "status": "pass",
+      "audience": "enterprise",
+      "conclusion_id": "monthly-full-1",
+      "findings": [],
+      "trace_summary": {
+        "nodes": 0,
+        "edges": 0,
+        "sources": 0,
+        "law_articles": 0,
+        "legal_edges": 0,
+        "evidence_chain_present": false
+      }
+    },
+    {
+      "status": "pass",
+      "audience": "enterprise",
+      "conclusion_id": "monthly-full-2",
+      "findings": [],
+      "trace_summary": {
+        "nodes": 0,
+        "edges": 0,
+        "sources": 0,
+        "law_articles": 0,
+        "legal_edges": 0,
+        "evidence_chain_present": false
+      }
+    },
+    {
+      "status": "pass",
+      "audience": "enterprise",
+      "conclusion_id": "monthly-full-3",
+      "findings": [],
+      "trace_summary": {
+        "nodes": 0,
+        "edges": 0,
+        "sources": 0,
+        "law_articles": 0,
+        "legal_edges": 0,
+        "evidence_chain_present": false
+      }
+    },
+    {
+      "status": "pass",
+      "audience": "enterprise",
+      "conclusion_id": "monthly-full-4",
+      "findings": [],
+      "trace_summary": {
+        "nodes": 0,
+        "edges": 0,
+        "sources": 0,
+        "law_articles": 0,
+        "legal_edges": 0,
+        "evidence_chain_present": false
+      }
+    },
+    {
+      "status": "pass",
+      "audience": "enterprise",
+      "conclusion_id": "monthly-full-5",
+      "findings": [],
+      "trace_summary": {
+        "nodes": 0,
+        "edges": 0,
+        "sources": 0,
+        "law_articles": 0,
+        "legal_edges": 0,
+        "evidence_chain_present": false
+      }
+    }
+  ]
 }

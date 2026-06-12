@@ -612,7 +612,10 @@
       },
       "source_ref": "src:demo:law-map",
       "review_status": "APPROVED_BASELINE",
-      "attrs": {}
+      "attrs": {
+        "report_usage_policy": "参考相关要求"
+      },
+      "legal_basis_status": "internal_reviewed"
     },
     {
       "edge_id": "edge:manifest:label-incomplete",
@@ -667,7 +670,10 @@
       },
       "source_ref": "src:demo:law-map",
       "review_status": "APPROVED_BASELINE",
-      "attrs": {}
+      "attrs": {
+        "report_usage_policy": "参考相关要求"
+      },
+      "legal_basis_status": "internal_reviewed"
     },
     {
       "edge_id": "edge:pitfall:label-incomplete",
@@ -941,7 +947,10 @@
       },
       "source_ref": "src:demo:law-map",
       "review_status": "APPROVED_BASELINE",
-      "attrs": {}
+      "attrs": {
+        "report_usage_policy": "参考相关要求"
+      },
+      "legal_basis_status": "internal_reviewed"
     },
     {
       "edge_id": "edge:manifest:ledger-incomplete",
@@ -996,7 +1005,10 @@
       },
       "source_ref": "src:demo:law-map",
       "review_status": "APPROVED_BASELINE",
-      "attrs": {}
+      "attrs": {
+        "report_usage_policy": "参考相关要求"
+      },
+      "legal_basis_status": "internal_reviewed"
     },
     {
       "edge_id": "edge:pitfall:ledger-incomplete",
@@ -1270,7 +1282,10 @@
       },
       "source_ref": "src:demo:law-map",
       "review_status": "APPROVED_BASELINE",
-      "attrs": {}
+      "attrs": {
+        "report_usage_policy": "参考相关要求"
+      },
+      "legal_basis_status": "internal_reviewed"
     },
     {
       "edge_id": "edge:manifest:storage-partition",
@@ -1325,7 +1340,10 @@
       },
       "source_ref": "src:demo:law-map",
       "review_status": "APPROVED_BASELINE",
-      "attrs": {}
+      "attrs": {
+        "report_usage_policy": "参考相关要求"
+      },
+      "legal_basis_status": "internal_reviewed"
     },
     {
       "edge_id": "edge:pitfall:storage-partition",
@@ -1599,7 +1617,10 @@
       },
       "source_ref": "src:demo:law-map",
       "review_status": "APPROVED_BASELINE",
-      "attrs": {}
+      "attrs": {
+        "report_usage_policy": "参考相关要求"
+      },
+      "legal_basis_status": "internal_reviewed"
     },
     {
       "edge_id": "edge:manifest:warning-sign-missing",
@@ -1654,7 +1675,10 @@
       },
       "source_ref": "src:demo:law-map",
       "review_status": "APPROVED_BASELINE",
-      "attrs": {}
+      "attrs": {
+        "report_usage_policy": "参考相关要求"
+      },
+      "legal_basis_status": "internal_reviewed"
     },
     {
       "edge_id": "edge:pitfall:warning-sign-missing",
@@ -1928,7 +1952,10 @@
       },
       "source_ref": "src:demo:law-map",
       "review_status": "APPROVED_BASELINE",
-      "attrs": {}
+      "attrs": {
+        "report_usage_policy": "参考相关要求"
+      },
+      "legal_basis_status": "internal_reviewed"
     },
     {
       "edge_id": "edge:manifest:transfer-record-mismatch",
@@ -1983,7 +2010,10 @@
       },
       "source_ref": "src:demo:law-map",
       "review_status": "APPROVED_BASELINE",
-      "attrs": {}
+      "attrs": {
+        "report_usage_policy": "参考相关要求"
+      },
+      "legal_basis_status": "internal_reviewed"
     },
     {
       "edge_id": "edge:pitfall:transfer-record-mismatch",

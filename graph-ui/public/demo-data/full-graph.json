@@ -35253,14 +35253,16 @@
       },
       "source_ref": "src:demo:law-map",
       "review_status": "APPROVED_BASELINE",
-      "attrs": {},
+      "attrs": {
+        "report_usage_policy": "参考相关要求"
+      },
+      "legal_basis_status": "internal_reviewed",
       "origin_repo": "P1 seed compatibility sample",
       "origin_commit": "local",
       "origin_asset": "data/candidates/graph_seed_p1_hazardous_waste.json",
       "origin_hash": "",
       "source_role": "compatibility_sample",
       "export_allowed": true,
-      "legal_basis_status": "internal_reviewed",
       "report_usage_policy": "参考相关要求"
     },
     {
@@ -35323,14 +35325,16 @@
       },
       "source_ref": "src:demo:law-map",
       "review_status": "APPROVED_BASELINE",
-      "attrs": {},
+      "attrs": {
+        "report_usage_policy": "参考相关要求"
+      },
+      "legal_basis_status": "internal_reviewed",
       "origin_repo": "P1 seed compatibility sample",
       "origin_commit": "local",
       "origin_asset": "data/candidates/graph_seed_p1_hazardous_waste.json",
       "origin_hash": "",
       "source_role": "compatibility_sample",
       "export_allowed": true,
-      "legal_basis_status": "internal_reviewed",
       "report_usage_policy": "参考相关要求"
     },
     {
@@ -35879,14 +35883,16 @@
       },
       "source_ref": "src:demo:law-map",
       "review_status": "APPROVED_BASELINE",
-      "attrs": {},
+      "attrs": {
+        "report_usage_policy": "参考相关要求"
+      },
+      "legal_basis_status": "internal_reviewed",
       "origin_repo": "P1 seed compatibility sample",
       "origin_commit": "local",
       "origin_asset": "data/candidates/graph_seed_p1_hazardous_waste.json",
       "origin_hash": "",
       "source_role": "compatibility_sample",
       "export_allowed": true,
-      "legal_basis_status": "internal_reviewed",
       "report_usage_policy": "参考相关要求"
     },
     {
@@ -35949,14 +35955,16 @@
       },
       "source_ref": "src:demo:law-map",
       "review_status": "APPROVED_BASELINE",
-      "attrs": {},
+      "attrs": {
+        "report_usage_policy": "参考相关要求"
+      },
+      "legal_basis_status": "internal_reviewed",
       "origin_repo": "P1 seed compatibility sample",
       "origin_commit": "local",
       "origin_asset": "data/candidates/graph_seed_p1_hazardous_waste.json",
       "origin_hash": "",
       "source_role": "compatibility_sample",
       "export_allowed": true,
-      "legal_basis_status": "internal_reviewed",
       "report_usage_policy": "参考相关要求"
     },
     {
@@ -36505,14 +36513,16 @@
       },
       "source_ref": "src:demo:law-map",
       "review_status": "APPROVED_BASELINE",
-      "attrs": {},
+      "attrs": {
+        "report_usage_policy": "参考相关要求"
+      },
+      "legal_basis_status": "internal_reviewed",
       "origin_repo": "P1 seed compatibility sample",
       "origin_commit": "local",
       "origin_asset": "data/candidates/graph_seed_p1_hazardous_waste.json",
       "origin_hash": "",
       "source_role": "compatibility_sample",
       "export_allowed": true,
-      "legal_basis_status": "internal_reviewed",
       "report_usage_policy": "参考相关要求"
     },
     {
@@ -36575,14 +36585,16 @@
       },
       "source_ref": "src:demo:law-map",
       "review_status": "APPROVED_BASELINE",
-      "attrs": {},
+      "attrs": {
+        "report_usage_policy": "参考相关要求"
+      },
+      "legal_basis_status": "internal_reviewed",
       "origin_repo": "P1 seed compatibility sample",
       "origin_commit": "local",
       "origin_asset": "data/candidates/graph_seed_p1_hazardous_waste.json",
       "origin_hash": "",
       "source_role": "compatibility_sample",
       "export_allowed": true,
-      "legal_basis_status": "internal_reviewed",
       "report_usage_policy": "参考相关要求"
     },
     {
@@ -37131,14 +37143,16 @@
       },
       "source_ref": "src:demo:law-map",
       "review_status": "APPROVED_BASELINE",
-      "attrs": {},
+      "attrs": {
+        "report_usage_policy": "参考相关要求"
+      },
+      "legal_basis_status": "internal_reviewed",
       "origin_repo": "P1 seed compatibility sample",
       "origin_commit": "local",
       "origin_asset": "data/candidates/graph_seed_p1_hazardous_waste.json",
       "origin_hash": "",
       "source_role": "compatibility_sample",
       "export_allowed": true,
-      "legal_basis_status": "internal_reviewed",
       "report_usage_policy": "参考相关要求"
     },
     {
@@ -37201,14 +37215,16 @@
       },
       "source_ref": "src:demo:law-map",
       "review_status": "APPROVED_BASELINE",
-      "attrs": {},
+      "attrs": {
+        "report_usage_policy": "参考相关要求"
+      },
+      "legal_basis_status": "internal_reviewed",
       "origin_repo": "P1 seed compatibility sample",
       "origin_commit": "local",
       "origin_asset": "data/candidates/graph_seed_p1_hazardous_waste.json",
       "origin_hash": "",
       "source_role": "compatibility_sample",
       "export_allowed": true,
-      "legal_basis_status": "internal_reviewed",
       "report_usage_policy": "参考相关要求"
     },
     {
@@ -37757,14 +37773,16 @@
       },
       "source_ref": "src:demo:law-map",
       "review_status": "APPROVED_BASELINE",
-      "attrs": {},
+      "attrs": {
+        "report_usage_policy": "参考相关要求"
+      },
+      "legal_basis_status": "internal_reviewed",
       "origin_repo": "P1 seed compatibility sample",
       "origin_commit": "local",
       "origin_asset": "data/candidates/graph_seed_p1_hazardous_waste.json",
       "origin_hash": "",
       "source_role": "compatibility_sample",
       "export_allowed": true,
-      "legal_basis_status": "internal_reviewed",
       "report_usage_policy": "参考相关要求"
     },
     {
@@ -37827,14 +37845,16 @@
       },
       "source_ref": "src:demo:law-map",
       "review_status": "APPROVED_BASELINE",
-      "attrs": {},
+      "attrs": {
+        "report_usage_policy": "参考相关要求"
+      },
+      "legal_basis_status": "internal_reviewed",
       "origin_repo": "P1 seed compatibility sample",
       "origin_commit": "local",
       "origin_asset": "data/candidates/graph_seed_p1_hazardous_waste.json",
       "origin_hash": "",
       "source_role": "compatibility_sample",
       "export_allowed": true,
-      "legal_basis_status": "internal_reviewed",
       "report_usage_policy": "参考相关要求"
     },
     {
