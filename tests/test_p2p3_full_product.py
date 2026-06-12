@@ -49,6 +49,27 @@ class P2P3FullProductTest(unittest.TestCase):
         self.assertGreaterEqual(report["counts"].get("resolved", 0), 5)
         self.assertTrue(all(item["cache_policy"] == "metadata_only" for item in report["p1_core_resolution"]))
         self.assertTrue(all(item["report_usage_policy"] == "rag_metadata_only" for item in report["p1_core_resolution"]))
+        required_fields = {
+            "provider",
+            "rag_doc_ref",
+            "node_id",
+            "node_type",
+            "law_name",
+            "article_no",
+            "tech_spec_no",
+            "citation_title",
+            "citation_locator",
+            "source_hash",
+            "resolved_at",
+            "raw_cached",
+            "cache_policy",
+            "retrieval_probe",
+            "report_usage_policy",
+        }
+        self.assertTrue(all(required_fields.issubset(item) for item in report["p1_core_resolution"]))
+        self.assertTrue(all(item["raw_cached"] is False for item in report["results"]))
+        self.assertTrue(all(item["excerpt"] == "" for item in report["results"]))
+        self.assertEqual(len(report["source_level_items"]), report["locator_counts"].get("source_level", 0))
 
     def test_cards_and_governance_reports_are_ready(self):
         cards = read_json("reports/execution-card-index.json")

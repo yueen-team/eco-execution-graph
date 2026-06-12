@@ -521,6 +521,7 @@ def contract_compatibility() -> dict[str, Any]:
 
 
 def rag_resolve() -> dict[str, Any]:
+    from rag_resolve import build_citation_resolution_record, select_citation_metadata_record, summarize_source_level_items
     from tencent_lke_probe import probe_embedding, probe_rag_retrieve, probe_tokenhub_chat, probe_ws_token
     from tencent_cloud_signer import TencentCloudClient, load_env
 
@@ -543,41 +544,25 @@ def rag_resolve() -> dict[str, Any]:
         if path.exists():
             nodes.extend(read_json(path).get("nodes", []))
     citation_nodes = [node for node in nodes if node.get("node_type") in {"law_article", "tech_spec", "standard_limit"}]
+    metadata_records = []
+    for kb_result in rag_retrieve.get("results", []):
+        metadata_records.extend(kb_result.get("metadata_samples", []))
     seen = set()
     results = []
     for node in citation_nodes:
         if node["node_id"] in seen:
             continue
         seen.add(node["node_id"])
-        attrs = node.get("attrs", {})
-        status = "resolved" if rag_retrieve.get("status") == "pass" else "blocked"
-        manual = bool(node.get("source_ref") or attrs.get("source_basis"))
-        if status == "resolved":
-            report_usage = "rag_metadata_only"
-        elif manual:
-            report_usage = "manual_upstream_basis_only"
-        else:
-            report_usage = "do_not_write_as_legal_basis"
-        results.append({
-            "status": status,
-            "provider": "tencent_lke_rag",
-            "rag_doc_ref": attrs.get("rag_doc_ref") or node.get("source_ref") or node["node_id"],
-            "node_id": node["node_id"],
-            "node_type": node["node_type"],
-            "law_name": attrs.get("law_name") or node.get("name"),
-            "article_no": attrs.get("article_no"),
-            "tech_spec_no": attrs.get("standard_no"),
-            "citation_title": node.get("name"),
-            "citation_locator": attrs.get("article_no") or attrs.get("standard_no") or "source-level",
-            "excerpt": "",
-            "source_hash": node.get("origin_hash") or "",
-            "resolved_at": TODAY,
-            "raw_cached": False,
-            "cache_policy": "metadata_only",
-            "retrieval_probe": "RetrieveKnowledge",
-            "report_usage_policy": report_usage,
-        })
+        rag_record = select_citation_metadata_record(node, metadata_records)
+        results.append(build_citation_resolution_record(
+            node,
+            rag_record=rag_record,
+            retrieve_status=rag_retrieve.get("status"),
+            resolved_at=TODAY,
+        ))
     counts = Counter(item["status"] for item in results)
+    source_level_items = summarize_source_level_items(results)
+    locator_counts = Counter("source_level" if item["citation_locator"] == "source-level" else "specific" for item in results)
     report = {
         "rag_real_smoke": rag_real_smoke,
         "embedding_probe": embedding,
@@ -586,6 +571,8 @@ def rag_resolve() -> dict[str, Any]:
         "ws_token_probe": ws,
         "citation_count": len(results),
         "counts": dict(counts),
+        "locator_counts": dict(locator_counts),
+        "source_level_items": source_level_items,
         "p1_core_resolution": [item for item in results if item["node_id"].startswith(("law:swl", "spec:"))],
         "results": results,
         "zhang_director_rag_condition": "pass" if rag_retrieve.get("status") == "pass" else "conditional",
@@ -599,11 +586,18 @@ def rag_resolve() -> dict[str, Any]:
         f"- rag_retrieve_probe: `{rag_retrieve.get('status')}`",
         f"- ws_token_probe: `{ws.get('status')}`",
         f"- citations: {len(results)}",
+        f"- specific_locator: {locator_counts.get('specific', 0)}",
+        f"- source_level_locator: {locator_counts.get('source_level', 0)}",
     ]
     for key in ("resolved", "not_found", "ambiguous", "api_error", "blocked", "fixture_only"):
         lines.append(f"- {key}: {counts.get(key, 0)}")
     lines += ["", "## P1 Core"]
-    lines += [f"- {item['node_id']}: `{item['status']}` {item['report_usage_policy']}" for item in report["p1_core_resolution"][:20]]
+    lines += [f"- {item['node_id']}: `{item['status']}` {item['citation_locator']} ({item['report_usage_policy']})" for item in report["p1_core_resolution"][:20]]
+    lines += ["", "## Still Source-Level"]
+    if source_level_items:
+        lines += [f"- {item['node_id']}: {item['reason']} - {item['citation_title']}" for item in source_level_items[:30]]
+    else:
+        lines.append("- none")
     write_text(REPORTS_DIR / "rag-citation-resolution-report.md", "\n".join(lines))
     return report
 

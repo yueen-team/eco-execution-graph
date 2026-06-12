@@ -21,7 +21,7 @@ request = {
 ContextBundle = {
   facts: [...],                    // 企业当期事实(issue_instance 等,private)
   issue_types: [...],              // 关联问题类型 + 踩雷点
-  law_refs: [...],                 // law_article 瘦节点列表 → 调用方凭 rag_doc_ref 取全文
+  law_refs: [...],                 // law_article 瘦节点 + citation metadata → 调用方凭 rag_doc_ref 取全文
   evidence_categories: [...],      // 可出证据类别
   evidence_field_requirements: [...], // 概念级/部分字段要求
   evidence_private_refs: [...],    // 判断标准/样例/审核笔记,只给内部引用或数量占位
@@ -37,5 +37,7 @@ ContextBundle = {
 
 - 输出含 `trace`:报告里每个结论可回指装配时用了哪些节点/边。
 - 法条只给瘦引用,全文由调用方(EcoDoc)向腾讯云 RAG 取,失败则触发降级表达(CONTEXT.md 判断规则 #1)。
+- `law_refs` 只能携带 `provider`、`rag_doc_ref`、`node_id`、`node_type`、`law_name`、`article_no`、`tech_spec_no`、`citation_title`、`citation_locator`、`source_hash`、`resolved_at`、`raw_cached=false`、`cache_policy=metadata_only`、`retrieval_probe`、`report_usage_policy` 等 citation metadata。不得携带 RetrieveKnowledge 的 `Content` 或原始响应。
+- `citation_locator` 应优先使用条款号、规范编号、页码或章节。只有这些 metadata 都缺失时,才允许降级为 `source-level`,并进入人工补定位队列。
 - `legal_basis_status` 控制输出: candidate 仅内部提示,disputed 必须人工审核,no_legal_basis 只能写管理建议。
 - 本 API 只读;回灌通道复用 EcoCheck `semantic_event_outbox` 对侧(蒸馏 v2 spec 岔路3 取定)。

@@ -7,6 +7,7 @@ import urllib.error
 import urllib.request
 
 from tencent_cloud_signer import TencentCloudClient, TencentCloudError, load_env
+from rag_resolve import sanitize_retrieve_record
 
 
 def configured(value: str | None) -> bool:
@@ -131,12 +132,18 @@ def probe_rag_retrieve(client: TencentCloudClient, env: dict[str, str]) -> dict:
         records = response.get("Records") or []
         sample = records[0] if records and isinstance(records[0], dict) else {}
         metadata = sample.get("Metadata") if isinstance(sample.get("Metadata"), dict) else {}
+        metadata_samples = [
+            sanitize_retrieve_record(record, knowledge_base_id_suffix=knowledge_base_id[-6:])
+            for record in records[:3]
+            if isinstance(record, dict)
+        ]
         results.append({
             "knowledge_base_id_suffix": knowledge_base_id[-6:],
             "status": "pass",
             "record_count": len(records),
             "sample_record_keys": sorted(sample.keys()),
             "sample_metadata_keys": sorted(metadata.keys()),
+            "metadata_samples": metadata_samples,
             "request_id_present": bool(response.get("RequestId")),
         })
     return {
