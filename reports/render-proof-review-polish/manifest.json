@@ -1,0 +1,58 @@
+{
+  "status": "pass",
+  "target": "http://127.0.0.1:5198/?workspace=review (vite dev + /api proxy -> graph-api 8787)",
+  "evidence_type": "Playwright screenshots + staging JSONL persistence check",
+  "api_persistence": "pass: 通过->已通过(待聚合)+审核意见, 合并->已进入聚合候选+合并目标, 均在重新读取 staging JSONL 与刷新页面后保持",
+  "console_errors": "0 (500 on /api after api shutdown is the designed demo fallback)",
+  "screenshots": [
+    {
+      "path": "reports/render-proof-review-polish/api-merge-success.png",
+      "exists": true,
+      "bytes": 196588,
+      "sha256": "d83de1cebda2da3c9da8908852c8dc834b878a243f6a8c540ad0e22ab181d1a3"
+    },
+    {
+      "path": "reports/render-proof-review-polish/api-merge-validation-error.png",
+      "exists": true,
+      "bytes": 205099,
+      "sha256": "fa5590e2f081a47c2bb408055956cb0ac962adc2fd4c66253ce51c8a8a940156"
+    },
+    {
+      "path": "reports/render-proof-review-polish/api-reload-persisted.png",
+      "exists": true,
+      "bytes": 197656,
+      "sha256": "33459f10dc8e96b636221e4b197b790317beb44eb158a3f0d8cb428194bad4f8"
+    },
+    {
+      "path": "reports/render-proof-review-polish/api-submitted-notice.png",
+      "exists": true,
+      "bytes": 201962,
+      "sha256": "91123b258c04587e54112c49adad7ee955f93e40b84c6ff43e03e39cb170e488"
+    },
+    {
+      "path": "reports/render-proof-review-polish/api-two-step-armed.png",
+      "exists": true,
+      "bytes": 225081,
+      "sha256": "16c7c5fbaaf2c8637e3ca59f2279b1140b7a602776d109d2b9ca4cd32863beb2"
+    },
+    {
+      "path": "reports/render-proof-review-polish/api-waiting-list.png",
+      "exists": true,
+      "bytes": 219020,
+      "sha256": "41c252edf15761d7dbe866a55d6d72f469935461977eabb6c20bc13341c7e73c"
+    },
+    {
+      "path": "reports/render-proof-review-polish/demo-fallback-banner.png",
+      "exists": true,
+      "bytes": 201642,
+      "sha256": "f159e1f0b8bdb1d725221efb17690a6e02b97790333853f91e05c0cc51fe9be0"
+    },
+    {
+      "path": "reports/render-proof-review-polish/mobile-review.png",
+      "exists": true,
+      "bytes": 115901,
+      "sha256": "1a71286dbec518812b91ad35f82d0b66c33eed0e427715f60156523ad8792a77"
+    }
+  ],
+  "generated_at": "2026-06-12T08:53:23"
+}

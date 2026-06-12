@@ -2,7 +2,7 @@ import crypto from "node:crypto";
 
 export const REVIEW_STATUS = {
   waiting: "待审核",
-  approved: "已通过",
+  approved: "已通过(待聚合)",
   returned: "退回补充",
   rejected: "不入图",
   internalOnly: "仅保留内部案例",

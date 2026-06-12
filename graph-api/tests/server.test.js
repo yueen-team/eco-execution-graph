@@ -53,7 +53,7 @@ test("决策接口提交后重新查询状态必须持久化", async () => {
     const detail = await fetch(`${base}/api/review/field-events/${encodeURIComponent(id)}`, { headers });
     assert.equal(detail.status, 200);
     const persisted = await detail.json();
-    assert.equal(persisted.item["当前审核状态"], "已通过");
+    assert.equal(persisted.item["当前审核状态"], "已通过(待聚合)");
     assert.equal(persisted.item["是否允许进入聚合"], true);
     assert.equal(persisted.item["审核意见"], "同意入图");
   } finally {

@@ -29,7 +29,7 @@ test("只有通过入图审核的记录才能进入聚合候选", () => {
   const approved = applyReviewDecision(item, { "审核结论": "通过，进入聚合候选", "审核人": "ETO" });
 
   assert.equal(kept["是否允许进入聚合"], false);
-  assert.equal(approved["当前审核状态"], "已通过");
+  assert.equal(approved["当前审核状态"], "已通过(待聚合)");
   assert.equal(approved["是否允许进入聚合"], true);
 });
 

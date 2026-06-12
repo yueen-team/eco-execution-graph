@@ -11,7 +11,7 @@ from common import EXPORTS_DIR, REPORTS_DIR, ROOT, reset_dir, write_json, write_
 
 DEFAULT_STAGING = ROOT / "data" / "private-staging" / "field-events.jsonl"
 AGGREGATE_EXPORT = EXPORTS_DIR / "ecocheck_aggregate_pitfall_v1"
-APPROVED_STATUSES = {"已通过", "已进入聚合候选"}
+APPROVED_STATUSES = {"已通过(待聚合)", "已进入聚合候选"}
 MIN_SAMPLE_SIZE = 5
 FORBIDDEN_EXPORT_MARKERS = (
     "企业名称快照",
@@ -140,7 +140,7 @@ def write_outputs(result: dict[str, Any]) -> dict[str, Any]:
         "",
         "## 规则",
         "",
-        "- 只消费“已通过”或“已进入聚合候选”且允许进入聚合的 graph ETO 审核记录。",
+        "- 只消费“已通过(待聚合)”或“已进入聚合候选”且允许进入聚合的 graph ETO 审核记录。",
         "- 选择“合并到已有问题类型”时,按合并目标问题类型归并统计。",
         "- 样本企业数少于 5 的组合只进入样本不足池。",
         "- 输出行不得包含企业名、企业 ID、检查记录、整改记录、证据实例或附件路径。",

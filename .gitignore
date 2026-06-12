@@ -21,3 +21,7 @@ reports/render-proof-field-review/*.png
 reports/render-proof-field-review/*.mp4
 data/private-staging/*
 !data/private-staging/.gitkeep
+
+reports/render-proof-review-polish/*.png
+reports/render-proof-review-polish/*.mp4
+.playwright-cli/

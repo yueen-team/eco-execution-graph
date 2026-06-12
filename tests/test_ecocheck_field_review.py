@@ -61,7 +61,7 @@ class EcoCheckFieldReviewAggregationTest(unittest.TestCase):
         self.assertEqual(validate_no_aggregate_leak(result), [])
 
     def test_directly_approved_items_enter_aggregate(self):
-        result = build_aggregate_rows([review_item(str(i), "已通过") for i in range(5)], "pitfall-map:test")
+        result = build_aggregate_rows([review_item(str(i), "已通过(待聚合)") for i in range(5)], "pitfall-map:test")
 
         self.assertEqual(result["status"], "pass")
         self.assertEqual(result["rows"][0]["sample_size"], 5)
