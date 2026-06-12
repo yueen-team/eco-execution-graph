@@ -1,0 +1,9 @@
+{
+  "package_name": "ecocheck_aggregate_pitfall_v1",
+  "tier_filter": "aggregate",
+  "record_counts": {
+    "rows": 0
+  },
+  "sample_limited_count": 0,
+  "leak_violations": 0
+}

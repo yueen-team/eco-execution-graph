@@ -1,0 +1,40 @@
+{
+  "schema_version": "ecocheck.semantic_event.v2",
+  "event_type": "RECTIFICATION_VERIFIED",
+  "source_system": "EcoCheck",
+  "occurred_at": "2026-06-12T09:30:00+08:00",
+  "field_issue_uid": "synthetic-issue-001",
+  "business_key": "synthetic-inspection-001",
+  "source_context": {
+    "company_id": "synthetic-company-001",
+    "company_name": "合成企业甲",
+    "region": "昆明市",
+    "industry_type": "汽车维修",
+    "permit_type": "排污登记",
+    "inspection_date": "2026-06-10"
+  },
+  "standard_issue_type_candidate": {
+    "issue_type_ref": "issue:hw:label-incomplete",
+    "name": "危废标签内容不完整"
+  },
+  "environmental_risk_category": {
+    "dimension": "危险废物管理"
+  },
+  "observed_signals": ["标签缺少产生日期", "台账与现场标签不一致"],
+  "risk_impact_summary": "危废包装容器标签字段缺失,现场追溯困难。",
+  "evidence_chain": {
+    "evidence_count": 2,
+    "evidence_types": ["现场照片", "台账记录"]
+  },
+  "rectification": {
+    "requirement": "补齐标签字段,并与台账记录保持一致。",
+    "status": "已通过"
+  },
+  "recheck_points": ["复核标签字段", "抽查台账与实物一致性"],
+  "ai_regulatory_references": [
+    {
+      "ref": "law:swl:art77",
+      "title": "固体废物污染环境防治法 第七十七条"
+    }
+  ]
+}

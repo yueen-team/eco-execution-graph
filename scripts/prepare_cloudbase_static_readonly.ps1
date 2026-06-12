@@ -24,6 +24,11 @@ if (Test-Path $out) {
 New-Item -ItemType Directory -Force -Path $out | Out-Null
 Copy-Item (Join-Path $dist "*") $out -Recurse -Force
 
+$reviewData = Join-Path $out "review-data"
+if (Test-Path $reviewData) {
+  Remove-Item $reviewData -Recurse -Force
+}
+
 New-Item -ItemType Directory -Force -Path $demoData | Out-Null
 
 $sharedGraph = Join-Path $root "data/exports/shared_product_v1/graph.json"
@@ -101,7 +106,7 @@ $manifest = [pscustomobject]@{
   source_dist = "graph-ui/dist"
   shared_graph = "data/exports/shared_product_v1/graph.json"
   shared_cards = "data/exports/shared_product_v1/cards.shared.json"
-  removed = @("demo-data/monthly-comparison.json")
+  removed = @("demo-data/monthly-comparison.json", "review-data/")
   overwritten_with_shared = @(
     "demo-data/full-graph.json",
     "demo-data/full-cards.json",
@@ -129,10 +134,10 @@ $lines = @(
   "- file_count: $($manifest.file_count)",
   "",
   "## Safe Data Handling",
-  "- `full-graph.json` and `graph.json` are overwritten with `shared_product_v1/graph.json`.",
-  "- `full-cards.json` and `cards.json` are overwritten with `shared_product_v1/cards.shared.json`.",
-  "- `deploy-policy.json` locks the static app to readonly shared mode and disables product/view switching.",
-  "- `monthly-comparison.json` is removed because monthly comparison remains blocked until ETO blind review.",
+  '- `full-graph.json` and `graph.json` are overwritten with `shared_product_v1/graph.json`.',
+  '- `full-cards.json` and `cards.json` are overwritten with `shared_product_v1/cards.shared.json`.',
+  '- `deploy-policy.json` locks the static app to readonly shared mode and disables product/view switching.',
+  '- `monthly-comparison.json` is removed because monthly comparison remains blocked until ETO blind review.',
   "",
   "## Findings",
   $(if ($findings.Count -eq 0) { "- none" } else { ($findings | ForEach-Object { "- $($_.file): $($_.reason)" }) -join "`n" }),
@@ -141,7 +146,9 @@ $lines = @(
   $(if ($codeWarnings.Count -eq 0) { "- none" } else { ($codeWarnings | ForEach-Object { "- $($_.file): $($_.reason)" }) -join "`n" }),
   "",
   "## Deploy Command",
-  "Upload `$($manifest.package_dir)` to CloudBase static hosting. Do not upload `graph-ui/dist` directly."
+  "- Upload directory: $($manifest.package_dir)",
+  "- Target: CloudBase static hosting.",
+  '- Do not upload graph-ui/dist directly.'
 )
 $lines -join "`n" | Set-Content (Join-Path $reports "cloudbase-static-readonly-package.md") -Encoding UTF8
 

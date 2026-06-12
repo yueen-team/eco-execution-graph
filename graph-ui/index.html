@@ -37,6 +37,9 @@
           <button id="directorButton" class="btn-primary">
             <i data-lucide="presentation"></i><span>主任演示</span>
           </button>
+          <button id="reviewButton" class="btn-ghost" hidden>
+            <i data-lucide="clipboard-check"></i><span>入图审核</span>
+          </button>
         </div>
       </header>
 
@@ -123,6 +126,25 @@
         <aside class="detail" id="detailPanel" aria-label="执行卡详情">
           <div id="detailBody" class="detail-body"></div>
         </aside>
+      </main>
+
+      <main id="reviewWorkspace" class="review-workspace" hidden aria-label="现场经验入图审核台">
+        <aside class="review-queue">
+          <div class="review-title">
+            <p class="eyebrow">内部工作区</p>
+            <h2>现场经验入图审核台</h2>
+            <p>候选现场经验必须经 ETO 审核后才能进入聚合候选池。</p>
+          </div>
+          <div id="reviewStatusTabs" class="review-tabs" aria-label="审核状态"></div>
+        </aside>
+        <section class="review-list-panel" aria-label="候选现场经验列表">
+          <div class="review-panel-head">
+            <h2>候选现场经验</h2>
+            <p>列表只显示内部审核样例或服务端返回数据,不进入共有演示包。</p>
+          </div>
+          <div id="reviewList" class="review-list"></div>
+        </section>
+        <section id="reviewDetail" class="review-detail-panel" aria-label="审核详情"></section>
       </main>
 
       <button id="detailToggle" class="detail-toggle" hidden>

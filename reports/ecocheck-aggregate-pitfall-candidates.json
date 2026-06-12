@@ -1,0 +1,9 @@
+{
+  "status": "blocked",
+  "batch_id": "pitfall-map:ecocheck-review-preview",
+  "rows": [],
+  "sample_limited": [],
+  "ignored_status": {},
+  "note": "仅使用 graph ETO 入图审核通过且允许进入聚合的记录; aggregate 行不含企业级字段。",
+  "leak_violations": []
+}

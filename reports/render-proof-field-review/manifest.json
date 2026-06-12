@@ -1,0 +1,32 @@
+{
+  "status": "pass",
+  "target": "http://127.0.0.1:5191/?workspace=review",
+  "evidence_type": "Playwright screenshots",
+  "screenshots": [
+    {
+      "path": "reports/render-proof-field-review/desktop-approved-state.png",
+      "exists": true,
+      "bytes": 214403,
+      "sha256": "1d395d3191bf41f4ae65f5b12a941c50963d11baf9e83f8bf05fc454d9773f5a"
+    },
+    {
+      "path": "reports/render-proof-field-review/desktop-detail.png",
+      "exists": true,
+      "bytes": 197772,
+      "sha256": "ddf188e949e3faef78831f1b31f08bbd4988850a1e543dbf3016e75e294dcf18"
+    },
+    {
+      "path": "reports/render-proof-field-review/desktop-waiting-list.png",
+      "exists": true,
+      "bytes": 197418,
+      "sha256": "9c699d5abfa57e386215ce521ab6714b1408bcc1779732edfef01b6ad73045e0"
+    },
+    {
+      "path": "reports/render-proof-field-review/mobile-review.png",
+      "exists": true,
+      "bytes": 241592,
+      "sha256": "4ccb43b8fc3eb31240310a9f0bb420de1ef7ca7c58435f7cec913a925f271a7a"
+    }
+  ],
+  "generated_at": "2026-06-12T06:13:49"
+}

@@ -1,0 +1,32 @@
+# language: zh-CN
+功能: EcoCheck 现场经验入图审核
+  作为 graph Web 端的 ETO 审核人
+  我需要先审核 EcoCheck 推送的候选现场经验
+  以确保企业级经验不会未经确认进入聚合统计或共有导出
+
+  场景: 候选现场经验默认进入 private staging
+    当 graph 接收一条 EcoCheck semantic_event v2 候选现场经验
+    那么 它必须进入 private staging
+    而且 当前审核状态必须是 "待审核"
+    而且 不得直接进入 aggregate 或 shared 导出
+
+  场景: 未经 graph ETO 入图审核不得进入聚合统计
+    假如 一条候选现场经验的当前审核状态不是 "已进入聚合候选"
+    当 生成 EcoCheck 聚合候选批次
+    那么 该记录不得参与 aggregate 行计算
+
+  场景: 样本企业不足不得输出聚合行
+    假如 一个区域、行业、环保维度、问题类型和法条规范组合的样本企业数小于 5
+    当 生成 EcoCheck 聚合候选批次
+    那么 该组合只能进入 "样本不足" 池
+    而且 不得进入 aggregate 导出行
+
+  场景: 审核台必须使用中文业务话术
+    当 ETO 打开 "现场经验入图审核台"
+    那么 页面上必须显示 "待审核"、"已通过"、"退回补充"、"不入图"、"样本不足"
+    而且 审核按钮必须包含 "通过，进入聚合候选"、"仅保留内部案例"、"退回补充"、"合并到已有问题类型"、"不入图"
+    而且 页面不得展示 "event_type"、"business_key"、"payload_json"、"CANDIDATE"、"PENDING"
+
+  场景: aggregate 导出不得携带企业级字段
+    当 生成 EcoCheck aggregate 导出
+    那么 输出行不得包含企业名、企业 ID、检查记录 ID、整改记录 ID、证据实例 ID、原始备注或附件路径

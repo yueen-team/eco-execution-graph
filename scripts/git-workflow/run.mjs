@@ -8,10 +8,19 @@ export function pnpmCommand(args) {
   const pnpmCli = process.env.npm_execpath;
 
   if (pnpmCli) {
+    const ext = path.extname(pnpmCli).toLowerCase();
+    if (['.js', '.cjs', '.mjs'].includes(ext)) {
+      return {
+        command: process.execPath,
+        args: [pnpmCli, ...args],
+        shell: false,
+      };
+    }
+
     return {
-      command: process.execPath,
-      args: [pnpmCli, ...args],
-      shell: false,
+      command: pnpmCli,
+      args,
+      shell: process.platform === 'win32' && ext === '.cmd',
     };
   }
 

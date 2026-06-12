@@ -6,6 +6,7 @@
   "packageManager": "pnpm@11.0.8",
   "scripts": {
     "prepare": "husky",
+    "main:ship": "node scripts/git-workflow/main-ship.mjs",
     "graph:build": "python pipeline/build_graph.py",
     "graph:export:shared": "python pipeline/export.py --tier shared",
     "gap:report": "python pipeline/gap_report.py",
@@ -13,6 +14,9 @@
     "monthly:compare": "python pipeline/monthly_report_compare.py",
     "regulatory:check": "python pipeline/regulatory_consistency_check.py",
     "pitfall:map": "python pipeline/pitfall_map.py",
+    "ecocheck:aggregate": "python pipeline/ecocheck_aggregation.py",
+    "api:test": "pnpm --dir graph-api test",
+    "api:check": "pnpm --dir graph-api check",
     "delivery:report": "python pipeline/final_delivery.py",
     "tencent:probe": "python pipeline/tencent_lke_probe.py all",
     "tencent:probe:embedding": "python pipeline/tencent_lke_probe.py embedding",

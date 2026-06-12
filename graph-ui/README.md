@@ -14,6 +14,7 @@ pnpm --dir graph-ui preview   # 本地预览构建产物
 
 - **主任演示**:右上角按钮,或直接打开 `/?director=1`。审核后的 5 张卡主线:
   标签信息核查 → 一物一码核查 → 台账记录核查 → 转移闭环核查 → 暂存实体风险 → 缺口报告 → 授权边界/看得见带不走。演示不进入云南踩雷地图,不演示月报对比,不作违法认定。
+- **现场经验入图审核台**:内部模式右上角“入图审核”,或直接打开 `/?workspace=review`。CloudBase 只读 shared 包会隐藏入口,不装载审核数据。
 - 键盘:`→`/`空格` 下一幕,`←` 上一幕,`Esc` 退出。
 - `/?view=shared` 直接进入共有视图。
 - 图谱交互:单击节点看执行卡,**双击以该节点为中心重新展开**,悬停看置信度。
@@ -29,6 +30,7 @@ pnpm --dir graph-ui preview   # 本地预览构建产物
 | graph / cards | P1 危废精品切片 |
 | gap-report.json | reports/gap-report-full.json |
 | monthly-comparison.json | reports/monthly-report-comparison-full.json(诚实标注 synthetic_baseline_demo) |
+| review-data/field-event-review-demo.json | 合成审核样例,仅用于内部审核台 render proof |
 
 ## 换演示机注意
 

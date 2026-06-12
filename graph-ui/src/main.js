@@ -14,6 +14,7 @@ import {
 import { initOrUpdateGraph, onNodeSelect, onEdgeSelect, markCenter, relayout, fitGraph } from "./graph.js";
 import { renderPanel, renderEdgePanel } from "./panel.js";
 import { initDemo, enterDemo } from "./demo.js";
+import { initReviewWorkspace } from "./review.js";
 
 const ICONS = {
   Scale, FlagTriangleRight, Factory, LockKeyholeOpen, ShieldCheck, Search, Presentation,
@@ -271,6 +272,7 @@ async function boot() {
     bindControls();
     bindSearch();
     initDemo({ syncControls, updateMetrics, setStatus });
+    await initReviewWorkspace({ readonlyShared: state.deployPolicy.readonlyShared, setStatus });
 
     updateMetrics();
     renderEdgeFilters();

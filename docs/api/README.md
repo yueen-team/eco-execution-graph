@@ -6,6 +6,7 @@
 | 图谱质量评分字段 | `graph-quality-scoring.md` | v0 draft(P1 起强制写入边) |
 | 上下文装配 API(第二刀:月报回灌) | `context-assembly-api.md` | v0 draft(P0.5 离线验证,P5 实装) |
 | 云南环保高频踩雷地图 | `pitfall-map.md` | v0 draft(aggregate-only) |
+| EcoCheck 候选现场经验接收 | `ecocheck-field-event-intake.md` | v0 draft(private staging + graph ETO 入图审核) |
 | 监管口径一致性检查器 | `regulatory-consistency-checker.md` | v0 draft(P1 内部门禁) |
 | 腾讯云 LKE/RAG 接入路径 | `tencent-lke-rag-integration.md` | v0 draft(官方文档核对后) |
 | 腾讯云 RAG adapter | `tencent-rag-adapter.md` / `rag-doc-ref-registry.md` | v0 draft(P2P3 citation metadata) |

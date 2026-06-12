@@ -7,7 +7,8 @@
   "shared_graph": "data/exports/shared_product_v1/graph.json",
   "shared_cards": "data/exports/shared_product_v1/cards.shared.json",
   "removed": [
-    "demo-data/monthly-comparison.json"
+    "demo-data/monthly-comparison.json",
+    "review-data/"
   ],
   "overwritten_with_shared": [
     "demo-data/full-graph.json",
@@ -24,20 +25,20 @@
       "reason": "code bundle still contains internal vocabulary labels; data package is checked separately"
     },
     {
-      "file": "graph-ui/dist-cloudbase-static-readonly/assets/index-DGkVmet2.js",
+      "file": "graph-ui/dist-cloudbase-static-readonly/assets/index-DgTV21cP.js",
       "reason": "code bundle still contains internal vocabulary labels; data package is checked separately"
     }
   ],
   "hashes": [
     {
       "path": "index.html",
-      "sha256": "b9ca8444960580bfeffa2dd2f037988d218a994c70f3c2a67f680c2734dd32d8",
-      "bytes": 7112
+      "sha256": "60a79ddfc6014e16950bb783de85f314a50716c6eb4a01a448ccdaa0af33e815",
+      "bytes": 8382
     },
     {
       "path": "demo-data/full-graph.json",
-      "sha256": "ce9bd317581834f6b44729c63bcf6da2381b12a56ac251a586a3b9fad45c33a3",
-      "bytes": 1553443
+      "sha256": "d21e019cc87be876582f185211261eab2ac067d3c0f580b7062f401cdac88d77",
+      "bytes": 1554053
     },
     {
       "path": "demo-data/full-cards.json",
@@ -50,5 +51,5 @@
       "bytes": 193
     }
   ],
-  "generated_at": "2026-06-12T02:50:40"
+  "generated_at": "2026-06-12T06:40:56"
 }

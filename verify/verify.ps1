@@ -70,6 +70,19 @@ if ($Target -in @("test", "all")) {
         try { Invoke-CheckedCommand -Command @("pnpm", "regulatory:check") }
         finally { Pop-Location }
     }
+    Invoke-Step "ecocheck-aggregate-candidates" {
+        Push-Location $root
+        try { Invoke-CheckedCommand -Command @("pnpm", "ecocheck:aggregate") }
+        finally { Pop-Location }
+    }
+    Invoke-Step "graph-api-contract" {
+        Push-Location $root
+        try {
+            Invoke-CheckedCommand -Command @("pnpm", "api:check")
+            Invoke-CheckedCommand -Command @("pnpm", "api:test")
+        }
+        finally { Pop-Location }
+    }
     Invoke-Step "p2p3-upstream-lock" {
         Push-Location $root
         try { Invoke-CheckedCommand -Command @("pnpm", "upstream:lock") }

@@ -1,0 +1,132 @@
+# EcoCheck 候选现场经验接收契约 v0
+
+## 定位
+
+EcoCheck 负责现场业务事实确认,graph Web 端负责现场经验入图审核、聚合准入和导出隔离。EcoCheck 推送过来的记录默认只是候选现场经验,只能进入 graph private staging。
+
+## 接收接口
+
+`POST /api/ecocheck/field-events`
+
+云托管环境必须设置 `ECO_GRAPH_API_TOKEN`;设置后请求头必须携带:
+
+```http
+Authorization: Bearer <ECO_GRAPH_API_TOKEN>
+```
+
+请求体必须是 `ecocheck.semantic_event.v2`。第一版只读取以下最小字段:
+
+```jsonc
+{
+  "schema_version": "ecocheck.semantic_event.v2",
+  "event_type": "RECTIFICATION_VERIFIED",
+  "source_system": "EcoCheck",
+  "occurred_at": "2026-06-12T09:30:00+08:00",
+  "field_issue_uid": "synthetic-issue-001",
+  "business_key": "synthetic-inspection-001",
+  "source_context": {
+    "company_id": "internal-only",
+    "company_name": "仅内部审核页可见",
+    "region": "昆明市",
+    "industry_type": "汽车维修",
+    "permit_type": "排污登记"
+  },
+  "standard_issue_type_candidate": {
+    "issue_type_ref": "issue:hw:label-incomplete",
+    "name": "危废标签内容不完整"
+  },
+  "environmental_risk_category": {
+    "dimension": "危险废物管理"
+  },
+  "observed_signals": ["标签缺少产生日期"],
+  "risk_impact_summary": "危废包装容器标签字段缺失,现场追溯困难。",
+  "evidence_chain": {
+    "evidence_count": 2,
+    "evidence_types": ["现场照片", "台账记录"]
+  },
+  "rectification": {
+    "requirement": "补齐标签字段,并与台账记录保持一致。",
+    "status": "已通过"
+  },
+  "recheck_points": ["复核标签字段"],
+  "ai_regulatory_references": [
+    { "ref": "law:swl:art77", "title": "固体废物污染环境防治法 第七十七条" }
+  ]
+}
+```
+
+## 接收后状态
+
+graph 必须生成一条中文审核记录:
+
+- 当前审核状态:`待审核`
+- 是否允许进入聚合:`false`
+- 存储位置:`private staging`
+
+该记录不得直接写入 aggregate,也不得进入 shared 导出。
+
+## 拒绝规则
+
+接口必须拒绝以下内容:
+
+- 法条全文或 RAG 原文正文;
+- 真实附件路径、云存储路径、照片 URL;
+- GPS、经纬度或其他现场定位原始值;
+- 密钥、Token、鉴权头;
+- 原始企业报告全文;
+- 任何准备直接对外导出的企业级明细。
+
+## 审核结论
+
+`POST /api/review/field-events/:id/decision`
+
+允许的审核结论:
+
+- `通过，进入聚合候选`
+- `仅保留内部案例`
+- `退回补充`
+- `合并到已有问题类型`
+- `不入图`
+
+只有 `通过，进入聚合候选` 和 `合并到已有问题类型` 可以把 `是否允许进入聚合` 置为 `true`。
+
+## 聚合批次
+
+`POST /api/aggregate/pitfall-batches`
+
+聚合维度固定为:
+
+- 区域
+- 行业
+- 环保维度
+- 问题类型
+- 法条/规范引用
+
+输出行固定为:
+
+```jsonc
+{
+  "region": "昆明市",
+  "industry": "汽车维修",
+  "dimension": "危险废物管理",
+  "issue_type_ref": "issue:hw:label-incomplete",
+  "law_or_spec_ref": "law:swl:art77",
+  "sample_size": 5,
+  "event_count": 5,
+  "recurrence_rate": 1.0,
+  "rectification_difficulty": "low",
+  "eto_reviewed_count": 5,
+  "last_verified_at": "2026-06-12T10:00:00+08:00",
+  "source_ref": "src:ecocheck-aggregate:pitfall-map:2026-06",
+  "batch_id": "pitfall-map:2026-06"
+}
+```
+
+`sample_size < 5` 的组合只能进入样本不足池,不得输出 aggregate 行。
+
+## 部署边界
+
+- `graph-ui/` 继续部署到 CloudBase 静态托管。
+- `graph-api/` 部署到 CloudBase 云托管。
+- `data/private-staging/` 是内部运行态存储位置,真实文件不得提交。
+- CloudBase 只读 shared 静态包不装载审核数据。

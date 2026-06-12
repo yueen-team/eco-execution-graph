@@ -17,3 +17,7 @@ data/exports/demo_package*/
 Thumbs.db
 reports/render-proof-ui-v2/*.png
 reports/render-proof-ui-v2/*.mp4
+reports/render-proof-field-review/*.png
+reports/render-proof-field-review/*.mp4
+data/private-staging/*
+!data/private-staging/.gitkeep
