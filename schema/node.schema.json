@@ -56,7 +56,7 @@
           "relation": {
             "enum": [
               "replaced_by", "amended_by", "split_into", "merged_into",
-              "inherits_from", "conflicts_with", "renumbered_as"
+              "inherits_from", "conflicts_with"
             ]
           },
           "source": { "type": "string", "description": "沿革数据来源(政府法典库对接后填)" }

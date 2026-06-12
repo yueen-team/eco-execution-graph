@@ -7,6 +7,7 @@
 - regulatory_findings: 0
 - full_graph: {'nodes': 513, 'edges': 1007, 'sources': 10}
 - shared_graph: {'nodes': 483, 'edges': 977, 'sources': 6}
+- lineage_contract: {'status': 'partial', 'government_lineage_real_import': 'blocked', 'edge_preview_count': 6}
 - render_proof: {'status': 'pass', 'screenshots': 4}
 
 ## Safe To Show
@@ -34,8 +35,8 @@
 - government lineage real import
 - real EcoCheck aggregate pitfall map
 - ETO blind review for monthly comparison
-- per-citation locator mapping hardening
 
 ## Next Steps
-- standardize per-citation locator mapping from RetrieveKnowledge Records
-- import government lineage exchange file when provided
+- obtain government_confirmed lineage exchange file
+- connect real EcoCheck aggregate pitfall data
+- complete ETO blind review for monthly comparison

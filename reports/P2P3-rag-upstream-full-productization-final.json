@@ -26,12 +26,12 @@
   "not_done": [
     "government lineage real import",
     "real EcoCheck aggregate pitfall map",
-    "ETO blind review for monthly comparison",
-    "per-citation locator mapping hardening"
+    "ETO blind review for monthly comparison"
   ],
   "next_steps": [
-    "standardize per-citation locator mapping from RetrieveKnowledge Records",
-    "import government lineage exchange file when provided"
+    "obtain government_confirmed lineage exchange file",
+    "connect real EcoCheck aggregate pitfall data",
+    "complete ETO blind review for monthly comparison"
   ],
   "recommended_demo_order": [
     "危废包装容器标签信息不完整或与实物、台账不一致",
@@ -79,6 +79,11 @@
     "status": "blocked",
     "reason": "ETO blind review with real desensitized historical monthly paragraphs is pending",
     "comparison_basis": "synthetic_baseline_demo"
+  },
+  "lineage_contract": {
+    "status": "partial",
+    "government_lineage_real_import": "blocked",
+    "edge_preview_count": 6
   },
   "render_proof": {
     "status": "pass",

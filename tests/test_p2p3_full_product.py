@@ -86,6 +86,7 @@ class P2P3FullProductTest(unittest.TestCase):
         final = read_json("reports/P2P3-rag-upstream-full-productization-final.json")
         pitfall = read_json("reports/yunnan-pitfall-map-full.json")
         monthly = read_json("reports/monthly-report-comparison-full.json")
+        lineage = read_json("reports/lineage-contract-readiness.json")
 
         self.assertEqual(final["zhang_director_ready"], "conditional")
         self.assertNotIn("pitfall map full", final["safe_to_show"])
@@ -97,6 +98,11 @@ class P2P3FullProductTest(unittest.TestCase):
         self.assertEqual(monthly["status"], "blocked")
         self.assertEqual(monthly["comparison_basis"], "synthetic_baseline_demo")
         self.assertTrue(all(item["plain_ai"] is None for item in monthly["comparisons"]))
+        self.assertEqual(lineage["status"], "partial")
+        self.assertEqual(lineage["contract_status"], "pass")
+        self.assertEqual(lineage["government_lineage_real_import"], "blocked")
+        self.assertEqual(final["lineage_contract"]["edge_preview_count"], 6)
+        self.assertNotIn("per-citation locator mapping hardening", final["not_done"])
 
     def test_shared_cards_are_whitelisted_not_shallow_copies(self):
         cards = read_json("data/candidates/cards/full_shared_cards.json")

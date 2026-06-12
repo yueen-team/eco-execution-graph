@@ -20,6 +20,15 @@ SPL = Path(r"E:\semantic-profile-lab")
 UPSTREAM_DIR = ROOT / "data" / "upstream"
 FULL_INTERNAL = EXPORTS_DIR / "full_internal_product_v1"
 FULL_SHARED = EXPORTS_DIR / "shared_product_v1"
+LINEAGE_FIXTURE = ROOT / "data" / "candidates" / "government_lineage_contract_fixture.json"
+SUPPORTED_LINEAGE_EDGE_TYPES = (
+    "replaced_by",
+    "amended_by",
+    "split_into",
+    "merged_into",
+    "inherits_from",
+    "conflicts_with",
+)
 
 
 ETO_REVIEW_OVERRIDES: dict[str, dict[str, Any]] = {
@@ -996,16 +1005,146 @@ def monthly_full() -> dict[str, Any]:
     return report
 
 
-def lineage_contract() -> dict[str, Any]:
-    fixture = {
-        "status": "blocked",
-        "government_lineage_real_import": "blocked",
-        "supported_edges": ["replaced_by", "amended_by", "split_into", "merged_into", "inherits_from", "conflicts_with"],
-        "fixture_cases": [{"old_law_article": "law:swl:art77", "new_code_article": "code:demo:art-x", "edge_type": "inherits_from", "status": "contract_only"}],
+def _lineage_record_to_edge(record: dict[str, Any], dataset_status: str) -> dict[str, Any]:
+    government_confirmed = dataset_status == "government_confirmed" and record.get("status") == "government_confirmed"
+    return {
+        "edge_id": record["lineage_id"],
+        "from": record["old_law_id"],
+        "to": record["new_law_id"],
+        "edge_type": record["relation"],
+        "tier": "shared",
+        "source_ref": f"src:government-lineage:{record['authority_doc_ref']}",
+        "confidence": 0.9 if government_confirmed else 0.55,
+        "confidence_reason": ["GOVERNMENT_CONFIRMED"] if government_confirmed else ["MANUAL_REVIEWED"],
+        "evidence_count": 1,
+        "last_verified_at": record["effective_date"],
+        "reviewer_role": "GOVERNMENT" if government_confirmed else "SYSTEM",
+        "staleness_risk": "low" if government_confirmed else "unknown",
+        "review_status": "HUMAN_REVIEWED" if government_confirmed else "CANDIDATE",
+        "attrs": {
+            "old_citation": record.get("old_citation"),
+            "new_citation": record.get("new_citation"),
+            "effective_date": record["effective_date"],
+            "authority_doc_ref": record["authority_doc_ref"],
+            "authority_locator": record["authority_locator"],
+            "authority_note": record.get("authority_note", ""),
+            "dataset_status": dataset_status,
+            "migration_policy": "manual_review_required" if record["relation"] == "conflicts_with" else ("can_migrate_after_government_confirmed" if government_confirmed else "contract_only_do_not_migrate"),
+        },
     }
-    write_json(REPORTS_DIR / "lineage-contract-readiness.json", fixture)
-    write_text(REPORTS_DIR / "lineage-contract-readiness.md", "# Lineage Contract Readiness\n\n- government_lineage_real_import: `blocked`\n- contract fixture: pass")
-    return fixture
+
+
+def validate_lineage_exchange(exchange: dict[str, Any]) -> dict[str, Any]:
+    required_top = {"exchange_version", "dataset_status", "authority", "generated_at", "records"}
+    required_record = {
+        "lineage_id",
+        "old_law_id",
+        "old_citation",
+        "new_law_id",
+        "new_citation",
+        "relation",
+        "effective_date",
+        "authority_doc_ref",
+        "authority_locator",
+        "authority_note",
+        "status",
+        "review_status",
+    }
+    errors: list[str] = []
+    warnings: list[str] = []
+    edges: list[dict[str, Any]] = []
+    human_review_required: list[dict[str, str]] = []
+
+    missing_top = sorted(required_top - set(exchange))
+    if missing_top:
+        errors.append(f"missing top-level fields: {', '.join(missing_top)}")
+    if exchange.get("exchange_version") != "government-lineage-exchange.v1":
+        errors.append("exchange_version must be government-lineage-exchange.v1")
+    if exchange.get("dataset_status") not in {"contract_fixture", "draft", "government_confirmed"}:
+        errors.append("dataset_status must be contract_fixture, draft, or government_confirmed")
+    if not isinstance(exchange.get("records"), list):
+        errors.append("records must be an array")
+
+    forbidden_keys = {"content", "full_text", "article_text", "raw_text", "正文", "全文"}
+    dataset_status = exchange.get("dataset_status", "contract_fixture")
+    for idx, record in enumerate(exchange.get("records", []) if isinstance(exchange.get("records"), list) else [], start=1):
+        missing_record = sorted(required_record - set(record))
+        if missing_record:
+            errors.append(f"record {idx} missing fields: {', '.join(missing_record)}")
+            continue
+        forbidden_present = sorted(forbidden_keys & set(record))
+        if forbidden_present:
+            errors.append(f"record {record['lineage_id']} contains forbidden raw text fields: {', '.join(forbidden_present)}")
+        if record["relation"] not in SUPPORTED_LINEAGE_EDGE_TYPES:
+            errors.append(f"record {record['lineage_id']} uses unsupported relation: {record['relation']}")
+        if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", record["effective_date"]):
+            errors.append(f"record {record['lineage_id']} effective_date must be YYYY-MM-DD")
+        if dataset_status == "government_confirmed" and record["status"] != "government_confirmed":
+            warnings.append(f"record {record['lineage_id']} is not government_confirmed inside confirmed dataset")
+        if record["relation"] == "conflicts_with":
+            human_review_required.append({"lineage_id": record["lineage_id"], "reason": "conflicts_with 不自动迁移引用"})
+        if not errors or not any(record["lineage_id"] in error for error in errors):
+            edges.append(_lineage_record_to_edge(record, dataset_status))
+
+    relation_counts = Counter(edge["edge_type"] for edge in edges)
+    missing_relations = [edge_type for edge_type in SUPPORTED_LINEAGE_EDGE_TYPES if relation_counts.get(edge_type, 0) == 0]
+    if dataset_status == "contract_fixture" and missing_relations:
+        warnings.append(f"contract fixture does not cover relations: {', '.join(missing_relations)}")
+
+    government_lineage_real_import = "ready" if dataset_status == "government_confirmed" and not errors else "blocked"
+    return {
+        "contract_status": "pass" if not errors else "fail",
+        "government_lineage_real_import": government_lineage_real_import,
+        "dataset_status": dataset_status,
+        "supported_edges": list(SUPPORTED_LINEAGE_EDGE_TYPES),
+        "record_count": len(exchange.get("records", [])) if isinstance(exchange.get("records"), list) else 0,
+        "edge_preview_count": len(edges),
+        "relation_counts": dict(relation_counts),
+        "human_review_required": human_review_required,
+        "errors": errors,
+        "warnings": warnings,
+        "edge_preview": edges,
+    }
+
+
+def lineage_contract(input_path: str | Path | None = None) -> dict[str, Any]:
+    exchange_path = Path(input_path) if input_path else LINEAGE_FIXTURE
+    exchange = read_json(exchange_path)
+    result = validate_lineage_exchange(exchange)
+    report = {
+        "status": "partial" if result["contract_status"] == "pass" and result["government_lineage_real_import"] == "blocked" else result["contract_status"],
+        "exchange_path": rel(exchange_path),
+        "exchange_version": exchange.get("exchange_version"),
+        "authority": exchange.get("authority"),
+        **result,
+        "honesty_note": "contract fixture passed; no real government_confirmed lineage dataset has been imported" if result["government_lineage_real_import"] == "blocked" else "government_confirmed lineage dataset validated",
+    }
+    write_json(REPORTS_DIR / "lineage-contract-readiness.json", report)
+    lines = [
+        "# Lineage Contract Readiness",
+        "",
+        f"- status: `{report['status']}`",
+        f"- contract_status: `{report['contract_status']}`",
+        f"- government_lineage_real_import: `{report['government_lineage_real_import']}`",
+        f"- dataset_status: `{report['dataset_status']}`",
+        f"- exchange_path: `{report['exchange_path']}`",
+        f"- supported_edges: {', '.join(report['supported_edges'])}",
+        f"- edge_preview_count: {report['edge_preview_count']}",
+        f"- human_review_required: {len(report['human_review_required'])}",
+        "",
+        "## 关系覆盖",
+        *[f"- {edge_type}: {report['relation_counts'].get(edge_type, 0)}" for edge_type in SUPPORTED_LINEAGE_EDGE_TYPES],
+        "",
+        "## 诚实边界",
+        f"- {report['honesty_note']}",
+        "- `conflicts_with` 只进入人工审核清单,不得自动迁移报告引用。",
+    ]
+    if report["errors"]:
+        lines += ["", "## Errors", *[f"- {error}" for error in report["errors"]]]
+    if report["warnings"]:
+        lines += ["", "## Warnings", *[f"- {warning}" for warning in report["warnings"]]]
+    write_text(REPORTS_DIR / "lineage-contract-readiness.md", "\n".join(lines))
+    return report
 
 
 def demo_pack() -> dict[str, Any]:
@@ -1082,7 +1221,8 @@ def final_delivery_p2p3() -> dict[str, Any]:
     if monthly.get("status") != "pass" and ready != "no":
         ready = "conditional"
         degraded.append("Monthly report comparison is blocked until ETO blind review is completed.")
-    next_steps = ["standardize per-citation locator mapping from RetrieveKnowledge Records", "import government lineage exchange file when provided"]
+    lineage = read_json(REPORTS_DIR / "lineage-contract-readiness.json") if (REPORTS_DIR / "lineage-contract-readiness.json").exists() else {"status": "blocked", "government_lineage_real_import": "blocked"}
+    next_steps = ["obtain government_confirmed lineage exchange file", "connect real EcoCheck aggregate pitfall data", "complete ETO blind review for monthly comparison"]
     if not all(item.get("exists") and item.get("bytes", 0) > 0 for item in render_manifest.get("screenshots", [])):
         next_steps.append("capture final director screenshots")
     final = {
@@ -1093,7 +1233,7 @@ def final_delivery_p2p3() -> dict[str, Any]:
         "must_not_show": ["private runtime details", "raw RAG response", "real enterprise data", "keys", "local cache"],
         "blockers": blockers,
         "degraded": degraded,
-        "not_done": ["government lineage real import", "real EcoCheck aggregate pitfall map", "ETO blind review for monthly comparison", "per-citation locator mapping hardening"],
+        "not_done": ["government lineage real import", "real EcoCheck aggregate pitfall map", "ETO blind review for monthly comparison"],
         "next_steps": next_steps,
         "recommended_demo_order": [
             "危废包装容器标签信息不完整或与实物、台账不一致",
@@ -1113,9 +1253,10 @@ def final_delivery_p2p3() -> dict[str, Any]:
         "gap_report": {"status": gap.get("status"), "status_reason": gap.get("status_reason")},
         "pitfall_map_full": {"status": pitfall_map.get("status"), "reason": pitfall_map.get("reason")},
         "monthly_comparison_full": {"status": monthly.get("status"), "reason": monthly.get("reason"), "comparison_basis": monthly.get("comparison_basis")},
+        "lineage_contract": {"status": lineage.get("status"), "government_lineage_real_import": lineage.get("government_lineage_real_import"), "edge_preview_count": lineage.get("edge_preview_count")},
         "render_proof": {"status": render_manifest.get("status"), "screenshots": len(render_manifest.get("screenshots", []))},
     }
     write_json(REPORTS_DIR / "P2P3-rag-upstream-full-productization-final.json", final)
-    lines = ["# P2P3 RAG Upstream Full Productization Final", "", f"- zhang_director_ready: `{ready}`", f"- rag_real_smoke: `{final['rag_real_smoke']}`", f"- upstream_real_import: `{final['upstream_real_import']}`", f"- private_leak_violations: {final['private_leak_violations']}", f"- regulatory_findings: {final['regulatory_findings']}", f"- full_graph: {final['full_graph']}", f"- shared_graph: {final['shared_graph']}", f"- render_proof: {final['render_proof']}", "", "## Safe To Show", *[f"- {item}" for item in final["safe_to_show"]], "", "## Not Safe To Show Yet", *[f"- {item}" for item in final["not_safe_to_show_yet"]], "", "## Must Not Show", *[f"- {item}" for item in final["must_not_show"]], "", "## Degraded", *[f"- {item}" for item in final["degraded"]], "", "## Not Done", *[f"- {item}" for item in final["not_done"]], "", "## Next Steps", *[f"- {item}" for item in final["next_steps"]]]
+    lines = ["# P2P3 RAG Upstream Full Productization Final", "", f"- zhang_director_ready: `{ready}`", f"- rag_real_smoke: `{final['rag_real_smoke']}`", f"- upstream_real_import: `{final['upstream_real_import']}`", f"- private_leak_violations: {final['private_leak_violations']}", f"- regulatory_findings: {final['regulatory_findings']}", f"- full_graph: {final['full_graph']}", f"- shared_graph: {final['shared_graph']}", f"- lineage_contract: {final['lineage_contract']}", f"- render_proof: {final['render_proof']}", "", "## Safe To Show", *[f"- {item}" for item in final["safe_to_show"]], "", "## Not Safe To Show Yet", *[f"- {item}" for item in final["not_safe_to_show_yet"]], "", "## Must Not Show", *[f"- {item}" for item in final["must_not_show"]], "", "## Degraded", *[f"- {item}" for item in final["degraded"]], "", "## Not Done", *[f"- {item}" for item in final["not_done"]], "", "## Next Steps", *[f"- {item}" for item in final["next_steps"]]]
     write_text(REPORTS_DIR / "P2P3-rag-upstream-full-productization-final.md", "\n".join(lines))
     return final

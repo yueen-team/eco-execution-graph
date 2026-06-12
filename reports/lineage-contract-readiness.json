@@ -1,6 +1,11 @@
 {
-  "status": "blocked",
+  "status": "partial",
+  "exchange_path": "data/candidates/government_lineage_contract_fixture.json",
+  "exchange_version": "government-lineage-exchange.v1",
+  "authority": "contract-fixture-not-real-government-data",
+  "contract_status": "pass",
   "government_lineage_real_import": "blocked",
+  "dataset_status": "contract_fixture",
   "supported_edges": [
     "replaced_by",
     "amended_by",
@@ -9,12 +14,187 @@
     "inherits_from",
     "conflicts_with"
   ],
-  "fixture_cases": [
+  "record_count": 6,
+  "edge_preview_count": 6,
+  "relation_counts": {
+    "replaced_by": 1,
+    "amended_by": 1,
+    "split_into": 1,
+    "merged_into": 1,
+    "inherits_from": 1,
+    "conflicts_with": 1
+  },
+  "human_review_required": [
     {
-      "old_law_article": "law:swl:art77",
-      "new_code_article": "code:demo:art-x",
-      "edge_type": "inherits_from",
-      "status": "contract_only"
+      "lineage_id": "lineage:fixture:conflicts-with-001",
+      "reason": "conflicts_with 不自动迁移引用"
     }
-  ]
+  ],
+  "errors": [],
+  "warnings": [],
+  "edge_preview": [
+    {
+      "edge_id": "lineage:fixture:replaced-by-001",
+      "from": "law:fixture:old-art-001",
+      "to": "code:fixture:new-art-001",
+      "edge_type": "replaced_by",
+      "tier": "shared",
+      "source_ref": "src:government-lineage:fixture-lineage-doc",
+      "confidence": 0.55,
+      "confidence_reason": [
+        "MANUAL_REVIEWED"
+      ],
+      "evidence_count": 1,
+      "last_verified_at": "2026-01-01",
+      "reviewer_role": "SYSTEM",
+      "staleness_risk": "unknown",
+      "review_status": "CANDIDATE",
+      "attrs": {
+        "old_citation": "旧法示例 第一条",
+        "new_citation": "法典示例 第一条",
+        "effective_date": "2026-01-01",
+        "authority_doc_ref": "fixture-lineage-doc",
+        "authority_locator": "fixture-record-001",
+        "authority_note": "契约样例,非真实政府沿革数据",
+        "dataset_status": "contract_fixture",
+        "migration_policy": "contract_only_do_not_migrate"
+      }
+    },
+    {
+      "edge_id": "lineage:fixture:amended-by-001",
+      "from": "law:fixture:old-art-002",
+      "to": "code:fixture:new-art-002",
+      "edge_type": "amended_by",
+      "tier": "shared",
+      "source_ref": "src:government-lineage:fixture-lineage-doc",
+      "confidence": 0.55,
+      "confidence_reason": [
+        "MANUAL_REVIEWED"
+      ],
+      "evidence_count": 1,
+      "last_verified_at": "2026-01-01",
+      "reviewer_role": "SYSTEM",
+      "staleness_risk": "unknown",
+      "review_status": "CANDIDATE",
+      "attrs": {
+        "old_citation": "旧法示例 第二条",
+        "new_citation": "法典示例 第二条",
+        "effective_date": "2026-01-01",
+        "authority_doc_ref": "fixture-lineage-doc",
+        "authority_locator": "fixture-record-002",
+        "authority_note": "契约样例,非真实政府沿革数据",
+        "dataset_status": "contract_fixture",
+        "migration_policy": "contract_only_do_not_migrate"
+      }
+    },
+    {
+      "edge_id": "lineage:fixture:split-into-001",
+      "from": "law:fixture:old-art-003",
+      "to": "code:fixture:new-art-003-a",
+      "edge_type": "split_into",
+      "tier": "shared",
+      "source_ref": "src:government-lineage:fixture-lineage-doc",
+      "confidence": 0.55,
+      "confidence_reason": [
+        "MANUAL_REVIEWED"
+      ],
+      "evidence_count": 1,
+      "last_verified_at": "2026-01-01",
+      "reviewer_role": "SYSTEM",
+      "staleness_risk": "unknown",
+      "review_status": "CANDIDATE",
+      "attrs": {
+        "old_citation": "旧法示例 第三条",
+        "new_citation": "法典示例 第三条之一",
+        "effective_date": "2026-01-01",
+        "authority_doc_ref": "fixture-lineage-doc",
+        "authority_locator": "fixture-record-003",
+        "authority_note": "契约样例,非真实政府沿革数据",
+        "dataset_status": "contract_fixture",
+        "migration_policy": "contract_only_do_not_migrate"
+      }
+    },
+    {
+      "edge_id": "lineage:fixture:merged-into-001",
+      "from": "law:fixture:old-art-004",
+      "to": "code:fixture:new-art-004",
+      "edge_type": "merged_into",
+      "tier": "shared",
+      "source_ref": "src:government-lineage:fixture-lineage-doc",
+      "confidence": 0.55,
+      "confidence_reason": [
+        "MANUAL_REVIEWED"
+      ],
+      "evidence_count": 1,
+      "last_verified_at": "2026-01-01",
+      "reviewer_role": "SYSTEM",
+      "staleness_risk": "unknown",
+      "review_status": "CANDIDATE",
+      "attrs": {
+        "old_citation": "旧法示例 第四条",
+        "new_citation": "法典示例 第四条",
+        "effective_date": "2026-01-01",
+        "authority_doc_ref": "fixture-lineage-doc",
+        "authority_locator": "fixture-record-004",
+        "authority_note": "契约样例,非真实政府沿革数据",
+        "dataset_status": "contract_fixture",
+        "migration_policy": "contract_only_do_not_migrate"
+      }
+    },
+    {
+      "edge_id": "lineage:fixture:inherits-from-001",
+      "from": "law:fixture:old-art-005",
+      "to": "code:fixture:new-art-005",
+      "edge_type": "inherits_from",
+      "tier": "shared",
+      "source_ref": "src:government-lineage:fixture-lineage-doc",
+      "confidence": 0.55,
+      "confidence_reason": [
+        "MANUAL_REVIEWED"
+      ],
+      "evidence_count": 1,
+      "last_verified_at": "2026-01-01",
+      "reviewer_role": "SYSTEM",
+      "staleness_risk": "unknown",
+      "review_status": "CANDIDATE",
+      "attrs": {
+        "old_citation": "旧法示例 第五条",
+        "new_citation": "法典示例 第五条",
+        "effective_date": "2026-01-01",
+        "authority_doc_ref": "fixture-lineage-doc",
+        "authority_locator": "fixture-record-005",
+        "authority_note": "契约样例,非真实政府沿革数据",
+        "dataset_status": "contract_fixture",
+        "migration_policy": "contract_only_do_not_migrate"
+      }
+    },
+    {
+      "edge_id": "lineage:fixture:conflicts-with-001",
+      "from": "law:fixture:old-art-006",
+      "to": "code:fixture:new-art-006",
+      "edge_type": "conflicts_with",
+      "tier": "shared",
+      "source_ref": "src:government-lineage:fixture-lineage-doc",
+      "confidence": 0.55,
+      "confidence_reason": [
+        "MANUAL_REVIEWED"
+      ],
+      "evidence_count": 1,
+      "last_verified_at": "2026-01-01",
+      "reviewer_role": "SYSTEM",
+      "staleness_risk": "unknown",
+      "review_status": "CANDIDATE",
+      "attrs": {
+        "old_citation": "旧法示例 第六条",
+        "new_citation": "法典示例 第六条",
+        "effective_date": "2026-01-01",
+        "authority_doc_ref": "fixture-lineage-doc",
+        "authority_locator": "fixture-record-006",
+        "authority_note": "契约样例,非真实政府沿革数据",
+        "dataset_status": "contract_fixture",
+        "migration_policy": "manual_review_required"
+      }
+    }
+  ],
+  "honesty_note": "contract fixture passed; no real government_confirmed lineage dataset has been imported"
 }

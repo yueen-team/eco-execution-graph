@@ -1,21 +1,92 @@
-# 政府 lineage 数据交换格式 v0(占位)
+# 政府法典沿革交换格式 v1
 
 ## 状态
 
-待与监控中心法典知识库团队对接校准(specs/open-questions Q4)。本文件先定义我方期望的最小格式,作为谈判起点。
+本文件是与政府法典知识库团队对接时的谈判起点。它已经可以被本仓库脚本校验,但当前还没有真实政府沿革数据导入,所以交付报告仍标记为“真实导入待对接”。
 
-## 我方期望的最小记录
+## 一句话口径
+
+法条节点仍然是“瘦节点”。沿革不写成字符串备注,而是写成法条到法条的关系边,让旧条款替代、修订、拆分、合并、继承和冲突都能被机器识别。
+
+## 支持的六类关系
+
+| 关系 | 中文含义 | 方向 |
+|---|---|---|
+| `replaced_by` | 旧条款被新条款整体替代 | 旧条款 -> 新条款 |
+| `amended_by` | 旧条款被新条款或修订决定修改 | 旧条款 -> 新条款 |
+| `split_into` | 一个旧条款拆成多个新条款 | 旧条款 -> 每个新条款 |
+| `merged_into` | 多个旧条款合并进一个新条款 | 每个旧条款 -> 新条款 |
+| `inherits_from` | 法典条款继承历史单行法条款 | 历史条款 -> 法典条款 |
+| `conflicts_with` | 新旧口径冲突或待解释 | 待解释条款 -> 冲突条款 |
+
+如果政府侧只有“条号变更”这一类口径,第一版先落到 `amended_by`,并在 `authority_note` 写明“仅条号变化”;暂不新增第七类关系,避免早期接口膨胀。
+
+## 交换文件格式
 
 ```jsonc
 {
-  "old_law_id": "law:swl:art78",        // 现行单行法条款(我方 node_id 或双方约定 ID)
-  "old_citation": "固体废物污染环境防治法 第七十八条",
-  "new_law_id": "code:eco:artXXXX",     // 生态环境法典条款
-  "relation": "replaced_by | amended_by | split_into | merged_into | inherits_from | conflicts_with | renumbered_as",
-  "effective_date": "YYYY-MM-DD",
-  "authority_note": "官方解释/沿革说明引用"
+  "exchange_version": "government-lineage-exchange.v1",
+  "dataset_status": "contract_fixture | draft | government_confirmed",
+  "authority": "政府法典知识库团队或双方约定名称",
+  "generated_at": "YYYY-MM-DD",
+  "records": [
+    {
+      "lineage_id": "lineage:gov:000001",
+      "old_law_id": "law:swl:art78",
+      "old_citation": "固体废物污染环境防治法 第七十八条",
+      "new_law_id": "code:eco:artXXXX",
+      "new_citation": "生态环境法典 第XXXX条",
+      "relation": "replaced_by | amended_by | split_into | merged_into | inherits_from | conflicts_with",
+      "effective_date": "YYYY-MM-DD",
+      "authority_doc_ref": "官方沿革文件或法典知识库记录号",
+      "authority_locator": "页码、章节、记录号或接口定位符",
+      "authority_note": "官方说明摘要,不得放法规全文",
+      "status": "contract_fixture | draft | government_confirmed",
+      "review_status": "CANDIDATE | HUMAN_REVIEWED | APPROVED_BASELINE"
+    }
+  ]
 }
 ```
+
+## 进入图谱后的边
+
+每条记录会变成一条 `law_article -> law_article` 边:
+
+```jsonc
+{
+  "edge_id": "lineage:gov:000001",
+  "from": "law:swl:art78",
+  "to": "code:eco:artXXXX",
+  "edge_type": "inherits_from",
+  "tier": "shared",
+  "source_ref": "src:government-lineage:gov-lineage-2026",
+  "confidence": 0.9,
+  "confidence_reason": ["GOVERNMENT_CONFIRMED"],
+  "evidence_count": 1,
+  "last_verified_at": "YYYY-MM-DD",
+  "reviewer_role": "GOVERNMENT",
+  "staleness_risk": "low",
+  "review_status": "HUMAN_REVIEWED",
+  "attrs": {
+    "old_citation": "固体废物污染环境防治法 第七十八条",
+    "new_citation": "生态环境法典 第XXXX条",
+    "effective_date": "YYYY-MM-DD",
+    "authority_doc_ref": "官方沿革文件或法典知识库记录号",
+    "authority_locator": "页码、章节、记录号或接口定位符",
+    "authority_note": "官方说明摘要"
+  }
+}
+```
+
+注意:这里仍然只放引用定位和说明摘要,不得放法规全文。
+
+## 导入门槛
+
+- `dataset_status=contract_fixture` 只能用于本仓库测试和谈判样例,不得写成真实接入。
+- `dataset_status=draft` 可以进入候选区,但不得迁移对外报告引用。
+- `dataset_status=government_confirmed` 且每条记录 `status=government_confirmed` 后,才允许把边标记为可迁移依据。
+- 任一记录缺少 `authority_doc_ref` 或 `authority_locator`,只能做人工待核对清单。
+- `conflicts_with` 不自动迁移引用,必须进入人工审核。
 
 ## 双方价值
 
