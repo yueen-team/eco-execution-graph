@@ -5,4 +5,8 @@
 - showcase_cards: 20
 - ready_cards: 70
 - candidate_cards: 0
-- hazardous_showcase_cards: 19
+- hazardous_showcase_cards: 17
+- eto_reviewed_cards: 20
+- director_demo_cards: 5
+- internal_refine_cards: 9
+- do_not_show_cards: 6

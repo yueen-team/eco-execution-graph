@@ -1,0 +1,96 @@
+{
+  "status": "pass",
+  "source": "reports/eto-showcase-card-review.md",
+  "logic": "现场标签 -> 一物一码 -> 台账记录 -> 转移闭环 -> 暂存实体风险",
+  "cards": [
+    {
+      "order": 1,
+      "card_id": "card:full:0003",
+      "title": "危废包装容器标签信息不完整或与实物、台账不一致执行卡",
+      "external_expression": "危废包装容器标签信息不完整或与实物、台账不一致,建议核查标签、实物、台账和平台记录之间的对应关系。"
+    },
+    {
+      "order": 2,
+      "card_id": "card:full:0011",
+      "title": "危废包装容器“一物一码”与平台记录核查执行卡",
+      "external_expression": "危废包装容器“一物一码”与平台记录需保持一致,建议核查电子标签二维码、数字识别码、电子台账和平台记录。"
+    },
+    {
+      "order": 3,
+      "card_id": "card:full:0001",
+      "title": "危险废物管理台账记录不完整执行卡",
+      "external_expression": "企业危险废物管理台账记录不够完整,建议核查产生、入库、出库、月度汇总、平台申报和转移联单回填是否一致。"
+    },
+    {
+      "order": 4,
+      "card_id": "card:full:0005",
+      "title": "危废出入库记录、电子标签二维码与转移联单不一致执行卡",
+      "external_expression": "危废出入库记录、电子标签二维码与转移联单信息存在不一致风险,建议核查平台、台账、实物和联单闭环。"
+    },
+    {
+      "order": 5,
+      "card_id": "card:full:0012",
+      "title": "危废暂存场所防渗、防漏及泄漏收集措施不完善执行卡",
+      "external_expression": "危废暂存场所防渗、防漏或泄漏收集措施存在管理风险,建议结合贮存危废形态和数量进一步完善。"
+    }
+  ],
+  "backup_combo": [
+    {
+      "order": 1,
+      "card_id": "card:full:0003",
+      "title": "危废包装容器标签信息不完整或与实物、台账不一致执行卡"
+    },
+    {
+      "order": 2,
+      "card_id": "card:full:0001",
+      "title": "危险废物管理台账记录不完整执行卡"
+    },
+    {
+      "order": 3,
+      "card_id": "card:full:0005",
+      "title": "危废出入库记录、电子标签二维码与转移联单不一致执行卡"
+    },
+    {
+      "order": 4,
+      "card_id": "card:full:0002",
+      "title": "危废暂存间分类分区贮存管理不到位执行卡"
+    },
+    {
+      "order": 5,
+      "card_id": "card:full:0012",
+      "title": "危废暂存场所防渗、防漏及泄漏收集措施不完善执行卡"
+    }
+  ],
+  "do_not_show": [
+    {
+      "card_id": "card:full:0010",
+      "title": "危废分类分区贮存管理核查执行卡",
+      "merge_with": "card:full:0002"
+    },
+    {
+      "card_id": "card:full:0014",
+      "title": "危废贮存设施和分区识别标志核查执行卡",
+      "merge_with": "card:full:0004"
+    },
+    {
+      "card_id": "card:full:0017",
+      "title": "不相容危废隔离贮存候补执行卡",
+      "merge_with": "card:full:0006"
+    },
+    {
+      "card_id": "card:full:0018",
+      "title": "危废产生端“五即”即称重候补执行卡",
+      "merge_with": "card:full:0007"
+    },
+    {
+      "card_id": "card:full:0019",
+      "title": "危废入库打码与贮存记录对应关系候补执行卡",
+      "merge_with": "card:full:0008"
+    },
+    {
+      "card_id": "card:full:0020",
+      "title": "危废电子标签二维码与电子转移联单一致性候补执行卡",
+      "merge_with": "card:full:0009"
+    }
+  ]
+}

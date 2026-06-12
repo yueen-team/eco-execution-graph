@@ -22,6 +22,172 @@ FULL_INTERNAL = EXPORTS_DIR / "full_internal_product_v1"
 FULL_SHARED = EXPORTS_DIR / "shared_product_v1"
 
 
+ETO_REVIEW_OVERRIDES: dict[str, dict[str, Any]] = {
+    "card:full:0001": {
+        "title": "危险废物管理台账记录不完整执行卡",
+        "eto_review_conclusion": "修改后通过",
+        "eto_display_group": "主任演示卡",
+        "eto_display_priority": "高",
+        "director_demo_order": 3,
+        "external_expression": "企业危险废物管理台账记录不够完整,建议核查产生、入库、出库、月度汇总、平台申报和转移联单回填是否一致。",
+    },
+    "card:full:0002": {
+        "title": "危废暂存间分类分区贮存管理不到位执行卡",
+        "eto_review_conclusion": "修改后通过",
+        "eto_display_group": "内部继续打磨卡",
+        "eto_display_priority": "中高",
+        "director_demo_backup_order": 4,
+        "external_expression": "危废暂存间分类分区管理有待完善,建议核查不同类别危废的分区、隔离、标识和台账对应关系。",
+    },
+    "card:full:0003": {
+        "title": "危废包装容器标签信息不完整或与实物、台账不一致执行卡",
+        "eto_review_conclusion": "修改后通过",
+        "eto_display_group": "主任演示卡",
+        "eto_display_priority": "高",
+        "director_demo_order": 1,
+        "external_expression": "危废包装容器标签信息不完整或与实物、台账不一致,建议核查标签、实物、台账和平台记录之间的对应关系。",
+    },
+    "card:full:0004": {
+        "title": "危废贮存场所识别标志设置不完善执行卡",
+        "eto_review_conclusion": "修改后通过",
+        "eto_display_group": "内部继续打磨卡",
+        "eto_display_priority": "中",
+        "external_expression": "危废贮存场所识别标志设置有待完善,建议核查入口标志、分区标志和包装容器标签是否清晰一致。",
+    },
+    "card:full:0005": {
+        "title": "危废出入库记录、电子标签二维码与转移联单不一致执行卡",
+        "eto_review_conclusion": "修改后通过",
+        "eto_display_group": "主任演示卡",
+        "eto_display_priority": "高",
+        "director_demo_order": 4,
+        "external_expression": "危废出入库记录、电子标签二维码与转移联单信息存在不一致风险,建议核查平台、台账、实物和联单闭环。",
+    },
+    "card:full:0006": {
+        "title": "不相容危废隔离贮存措施不足执行卡",
+        "eto_review_conclusion": "修改后通过",
+        "eto_display_group": "内部继续打磨卡",
+        "eto_display_priority": "中",
+        "external_expression": "不相容危废隔离贮存措施可能不足,建议结合危废类别、危险特性和现场隔离方式进一步核查。",
+    },
+    "card:full:0007": {
+        "title": "危废产生端“五即”即称重落实情况核查执行卡",
+        "eto_review_conclusion": "修改后通过",
+        "eto_display_group": "内部继续打磨卡",
+        "eto_display_priority": "中高",
+        "external_expression": "危废产生端“五即”即称重落实情况需进一步核查,建议结合地方平台要求、企业适用范围和称重记录审慎判断。",
+    },
+    "card:full:0008": {
+        "title": "危废“五即”入库打码与贮存记录对应关系核查执行卡",
+        "eto_review_conclusion": "修改后通过",
+        "eto_display_group": "内部继续打磨卡",
+        "eto_display_priority": "中高",
+        "external_expression": "危废入库打码、电子标签二维码和贮存记录之间的对应关系需进一步核查,不表述为企业自建扫码系统要求。",
+    },
+    "card:full:0009": {
+        "title": "危废出库转移“一码贯通”一致性核查执行卡",
+        "eto_review_conclusion": "修改后通过",
+        "eto_display_group": "内部继续打磨卡",
+        "eto_display_priority": "中高",
+        "external_expression": "危废出库转移“一码贯通”一致性需进一步核查,建议比对电子标签二维码、出库记录、电子转移联单和接收确认信息。",
+    },
+    "card:full:0010": {
+        "title": "危废分类分区贮存管理核查执行卡",
+        "eto_review_conclusion": "暂不展示",
+        "eto_display_group": "暂不展示卡",
+        "eto_display_priority": "低",
+        "merge_with": "card:full:0002",
+        "external_expression": "本卡建议合并到第 2 张,不单独展示。",
+    },
+    "card:full:0011": {
+        "title": "危废包装容器“一物一码”与平台记录核查执行卡",
+        "eto_review_conclusion": "修改后通过",
+        "eto_display_group": "主任演示卡",
+        "eto_display_priority": "高",
+        "director_demo_order": 2,
+        "external_expression": "危废包装容器“一物一码”与平台记录需保持一致,建议核查电子标签二维码、数字识别码、电子台账和平台记录。",
+    },
+    "card:full:0012": {
+        "title": "危废暂存场所防渗、防漏及泄漏收集措施不完善执行卡",
+        "eto_review_conclusion": "修改后通过",
+        "eto_display_group": "主任演示卡",
+        "eto_display_priority": "高",
+        "director_demo_order": 5,
+        "external_expression": "危废暂存场所防渗、防漏或泄漏收集措施存在管理风险,建议结合贮存危废形态和数量进一步完善。",
+    },
+    "card:full:0013": {
+        "title": "危废暂存场所应急物资配备及培训演练记录不完善执行卡",
+        "eto_review_conclusion": "修改后通过",
+        "eto_display_group": "内部继续打磨卡",
+        "eto_display_priority": "中",
+        "external_expression": "危废暂存场所应急物资和培训演练记录有待完善,建议按环境应急管理要求补充配置并留存记录。",
+    },
+    "card:full:0014": {
+        "title": "危废贮存设施和分区识别标志核查执行卡",
+        "eto_review_conclusion": "暂不展示",
+        "eto_display_group": "暂不展示卡",
+        "eto_display_priority": "低",
+        "merge_with": "card:full:0004",
+        "external_expression": "本卡建议合并到第 4 张,不单独展示。",
+    },
+    "card:full:0015": {
+        "title": "印刷清洗废液、废擦拭布及废包装物收集去向核查执行卡",
+        "eto_review_conclusion": "修改后通过",
+        "eto_display_group": "内部继续打磨卡",
+        "eto_display_priority": "中",
+        "external_expression": "相关废液、废擦拭布及废包装物的属性和收集去向需结合原辅材料、工艺和管理要求进一步核查。",
+    },
+    "card:full:0016": {
+        "title": "污水处理站污泥属性及去向核查执行卡",
+        "eto_review_conclusion": "修改后通过",
+        "eto_display_group": "内部继续打磨卡",
+        "eto_display_priority": "中",
+        "external_expression": "污水处理站污泥属性、贮存方式和去向资料需进一步核查,建议结合产生来源、检测或鉴别资料、环评及管理要求确定管理类别。",
+    },
+    "card:full:0017": {
+        "title": "不相容危废隔离贮存候补执行卡",
+        "eto_review_conclusion": "暂不展示",
+        "eto_display_group": "暂不展示卡",
+        "eto_display_priority": "低",
+        "merge_with": "card:full:0006",
+        "external_expression": "本卡建议合并到第 6 张,不单独展示。",
+    },
+    "card:full:0018": {
+        "title": "危废产生端“五即”即称重候补执行卡",
+        "eto_review_conclusion": "暂不展示",
+        "eto_display_group": "暂不展示卡",
+        "eto_display_priority": "低",
+        "merge_with": "card:full:0007",
+        "external_expression": "本卡建议合并到第 7 张,不单独展示。",
+    },
+    "card:full:0019": {
+        "title": "危废入库打码与贮存记录对应关系候补执行卡",
+        "eto_review_conclusion": "暂不展示",
+        "eto_display_group": "暂不展示卡",
+        "eto_display_priority": "低",
+        "merge_with": "card:full:0008",
+        "external_expression": "本卡建议合并到第 8 张,不单独展示。",
+    },
+    "card:full:0020": {
+        "title": "危废电子标签二维码与电子转移联单一致性候补执行卡",
+        "eto_review_conclusion": "暂不展示",
+        "eto_display_group": "暂不展示卡",
+        "eto_display_priority": "低",
+        "merge_with": "card:full:0009",
+        "external_expression": "本卡建议合并到第 9 张或第 5 张,不单独展示。",
+    },
+}
+
+ETO_SHARED_CARD_FIELDS = (
+    "eto_review_conclusion",
+    "eto_display_group",
+    "eto_display_priority",
+    "director_demo_order",
+    "director_demo_backup_order",
+    "merge_with",
+    "external_expression",
+)
+
+
 def rel(path: Path, base: Path = ROOT) -> str:
     try:
         return str(path.relative_to(base)).replace("\\", "/")
@@ -530,6 +696,8 @@ def generate_cards() -> dict[str, Any]:
             "show_or_not_for_director_demo": level,
             "review_status": node.get("review_status", "APPROVED_BASELINE"),
         }
+        if card["card_id"] in ETO_REVIEW_OVERRIDES:
+            card.update(ETO_REVIEW_OVERRIDES[card["card_id"]])
         cards.append(card)
     shared_cards = []
     for card in cards:
@@ -556,6 +724,9 @@ def generate_cards() -> dict[str, Any]:
             "show_or_not_for_director_demo": card["show_or_not_for_director_demo"],
             "review_status": card["review_status"],
         }
+        for field in ETO_SHARED_CARD_FIELDS:
+            if field in card:
+                shared[field] = card[field]
         shared["internal_capability_placeholders"] = [
             {"kind": "evidence_standard_count", "count": 1, "summary": "证据判断能力已建立,不进入共有包。"},
             {"kind": "rectification_standard_count", "count": 1, "summary": "整改模板能力已建立,不进入共有包。"},
@@ -564,11 +735,82 @@ def generate_cards() -> dict[str, Any]:
     write_json(ROOT / "data/candidates/cards/full_internal_cards.json", cards)
     write_json(ROOT / "data/candidates/cards/full_shared_cards.json", shared_cards)
     counts = Counter(card["show_or_not_for_director_demo"] for card in cards)
-    report = {"status": "pass" if len(cards) >= 50 else "conditional", "total_cards": len(cards), "showcase_cards": counts.get("showcase", 0), "ready_cards": counts.get("ready", 0), "candidate_cards": counts.get("candidate", 0), "hazardous_showcase_cards": sum(1 for c in cards if c["show_or_not_for_director_demo"] == "showcase" and "危废" in c["title"])}
+    eto_counts = Counter(card.get("eto_display_group", "未进入审核") for card in cards)
+    director_cards = sorted(
+        [card for card in cards if card.get("director_demo_order")],
+        key=lambda card: card["director_demo_order"],
+    )
+    report = {
+        "status": "pass" if len(cards) >= 50 else "conditional",
+        "total_cards": len(cards),
+        "showcase_cards": counts.get("showcase", 0),
+        "ready_cards": counts.get("ready", 0),
+        "candidate_cards": counts.get("candidate", 0),
+        "hazardous_showcase_cards": sum(1 for c in cards if c["show_or_not_for_director_demo"] == "showcase" and "危废" in c["title"]),
+        "eto_reviewed_cards": len(ETO_REVIEW_OVERRIDES),
+        "director_demo_cards": len(director_cards),
+        "internal_refine_cards": eto_counts.get("内部继续打磨卡", 0),
+        "do_not_show_cards": eto_counts.get("暂不展示卡", 0),
+    }
     write_json(REPORTS_DIR / "execution-card-index.json", report)
     write_text(REPORTS_DIR / "execution-card-index.md", "\n".join(["# Execution Card Index", "", *(f"- {k}: {v}" for k, v in report.items())]))
-    write_json(REPORTS_DIR / "showcase-card-pack.json", [card for card in cards if card["show_or_not_for_director_demo"] == "showcase"])
-    write_text(REPORTS_DIR / "showcase-card-pack.md", "\n".join(["# Showcase Card Pack", "", *[f"- {card['card_id']}: {card['title']}" for card in cards if card["show_or_not_for_director_demo"] == "showcase"]]))
+    showcase_cards = [card for card in cards if card["show_or_not_for_director_demo"] == "showcase"]
+    write_json(REPORTS_DIR / "showcase-card-pack.json", showcase_cards)
+    showcase_lines = [
+        "# Showcase Card Pack",
+        "",
+        "本文件保留 20 张演示审核卡。主任首轮演示只使用 `director_demo_order` 有序号的 5 张;暂不展示卡保留合并意见,不进入首轮演示。",
+        "",
+        "| 卡片 | 审核后名称 | 审核分组 | 演示序号 | 合并建议 |",
+        "|---|---|---|---:|---|",
+    ]
+    for card in showcase_cards:
+        showcase_lines.append(
+            f"| {card['card_id']} | {card['title']} | {card.get('eto_display_group', '')} | {card.get('director_demo_order', '')} | {card.get('merge_with', '')} |"
+        )
+    write_text(REPORTS_DIR / "showcase-card-pack.md", "\n".join(showcase_lines))
+    sequence = {
+        "status": "pass" if len(director_cards) == 5 else "conditional",
+        "source": "reports/eto-showcase-card-review.md",
+        "logic": "现场标签 -> 一物一码 -> 台账记录 -> 转移闭环 -> 暂存实体风险",
+        "cards": [
+            {
+                "order": card["director_demo_order"],
+                "card_id": card["card_id"],
+                "title": card["title"],
+                "external_expression": card.get("external_expression", ""),
+            }
+            for card in director_cards
+        ],
+        "backup_combo": [
+            {"order": 1, "card_id": "card:full:0003", "title": ETO_REVIEW_OVERRIDES["card:full:0003"]["title"]},
+            {"order": 2, "card_id": "card:full:0001", "title": ETO_REVIEW_OVERRIDES["card:full:0001"]["title"]},
+            {"order": 3, "card_id": "card:full:0005", "title": ETO_REVIEW_OVERRIDES["card:full:0005"]["title"]},
+            {"order": 4, "card_id": "card:full:0002", "title": ETO_REVIEW_OVERRIDES["card:full:0002"]["title"]},
+            {"order": 5, "card_id": "card:full:0012", "title": ETO_REVIEW_OVERRIDES["card:full:0012"]["title"]},
+        ],
+        "do_not_show": [
+            {"card_id": card["card_id"], "title": card["title"], "merge_with": card.get("merge_with", "")}
+            for card in showcase_cards
+            if card.get("eto_display_group") == "暂不展示卡"
+        ],
+    }
+    write_json(REPORTS_DIR / "director-demo-card-sequence.json", sequence)
+    sequence_lines = [
+        "# 主任演示执行卡顺序",
+        "",
+        f"- status: `{sequence['status']}`",
+        f"- source: `{sequence['source']}`",
+        f"- logic: {sequence['logic']}",
+        "",
+        "## 首选 5 张",
+    ]
+    sequence_lines += [f"{item['order']}. {item['title']} (`{item['card_id']}`)" for item in sequence["cards"]]
+    sequence_lines += ["", "## 备用组合"]
+    sequence_lines += [f"{item['order']}. {item['title']} (`{item['card_id']}`)" for item in sequence["backup_combo"]]
+    sequence_lines += ["", "## 暂不展示"]
+    sequence_lines += [f"- {item['title']} (`{item['card_id']}`) -> 合并到 {item['merge_with']}" for item in sequence["do_not_show"]]
+    write_text(REPORTS_DIR / "director-demo-card-sequence.md", "\n".join(sequence_lines))
     return report
 
 
@@ -774,7 +1016,7 @@ def lineage_contract() -> dict[str, Any]:
 
 def demo_pack() -> dict[str, Any]:
     files = {
-        "zhang-director-product-demo-script.md": "# 张主任演示脚本\n\n你们有法条,我们补现场；你们有法规知识库,我们补行业场景；你们有执法工具,我们补企业真实问题；你们有案例,我们补日常蒸馏；这套图谱不是资料库,而是法条落地到现场的执行层。\n\n1. 只有法条。\n2. 法条落到行业/场景/问题。\n3. 现场问题连接证据类别。\n4. shared/internal 切换,看得见带不走。\n5. 缺口报告展示覆盖盲区。\n\n暂不演示:full 版云南踩雷地图和月报对比,等待真实聚合数据与 ETO 盲评。",
+        "zhang-director-product-demo-script.md": "# 张主任演示脚本\n\n你们有法条,我们补现场；你们有法规知识库,我们补行业场景；你们有执法工具,我们补企业真实问题；这套图谱不是资料库,而是法条落地到现场的执行层。\n\n## 审核后首轮 5 张执行卡\n\n1. 危废包装容器标签信息不完整或与实物、台账不一致。\n2. 危废包装容器“一物一码”与平台记录核查。\n3. 危险废物管理台账记录不完整。\n4. 危废出入库记录、电子标签二维码与转移联单不一致。\n5. 危废暂存场所防渗、防漏及泄漏收集措施不完善。\n\n这 5 张的叙事顺序是:现场标签 -> 一物一码 -> 台账记录 -> 转移闭环 -> 暂存实体风险。\n\n## 演示边界\n\n- 不说“已认定违法”,统一说“建议核查、建议完善、存在管理风险”。\n- 第 10、14、17、18、19、20 张合并到前序卡,不单独展示。\n- 第 15、16 张放到第二轮专题,本轮不混讲。\n- 暂不演示 full 版云南踩雷地图和月报对比,等待真实聚合数据与 ETO 盲评。",
         "zhang-director-product-demo-checklist.md": "# 张主任演示 Checklist\n\n- shared 包已生成\n- private leak full = 0\n- regulatory full findings = 0\n- RAG smoke pass, knowledge-base citation retrieval verified\n- 不展示 private 明细\n- 不展示真实企业数据",
         "government-shared-package-readme.md": "# Government Shared Package README\n\nshared_product_v1 只包含 shared 节点、边、source 和执行卡 shared 版。不含企业实例、私有证据标准、整改模板、报告表达明细或 raw RAG response。",
         "product-positioning-one-page.md": "# 产品定位一页纸\n\n内部:环保语义操作系统。\n政府侧:生态环境法典行业现场执行图谱。\n企业侧:环保管家智能底座。",
@@ -783,9 +1025,21 @@ def demo_pack() -> dict[str, Any]:
     }
     for name, text in files.items():
         write_text(REPORTS_DIR / name, text)
-    readiness = {"safe_to_show": ["shared_product_v1", "showcase-card-pack", "gap-report-full"], "not_safe_to_show_yet": ["yunnan-pitfall-map-full", "monthly-report-comparison-full"], "must_not_show": ["private runtime details", "raw RAG response", "real enterprise data"], "recommended_demo_order": ["法条", "场景", "问题", "shared/internal", "缺口报告"]}
+    readiness = {
+        "safe_to_show": ["shared_product_v1", "showcase-card-pack", "director-demo-card-sequence", "gap-report-full"],
+        "not_safe_to_show_yet": ["yunnan-pitfall-map-full", "monthly-report-comparison-full"],
+        "must_not_show": ["private runtime details", "raw RAG response", "real enterprise data"],
+        "recommended_demo_order": [
+            "危废包装容器标签信息不完整或与实物、台账不一致",
+            "危废包装容器“一物一码”与平台记录核查",
+            "危险废物管理台账记录不完整",
+            "危废出入库记录、电子标签二维码与转移联单不一致",
+            "危废暂存场所防渗、防漏及泄漏收集措施不完善",
+            "缺口报告展示覆盖盲区",
+        ],
+    }
     write_json(REPORTS_DIR / "zhang-director-readiness.json", readiness)
-    write_text(REPORTS_DIR / "zhang-director-readiness.md", "# Zhang Director Readiness\n\n- safe_to_show: shared_product_v1, showcase-card-pack, gap-report-full\n- not_safe_to_show_yet: yunnan-pitfall-map-full, monthly-report-comparison-full\n- must_not_show: private runtime and raw data")
+    write_text(REPORTS_DIR / "zhang-director-readiness.md", "# Zhang Director Readiness\n\n- safe_to_show: shared_product_v1, showcase-card-pack, director-demo-card-sequence, gap-report-full\n- recommended_demo_order: 标签 -> 一物一码 -> 台账 -> 转移闭环 -> 暂存实体风险 -> 缺口报告\n- not_safe_to_show_yet: yunnan-pitfall-map-full, monthly-report-comparison-full\n- must_not_show: private runtime and raw data")
     return readiness
 
 
@@ -840,14 +1094,21 @@ def final_delivery_p2p3() -> dict[str, Any]:
     final = {
         "zhang_director_ready": ready,
         "reason": "full package generated; director demo has honest blocked items" if ready == "conditional" else ("full package generated; RAG citation retrieval verified" if ready == "yes" else "blocked by guardrail violation"),
-        "safe_to_show": ["shared_product_v1", "upstream utilization report", "gap report full"],
+        "safe_to_show": ["shared_product_v1", "upstream utilization report", "director demo card sequence", "gap report full"],
         "not_safe_to_show_yet": ["pitfall map full", "monthly comparison full"],
         "must_not_show": ["private runtime details", "raw RAG response", "real enterprise data", "keys", "local cache"],
         "blockers": blockers,
         "degraded": degraded,
         "not_done": ["government lineage real import", "real EcoCheck aggregate pitfall map", "ETO blind review for monthly comparison", "per-citation locator mapping hardening"],
         "next_steps": next_steps,
-        "recommended_demo_order": ["只有法条", "法条落到行业/场景/问题", "证据类别", "shared/internal", "缺口报告"],
+        "recommended_demo_order": [
+            "危废包装容器标签信息不完整或与实物、台账不一致",
+            "危废包装容器“一物一码”与平台记录核查",
+            "危险废物管理台账记录不完整",
+            "危废出入库记录、电子标签二维码与转移联单不一致",
+            "危废暂存场所防渗、防漏及泄漏收集措施不完善",
+            "缺口报告展示覆盖盲区",
+        ],
         "rag_real_smoke": rag.get("rag_real_smoke"),
         "upstream_real_import": utilization.get("status"),
         "private_leak_violations": len(leak["violations"]),

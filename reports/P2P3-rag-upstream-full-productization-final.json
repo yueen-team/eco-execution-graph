@@ -4,6 +4,7 @@
   "safe_to_show": [
     "shared_product_v1",
     "upstream utilization report",
+    "director demo card sequence",
     "gap report full"
   ],
   "not_safe_to_show_yet": [
@@ -33,11 +34,12 @@
     "import government lineage exchange file when provided"
   ],
   "recommended_demo_order": [
-    "只有法条",
-    "法条落到行业/场景/问题",
-    "证据类别",
-    "shared/internal",
-    "缺口报告"
+    "危废包装容器标签信息不完整或与实物、台账不一致",
+    "危废包装容器“一物一码”与平台记录核查",
+    "危险废物管理台账记录不完整",
+    "危废出入库记录、电子标签二维码与转移联单不一致",
+    "危废暂存场所防渗、防漏及泄漏收集措施不完善",
+    "缺口报告展示覆盖盲区"
   ],
   "rag_real_smoke": "pass",
   "upstream_real_import": "pass",
@@ -59,7 +61,11 @@
     "showcase_cards": 20,
     "ready_cards": 70,
     "candidate_cards": 0,
-    "hazardous_showcase_cards": 19
+    "hazardous_showcase_cards": 17,
+    "eto_reviewed_cards": 20,
+    "director_demo_cards": 5,
+    "internal_refine_cards": 9,
+    "do_not_show_cards": 6
   },
   "gap_report": {
     "status": "pass",

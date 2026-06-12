@@ -101,6 +101,13 @@ class P2P3FullProductTest(unittest.TestCase):
             "legal_basis_status",
             "show_or_not_for_director_demo",
             "review_status",
+            "eto_review_conclusion",
+            "eto_display_group",
+            "eto_display_priority",
+            "director_demo_order",
+            "director_demo_backup_order",
+            "merge_with",
+            "external_expression",
             "internal_capability_placeholders",
         }
 
@@ -108,6 +115,21 @@ class P2P3FullProductTest(unittest.TestCase):
         for card in cards:
             self.assertLessEqual(set(card), allowed)
             self.assertEqual(card["render_views"], {"internal_full": False, "shared_export": True})
+
+    def test_eto_review_backfills_director_demo_sequence(self):
+        sequence = read_json("reports/director-demo-card-sequence.json")
+        showcase = read_json("reports/showcase-card-pack.json")
+
+        self.assertEqual(sequence["status"], "pass")
+        self.assertEqual([item["card_id"] for item in sequence["cards"]], [
+            "card:full:0003",
+            "card:full:0011",
+            "card:full:0001",
+            "card:full:0005",
+            "card:full:0012",
+        ])
+        self.assertEqual(len([card for card in showcase if card.get("eto_display_group") == "主任演示卡"]), 5)
+        self.assertEqual(len([card for card in showcase if card.get("eto_display_group") == "暂不展示卡"]), 6)
 
     def test_render_manifest_records_real_screenshots(self):
         manifest = read_json("reports/render-proof-p2p3/manifest.json")

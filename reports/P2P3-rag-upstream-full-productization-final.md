@@ -12,6 +12,7 @@
 ## Safe To Show
 - shared_product_v1
 - upstream utilization report
+- director demo card sequence
 - gap report full
 
 ## Not Safe To Show Yet
