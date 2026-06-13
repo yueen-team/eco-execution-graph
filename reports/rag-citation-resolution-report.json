@@ -2,7 +2,7 @@
   "rag_real_smoke": "pass",
   "embedding_probe": {
     "status": "failed",
-    "message": "<urlopen error _ssl.c:993: The handshake operation timed out>"
+    "message": "ResourceUnavailable.ResourcePackageRunOut: [20031] not enough quota"
   },
   "tokenhub_probe": {
     "status": "pass",
