@@ -1,0 +1,17 @@
+.git/
+.gitnexus/
+node_modules/
+graph-api/node_modules/
+graph-ui/node_modules/
+.env
+.env.local
+*.log
+reports/
+data/private-staging/
+data/exports/full_internal*/
+data/exports/demo_package*/
+graph-ui/dist-cloudbase-static-readonly/
+.playwright-cli/
+__pycache__/
+*.pyc
+.venv/

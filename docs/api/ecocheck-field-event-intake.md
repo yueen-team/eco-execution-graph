@@ -134,7 +134,7 @@ graph 必须生成一条中文审核记录:
 - `graph-ui/` 继续部署到 CloudBase 静态托管。
 - `graph-api/` 部署到 CloudBase 云托管,必须设置 `ECO_GRAPH_API_TOKEN`、`ECO_GRAPH_ENV=production` 或 `ECO_GRAPH_DEPLOY_TARGET=cloudbase`。
 - `graph-ui` 调用有锁后端时必须通过 CloudBase 网关或同源代理传递内部鉴权,不得把长期服务密钥硬编码进静态前端。
-- 第一版文件化 `data/private-staging/` 只允许本地或单实例试运行。CloudBase 云托管正式部署前必须迁移到 CloudBase 云数据库、CFS 或其他持久化存储,否则容器重启或扩缩会丢失审核记录。
+- 第一版文件化 `data/private-staging/` 只允许本地或单实例试运行。CloudBase 云托管建议设置 `ECO_GRAPH_STORAGE_DRIVER=mysql`,由 `graph-api` 启动脚本自动建表、补齐缺失列和索引,避免容器重启或扩缩导致审核记录丢失。
 - CloudBase 只读 shared 静态包不装载审核数据。
 
 ## 请求大小

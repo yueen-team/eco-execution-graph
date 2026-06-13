@@ -1,0 +1,24 @@
+{
+  "errors": [],
+  "defaultResult": {
+    "url": "http://127.0.0.1:4186/eco-execution-graph/landing.html",
+    "title": "环保现场执行图谱 · 法条 × 规范 × 现场经验",
+    "h1": "把法条、规范与现场排查经验\n织成一张会生长的执行图谱",
+    "hasDirectorCta": 3,
+    "bodyLength": 2200
+  },
+  "directorResult": {
+    "url": "http://127.0.0.1:4186/eco-execution-graph/app.html?director=1",
+    "title": "环保现场执行图谱 · 指挥舱",
+    "hasGraphCanvas": 1,
+    "hasDemoBar": 1,
+    "bodyLength": 3823
+  },
+  "loginResult": {
+    "url": "http://127.0.0.1:4186/eco-execution-graph/login.html",
+    "title": "内部登录 · 环保现场执行图谱",
+    "hasWecomLogin": 1,
+    "hasTokenLogin": 1,
+    "bodyLength": 249
+  }
+}

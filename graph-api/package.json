@@ -5,7 +5,12 @@
   "type": "module",
   "scripts": {
     "start": "node src/server.js",
+    "db:init": "node scripts/db-init.js",
+    "db:admin": "node scripts/db-admin.js",
     "test": "node --test tests/*.test.js",
-    "check": "node --check src/server.js && node --check src/review-store.js && node --check src/storage.js"
+    "check": "node --check src/server.js && node --check src/review-store.js && node --check src/storage.js && node --check src/mysql-storage.js && node --check scripts/db-init.js && node --check scripts/db-admin.js"
+  },
+  "dependencies": {
+    "mysql2": "3.22.5"
   }
 }

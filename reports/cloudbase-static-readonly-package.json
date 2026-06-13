@@ -17,23 +17,27 @@
     "demo-data/cards.json",
     "demo-data/deploy-policy.json"
   ],
-  "file_count": 11,
+  "file_count": 20,
   "findings": [],
   "code_warnings": [
     {
-      "file": "graph-ui/dist-cloudbase-static-readonly/index.html",
+      "file": "graph-ui/dist-cloudbase-static-readonly/app.html",
       "reason": "code bundle still contains internal vocabulary labels; data package is checked separately"
     },
     {
-      "file": "graph-ui/dist-cloudbase-static-readonly/assets/index-DgTV21cP.js",
+      "file": "graph-ui/dist-cloudbase-static-readonly/assets/app-CAUcMjnk.js",
+      "reason": "code bundle still contains internal vocabulary labels; data package is checked separately"
+    },
+    {
+      "file": "graph-ui/dist-cloudbase-static-readonly/assets/cytoscape.esm-Rr0APn4h.js",
       "reason": "code bundle still contains internal vocabulary labels; data package is checked separately"
     }
   ],
   "hashes": [
     {
       "path": "index.html",
-      "sha256": "60a79ddfc6014e16950bb783de85f314a50716c6eb4a01a448ccdaa0af33e815",
-      "bytes": 8382
+      "sha256": "4e8b7e8bd4ffd5435fe1c2413369025c90ed718714d069f3fa2140d3463ee160",
+      "bytes": 1328
     },
     {
       "path": "demo-data/full-graph.json",
@@ -51,5 +55,5 @@
       "bytes": 193
     }
   ],
-  "generated_at": "2026-06-12T06:40:56"
+  "generated_at": "2026-06-13T15:35:45"
 }

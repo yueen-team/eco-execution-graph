@@ -3,6 +3,16 @@ import "./login.css";
 const notice = document.getElementById("loginNotice");
 const wecomButton = document.getElementById("wecomLogin");
 const wecomHint = document.getElementById("wecomHint");
+const APP_BASE = import.meta.env.BASE_URL || "/";
+const GRAPH_API_BASE = (import.meta.env.VITE_GRAPH_API_BASE || "https://www.yueen.cc/container-eco-execution-graph").replace(/\/$/, "");
+
+function appPath(path = "") {
+  return `${APP_BASE.replace(/\/$/, "")}/${path.replace(/^\//, "")}`;
+}
+
+function apiPath(path) {
+  return `${GRAPH_API_BASE}/${path.replace(/^\//, "")}`;
+}
 
 function setNotice(text, ok = false) {
   notice.textContent = text;
@@ -19,10 +29,10 @@ async function fetchJson(path, options) {
 
 async function boot() {
   // 已有企业微信会话 → 直接进入内部工作区
-  const session = await fetchJson("/auth/session").catch(() => null);
+  const session = await fetchJson(apiPath("/auth/session")).catch(() => null);
   if (session?.ok) {
     setNotice(`已登录:${session.data?.userid || ""},正在进入…`, true);
-    window.location.replace("/?workspace=review");
+    window.location.replace(appPath("app.html?workspace=review"));
     return;
   }
   if (session && session.data?.wecom_configured === false) {
@@ -32,7 +42,7 @@ async function boot() {
 }
 
 wecomButton.addEventListener("click", () => {
-  window.location.href = "/auth/wecom/start";
+  window.location.href = apiPath("/auth/wecom/start");
 });
 
 document.getElementById("tokenLogin").addEventListener("click", async () => {
@@ -41,13 +51,13 @@ document.getElementById("tokenLogin").addEventListener("click", async () => {
     setNotice("请先粘贴内部访问令牌。");
     return;
   }
-  const check = await fetchJson("/api/review/field-events", {
+  const check = await fetchJson(apiPath("/api/review/field-events"), {
     headers: { Authorization: `Bearer ${token}` },
   }).catch(() => null);
   if (check?.ok) {
     sessionStorage.setItem("ecoGraphReviewToken", token);
     setNotice("令牌有效,正在进入审核台…", true);
-    window.location.href = "/?workspace=review";
+    window.location.href = appPath("app.html?workspace=review");
   } else {
     setNotice(check?.data?.reason || "令牌无效或审核服务不可达,请确认 graph-api 正在运行。");
   }

@@ -4,7 +4,7 @@ import { URL } from "node:url";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { applyReviewDecision, buildPitfallBatch, normalizeFieldEvent } from "./review-store.js";
-import { readJsonl, upsertByReviewId, writeJsonl } from "./storage.js";
+import { createReviewStorage } from "./storage.js";
 import {
   wecomConfigFromEnv, isWecomConfigured, buildWecomLoginUrl, exchangeWecomCode,
   isUserAllowed, issueSession, verifySession, parseCookies, sessionCookie,
@@ -86,10 +86,17 @@ function createHandler({
   stagingPath = STAGING_PATH,
   apiToken = API_TOKEN,
   maxBodyBytes = DEFAULT_MAX_BODY_BYTES,
+  storage,
+  storageOptions,
   wecom = wecomConfigFromEnv(),
   exchangeCode = exchangeWecomCode,
 } = {}) {
   validateRuntimeConfig({ apiToken });
+  let storagePromise = storage ? Promise.resolve(storage) : null;
+  function getStorage() {
+    if (!storagePromise) storagePromise = createReviewStorage({ stagingPath, ...storageOptions });
+    return storagePromise;
+  }
   return async function handler(req, res) {
   const url = new URL(req.url, `http://${req.headers.host || "localhost"}`);
   try {
@@ -145,19 +152,22 @@ function createHandler({
     if (req.method === "POST" && url.pathname === "/api/ecocheck/field-events") {
       const payload = await readBody(req, maxBodyBytes);
       const item = normalizeFieldEvent(payload);
-      await upsertByReviewId(stagingPath, item);
+      const store = await getStorage();
+      await store.upsert(item);
       send(res, 201, { status: "pass", item });
       return;
     }
     if (req.method === "GET" && url.pathname === "/api/review/field-events") {
-      const rows = await readJsonl(stagingPath);
+      const store = await getStorage();
+      const rows = await store.readAll();
       const status = url.searchParams.get("status");
       send(res, 200, { status: "pass", items: status ? rows.filter((row) => row["当前审核状态"] === status) : rows });
       return;
     }
     const detail = url.pathname.match(/^\/api\/review\/field-events\/([^/]+)$/);
     if (detail && req.method === "GET") {
-      const rows = await readJsonl(stagingPath);
+      const store = await getStorage();
+      const rows = await store.readAll();
       const item = rows.find((row) => row["审核编号"] === decodeURIComponent(detail[1]));
       if (!item) send(res, 404, { status: "fail", reason: "未找到审核记录" });
       else send(res, 200, { status: "pass", item });
@@ -165,20 +175,22 @@ function createHandler({
     }
     const decision = url.pathname.match(/^\/api\/review\/field-events\/([^/]+)\/decision$/);
     if (decision && req.method === "POST") {
-      const rows = await readJsonl(stagingPath);
+      const store = await getStorage();
+      const rows = await store.readAll();
       const index = rows.findIndex((row) => row["审核编号"] === decodeURIComponent(decision[1]));
       if (index < 0) {
         send(res, 404, { status: "fail", reason: "未找到审核记录" });
         return;
       }
       rows[index] = applyReviewDecision(rows[index], await readBody(req, maxBodyBytes));
-      await writeJsonl(stagingPath, rows);
+      await store.upsert(rows[index]);
       send(res, 200, { status: "pass", item: rows[index] });
       return;
     }
     if (req.method === "POST" && url.pathname === "/api/aggregate/pitfall-batches") {
       const body = await readBody(req, maxBodyBytes);
-      const rows = await readJsonl(stagingPath);
+      const store = await getStorage();
+      const rows = await store.readAll();
       send(res, 200, buildPitfallBatch(rows, body["批次编号"] || body.batch_id));
       return;
     }

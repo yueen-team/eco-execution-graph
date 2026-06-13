@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="dark" />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230d9468'/%3E%3Crect x='9' y='9' width='14' height='14' rx='3' fill='none' stroke='%23060f0b' stroke-width='3' transform='rotate(45 16 16)'/%3E%3C/svg%3E" />
+    <title>环保现场执行图谱 · 指挥舱</title>
+  </head>
+  <body>
+    <div id="app" class="shell">
+      <header class="topbar">
+        <div class="brand">
+          <span class="brand-mark" aria-hidden="true"></span>
+          <div>
+            <h1>环保现场执行图谱</h1>
+            <p class="brand-sub">法条 × 技术规范 × 现场排查经验 · 云南危废切片</p>
+          </div>
+        </div>
+
+        <div class="metric-strip" aria-label="图谱实时统计">
+          <div class="metric"><strong id="nodeCount" data-counter>0</strong><span>节点</span></div>
+          <div class="metric"><strong id="edgeCount" data-counter>0</strong><span>关联边</span></div>
+          <div class="metric"><strong id="cardCount" data-counter>0</strong><span>执行卡</span></div>
+          <div class="metric metric-eco"><strong id="sharedCount" data-counter>0</strong><span>可共有节点</span></div>
+        </div>
+
+        <div class="topbar-actions">
+          <div class="seg" role="group" aria-label="授权视图">
+            <button class="seg-btn is-active" data-view="internal" title="内部全量视图">
+              <i data-lucide="lock-keyhole-open"></i><span>内部</span>
+            </button>
+            <button class="seg-btn" data-view="shared" title="共有视图:看得见带不走">
+              <i data-lucide="shield-check"></i><span>共有</span>
+            </button>
+          </div>
+          <button id="directorButton" class="btn-primary">
+            <i data-lucide="presentation"></i><span>主任演示</span>
+          </button>
+          <button id="reviewButton" class="btn-ghost" hidden>
+            <i data-lucide="clipboard-check"></i><span>入图审核</span>
+          </button>
+        </div>
+      </header>
+
+      <main class="workspace">
+        <aside class="rail" aria-label="控制台">
+          <div class="search-box">
+            <i data-lucide="search" aria-hidden="true"></i>
+            <input id="searchInput" type="search" placeholder="搜索节点:法条、问题、规范…"
+                   autocomplete="off" aria-label="搜索节点" />
+            <ul id="searchResults" class="search-results" hidden></ul>
+          </div>
+
+          <section class="control-block">
+            <h2>入口</h2>
+            <div class="mode-tabs" role="tablist" aria-label="图谱入口">
+              <button class="tab is-active" data-entry="law"><i data-lucide="scale"></i>法条</button>
+              <button class="tab" data-entry="issue"><i data-lucide="flag-triangle-right"></i>问题</button>
+              <button class="tab" data-entry="industry"><i data-lucide="factory"></i>行业</button>
+            </div>
+          </section>
+
+          <section class="control-block">
+            <h2>产品包</h2>
+            <div class="seg seg-wide" role="group" aria-label="产品数据源">
+              <button class="seg-btn is-active" data-product="full">Full 全量</button>
+              <button class="seg-btn" data-product="p1">P1 精品</button>
+            </div>
+          </section>
+
+          <section class="control-block">
+            <h2>关联类型</h2>
+            <div id="edgeFilters" class="edge-filters" role="group" aria-label="边类型筛选"></div>
+          </section>
+
+          <section class="control-block status-block">
+            <h2>演示状态</h2>
+            <p id="viewStatus">内部全量视图:可见私有运行层(private runtime)节点。</p>
+          </section>
+        </aside>
+
+        <section class="stage" aria-label="图谱舞台">
+          <div class="stage-toolbar">
+            <div class="stage-title">
+              <p class="eyebrow" id="stageKicker">当前中心</p>
+              <h2 id="centerTitle">正在装载</h2>
+            </div>
+            <div class="stage-actions">
+              <button id="relayoutButton" class="icon-btn" title="重新布局" aria-label="重新布局">
+                <i data-lucide="git-fork"></i>
+              </button>
+              <button id="fitButton" class="icon-btn" title="重置缩放" aria-label="重置缩放">
+                <i data-lucide="scan"></i>
+              </button>
+            </div>
+          </div>
+
+          <div id="cy" aria-label="ego 图谱画布"></div>
+          <div id="cyTooltip" class="cy-tooltip" hidden></div>
+
+          <div id="stageLoading" class="stage-overlay">
+            <span class="pulse-ring" aria-hidden="true"></span>
+            <p>正在装载真实图谱数据…</p>
+          </div>
+          <div id="stageError" class="stage-overlay" hidden>
+            <i data-lucide="cloud-off"></i>
+            <p id="stageErrorText">数据加载失败</p>
+            <button id="retryButton" class="btn-ghost">重试</button>
+          </div>
+
+          <div id="actOverlay" class="act-overlay" hidden></div>
+
+          <div class="legend" aria-label="图例">
+            <span><b class="dot t-shared"></b>共有</span>
+            <span><b class="dot t-private"></b>私有</span>
+            <span><b class="dot t-aggregate"></b>聚合</span>
+            <span class="legend-sep" aria-hidden="true"></span>
+            <span><b class="line l-law"></b>法规约束</span>
+            <span><b class="line l-field"></b>现场表现</span>
+            <span><b class="line l-evidence"></b>证据链</span>
+            <span><b class="line l-pitfall"></b>踩雷</span>
+          </div>
+        </section>
+
+        <aside class="detail" id="detailPanel" aria-label="执行卡详情">
+          <div id="detailBody" class="detail-body"></div>
+        </aside>
+      </main>
+
+      <main id="reviewWorkspace" class="review-workspace" hidden aria-label="现场经验入图审核台">
+        <aside class="review-queue">
+          <div class="review-title">
+            <p class="eyebrow">内部工作区</p>
+            <h2>现场经验入图审核台</h2>
+            <p>候选现场经验必须经 ETO 审核后才能进入聚合候选池。</p>
+          </div>
+          <div id="reviewStatusTabs" class="review-tabs" aria-label="审核状态"></div>
+        </aside>
+        <section class="review-list-panel" aria-label="候选现场经验列表">
+          <div class="review-panel-head">
+            <h2>候选现场经验</h2>
+            <p>列表只显示内部审核样例或服务端返回数据,不进入共有演示包。</p>
+          </div>
+          <div id="reviewList" class="review-list"></div>
+        </section>
+        <section id="reviewDetail" class="review-detail-panel" aria-label="审核详情"></section>
+      </main>
+
+      <button id="detailToggle" class="detail-toggle" hidden>
+        <i data-lucide="panel-right-open"></i><span>执行卡</span>
+      </button>
+
+      <footer id="demoBar" class="demo-bar" hidden>
+        <div class="demo-progress" id="demoProgress" role="tablist" aria-label="演示进度"></div>
+        <div class="demo-text">
+          <p class="demo-kicker" id="demoKicker"></p>
+          <h2 class="demo-title" id="demoTitle"></h2>
+          <p class="demo-narration" id="demoNarration"></p>
+        </div>
+        <div class="demo-controls">
+          <button id="demoPrev" class="icon-btn" title="上一幕 ←" aria-label="上一幕"><i data-lucide="chevron-left"></i></button>
+          <button id="demoNext" class="btn-primary" title="下一幕 →">下一幕<i data-lucide="chevron-right"></i></button>
+          <button id="demoExit" class="icon-btn" title="退出演示 Esc" aria-label="退出演示"><i data-lucide="x"></i></button>
+        </div>
+      </footer>
+    </div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

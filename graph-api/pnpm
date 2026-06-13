@@ -1,0 +1,30 @@
+#!/usr/bin/env node
+import { createServer, validateRuntimeConfig } from "./src/server.js";
+import { createReviewStorage, storageConfigFromEnv } from "./src/storage.js";
+
+const args = process.argv.slice(2);
+const isLegacyCloudBaseStart =
+  args.length >= 3 &&
+  args[0] === "--dir" &&
+  args[1] === "graph-api" &&
+  args[2] === "start";
+
+if (!isLegacyCloudBaseStart) {
+  console.error("Unsupported compatibility command:", args.join(" "));
+  process.exit(64);
+}
+
+const config = storageConfigFromEnv();
+const storage = await createReviewStorage(config);
+try {
+  await storage.init();
+  console.log(`[graph-api] storage ready: ${storage.driver}`);
+} finally {
+  await storage.close?.();
+}
+
+const port = Number(process.env.PORT || 8787);
+validateRuntimeConfig();
+createServer().listen(port, "0.0.0.0", () => {
+  console.log(`graph field review api listening on ${port}`);
+});

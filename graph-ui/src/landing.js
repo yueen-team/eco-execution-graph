@@ -6,6 +6,10 @@ import { NODE_TYPE_META, EDGE_TYPE_COLOR } from "./state.js";
 // 首屏背景 = 真实 P1 图谱切片生长回放;数字带 = 共有导出包实时计数。
 
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const APP_BASE = import.meta.env.BASE_URL || "/";
+function appPath(path) {
+  return `${APP_BASE.replace(/\/$/, "")}/${path.replace(/^\//, "")}`;
+}
 
 async function fetchJson(path) {
   const res = await fetch(path, { cache: "no-store" });
@@ -44,7 +48,7 @@ async function bootHeroGraph() {
   const container = document.getElementById("heroGraph");
   let graph;
   try {
-    graph = await fetchJson("/demo-data/graph.json");
+    graph = await fetchJson(appPath("/demo-data/graph.json"));
   } catch {
     return; // 数据不可达时保持纯色背景,不放假图
   }
@@ -127,8 +131,8 @@ function animateCounter(id, target) {
 async function bootStats() {
   try {
     const [graph, cards] = await Promise.all([
-      fetchJson("/demo-data/full-shared-graph.json"),
-      fetchJson("/demo-data/full-shared-cards.json"),
+      fetchJson(appPath("/demo-data/full-shared-graph.json")),
+      fetchJson(appPath("/demo-data/full-shared-cards.json")),
     ]);
     animateCounter("statNodes", graph.nodes.length);
     animateCounter("statEdges", graph.edges.length);

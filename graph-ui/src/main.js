@@ -28,6 +28,11 @@ window.__refreshIcons = () => createIcons({ icons: ICONS });
 window.__refreshIcons();
 window.__app = state; // 调试与渲染验证句柄(只读使用)
 
+const APP_BASE = import.meta.env.BASE_URL || "/";
+function appPath(path) {
+  return `${APP_BASE.replace(/\/$/, "")}/${path.replace(/^\//, "")}`;
+}
+
 /* ---------- 计数器:数字滚动到真实值 ---------- */
 
 const counterState = new Map();
@@ -243,19 +248,20 @@ async function boot() {
   loading.hidden = false;
   errBox.hidden = true;
   try {
+    const deployPolicy = await fetchJson(appPath("/demo-data/deploy-policy.json"), true);
+    const readonlyShared = deployPolicy?.readonly_shared === true;
     const [fullGraph, fullCards, fullSharedGraph, fullSharedCards, p1Graph, p1Cards, gap, monthly] =
       await Promise.all([
-        fetchJson("/demo-data/full-graph.json"),
-        fetchJson("/demo-data/full-cards.json"),
-        fetchJson("/demo-data/full-shared-graph.json"),
-        fetchJson("/demo-data/full-shared-cards.json"),
-        fetchJson("/demo-data/graph.json"),
-        fetchJson("/demo-data/cards.json"),
-        fetchJson("/demo-data/gap-report.json", true),
-        fetchJson("/demo-data/monthly-comparison.json", true),
+        fetchJson(appPath("/demo-data/full-graph.json")),
+        fetchJson(appPath("/demo-data/full-cards.json")),
+        fetchJson(appPath("/demo-data/full-shared-graph.json")),
+        fetchJson(appPath("/demo-data/full-shared-cards.json")),
+        fetchJson(appPath("/demo-data/graph.json")),
+        fetchJson(appPath("/demo-data/cards.json")),
+        fetchJson(appPath("/demo-data/gap-report.json"), true),
+        readonlyShared ? Promise.resolve(null) : fetchJson(appPath("/demo-data/monthly-comparison.json"), true),
       ]);
-    const deployPolicy = await fetchJson("/demo-data/deploy-policy.json", true);
-    if (deployPolicy?.readonly_shared === true) {
+    if (readonlyShared) {
       state.deployPolicy.readonlyShared = true;
       state.view = "shared";
       state.product = "full";

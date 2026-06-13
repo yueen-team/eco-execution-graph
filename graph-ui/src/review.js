@@ -1,6 +1,10 @@
 import { state } from "./state.js";
 
 const STATUS_TABS = ["待审核", "已通过(待聚合)", "已进入聚合候选", "退回补充", "仅保留内部案例", "不入图", "样本不足"];
+const APP_BASE = import.meta.env.BASE_URL || "/";
+function appPath(path) {
+  return `${APP_BASE.replace(/\/$/, "")}/${path.replace(/^\//, "")}`;
+}
 
 // 两步制:先选结论,再提交。kind 驱动语义配色,hint 告诉 ETO 这个结论的去向。
 const ACTIONS = [
@@ -384,7 +388,7 @@ export async function initReviewWorkspace({ readonlyShared, setStatus }) {
   reviewState.authToken = sessionStorage.getItem("ecoGraphReviewToken") || "";
   reviewState.apiBase = window.ECO_GRAPH_API_BASE || "";
   const apiData = await fetchJson(`${reviewState.apiBase}/api/review/field-events`, true);
-  const demoData = await fetchJson("/review-data/field-event-review-demo.json", true);
+  const demoData = await fetchJson(appPath("/review-data/field-event-review-demo.json"), true);
   reviewState.source = apiData?.items?.length ? "api" : "demo";
   reviewState.items = reviewState.source === "api" ? apiData.items : demoData?.items || [];
   reviewState.selectedId = visibleItems()[0]?.["审核编号"] || reviewState.items[0]?.["审核编号"] || null;

@@ -1,0 +1,69 @@
+{
+  "generated_at": "2026-06-13T18:42:30.183Z",
+  "rows": [
+    {
+      "name": "www-home",
+      "url": "https://www.yueen.cc/",
+      "title": "云南悦恩环保技术咨询有限公司 - 您值得信赖的全周期环保管家",
+      "h1": "环策",
+      "hasHumanWrite": false,
+      "screenshot": "E:\\eco-execution-graph\\reports\\render-proof-cloudbase-static\\site-route-restore\\www-home.png"
+    },
+    {
+      "name": "www-index",
+      "url": "https://www.yueen.cc/index.html",
+      "title": "云南悦恩环保技术咨询有限公司 - 您值得信赖的全周期环保管家",
+      "h1": "环策",
+      "hasHumanWrite": false,
+      "screenshot": "E:\\eco-execution-graph\\reports\\render-proof-cloudbase-static\\site-route-restore\\www-index.png"
+    },
+    {
+      "name": "ecomind",
+      "url": "https://www.yueen.cc/ecomind-ai/",
+      "title": "EcoMind-AI - 智慧环保SaaS平台",
+      "h1": "",
+      "hasHumanWrite": false,
+      "screenshot": "E:\\eco-execution-graph\\reports\\render-proof-cloudbase-static\\site-route-restore\\ecomind.png"
+    },
+    {
+      "name": "graph-deck",
+      "url": "https://www.yueen.cc/eco-execution-graph/",
+      "title": "环保现场执行图谱 · 指挥舱",
+      "h1": "环保现场执行图谱",
+      "hasHumanWrite": false,
+      "screenshot": "E:\\eco-execution-graph\\reports\\render-proof-cloudbase-static\\site-route-restore\\graph-deck.png"
+    },
+    {
+      "name": "graph-landing",
+      "url": "https://www.yueen.cc/eco-execution-graph/landing.html",
+      "title": "环保现场执行图谱 · 法条 × 规范 × 现场经验",
+      "h1": "把法条、规范与现场排查经验织成一张会生长的执行图谱",
+      "hasHumanWrite": false,
+      "screenshot": "E:\\eco-execution-graph\\reports\\render-proof-cloudbase-static\\site-route-restore\\graph-landing.png"
+    },
+    {
+      "name": "graph-login",
+      "url": "https://www.yueen.cc/eco-execution-graph/login.html",
+      "title": "内部登录 · 环保现场执行图谱",
+      "h1": "环保现场执行图谱",
+      "hasHumanWrite": false,
+      "screenshot": "E:\\eco-execution-graph\\reports\\render-proof-cloudbase-static\\site-route-restore\\graph-login.png"
+    },
+    {
+      "name": "root-login-404",
+      "url": "https://www.yueen.cc/login.html",
+      "title": "页面未找到 - 云南悦恩环保技术咨询有限公司",
+      "h1": "页面未找到",
+      "hasHumanWrite": false,
+      "screenshot": "E:\\eco-execution-graph\\reports\\render-proof-cloudbase-static\\site-route-restore\\root-login-404.png"
+    },
+    {
+      "name": "root-landing-cache-busted",
+      "url": "https://www.yueen.cc/landing.html?cb=202606131438",
+      "title": "页面未找到 - 云南悦恩环保技术咨询有限公司",
+      "h1": "页面未找到",
+      "hasHumanWrite": false,
+      "screenshot": "E:\\eco-execution-graph\\reports\\render-proof-cloudbase-static\\site-route-restore\\root-landing-cache-busted.png"
+    }
+  ]
+}

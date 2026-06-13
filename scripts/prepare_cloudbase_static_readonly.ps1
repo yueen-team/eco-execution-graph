@@ -16,7 +16,13 @@ if (-not $resolvedOut.StartsWith($allowedPrefix, [System.StringComparison]::Ordi
   throw "OutputDir must resolve inside graph-ui. Refusing recursive cleanup: $resolvedOut"
 }
 
-pnpm --dir graph-ui build | Out-Host
+$oldBase = $env:ECO_GRAPH_UI_BASE
+$env:ECO_GRAPH_UI_BASE = "/eco-execution-graph/"
+try {
+  pnpm --dir graph-ui build | Out-Host
+} finally {
+  $env:ECO_GRAPH_UI_BASE = $oldBase
+}
 
 if (Test-Path $out) {
   Remove-Item $out -Recurse -Force

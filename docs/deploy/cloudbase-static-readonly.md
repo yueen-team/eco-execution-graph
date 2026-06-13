@@ -38,13 +38,33 @@ graph-ui/dist-cloudbase-static-readonly/
 - 腾讯云密钥;
 - RAG 原文响应。
 
-## CloudBase 控制台操作
+## CloudBase 部署路径
 
-1. 进入 CloudBase 企业环境。
-2. 打开静态网站托管。
-3. 上传 `graph-ui/dist-cloudbase-static-readonly/` 目录内容。
-4. 访问静态站 URL,打开 `/?director=1`。
-5. 验证首屏为审核后的 5 张卡主线,不是云南踩雷地图或月报对比。
+本环境自定义域名把 `/eco-execution-graph` 路由到静态托管目录 `dist-cloudbase-static-readonly/`。因此:
+
+- Vite 构建 base 必须是 `/eco-execution-graph/`;
+- CloudBase 上传目标必须是 `dist-cloudbase-static-readonly`,不得上传到静态托管根目录;
+- 不需要在静态托管根目录创建 `eco-execution-graph/` key。
+
+CLI 部署命令:
+
+```powershell
+pwsh -ExecutionPolicy Bypass -File scripts/prepare_cloudbase_static_readonly.ps1
+cloudbase hosting deploy -e yueen-huanbao-1gqfjr5s41e61180 -r ap-shanghai graph-ui/dist-cloudbase-static-readonly dist-cloudbase-static-readonly
+```
+
+验证 URL:
+
+```text
+https://www.yueen.cc/eco-execution-graph/?director=1
+```
+
+必须确认:
+
+1. 页面 HTML 返回 200;
+2. `assets/*.js` / `assets/*.css` 通过 `/eco-execution-graph/assets/` 返回正确 MIME;
+3. `demo-data/*.json` 通过 `/eco-execution-graph/demo-data/` 返回 `application/json`;
+4. 首屏为审核后的 5 张卡主线,不是云南踩雷地图或月报对比。
 
 ## graph-api 云托管前置条件
 
@@ -54,9 +74,15 @@ graph-ui/dist-cloudbase-static-readonly/
 
 1. 设置 `ECO_GRAPH_API_TOKEN`,并设置 `ECO_GRAPH_ENV=production` 或 `ECO_GRAPH_DEPLOY_TARGET=cloudbase`;生产或云托管环境缺少 token 时服务会拒绝启动。
 2. 前端不得硬编码长期服务密钥。内部审核台访问有锁后端时,应通过 CloudBase 网关、同源代理或登录态换取短期内部请求能力。
-3. 文件化 `data/private-staging/` 只能用于本地或单实例试运行。CloudBase 云托管正式部署前,审核记录必须迁移到 CloudBase 云数据库、CFS 或其他持久化存储。
+3. 文件化 `data/private-staging/` 只能用于本地或单实例试运行。CloudBase 云托管建议设置 `ECO_GRAPH_STORAGE_DRIVER=mysql`,由 `graph-api` 启动脚本自动建表、补齐缺失列和索引。
 4. 云托管入口必须限制为内部访问,不得把 private staging API 暴露为公网匿名读写。
 5. 继续禁止接收真实附件路径、原始照片、GPS、法条全文、原始报告全文和密钥。
+
+当前 CloudBase 服务若仍保留旧入口命令 `pnpm --dir graph-api start`,镜像内提供了同名兼容启动垫片,只用于过渡到本仓库 Dockerfile。正式入口建议改为使用 Dockerfile 默认 `CMD`,或改成等价命令:
+
+```text
+npm run db:init && node src/server.js
+```
 
 后端云托管后续还会承载:
 
