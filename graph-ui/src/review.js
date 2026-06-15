@@ -103,6 +103,7 @@ function renderStatusTabs() {
 function card(item) {
   const active = item["审核编号"] === reviewState.selectedId;
   const signals = (item["现场表现"] || []).slice(0, 2).map((signal) => `<span>${esc(signal)}</span>`).join("");
+  const tags = (item["信源标签"] || []).map((tag) => `<span>${esc(tag)}</span>`).join("");
   return `
     <button class="review-card ${active ? "is-active" : ""}" data-review-id="${esc(item["审核编号"])}">
       <span class="review-card-status">${esc(item["当前审核状态"])}</span>
@@ -113,6 +114,7 @@ function card(item) {
         <span>${esc(item["区域"])}</span>
         <span>${esc(item["行业"])}</span>
       </div>
+      ${tags ? `<div class="review-card-tags">${tags}</div>` : ""}
       <div class="review-card-signals">${signals || "<span>现场表现待补充</span>"}</div>
     </button>
   `;
@@ -137,7 +139,7 @@ function renderList() {
 }
 
 function field(label, value) {
-  return `<div class="review-field"><span>${esc(label)}</span><strong>${esc(value || "未提供")}</strong></div>`;
+  return `<div class="review-field"><span>${esc(label)}</span><strong>${esc(displayValue(value))}</strong></div>`;
 }
 
 function chips(values) {
@@ -147,6 +149,77 @@ function chips(values) {
 
 function section(title, body) {
   return `<section class="review-detail-section"><h3>${esc(title)}</h3>${body}</section>`;
+}
+
+function column(title, body) {
+  return `<div class="review-column"><h3>${esc(title)}</h3>${body}</div>`;
+}
+
+function displayValue(value) {
+  if (value === null || value === undefined || value === "") return "未提供";
+  if (Array.isArray(value)) return value.length ? value.map(displayValue).join("、") : "未提供";
+  if (typeof value === "object") {
+    if ("值" in value) return displayValue(value["值"]);
+    if ("名称" in value) return displayValue(value["名称"]);
+    return Object.entries(value).map(([key, item]) => `${key}:${displayValue(item)}`).join("；");
+  }
+  return String(value);
+}
+
+function completionRows(rows) {
+  const list = rows?.length ? rows : [{ "字段": "待补充", "状态": "待核对", "值": "未提供" }];
+  return list.map((row) => `
+    <div class="review-completion-row">
+      <strong>${esc(row["字段"] || "待核对字段")}</strong>
+      <span>${esc(row["状态"] || "待核对")}</span>
+      <small>${esc(displayValue(row["值"] || row["原因"] || row["补充动作"]))}</small>
+    </div>
+  `).join("");
+}
+
+function completionPanel(completion = {}) {
+  return `
+    <div class="review-completion">
+      <div class="review-completion-group">
+        <b>必补字段</b>
+        ${completionRows(completion["必补字段"])}
+      </div>
+      <div class="review-completion-group">
+        <b>可候选字段</b>
+        ${completionRows(completion["可候选字段"])}
+      </div>
+      <div class="review-completion-group">
+        <b>不强行补字段</b>
+        ${completionRows(completion["不强行补字段"])}
+      </div>
+    </div>
+    <p class="review-summary">${esc(completion["摘要"] || "字段补齐状态待补充。")}</p>
+  `;
+}
+
+function machineFillPanel(rows = []) {
+  const list = rows.length ? rows : [{ "字段": "机器补填", "方法": "暂无补填说明", "置信度": null }];
+  return `<div class="review-fill-list">${list.map((row) => `
+    <div class="review-fill-row">
+      <strong>${esc(row["字段"])}</strong>
+      <span>${esc(row["方法"])}</span>
+      <small>${row["置信度"] === null || row["置信度"] === undefined ? "置信度待核对" : `置信度 ${esc(row["置信度"])}`}</small>
+    </div>
+  `).join("")}</div>`;
+}
+
+function historyPanel(history = {}) {
+  return `
+    <div class="review-field-grid">
+      ${field("任务状态", history["任务状态"])}
+      ${field("最新状态", history["最新状态"])}
+      ${field("整改轮次", history["最新轮次"] || history["总记录数"])}
+      ${field("驳回次数", history["驳回次数"])}
+    </div>
+    <p class="review-summary">${esc(history["整改要求摘要"] || "整改要求待补充")}</p>
+    <p class="review-summary">${esc(history["整改提交摘要"] || "整改提交摘要待补充")}</p>
+    <p class="review-summary">${esc(history["ETO审核意见摘要"] || "ETO审核意见待补充")}</p>
+  `;
 }
 
 function selectedItem() {
@@ -179,6 +252,11 @@ function renderDetail() {
   }
   const evidence = item["证据摘要"] || {};
   const laws = item["法条规范候选"] || [];
+  const sourceTags = item["信源标签"] || [];
+  const completion = item["字段补齐状态"] || {};
+  const machineFill = item["机器补填说明"] || [];
+  const history = item["整改历史摘要"] || {};
+  const batch = item["回档批次"] || {};
   const isDemo = reviewState.source !== "api";
   const options = issueTypeOptions();
   detail.innerHTML = `
@@ -187,64 +265,81 @@ function renderDetail() {
       <span class="review-card-status">${esc(item["当前审核状态"])}</span>
       <h2>${esc(item["建议问题类型"])}</h2>
       <p>${esc(item["来源阶段"])} · ${esc(item["来源时间"])}</p>
+      ${sourceTags.length ? chips(sourceTags) : ""}
     </div>
-    ${section("现场事实", `
-      <div class="review-field-grid">
-        ${field("区域", item["区域"])}
-        ${field("行业", item["行业"])}
-        ${field("许可类型", item["排污许可类型"])}
-        ${field("环保维度", item["环保维度"])}
-      </div>
-      <p class="review-summary">${esc(item["现场问题摘要"])}</p>
-      ${chips(item["现场表现"])}
-    `)}
-    ${section("系统建议归类", `
-      <div class="review-field-grid">
-        ${field("建议问题类型", item["建议问题类型"])}
-        ${field("归一状态", item["问题类型引用"] ? "已匹配问题类型" : "待归一")}
-      </div>
-    `)}
-    ${section("证据与整改闭环", `
-      <div class="review-field-grid">
-        ${field("证据数量", evidence["证据数量"])}
-        ${field("整改结果", item["整改结果"])}
-      </div>
-      ${chips(evidence["证据类型"])}
-      <p class="review-summary">${esc(item["整改要求"])}</p>
-      ${chips(item["复查要点"])}
-    `)}
-    ${section("法条规范候选", laws.length ? laws.map((law) => `
-      <div class="review-law"><strong>${esc(law["名称"])}</strong><span>已建立引用</span></div>
-    `).join("") : "<p class=\"review-summary\">暂无候选引用,不得对外写成法律依据。</p>")}
-    ${section("聚合准入判断", `
-      <div class="review-field-grid">
-        ${field("是否允许进入聚合", item["是否允许进入聚合"] ? "是" : "否")}
-        ${field("当前审核状态", item["当前审核状态"])}
-      </div>
-      <p class="review-summary">通过后只进入聚合候选池;同一组合满 5 家企业才可生成聚合统计。</p>
-    `)}
-    ${section("ETO 审核决定", `
-      <div class="review-action-grid" role="group" aria-label="审核结论">
-        ${ACTIONS.map((action) => `
-          <button class="review-action" data-kind="${action.kind}" data-review-action="${esc(action.label)}"
-                  aria-pressed="false">${esc(action.label)}</button>
-        `).join("")}
-      </div>
-      <div id="mergeTargetWrap" class="review-merge-wrap" hidden>
-        <label for="mergeTargetIssue">合并目标问题类型(从图谱已有问题类型中选择)</label>
-        <input id="mergeTargetIssue" class="review-merge-input" list="issueTypeOptions"
-               value="${esc(item["合并目标问题类型"] || "")}" placeholder="输入或选择目标问题类型编号">
-        <datalist id="issueTypeOptions">
-          ${options.map((option) => `<option value="${esc(option.ref)}">${esc(option.name)}</option>`).join("")}
-        </datalist>
-      </div>
-      <textarea id="reviewComment" class="review-comment" placeholder="审核意见:说明通过、退回或不入图的原因">${esc(item["审核意见"] || "")}</textarea>
-      <div id="reviewSubmitRow" class="review-submit-row">
-        <button id="reviewSubmit" class="btn-primary review-submit" disabled>提交审核结论</button>
-        <span id="reviewSubmitHint" class="review-submit-hint">先选择上方的审核结论。</span>
-      </div>
-      ${noticeHtml()}
-    `)}
+    <div class="review-three-column">
+      ${column("历史原始信源", `
+        ${section("历史检查信息", `
+          <div class="review-field-grid">
+            ${field("检查月份", item["检查月份"])}
+            ${field("检查日期", item["检查日期"])}
+            ${field("区域", item["区域"])}
+            ${field("行业", item["行业"])}
+            ${field("许可类型", item["排污许可类型"])}
+            ${field("环保维度", item["环保维度"])}
+          </div>
+          <p class="review-summary">${esc(item["现场问题摘要"])}</p>
+          ${chips(item["现场表现"])}
+        `)}
+        ${section("回档批次", `
+          <div class="review-field-grid">
+            ${field("批次编号", batch["批次编号"])}
+            ${field("来源期间", batch["来源期间"])}
+            ${field("来源类型", batch["来源类型"])}
+            ${field("证据数量", evidence["证据数量"])}
+          </div>
+          ${chips(evidence["证据类型"])}
+        `)}
+        ${section("整改历史摘要", historyPanel(history))}
+      `)}
+      ${column("机器补填建议", `
+        ${section("系统建议归类", `
+          <div class="review-field-grid">
+            ${field("建议问题类型", item["建议问题类型"])}
+            ${field("归一状态", item["问题类型引用"] ? "已匹配问题类型" : "待归一")}
+            ${field("整改结果", item["整改结果"])}
+            ${field("整改要求", item["整改要求"])}
+          </div>
+          ${chips(item["复查要点"])}
+        `)}
+        ${section("字段补齐状态", completionPanel(completion))}
+        ${section("机器补填说明", machineFillPanel(machineFill))}
+        ${section("法条规范候选", laws.length ? laws.map((law) => `
+          <div class="review-law"><strong>${esc(law["名称"])}</strong><span>候选引用</span></div>
+        `).join("") : "<p class=\"review-summary\">暂无候选引用,不得对外写成法律依据。</p>")}
+      `)}
+      ${column("ETO 审核决定", `
+        ${section("聚合准入判断", `
+          <div class="review-field-grid">
+            ${field("是否允许进入聚合", item["是否允许进入聚合"] ? "是" : "否")}
+            ${field("当前审核状态", item["当前审核状态"])}
+          </div>
+          <p class="review-summary">通过后只进入聚合候选池;同一组合满 5 家企业才可生成聚合统计。</p>
+        `)}
+        ${section("审核结论", `
+          <div class="review-action-grid" role="group" aria-label="审核结论">
+            ${ACTIONS.map((action) => `
+              <button class="review-action" data-kind="${action.kind}" data-review-action="${esc(action.label)}"
+                      aria-pressed="false">${esc(action.label)}</button>
+            `).join("")}
+          </div>
+          <div id="mergeTargetWrap" class="review-merge-wrap" hidden>
+            <label for="mergeTargetIssue">合并目标问题类型(从图谱已有问题类型中选择)</label>
+            <input id="mergeTargetIssue" class="review-merge-input" list="issueTypeOptions"
+                   value="${esc(item["合并目标问题类型"] || "")}" placeholder="输入或选择目标问题类型编号">
+            <datalist id="issueTypeOptions">
+              ${options.map((option) => `<option value="${esc(option.ref)}">${esc(option.name)}</option>`).join("")}
+            </datalist>
+          </div>
+          <textarea id="reviewComment" class="review-comment" placeholder="审核意见:说明通过、退回或不入图的原因">${esc(item["审核意见"] || "")}</textarea>
+          <div id="reviewSubmitRow" class="review-submit-row">
+            <button id="reviewSubmit" class="btn-primary review-submit" disabled>提交审核结论</button>
+            <span id="reviewSubmitHint" class="review-submit-hint">先选择上方的审核结论。</span>
+          </div>
+          ${noticeHtml()}
+        `)}
+      `)}
+    </div>
     <details class="review-trace">
       <summary>追溯信息</summary>
       <div class="review-field-grid">

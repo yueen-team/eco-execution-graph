@@ -73,6 +73,81 @@ function issueTypeRef(item) {
   return item["合并目标问题类型"] || item["问题类型引用"];
 }
 
+function firstText(...values) {
+  for (const value of values) {
+    if (value !== null && value !== undefined && value !== "") return text(value);
+  }
+  return "未提供";
+}
+
+function fieldValue(value) {
+  if (Array.isArray(value)) return value.map((item) => text(item)).join("、");
+  if (value && typeof value === "object") return text(value.value || value.name || value.title, "待核对");
+  return text(value, "待补充");
+}
+
+function normalizeCompletionEntry(item) {
+  if (!item || typeof item !== "object") {
+    return { "字段": text(item, "待核对"), "状态": "待核对", "值": "待补充", "补充动作": "ETO确认" };
+  }
+  return {
+    "字段": text(item.field || item["字段"], "待核对字段"),
+    "状态": text(item.status || item["状态"], "待核对"),
+    "值": fieldValue(item.value ?? item["值"]),
+    "补充动作": text(item.missing_action || item["补充动作"], "ETO确认或修改"),
+    "置信度": item.confidence === null || item.confidence === undefined ? null : Number(item.confidence),
+  };
+}
+
+function normalizeFieldCompletion(raw) {
+  const completion = raw && typeof raw === "object" ? raw : {};
+  return {
+    "必补字段": asArray(completion.required_fields || completion["必补字段"]).map(normalizeCompletionEntry),
+    "可候选字段": asArray(completion.candidate_fields || completion["可候选字段"]).map(normalizeCompletionEntry),
+    "不强行补字段": asArray(completion.not_forced_fields || completion["不强行补字段"]).map((item) => ({
+      "字段": text(item?.field || item?.["字段"] || item, "待核对字段"),
+      "状态": text(item?.status || item?.["状态"], "不回填"),
+      "原因": text(item?.reason || item?.["原因"], "机器无法可靠推出"),
+    })),
+    "摘要": text(completion.summary?.review_policy || completion["摘要"], "按必补、可候选、不强行补三类进入 ETO 审核"),
+  };
+}
+
+function normalizeMachineFill(raw) {
+  return asArray(raw).map((item) => ({
+    "字段": text(item?.field || item?.["字段"], "待核对字段"),
+    "方法": text(item?.method || item?.source_method || item?.["方法"], "历史记录机器补填"),
+    "置信度": item?.confidence === null || item?.confidence === undefined ? null : Number(item.confidence),
+  }));
+}
+
+function normalizeRectificationHistory(raw) {
+  const history = raw && typeof raw === "object" ? raw : {};
+  return {
+    "任务状态": text(history.task_status || history["任务状态"], "未形成整改任务"),
+    "总记录数": Number(history.total_records || history["总记录数"] || 0),
+    "最新轮次": history.latest_round || history["最新轮次"] || null,
+    "最新状态": text(history.latest_status || history["最新状态"], "未形成闭环"),
+    "通过次数": Number(history.verified_count || history["通过次数"] || 0),
+    "驳回次数": Number(history.rejected_count || history["驳回次数"] || 0),
+    "整改提交摘要": text(history.latest_submit_note_summary || history["整改提交摘要"], "未提供"),
+    "ETO审核意见摘要": text(history.eto_review_note_summary || history["ETO审核意见摘要"], "未提供"),
+    "整改要求摘要": text(history.requirement_summary || history["整改要求摘要"], "未提供"),
+    "复查要点摘要": text(history.recheck_points_summary || history["复查要点摘要"], "未提供"),
+  };
+}
+
+function normalizeBackfillContext(raw) {
+  const context = raw && typeof raw === "object" ? raw : {};
+  const period = context.source_period || {};
+  const kind = context.source_kind === "historical_archive" ? "历史回档" : context.source_kind;
+  return {
+    "批次编号": text(context.batch_id, "非回档批次"),
+    "来源期间": `${text(period.from, "未标注")} 至 ${text(period.to, "未标注")}`,
+    "来源类型": text(kind, "现场事件"),
+  };
+}
+
 function scanForbidden(value, path = "$", violations = []) {
   if (Array.isArray(value)) {
     value.forEach((item, index) => scanForbidden(item, `${path}[${index}]`, violations));
@@ -104,16 +179,21 @@ export function assertAcceptableFieldEvent(payload) {
 
 export function normalizeFieldEvent(payload, now = new Date().toISOString()) {
   assertAcceptableFieldEvent(payload);
-  const source = payload.source_context || {};
+  const trace = payload.trace_ref || {};
+  const source = { ...trace, ...(payload.source_context || {}) };
   const issue = payload.standard_issue_type_candidate || {};
   const dimension = payload.environmental_risk_category || {};
   const evidence = payload.evidence_chain || {};
+  const traceEvidence = trace.evidence_summary || {};
   const rectification = payload.rectification || {};
+  const history = normalizeRectificationHistory(payload.rectification_history_summary);
   const eventRef = text(payload.field_issue_uid || payload.event_id || payload.business_key, "unknown");
   const lawRefs = asArray(payload.ai_regulatory_references).map((item) => ({
     "引用编号": text(item.ref || item.node_id || item.id, "待核对"),
     "名称": text(item.title || item.name, "待核对"),
   }));
+  const sourceTags = asArray(payload.source_tags).map((item) => text(item)).filter(Boolean);
+  const completion = normalizeFieldCompletion(payload.field_completion);
 
   return {
     "审核编号": `review:${hash(eventRef)}`,
@@ -126,19 +206,26 @@ export function normalizeFieldEvent(payload, now = new Date().toISOString()) {
     "区域": text(source.region, "未标注区域"),
     "行业": text(source.industry_type || source.industry, "未标注行业"),
     "排污许可类型": text(source.permit_type, "未标注许可类型"),
+    "检查月份": text(source.report_month, "未标注月份"),
+    "检查日期": text(source.inspection_date, "未标注日期"),
     "环保维度": text(dimension.dimension || dimension.name, "未标注维度"),
     "建议问题类型": text(issue.name || issue.issue_type_name, "待归一问题类型"),
     "问题类型引用": text(issue.issue_type_ref || issue.node_id, "issue:pending"),
-    "现场问题摘要": text(payload.risk_impact_summary || payload.field_fact?.summary || payload.problem_summary, "待补充现场问题摘要"),
+    "现场问题摘要": firstText(payload.field_fact?.problem_raw, payload.risk_impact_summary, payload.field_fact?.summary, payload.problem_summary),
     "现场表现": asArray(payload.observed_signals).map((item) => text(item)),
     "证据摘要": {
-      "证据数量": Number(evidence.evidence_count || source.evidence_count || 0),
-      "证据类型": asArray(evidence.evidence_types || source.evidence_types).map((item) => text(item)),
+      "证据数量": Number(evidence.evidence_count || source.evidence_count || traceEvidence.count || 0),
+      "证据类型": asArray(evidence.evidence_types || source.evidence_types || traceEvidence.types).map((item) => text(item)),
     },
     "整改要求": text(rectification.requirement || payload.human_review_baseline_requirement, "待补充整改要求"),
-    "复查要点": asArray(payload.recheck_points).map((item) => text(item)),
-    "整改结果": text(rectification.status || payload.outcome?.status, "未形成闭环"),
+    "复查要点": asArray(payload.recheck_points || rectification.recheck_points || history["复查要点摘要"]).map((item) => text(item)),
+    "整改结果": text(rectification.status || history["最新状态"] || payload.outcome?.status, "未形成闭环"),
     "法条规范候选": lawRefs,
+    "信源标签": sourceTags,
+    "回档批次": normalizeBackfillContext(payload.backfill_context),
+    "字段补齐状态": completion,
+    "机器补填说明": normalizeMachineFill(payload.machine_fill_provenance),
+    "整改历史摘要": history,
     "当前审核状态": REVIEW_STATUS.waiting,
     "审核人": null,
     "审核时间": null,
@@ -147,7 +234,7 @@ export function normalizeFieldEvent(payload, now = new Date().toISOString()) {
     "进入聚合候选时间": null,
     "合并目标问题类型": "",
     "技术追溯": {
-      "来源记录编号": text(payload.business_key || payload.source_id || eventRef, "未提供"),
+      "来源记录编号": `src:${hash(payload.business_key || payload.source_id || eventRef)}`,
       "事件编号": eventRef,
       "同步时间": now,
       "原始系统": text(payload.source_system, "EcoCheck"),

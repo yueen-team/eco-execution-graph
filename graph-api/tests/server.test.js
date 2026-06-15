@@ -63,6 +63,64 @@ test("决策接口提交后重新查询状态必须持久化", async () => {
   }
 });
 
+test("历史回档字段 POST 后进入待审核中文记录", async () => {
+  const temp = path.join(os.tmpdir(), `eco-graph-history-review-${Date.now()}`);
+  await mkdir(temp, { recursive: true });
+  const stagingPath = path.join(temp, "field-events.jsonl");
+  const server = createServer({ stagingPath, apiToken: "secret-for-test" });
+  await new Promise((resolve) => server.listen(0, "127.0.0.1", resolve));
+  const base = `http://127.0.0.1:${server.address().port}`;
+  const headers = {
+    "content-type": "application/json",
+    authorization: "Bearer secret-for-test",
+  };
+  const payload = structuredClone(fixture);
+  payload.event_type = "ISSUE_ETO_REVIEWED";
+  payload.field_issue_uid = "history-api-001";
+  payload.source_tags = ["历史回档", "机器补填"];
+  payload.backfill_context = {
+    batch_id: "ecocheck-history-2026-02-06",
+    source_period: { from: "2026-02", to: "2026-06" },
+    source_kind: "historical_archive",
+  };
+  payload.field_completion = {
+    required_fields: [{ field: "问题类型", status: "已机器补填", value: "危废标签缺失" }],
+    candidate_fields: [{ field: "法规/标准候选", status: "已机器补填", value: ["扣分规则:S07"] }],
+    not_forced_fields: [{ field: "精确位置", status: "不回填", reason: "不推断精确位置" }],
+  };
+  payload.machine_fill_provenance = [{ field: "问题类型", method: "deduct_rule_key优先", confidence: 0.74 }];
+  payload.rectification_history_summary = {
+    latest_status: "VERIFIED",
+    total_records: 1,
+    latest_submit_note_summary: "已补齐标签。",
+    eto_review_note_summary: "复核通过。",
+  };
+
+  try {
+    const create = await fetch(`${base}/api/ecocheck/field-events`, {
+      method: "POST",
+      headers,
+      body: JSON.stringify(payload),
+    });
+    assert.equal(create.status, 201);
+    const created = await create.json();
+    const id = created.item["审核编号"];
+
+    const detail = await fetch(`${base}/api/review/field-events/${encodeURIComponent(id)}`, { headers });
+    assert.equal(detail.status, 200);
+    const persisted = await detail.json();
+    assert.equal(persisted.item["当前审核状态"], "待审核");
+    assert.deepEqual(persisted.item["信源标签"], ["历史回档", "机器补填"]);
+    assert.equal(persisted.item["回档批次"]["批次编号"], "ecocheck-history-2026-02-06");
+    assert.equal(persisted.item["字段补齐状态"]["必补字段"][0]["字段"], "问题类型");
+    assert.equal(persisted.item["机器补填说明"][0]["字段"], "问题类型");
+    assert.equal(persisted.item["整改历史摘要"]["最新状态"], "VERIFIED");
+  } finally {
+    await new Promise((resolve) => server.close(resolve));
+    await rm(temp, { recursive: true, force: true });
+  }
+});
+
 test("超大请求体会被拒绝", async () => {
   const temp = path.join(os.tmpdir(), `eco-graph-review-large-${Date.now()}`);
   await mkdir(temp, { recursive: true });

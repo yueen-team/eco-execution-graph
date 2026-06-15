@@ -17,6 +17,8 @@ class ReviewUiContractTest(unittest.TestCase):
             self.assertIn(text, visible_surface)
         for status in ["待审核", "已通过(待聚合)", "已进入聚合候选", "退回补充", "不入图", "样本不足"]:
             self.assertIn(status, visible_surface)
+        for column in ["历史原始信源", "机器补填建议", "ETO 审核决定"]:
+            self.assertIn(column, visible_surface)
 
     def test_review_visible_surface_does_not_show_technical_field_names(self):
         review_js = (ROOT / "graph-ui/src/review.js").read_text(encoding="utf-8")
@@ -44,6 +46,7 @@ class ReviewUiContractTest(unittest.TestCase):
         # 错误与结果用内联通知呈现,禁止阻塞式 alert
         self.assertNotIn("window.alert", review_js)
         self.assertIn("review-notice", review_js)
+        self.assertIn("review-three-column", review_js)
 
     def test_graph_surface_maps_english_enums_to_chinese(self):
         state_js = (ROOT / "graph-ui/src/state.js").read_text(encoding="utf-8")
@@ -72,6 +75,15 @@ class ReviewUiContractTest(unittest.TestCase):
         for item in data["items"]:
             self.assertTrue(required.issubset(item))
             self.assertFalse(any(forbidden_key_pattern.search(key) for key in item))
+
+        historical = data["items"][0]
+        self.assertEqual(historical["信源标签"], ["历史回档", "机器补填"])
+        self.assertIn("字段补齐状态", historical)
+        self.assertIn("必补字段", historical["字段补齐状态"])
+        self.assertIn("可候选字段", historical["字段补齐状态"])
+        self.assertIn("不强行补字段", historical["字段补齐状态"])
+        self.assertIn("机器补填说明", historical)
+        self.assertIn("整改历史摘要", historical)
 
 
 if __name__ == "__main__":
