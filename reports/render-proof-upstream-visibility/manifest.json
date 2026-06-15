@@ -1,0 +1,24 @@
+{
+  "status": "pass",
+  "target": "http://127.0.0.1:5173/app.html?upstream=1",
+  "evidence_type": "Playwright screenshot via system Chrome channel",
+  "screenshots": [
+    {
+      "path": "reports/render-proof-upstream-visibility/upstream-panel-desktop.png",
+      "bytes": 480719,
+      "sha256": "8a8dbdeef92f7b8113f7631c656b8c1c11d96f038223749fe5715278bdbfd785"
+    },
+    {
+      "path": "reports/render-proof-upstream-visibility/upstream-panel-mobile.png",
+      "bytes": 312880,
+      "sha256": "e03f1a56349ab522489b8d5a3d8d5c8c56253073b5e121758f97dde4aadbe129"
+    }
+  ],
+  "assertions": [
+    "desktop upstream panel rendered",
+    "mobile upstream panel rendered",
+    "metrics 446 nodes and 912 edges visible",
+    "public JSON excludes private markers and local paths"
+  ],
+  "generated_at": "2026-06-15T13:49:34"
+}

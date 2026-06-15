@@ -25,6 +25,7 @@
     "upstream:lock": "python pipeline/upstream_lock.py",
     "upstream:inventory": "python pipeline/upstream_inventory.py",
     "upstream:import:eco-kb": "python pipeline/import_eco_kb.py",
+    "upstream:visibility": "python pipeline/upstream_visibility.py",
     "upstream:contracts:spl": "python pipeline/import_spl_contracts.py",
     "upstream:compat": "python pipeline/contract_compatibility.py",
     "rag:resolve": "python pipeline/rag_resolve.py",

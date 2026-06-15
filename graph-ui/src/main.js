@@ -13,7 +13,7 @@ import {
 } from "./state.js";
 import { initOrUpdateGraph, onNodeSelect, onEdgeSelect, markCenter, relayout, fitGraph } from "./graph.js";
 import { renderPanel, renderEdgePanel } from "./panel.js";
-import { initDemo, enterDemo } from "./demo.js";
+import { initDemo, enterDemo, renderUpstreamPanel } from "./demo.js";
 import { initReviewWorkspace } from "./review.js";
 
 const ICONS = {
@@ -218,6 +218,7 @@ function bindControls() {
   });
   document.getElementById("fitButton").addEventListener("click", fitGraph);
   document.getElementById("relayoutButton").addEventListener("click", relayout);
+  document.getElementById("upstreamButton").addEventListener("click", renderUpstreamPanel);
   document.getElementById("directorButton").addEventListener("click", enterDemo);
   document.getElementById("detailToggle").addEventListener("click", () => {
     document.getElementById("detailPanel").classList.toggle("is-open");
@@ -250,7 +251,7 @@ async function boot() {
   try {
     const deployPolicy = await fetchJson(appPath("/demo-data/deploy-policy.json"), true);
     const readonlyShared = deployPolicy?.readonly_shared === true;
-    const [fullGraph, fullCards, fullSharedGraph, fullSharedCards, p1Graph, p1Cards, gap, monthly] =
+    const [fullGraph, fullCards, fullSharedGraph, fullSharedCards, p1Graph, p1Cards, gap, monthly, upstream] =
       await Promise.all([
         fetchJson(appPath("/demo-data/full-graph.json")),
         fetchJson(appPath("/demo-data/full-cards.json")),
@@ -260,6 +261,7 @@ async function boot() {
         fetchJson(appPath("/demo-data/cards.json")),
         fetchJson(appPath("/demo-data/gap-report.json"), true),
         readonlyShared ? Promise.resolve(null) : fetchJson(appPath("/demo-data/monthly-comparison.json"), true),
+        fetchJson(appPath("/demo-data/upstream-visibility.json"), true),
       ]);
     if (readonlyShared) {
       state.deployPolicy.readonlyShared = true;
@@ -271,7 +273,7 @@ async function boot() {
       fullShared: { graph: fullSharedGraph, cards: fullSharedCards },
       p1: { graph: p1Graph, cards: p1Cards },
     };
-    state.reports = { gap, monthly };
+    state.reports = { gap, monthly, upstream };
     applyDataset();
     state.centerId = ENTRY_CENTERS.full.law;
 
@@ -285,7 +287,11 @@ async function boot() {
     loading.hidden = true;
 
     const params = new URLSearchParams(window.location.search);
-    if (state.deployPolicy.readonlyShared && params.get("director") === "1") {
+    if (params.get("upstream") === "1") {
+      syncControls();
+      setStatus("共有视图:正在展示 eco-kb 上游公共语义骨架接入情况。");
+      renderUpstreamPanel();
+    } else if (state.deployPolicy.readonlyShared && params.get("director") === "1") {
       syncControls();
       setStatus("云端只读演示:正在播放图谱演示主线。");
       enterDemo();

@@ -98,6 +98,11 @@ if ($Target -in @("test", "all")) {
         try { Invoke-CheckedCommand -Command @("pnpm", "upstream:import:eco-kb") }
         finally { Pop-Location }
     }
+    Invoke-Step "p2p3-upstream-visibility" {
+        Push-Location $root
+        try { Invoke-CheckedCommand -Command @("pnpm", "upstream:visibility") }
+        finally { Pop-Location }
+    }
     Invoke-Step "p2p3-spl-contracts" {
         Push-Location $root
         try { Invoke-CheckedCommand -Command @("pnpm", "upstream:contracts:spl") }

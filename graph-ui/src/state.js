@@ -2,7 +2,7 @@
 
 export const state = {
   datasets: {},
-  reports: { gap: null, monthly: null },
+  reports: { gap: null, monthly: null, upstream: null },
   graph: null,
   cards: [],
   view: "internal",

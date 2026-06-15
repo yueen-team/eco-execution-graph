@@ -110,6 +110,14 @@ function buildCardActs() {
 
 const SUPPORT_ACTS = [
   {
+    kicker: "上游骨架",
+    title: "已接入,也要看得见",
+    narration: "先把底座讲清楚:eco-semantic-knowledge-base 提供已审核公共基线,现场经验和私有判断仍留在现场执行图谱治理膜内。",
+    run() {
+      renderUpstreamPanel();
+    },
+  },
+  {
     kicker: "危废专题",
     title: "危废全量切片目录",
     narration: "开场 5 张讲价值,这一幕展示危废相关切片已经形成目录:精品卡、扩展卡、合并展示卡和候补切片各有边界。",
@@ -225,6 +233,73 @@ function renderHazardousSliceCatalog() {
     button.addEventListener("click", () => focusDirectorCard(button.dataset.cardId));
   });
   window.__refreshIcons?.();
+}
+
+/* ---------- 上游公共语义骨架 ---------- */
+
+export function renderUpstreamPanel() {
+  clearStage();
+  setView("shared", "full");
+  initOrUpdateGraph({ skipAnimation: true });
+  const upstream = state.reports.upstream;
+  if (!upstream) {
+    overlay().innerHTML = `<div class="report-panel"><h3>上游骨架</h3><p class="rp-sub">上游骨架摘要未装载(demo-data/upstream-visibility.json)。请先运行 pnpm upstream:visibility。</p></div>`;
+    overlay().hidden = false;
+    return;
+  }
+  const metrics = upstream.visible_metrics || [];
+  const nodeCounts = upstream.node_counts || [];
+  const edgeCounts = upstream.edge_counts || [];
+  const assets = (upstream.asset_rows || []).slice(0, 6);
+  overlay().innerHTML = `
+    <div class="report-panel upstream-panel">
+      <p class="rp-kicker">上游骨架 · 已接入</p>
+      <h3>${esc(upstream.title || "上游公共语义骨架接入可见化")}</h3>
+      <p class="rp-sub">${esc(upstream.plain_summary || "")}</p>
+      <div class="upstream-metrics">
+        ${metrics.map((item) => `
+          <div class="gap-cell"><b>${esc(item.value)}</b><span>${esc(item.label)}<br>${esc(item.unit || "")}</span></div>`).join("")}
+      </div>
+      <div class="upstream-columns">
+        <section>
+          <h4><i data-lucide="database"></i>导入资产</h4>
+          <div class="upstream-assets">
+            ${assets.map((item) => `
+              <div class="asset-row">
+                <strong>${esc(item["资产名称"])}</strong>
+                <span>${esc(item["导入状态"])} · ${esc(item["记录数量"])} 条</span>
+              </div>`).join("")}
+          </div>
+        </section>
+        <section>
+          <h4><i data-lucide="spline"></i>变成图里的什么</h4>
+          <div class="mini-bars">
+            ${nodeCounts.map((item) => miniBar(item.label, item.value)).join("")}
+          </div>
+        </section>
+        <section>
+          <h4><i data-lucide="git-fork"></i>支撑哪些关联</h4>
+          <div class="mini-bars">
+            ${edgeCounts.map((item) => miniBar(item.label, item.value)).join("")}
+          </div>
+        </section>
+      </div>
+      <div class="upstream-lock">
+        <span>锁定仓库</span><strong>${esc(upstream.repo?.["名称"])}</strong>
+        <span>锁定提交</span><code>${esc((upstream.repo?.["提交"] || "").slice(0, 12))}</code>
+      </div>
+      <div class="honest-note"><i data-lucide="shield-check"></i><span>
+        ${esc(upstream.demo_line || "公开标准给骨架,现场经验给血肉。")} ${esc((upstream.role_boundary || []).join(" "))}
+      </span></div>
+    </div>`;
+  overlay().hidden = false;
+  hooks?.setStatus("共有视图:正在展示 eco-kb 上游公共语义骨架接入情况。");
+  window.__refreshIcons?.();
+}
+
+function miniBar(label, value) {
+  const width = Math.max(8, Math.min(100, Number(value) / 8));
+  return `<div class="mini-bar"><span>${esc(label)}</span><div><b style="width:${width}%"></b></div><strong>${esc(value)}</strong></div>`;
 }
 
 /* ---------- 第五幕:缺口雷达 ---------- */

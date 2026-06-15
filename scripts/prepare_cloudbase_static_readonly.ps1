@@ -40,6 +40,7 @@ New-Item -ItemType Directory -Force -Path $demoData | Out-Null
 $sharedGraph = Join-Path $root "data/exports/shared_product_v1/graph.json"
 $sharedCards = Join-Path $root "data/exports/shared_product_v1/cards.shared.json"
 $gapReport = Join-Path $root "reports/gap-report-full.json"
+$upstreamVisibility = Join-Path $root "reports/upstream-visibility-dashboard.json"
 
 Copy-Item $sharedGraph (Join-Path $demoData "full-shared-graph.json") -Force
 Copy-Item $sharedCards (Join-Path $demoData "full-shared-cards.json") -Force
@@ -48,6 +49,9 @@ Copy-Item $sharedCards (Join-Path $demoData "full-cards.json") -Force
 Copy-Item $sharedGraph (Join-Path $demoData "graph.json") -Force
 Copy-Item $sharedCards (Join-Path $demoData "cards.json") -Force
 Copy-Item $gapReport (Join-Path $demoData "gap-report.json") -Force
+if (Test-Path $upstreamVisibility) {
+  Copy-Item $upstreamVisibility (Join-Path $demoData "upstream-visibility.json") -Force
+}
 
 $deployPolicy = [pscustomobject]@{
   readonly_shared = $true

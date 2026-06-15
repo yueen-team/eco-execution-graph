@@ -13,7 +13,8 @@ pnpm --dir graph-ui preview   # 本地预览构建产物
 ## 演示
 
 - **图谱演示**:右上角按钮,或直接打开 `/?director=1`。审核后的 5 张卡主线:
-  标签信息核查 → 一物一码核查 → 台账记录核查 → 转移闭环核查 → 暂存实体风险 → 缺口报告 → 授权边界/看得见带不走。演示不进入云南踩雷地图,不演示月报对比,不作违法认定。
+  标签信息核查 → 一物一码核查 → 台账记录核查 → 转移闭环核查 → 暂存实体风险 → 上游骨架 → 缺口报告 → 授权边界/看得见带不走。演示不进入云南踩雷地图,不演示月报对比,不作违法认定。
+- **上游骨架可见化**:舞台右上角数据库图标,或直接打开 `/?upstream=1`。该面板只展示 eco-kb 已审核公共基线接入数量、资产类别、节点/边类型和锁定提交,不展示私有能力层。
 - **现场经验入图审核台**:内部模式右上角“入图审核”,或直接打开 `/?workspace=review`。CloudBase 只读 shared 包会隐藏入口,不装载审核数据。
 - 键盘:`→`/`空格` 下一幕,`←` 上一幕,`Esc` 退出。
 - `/?view=shared` 直接进入共有视图。
@@ -29,6 +30,7 @@ pnpm --dir graph-ui preview   # 本地预览构建产物
 | full-shared-* | shared_product_v1 物理过滤导出 |
 | graph / cards | P1 危废精品切片 |
 | gap-report.json | reports/gap-report-full.json |
+| upstream-visibility.json | reports/upstream-visibility-dashboard.json |
 | monthly-comparison.json | reports/monthly-report-comparison-full.json(诚实标注 synthetic_baseline_demo) |
 | review-data/field-event-review-demo.json | 合成审核样例,仅用于内部审核台 render proof |
 

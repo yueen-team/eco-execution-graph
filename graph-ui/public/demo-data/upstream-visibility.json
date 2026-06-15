@@ -1,0 +1,135 @@
+{
+  "status": "pass",
+  "title": "上游公共语义骨架接入可见化",
+  "plain_summary": "eco-semantic-knowledge-base 已作为已审核公共基线接入图谱底座:它提供场景、污染物、技术规范、检查项和标准映射;现场经验、ETO 审核、整改闭环和授权边界仍留在现场执行图谱治理。",
+  "repo": {
+    "名称": "coco830/eco-semantic-knowledge-base",
+    "提交": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+    "状态": "已接入",
+    "口径": "现场经验为内容，公开标准为骨架"
+  },
+  "visible_metrics": [
+    {
+      "label": "上游骨架节点",
+      "value": 446,
+      "unit": "个"
+    },
+    {
+      "label": "上游骨架关联",
+      "value": 912,
+      "unit": "条"
+    },
+    {
+      "label": "接入资产",
+      "value": 4,
+      "unit": "类"
+    },
+    {
+      "label": "可追溯来源",
+      "value": 4,
+      "unit": "项"
+    },
+    {
+      "label": "执行卡切片",
+      "value": 90,
+      "unit": "张"
+    }
+  ],
+  "asset_rows": [
+    {
+      "资产名称": "场景触发规则",
+      "资产代号": "approved_show_if_rules",
+      "导入状态": "已导入",
+      "记录数量": 56,
+      "来源文件": "approved_show_if_rules_v1_0.csv"
+    },
+    {
+      "资产名称": "污染物与标准基线",
+      "资产代号": "pollutant_domain_approved_baseline",
+      "导入状态": "已导入",
+      "记录数量": 209,
+      "来源文件": "pollutant_domain_approved_baseline_v8_5.csv"
+    },
+    {
+      "资产名称": "污染物-标准映射",
+      "资产代号": "pollutant_standard_link_map",
+      "导入状态": "已导入",
+      "记录数量": 923,
+      "来源文件": "pollutant_standard_link_map_v8_6.csv"
+    },
+    {
+      "资产名称": "专项检查项",
+      "资产代号": "approved_specialized_inspection_items",
+      "导入状态": "已导入",
+      "记录数量": 49,
+      "来源文件": "approved_specialized_inspection_items_v1_0.csv"
+    }
+  ],
+  "node_counts": [
+    {
+      "label": "技术规范",
+      "key": "tech_spec",
+      "value": 209
+    },
+    {
+      "label": "排查项",
+      "key": "inspection_item",
+      "value": 105
+    },
+    {
+      "label": "产污/管理场景",
+      "key": "process_scenario",
+      "value": 58
+    },
+    {
+      "label": "问题分类",
+      "key": "issue_type",
+      "value": 49
+    },
+    {
+      "label": "污染物/领域",
+      "key": "pollutant",
+      "value": 24
+    },
+    {
+      "label": "证据类别",
+      "key": "evidence_category",
+      "value": 1
+    }
+  ],
+  "edge_counts": [
+    {
+      "label": "标准约束",
+      "key": "limited_by",
+      "value": 709
+    },
+    {
+      "label": "场景归属",
+      "key": "occurs_in",
+      "value": 105
+    },
+    {
+      "label": "证据支撑",
+      "key": "evidenced_by",
+      "value": 49
+    },
+    {
+      "label": "现场表现",
+      "key": "manifests_as",
+      "value": 49
+    }
+  ],
+  "utilization": {
+    "状态": "pass",
+    "上游节点": 446,
+    "上游关联": 912,
+    "P1样本角色": "兼容样例"
+  },
+  "role_boundary": [
+    "eco-kb 负责公开语义骨架，不是现场执行图谱的私有能力层。",
+    "P1 危废样例只保留为兼容样例和危废精品切片保底，不作为全量产品主数据源。",
+    "法规或标准全文、真实企业数据、证据判断标准、整改模板和报告表达模板不进入共有可见包。",
+    "待审核关系只作内部治理提示，不对外表达为法律认定。"
+  ],
+  "demo_line": "主任演示时可以这样讲:公开标准给骨架，现场经验给血肉；我们不是重做知识库，而是把已审核公共基线变成可执行的现场图谱。"
+}
