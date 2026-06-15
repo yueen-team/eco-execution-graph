@@ -33,11 +33,23 @@ ContextBundle = {
 }
 ```
 
+## 图谱上下文只读接口
+
+专家智能体和 EcoCheck 小程序可直接调用图谱上下文接口,再按 `rag_doc_ref` 调腾讯云 RAG 取原文:
+
+```
+GET /api/graph/context?node_id=issue:hw:label-incomplete&depth=2
+GET /api/graph/context?q=危废标签&depth=2
+```
+
+该接口只返回 ETO 已审核进图的 shared/aggregate 图谱上下文。ETO 审核进图即主审核;接口发布不再追加人审,只做机器门禁。返回中的 `law_refs` 和 `tech_spec_refs` 是瘦条款,用于约束 RAG 检索和 AI 表达强度。
+
 ## 硬规则
 
 - 输出含 `trace`:报告里每个结论可回指装配时用了哪些节点/边。
-- 法条只给瘦引用,全文由调用方(EcoDoc)向腾讯云 RAG 取,失败则触发降级表达(CONTEXT.md 判断规则 #1)。
+- 法条只给瘦引用,全文由调用方(EcoCheck、小悦或 EcoCheck 环保体检报告 EcoDoc worker)向腾讯云 RAG 取,失败则触发降级表达(CONTEXT.md 判断规则 #1)。
 - `law_refs` 只能携带 `provider`、`rag_doc_ref`、`node_id`、`node_type`、`law_name`、`article_no`、`tech_spec_no`、`citation_title`、`citation_locator`、`source_hash`、`resolved_at`、`raw_cached=false`、`cache_policy=metadata_only`、`retrieval_probe`、`report_usage_policy` 等 citation metadata。不得携带 RetrieveKnowledge 的 `Content` 或原始响应。
 - `citation_locator` 应优先使用条款号、规范编号、页码或章节。只有这些 metadata 都缺失时,才允许降级为 `source-level`,并进入人工补定位队列。
 - `legal_basis_status` 控制输出: candidate 仅内部提示,disputed 必须人工审核,no_legal_basis 只能写管理建议。
 - 本 API 只读;回灌通道复用 EcoCheck `semantic_event_outbox` 对侧(蒸馏 v2 spec 岔路3 取定)。
+- 已审核图谱上下文可自动发布给小悦/EcoCheck/EcoCheck 环保体检报告 EcoDoc worker;机器门禁失败的法规或规范引用必须进入 `blocked_refs`,不得包装成确定法律依据。

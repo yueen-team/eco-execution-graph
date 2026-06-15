@@ -14,6 +14,8 @@
 - shared_product_v1
 - upstream utilization report
 - director demo card sequence
+- hazardous waste slice catalog
+- ETO hazardous waste ingest register
 - gap report full
 
 ## Not Safe To Show Yet

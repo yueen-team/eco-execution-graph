@@ -35,7 +35,7 @@
             </button>
           </div>
           <button id="directorButton" class="btn-primary">
-            <i data-lucide="presentation"></i><span>主任演示</span>
+            <i data-lucide="presentation"></i><span>图谱演示</span>
           </button>
           <button id="reviewButton" class="btn-ghost" hidden>
             <i data-lucide="clipboard-check"></i><span>入图审核</span>
@@ -131,9 +131,10 @@
       <main id="reviewWorkspace" class="review-workspace" hidden aria-label="现场经验入图审核台">
         <aside class="review-queue">
           <div class="review-title">
-            <p class="eyebrow">内部工作区</p>
+            <p class="eyebrow">内部工作区 · 登录已通过</p>
             <h2>现场经验入图审核台</h2>
             <p>候选现场经验必须经 ETO 审核后才能进入聚合候选池。</p>
+            <p class="review-pending" id="reviewPendingHint" hidden></p>
           </div>
           <div id="reviewStatusTabs" class="review-tabs" aria-label="审核状态"></div>
         </aside>

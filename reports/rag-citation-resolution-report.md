@@ -3,7 +3,7 @@
 - rag_real_smoke: `pass`
 - tokenhub_probe: `pass`
 - rag_retrieve_probe: `pass`
-- ws_token_probe: `blocked`
+- generation_path: `direct_rag_retrieve_plus_tokenhub_deepseek`
 - citations: 218
 - specific_locator: 191
 - source_level_locator: 27

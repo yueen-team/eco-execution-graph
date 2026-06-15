@@ -25,7 +25,7 @@
       "reason": "code bundle still contains internal vocabulary labels; data package is checked separately"
     },
     {
-      "file": "graph-ui/dist-cloudbase-static-readonly/assets/app-CAUcMjnk.js",
+      "file": "graph-ui/dist-cloudbase-static-readonly/assets/app-D6bil-uW.js",
       "reason": "code bundle still contains internal vocabulary labels; data package is checked separately"
     },
     {
@@ -55,5 +55,5 @@
       "bytes": 193
     }
   ],
-  "generated_at": "2026-06-13T15:35:45"
+  "generated_at": "2026-06-15T00:45:16"
 }

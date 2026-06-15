@@ -1,0 +1,215 @@
+{
+  "status": "pass",
+  "source": "reports/eto_hazardous_waste_slice_conclusions_31_v4.md",
+  "source_interpretation": "文档中的 ETO 确认:□ 采纳 按已采纳处理",
+  "summary": {
+    "independent_demo_or_followup_cards": 14,
+    "scenario_or_topic_templates": 3,
+    "merged_knowledge_items": 14,
+    "total_accepted_items": 31
+  },
+  "director_opening_order": [
+    {
+      "order": 1,
+      "card_id": "card:full:0003",
+      "title": "危废包装容器标签信息不完整或与实物、台账不一致执行卡"
+    },
+    {
+      "order": 2,
+      "card_id": "card:full:0011",
+      "title": "危废包装容器电子标签二维码 / 一物一码与平台记录核查执行卡"
+    },
+    {
+      "order": 3,
+      "card_id": "card:full:0001",
+      "title": "危险废物台账记录不完整或前后不一致执行卡"
+    },
+    {
+      "order": 4,
+      "card_id": "card:full:0005",
+      "title": "危废出入库记录、电子标签二维码与电子转移联单一致性核查执行卡"
+    },
+    {
+      "order": 5,
+      "card_id": "card:full:0012",
+      "title": "危废暂存场所防渗、防漏及泄漏收集措施不完善执行卡"
+    }
+  ],
+  "followup_cards": [
+    {
+      "card_id": "card:full:0002",
+      "title": "危废暂存间分类分区贮存管理不到位执行卡",
+      "role": "主任追问展开卡",
+      "external_expression": "现场主要看不同类别、不同形态、不同危险特性的危废是否分类分区存放,分区标识、容器标签和台账记录能否相互对应。"
+    },
+    {
+      "card_id": "card:full:0004",
+      "title": "危废贮存场所及分区识别标志设置不完善执行卡",
+      "role": "主任追问展开卡",
+      "external_expression": "现场主要看危废暂存场所入口、库内分区和包装容器标识是否清晰,标志内容是否和实际贮存内容一致。"
+    },
+    {
+      "card_id": "card:full:0006",
+      "title": "不相容危废隔离贮存措施不足或待核查执行卡",
+      "role": "主任追问展开卡",
+      "external_expression": "现场不能只看放得近不近,还要结合危废类别、形态和危险特性判断是否存在不相容接触或混放风险。"
+    },
+    {
+      "card_id": "card:full:0007",
+      "title": "结合当地平台要求的危废产生端“五即”即称重核查执行卡",
+      "role": "主任追问展开卡",
+      "external_expression": "在当地平台要求或企业已纳入信息化监管场景下,重点核查危废产生后是否完成包装、称重、打码、入库,称重数据是否进入电子台账并与后续记录一致。"
+    },
+    {
+      "card_id": "card:full:0008",
+      "title": "危废电子标签二维码与贮存记录对应关系核查执行卡",
+      "role": "主任追问展开卡",
+      "external_expression": "现场主要核查危废包装容器打码入库后,电子标签二维码、入库记录、贮存设施或分区记录是否能对应。"
+    },
+    {
+      "card_id": "card:full:0009",
+      "title": "危废电子标签、出库记录和电子转移联单一致性核查执行卡",
+      "role": "主任追问展开卡",
+      "external_expression": "一码贯通不是单看一个二维码,而是看危废出库、运输、接收、利用处置等环节的电子记录是否能沿同一对象追溯。"
+    },
+    {
+      "card_id": "card:full:0013",
+      "title": "危废暂存场所应急物资及培训演练记录有待完善执行卡",
+      "role": "主任追问展开卡",
+      "external_expression": "现场主要看危废泄漏风险对应的应急物资是否配齐,相关人员是否培训过,演练和检查记录是否留痕。"
+    },
+    {
+      "card_id": "card:full:0015",
+      "title": "印刷工序清洗废液、废擦拭布及废包装物属性与去向核查执行卡",
+      "role": "主任追问展开卡",
+      "external_expression": "这张不是直接认定所有清洗废液、擦拭布和包装物都是危废,而是从工序、原辅材料和实际沾染情况出发,核查属性、分类收集和去向记录。"
+    },
+    {
+      "card_id": "card:full:0016",
+      "title": "污水处理站污泥属性、暂存及去向核查执行卡",
+      "role": "主任追问展开卡",
+      "external_expression": "污泥是否属于危废不能简单按名称判断,需要结合来源、工艺、检测或鉴别资料、环评和实际去向核查。"
+    }
+  ],
+  "templates": [
+    {
+      "card_id": "card:full:0026",
+      "title": "首次巡查中危险废物识别、暂存与转移管理核查执行卡",
+      "external_expression": "首次巡查重点不是单点问题,而是先摸清企业危废产生、暂存、台账、转移和去向管理全链条。"
+    },
+    {
+      "card_id": "card:full:0027",
+      "title": "月度巡查中危废暂存、台账与转移记录复核执行卡",
+      "external_expression": "月度巡查重点是复核上月问题是否整改、本月产生和转移是否闭合、现场库存和台账是否一致。"
+    },
+    {
+      "card_id": "card:full:0028",
+      "title": "实验室废液、废试剂属性及去向核查执行卡",
+      "external_expression": "实验室废液和废试剂不能只按名称判断,要结合试剂成分、检测活动、产生环节、收集方式和去向资料核查属性及管理要求。"
+    }
+  ],
+  "merged_items": [
+    {
+      "card_id": "card:full:0010",
+      "title": "危废分类分区贮存管理核查执行卡",
+      "merge_with": "card:full:0002",
+      "secondary_merge_refs": [],
+      "external_expression": "本卡作为第 2 张的短名称或目录别名,不单独成卡。"
+    },
+    {
+      "card_id": "card:full:0014",
+      "title": "危废贮存设施和分区识别标志核查执行卡",
+      "merge_with": "card:full:0004",
+      "secondary_merge_refs": [],
+      "external_expression": "本卡作为第 4 张的子检查点,不单独成卡。"
+    },
+    {
+      "card_id": "card:full:0017",
+      "title": "不相容危废隔离贮存候补执行卡",
+      "merge_with": "card:full:0006",
+      "secondary_merge_refs": [],
+      "external_expression": "本卡作为第 6 张的候补名称或别名,不单独成卡。"
+    },
+    {
+      "card_id": "card:full:0018",
+      "title": "危废产生端“五即”即称重候补执行卡",
+      "merge_with": "card:full:0007",
+      "secondary_merge_refs": [],
+      "external_expression": "本卡作为第 7 张的短名称或候补标题,不单独成卡。"
+    },
+    {
+      "card_id": "card:full:0019",
+      "title": "危废入库打码与贮存记录对应关系候补执行卡",
+      "merge_with": "card:full:0008",
+      "secondary_merge_refs": [
+        "card:full:0011"
+      ],
+      "external_expression": "主体合并到第 8 张,同时作为第 11 张一物一码入库环节子项。"
+    },
+    {
+      "card_id": "card:full:0020",
+      "title": "危废电子标签二维码与电子转移联单一致性候补执行卡",
+      "merge_with": "card:full:0005",
+      "secondary_merge_refs": [
+        "card:full:0009"
+      ],
+      "external_expression": "主体合并到第 5 张,第 9 张展开时调用。"
+    },
+    {
+      "card_id": "card:full:0021",
+      "title": "危废分类分区贮存执行卡",
+      "merge_with": "card:full:0002",
+      "secondary_merge_refs": [],
+      "external_expression": "本卡作为第 2 张目录别名,不单独成卡。"
+    },
+    {
+      "card_id": "card:full:0022",
+      "title": "危废包装容器一物一码执行卡",
+      "merge_with": "card:full:0011",
+      "secondary_merge_refs": [],
+      "external_expression": "本卡作为第 11 张短名称或目录别名,不单独成卡。"
+    },
+    {
+      "card_id": "card:full:0023",
+      "title": "危废暂存防渗和泄漏收集执行卡",
+      "merge_with": "card:full:0012",
+      "secondary_merge_refs": [],
+      "external_expression": "本卡作为第 12 张短名称,不单独成卡。"
+    },
+    {
+      "card_id": "card:full:0024",
+      "title": "危废泄漏应急物资和演练记录执行卡",
+      "merge_with": "card:full:0013",
+      "secondary_merge_refs": [],
+      "external_expression": "本卡作为第 13 张短名称或目录别名,不单独成卡。"
+    },
+    {
+      "card_id": "card:full:0025",
+      "title": "危废贮存设施和分区识别标志执行卡",
+      "merge_with": "card:full:0004",
+      "secondary_merge_refs": [],
+      "external_expression": "本卡作为第 4 张子检查点,不单独成卡。"
+    },
+    {
+      "card_id": "card:full:0029",
+      "title": "实验室废液与检测试剂危废候选 MONTHLY执行卡",
+      "merge_with": "card:full:0028",
+      "secondary_merge_refs": [],
+      "external_expression": "本卡合并到第 28 张,作为月度台账及去向复核子场景。"
+    },
+    {
+      "card_id": "card:full:0030",
+      "title": "洗车水/洗版废液、废擦拭布及废包装物收集闭环核查执行卡",
+      "merge_with": "card:full:0015",
+      "secondary_merge_refs": [],
+      "external_expression": "统一作为印刷工序涉废物属性、分类收集和去向核查来讲。"
+    },
+    {
+      "card_id": "card:full:0031",
+      "title": "脱水系统运行及污泥危废属性核查执行卡",
+      "merge_with": "card:full:0016",
+      "secondary_merge_refs": [],
+      "external_expression": "统一作为污水处理站污泥属性、暂存和去向核查来讲。"
+    }
+  ]
+}

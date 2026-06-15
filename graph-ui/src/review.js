@@ -368,10 +368,24 @@ async function submitReviewDecision(id, action, comment, mergeTarget) {
   }
 }
 
+function renderPendingHint() {
+  const el = document.getElementById("reviewPendingHint");
+  if (!el) return;
+  const pending = statusCounts()["待审核"] || 0;
+  const total = reviewState.items.length;
+  el.hidden = false;
+  el.innerHTML = total === 0
+    ? "候选队列为空 —— EcoCheck 暂未推送新的现场经验。"
+    : pending > 0
+      ? `当前有 <b>${pending}</b> 条候选待你审核 · 共 ${total} 条在库`
+      : `待审核队列已清空 · 共 ${total} 条已处理`;
+}
+
 function renderReviewWorkspace() {
   renderStatusTabs();
   renderList();
   renderDetail();
+  renderPendingHint();
   window.__refreshIcons?.();
 }
 

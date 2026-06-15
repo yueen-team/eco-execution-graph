@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "eco-execution-graph/graph-context-response.v1",
+  "title": "GraphContextResponseV1",
+  "description": "专家智能体小悦、EcoCheck、EcoCheck 环保体检报告 EcoDoc worker 只读消费的已审核图谱上下文响应。只返回瘦条款与 trace,不返回 RAG Content 或企业私有数据。",
+  "type": "object",
+  "required": [
+    "status",
+    "approval_basis",
+    "human_review_required",
+    "machine_gate_status",
+    "query",
+    "root_nodes",
+    "graph_context",
+    "law_refs",
+    "tech_spec_refs",
+    "blocked_refs",
+    "trace"
+  ],
+  "properties": {
+    "status": { "enum": ["pass", "partial", "blocked"] },
+    "approval_basis": { "const": "ETO_APPROVED_IN_GRAPH" },
+    "human_review_required": { "const": false },
+    "machine_gate_status": { "enum": ["pass", "partial", "blocked"] },
+    "query": { "type": "object" },
+    "root_nodes": { "type": "array" },
+    "graph_context": {
+      "type": "object",
+      "required": ["nodes", "edges"],
+      "properties": {
+        "nodes": { "type": "array" },
+        "edges": { "type": "array" }
+      },
+      "additionalProperties": false
+    },
+    "law_refs": { "type": "array", "items": { "$ref": "#/$defs/slimRef" } },
+    "tech_spec_refs": { "type": "array", "items": { "$ref": "#/$defs/slimRef" } },
+    "blocked_refs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["node_id", "node_type", "title", "reason", "trace"],
+        "properties": {
+          "node_id": { "type": "string" },
+          "node_type": { "type": "string" },
+          "title": { "type": "string" },
+          "rag_doc_ref": { "type": "string" },
+          "reason": { "type": "string" },
+          "legal_basis_status": { "type": "string" },
+          "trace": { "$ref": "#/$defs/trace" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "trace": { "$ref": "#/$defs/trace" }
+  },
+  "$defs": {
+    "trace": {
+      "type": "object",
+      "required": ["node_ids", "edge_ids", "source_refs"],
+      "properties": {
+        "node_ids": { "type": "array", "items": { "type": "string" } },
+        "edge_ids": { "type": "array", "items": { "type": "string" } },
+        "source_refs": { "type": "array", "items": { "type": "string" } }
+      },
+      "additionalProperties": false
+    },
+    "slimRef": {
+      "type": "object",
+      "required": ["node_id", "node_type", "title", "rag_doc_ref", "legal_basis_status", "source_ref", "trace"],
+      "properties": {
+        "node_id": { "type": "string" },
+        "node_type": { "enum": ["law_article", "tech_spec", "standard_limit"] },
+        "title": { "type": "string" },
+        "rag_doc_ref": { "type": "string" },
+        "legal_basis_status": { "enum": ["official_confirmed", "internal_reviewed"] },
+        "source_ref": { "type": "string" },
+        "law_name": { "type": "string" },
+        "article_no": { "type": "string" },
+        "standard_no": { "type": ["string", "null"] },
+        "trace": { "$ref": "#/$defs/trace" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "propertyNames": {
+    "not": {
+      "enum": ["Content", "content", "raw_text", "full_text", "original_text", "enterprise_name", "gps", "photo_path", "raw_report"]
+    }
+  },
+  "additionalProperties": false
+}

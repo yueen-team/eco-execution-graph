@@ -1,10 +1,11 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { mkdir, rm } from "node:fs/promises";
+import { mkdir, rm, writeFile } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import fixture from "../../data/fixtures/ecocheck-field-event-fixture.json" with { type: "json" };
 import { createServer, isAuthorized, validateRuntimeConfig } from "../src/server.js";
+import { buildGraphContextResponse } from "../src/graph-context.js";
 
 test("未配置访问令牌时允许本地开发请求", () => {
   assert.equal(isAuthorized({}, ""), true);
@@ -80,4 +81,495 @@ test("超大请求体会被拒绝", async () => {
     await new Promise((resolve) => server.close(resolve));
     await rm(temp, { recursive: true, force: true });
   }
+});
+
+test("图谱上下文接口返回已审核上下文和法规技术规范瘦条款", async () => {
+  const temp = path.join(os.tmpdir(), `eco-graph-context-${Date.now()}`);
+  await mkdir(temp, { recursive: true });
+  const graphPath = path.join(temp, "graph.json");
+  const publicationPath = path.join(temp, "ecocheck.json");
+  await writeFile(graphPath, JSON.stringify({
+    nodes: [
+      {
+        node_id: "issue:hw:label",
+        node_type: "issue_type",
+        name: "危废标签不规范",
+        tier: "shared",
+        review_status: "APPROVED_BASELINE",
+      },
+      {
+        node_id: "obl:hw:label",
+        node_type: "law_obligation",
+        name: "危废标签管理义务",
+        tier: "shared",
+        review_status: "APPROVED_BASELINE",
+      },
+      {
+        node_id: "law:swl:art77",
+        node_type: "law_article",
+        name: "固体废物污染环境防治法 第七十七条",
+        tier: "shared",
+        review_status: "APPROVED_BASELINE",
+        attrs: {
+          law_name: "固体废物污染环境防治法",
+          article_no: "第七十七条",
+          rag_doc_ref: "tencent-lke://law/swl/art77",
+          Content: "不应输出的 RAG 原文",
+        },
+      },
+      {
+        node_id: "spec:gb18597:label",
+        node_type: "tech_spec",
+        name: "GB 18597 危险废物贮存污染控制标准·标签管理",
+        tier: "shared",
+        review_status: "APPROVED_BASELINE",
+        attrs: {
+          rag_doc_ref: "tencent-lke://spec/gb18597/label",
+          summary: "危险废物标签管理要求摘要",
+        },
+      },
+    ],
+    edges: [
+      {
+        edge_id: "edge:regulated:label",
+        from: "issue:hw:label",
+        to: "obl:hw:label",
+        edge_type: "regulated_by",
+        tier: "shared",
+        review_status: "APPROVED_BASELINE",
+        source_ref: "src:test",
+        legal_basis_status: "internal_reviewed",
+        confidence: 0.8,
+        confidence_reason: ["MANUAL_REVIEWED"],
+      },
+      {
+        edge_id: "edge:obligation:art77",
+        from: "obl:hw:label",
+        to: "law:swl:art77",
+        edge_type: "obligation_of",
+        tier: "shared",
+        review_status: "APPROVED_BASELINE",
+        source_ref: "src:test",
+        legal_basis_status: "internal_reviewed",
+        confidence: 0.8,
+        confidence_reason: ["MANUAL_REVIEWED"],
+      },
+      {
+        edge_id: "edge:limited:label",
+        from: "issue:hw:label",
+        to: "spec:gb18597:label",
+        edge_type: "limited_by",
+        tier: "shared",
+        review_status: "APPROVED_BASELINE",
+        source_ref: "src:test",
+        legal_basis_status: "internal_reviewed",
+        confidence: 0.8,
+        confidence_reason: ["MANUAL_REVIEWED"],
+      },
+    ],
+  }), "utf8");
+  await writeFile(publicationPath, JSON.stringify({
+    items: [
+      {
+        rag_doc_ref: "tencent-lke://law/swl/art77",
+        review_status: "approved",
+        legal_basis_status: "internal_reviewed",
+        citation_locator: "第七十七条",
+        cache_policy: "metadata_only",
+        raw_cached: false,
+      },
+      {
+        rag_doc_ref: "tencent-lke://spec/gb18597/label",
+        review_status: "approved",
+        legal_basis_status: "internal_reviewed",
+        citation_locator: "GB 18597",
+        cache_policy: "metadata_only",
+        raw_cached: false,
+      },
+    ],
+  }), "utf8");
+
+  const server = createServer({
+    stagingPath: path.join(temp, "field-events.jsonl"),
+    apiToken: "secret-for-test",
+    contextGraphPath: graphPath,
+    contextPublicationPath: publicationPath,
+  });
+  await new Promise((resolve) => server.listen(0, "127.0.0.1", resolve));
+  const base = `http://127.0.0.1:${server.address().port}`;
+
+  try {
+    const response = await fetch(`${base}/api/graph/context?node_id=issue%3Ahw%3Alabel&depth=2`, {
+      headers: { authorization: "Bearer secret-for-test" },
+    });
+    assert.equal(response.status, 200);
+    const body = await response.json();
+    const text = JSON.stringify(body);
+    assert.equal(body.approval_basis, "ETO_APPROVED_IN_GRAPH");
+    assert.equal(body.human_review_required, false);
+    assert.equal(body.machine_gate_status, "pass");
+    assert.equal(body.law_refs.length, 1);
+    assert.equal(body.tech_spec_refs.length, 1);
+    assert.equal(body.law_refs[0].article_no, "第七十七条");
+    assert.equal(body.tech_spec_refs[0].rag_doc_ref, "tencent-lke://spec/gb18597/label");
+    assert.equal(body.trace.edge_ids.length, 3);
+    assert.equal(text.includes("Content"), false);
+    assert.equal(text.includes("不应输出的 RAG 原文"), false);
+  } finally {
+    await new Promise((resolve) => server.close(resolve));
+    await rm(temp, { recursive: true, force: true });
+  }
+});
+
+test("图谱上下文接口复用 API Bearer 认证", async () => {
+  const temp = path.join(os.tmpdir(), `eco-graph-context-auth-${Date.now()}`);
+  await mkdir(temp, { recursive: true });
+  const graphPath = path.join(temp, "graph.json");
+  const publicationPath = path.join(temp, "ecocheck.json");
+  await writeFile(graphPath, JSON.stringify({
+    nodes: [{ node_id: "issue:auth", node_type: "issue_type", name: "认证测试", tier: "shared", review_status: "APPROVED_BASELINE" }],
+    edges: [],
+  }), "utf8");
+  await writeFile(publicationPath, JSON.stringify({ items: [] }), "utf8");
+
+  const server = createServer({
+    stagingPath: path.join(temp, "field-events.jsonl"),
+    apiToken: "secret-for-test",
+    contextGraphPath: graphPath,
+    contextPublicationPath: publicationPath,
+  });
+  await new Promise((resolve) => server.listen(0, "127.0.0.1", resolve));
+  const base = `http://127.0.0.1:${server.address().port}`;
+
+  try {
+    const denied = await fetch(`${base}/api/graph/context?node_id=issue%3Aauth`);
+    assert.equal(denied.status, 401);
+
+    const allowed = await fetch(`${base}/api/graph/context?node_id=issue%3Aauth`, {
+      headers: { authorization: "Bearer secret-for-test" },
+    });
+    assert.equal(allowed.status, 200);
+  } finally {
+    await new Promise((resolve) => server.close(resolve));
+    await rm(temp, { recursive: true, force: true });
+  }
+});
+
+test("图谱上下文接口阻断未发布或定位不足的瘦条款", async () => {
+  const temp = path.join(os.tmpdir(), `eco-graph-context-blocked-${Date.now()}`);
+  await mkdir(temp, { recursive: true });
+  const graphPath = path.join(temp, "graph.json");
+  const publicationPath = path.join(temp, "ecocheck.json");
+  await writeFile(graphPath, JSON.stringify({
+    nodes: [
+      { node_id: "issue:hw:source-level", node_type: "issue_type", name: "待补定位问题", tier: "shared", review_status: "APPROVED_BASELINE" },
+      {
+        node_id: "law:source-level",
+        node_type: "law_article",
+        name: "待补定位法规",
+        tier: "shared",
+        review_status: "APPROVED_BASELINE",
+        attrs: { law_name: "待补定位法规", article_no: "第一条", rag_doc_ref: "tencent-lke://law/source-level" },
+      },
+    ],
+    edges: [
+      {
+        edge_id: "edge:source-level",
+        from: "issue:hw:source-level",
+        to: "law:source-level",
+        edge_type: "regulated_by",
+        tier: "shared",
+        review_status: "APPROVED_BASELINE",
+        source_ref: "src:test",
+        legal_basis_status: "internal_reviewed",
+        confidence: 0.7,
+        confidence_reason: ["MANUAL_REVIEWED"],
+      },
+    ],
+  }), "utf8");
+  await writeFile(publicationPath, JSON.stringify({ items: [] }), "utf8");
+
+  const server = createServer({
+    stagingPath: path.join(temp, "field-events.jsonl"),
+    apiToken: "secret-for-test",
+    contextGraphPath: graphPath,
+    contextPublicationPath: publicationPath,
+  });
+  await new Promise((resolve) => server.listen(0, "127.0.0.1", resolve));
+  const base = `http://127.0.0.1:${server.address().port}`;
+
+  try {
+    const response = await fetch(`${base}/api/graph/context?q=待补定位&depth=1`, {
+      headers: { authorization: "Bearer secret-for-test" },
+    });
+    assert.equal(response.status, 200);
+    const body = await response.json();
+    assert.equal(body.machine_gate_status, "partial");
+    assert.equal(body.law_refs.length, 0);
+    assert.equal(body.blocked_refs.length, 1);
+    assert.equal(body.blocked_refs[0].reason, "not_in_publication_bundle_or_source_level");
+  } finally {
+    await new Promise((resolve) => server.close(resolve));
+    await rm(temp, { recursive: true, force: true });
+  }
+});
+
+test("图谱上下文接口阻断缺少条款号或标准号的瘦条款", async () => {
+  const temp = path.join(os.tmpdir(), `eco-graph-context-locator-${Date.now()}`);
+  await mkdir(temp, { recursive: true });
+  const graphPath = path.join(temp, "graph.json");
+  const publicationPath = path.join(temp, "ecocheck.json");
+  await writeFile(graphPath, JSON.stringify({
+    nodes: [
+      { node_id: "issue:missing-locator", node_type: "issue_type", name: "定位不足问题", tier: "shared", review_status: "APPROVED_BASELINE" },
+      {
+        node_id: "law:missing-locator",
+        node_type: "law_article",
+        name: "定位不足法规",
+        tier: "shared",
+        review_status: "APPROVED_BASELINE",
+        attrs: { law_name: "定位不足法规", rag_doc_ref: "tencent-lke://law/missing-locator" },
+      },
+    ],
+    edges: [
+      {
+        edge_id: "edge:missing-locator",
+        from: "issue:missing-locator",
+        to: "law:missing-locator",
+        edge_type: "regulated_by",
+        tier: "shared",
+        review_status: "APPROVED_BASELINE",
+        source_ref: "src:test",
+        legal_basis_status: "internal_reviewed",
+        confidence: 0.7,
+        confidence_reason: ["MANUAL_REVIEWED"],
+      },
+    ],
+  }), "utf8");
+  await writeFile(publicationPath, JSON.stringify({
+    items: [{
+      rag_doc_ref: "tencent-lke://law/missing-locator",
+      review_status: "approved",
+      legal_basis_status: "internal_reviewed",
+      citation_locator: "第一条",
+      cache_policy: "metadata_only",
+      raw_cached: false,
+    }],
+  }), "utf8");
+
+  const server = createServer({
+    stagingPath: path.join(temp, "field-events.jsonl"),
+    apiToken: "secret-for-test",
+    contextGraphPath: graphPath,
+    contextPublicationPath: publicationPath,
+  });
+  await new Promise((resolve) => server.listen(0, "127.0.0.1", resolve));
+  const base = `http://127.0.0.1:${server.address().port}`;
+
+  try {
+    const response = await fetch(`${base}/api/graph/context?node_id=issue%3Amissing-locator`, {
+      headers: { authorization: "Bearer secret-for-test" },
+    });
+    assert.equal(response.status, 200);
+    const body = await response.json();
+    assert.equal(body.machine_gate_status, "partial");
+    assert.equal(body.law_refs.length, 0);
+    assert.equal(body.blocked_refs[0].reason, "missing_article_no_or_locator");
+  } finally {
+    await new Promise((resolve) => server.close(resolve));
+    await rm(temp, { recursive: true, force: true });
+  }
+});
+
+test("图谱上下文按 legal_basis_status 表驱动阻断未确认法律依据", () => {
+  for (const legalStatus of ["candidate", "disputed", "no_legal_basis", undefined]) {
+    const graph = {
+      nodes: [
+        { node_id: "issue:legal-status", node_type: "issue_type", name: "法律状态测试", tier: "shared", review_status: "APPROVED_BASELINE" },
+        {
+          node_id: "law:legal-status",
+          node_type: "law_article",
+          name: "法律状态测试法 第一条",
+          tier: "shared",
+          review_status: "APPROVED_BASELINE",
+          attrs: { law_name: "法律状态测试法", article_no: "第一条", rag_doc_ref: "tencent-lke://law/legal-status" },
+        },
+      ],
+      edges: [
+        {
+          edge_id: "edge:legal-status",
+          from: "issue:legal-status",
+          to: "law:legal-status",
+          edge_type: "regulated_by",
+          tier: "shared",
+          review_status: "APPROVED_BASELINE",
+          source_ref: "src:test",
+          legal_basis_status: legalStatus,
+          confidence: 0.7,
+          confidence_reason: ["MANUAL_REVIEWED"],
+        },
+      ],
+    };
+    const publication = {
+      items: [{
+        rag_doc_ref: "tencent-lke://law/legal-status",
+        review_status: "approved",
+        legal_basis_status: "internal_reviewed",
+        citation_locator: "第一条",
+        cache_policy: "metadata_only",
+        raw_cached: false,
+      }],
+    };
+
+    const body = buildGraphContextResponse({ graph, publication, nodeId: "issue:legal-status", depth: 1 });
+    assert.equal(body.machine_gate_status, "partial");
+    assert.equal(body.law_refs.length, 0);
+    assert.equal(body.blocked_refs.length, 1);
+    assert.match(body.blocked_refs[0].reason, /legal_basis_status=/);
+  }
+});
+
+test("图谱上下文按 publication item 状态阻断未通过发布门禁的瘦条款", () => {
+  for (const itemPatch of [
+    { review_status: "candidate" },
+    { legal_basis_status: "candidate" },
+    { legal_basis_status: "disputed" },
+    { legal_basis_status: "no_legal_basis" },
+    { citation_locator: "source-level" },
+    { raw_cached: true },
+  ]) {
+    const graph = {
+      nodes: [
+        { node_id: "issue:publication-status", node_type: "issue_type", name: "发布状态测试", tier: "shared", review_status: "APPROVED_BASELINE" },
+        {
+          node_id: "law:publication-status",
+          node_type: "law_article",
+          name: "发布状态测试法 第一条",
+          tier: "shared",
+          review_status: "APPROVED_BASELINE",
+          attrs: { law_name: "发布状态测试法", article_no: "第一条", rag_doc_ref: "tencent-lke://law/publication-status" },
+        },
+      ],
+      edges: [
+        {
+          edge_id: "edge:publication-status",
+          from: "issue:publication-status",
+          to: "law:publication-status",
+          edge_type: "regulated_by",
+          tier: "shared",
+          review_status: "APPROVED_BASELINE",
+          source_ref: "src:test",
+          legal_basis_status: "internal_reviewed",
+          confidence: 0.7,
+          confidence_reason: ["MANUAL_REVIEWED"],
+        },
+      ],
+    };
+    const item = {
+      rag_doc_ref: "tencent-lke://law/publication-status",
+      review_status: "approved",
+      legal_basis_status: "internal_reviewed",
+      citation_locator: "第一条",
+      cache_policy: "metadata_only",
+      raw_cached: false,
+      ...itemPatch,
+    };
+
+    const body = buildGraphContextResponse({ graph, publication: { items: [item] }, nodeId: "issue:publication-status", depth: 1 });
+    assert.equal(body.machine_gate_status, "partial");
+    assert.equal(body.law_refs.length, 0);
+    assert.equal(body.blocked_refs[0].reason, "not_in_publication_bundle_or_source_level");
+  }
+});
+
+test("图谱上下文遇到同一瘦条款冲突法律状态时顺序无关地阻断", () => {
+  const nodes = [
+    { node_id: "issue:conflict", node_type: "issue_type", name: "冲突状态测试", tier: "shared", review_status: "APPROVED_BASELINE" },
+    {
+      node_id: "law:conflict",
+      node_type: "law_article",
+      name: "冲突状态测试法 第一条",
+      tier: "shared",
+      review_status: "APPROVED_BASELINE",
+      attrs: { law_name: "冲突状态测试法", article_no: "第一条", rag_doc_ref: "tencent-lke://law/conflict" },
+    },
+  ];
+  const good = {
+    edge_id: "edge:conflict:good",
+    from: "issue:conflict",
+    to: "law:conflict",
+    edge_type: "regulated_by",
+    tier: "shared",
+    review_status: "APPROVED_BASELINE",
+    source_ref: "src:test",
+    legal_basis_status: "internal_reviewed",
+    confidence: 0.7,
+    confidence_reason: ["MANUAL_REVIEWED"],
+  };
+  const bad = { ...good, edge_id: "edge:conflict:bad", legal_basis_status: "disputed" };
+  const publication = {
+    items: [{
+      rag_doc_ref: "tencent-lke://law/conflict",
+      review_status: "approved",
+      legal_basis_status: "internal_reviewed",
+      citation_locator: "第一条",
+      cache_policy: "metadata_only",
+      raw_cached: false,
+    }],
+  };
+
+  for (const edges of [[good, bad], [bad, good]]) {
+    const body = buildGraphContextResponse({ graph: { nodes, edges }, publication, nodeId: "issue:conflict", depth: 1 });
+    assert.equal(body.machine_gate_status, "partial");
+    assert.equal(body.law_refs.length, 0);
+    assert.equal(body.blocked_refs[0].reason, "legal_basis_status=disputed");
+  }
+});
+
+test("图谱上下文不返回 private source_ref", () => {
+  const graph = {
+    sources: [
+      { source_id: "src:private", source_type: "field_event", tier: "private", review_status: "APPROVED_BASELINE" },
+    ],
+    nodes: [
+      { node_id: "issue:private-source", node_type: "issue_type", name: "私有来源测试", tier: "shared", review_status: "APPROVED_BASELINE" },
+      {
+        node_id: "law:private-source",
+        node_type: "law_article",
+        name: "私有来源测试法 第一条",
+        tier: "shared",
+        review_status: "APPROVED_BASELINE",
+        attrs: { law_name: "私有来源测试法", article_no: "第一条", rag_doc_ref: "tencent-lke://law/private-source" },
+      },
+    ],
+    edges: [
+      {
+        edge_id: "edge:private-source",
+        from: "issue:private-source",
+        to: "law:private-source",
+        edge_type: "regulated_by",
+        tier: "shared",
+        review_status: "APPROVED_BASELINE",
+        source_ref: "src:private",
+        legal_basis_status: "internal_reviewed",
+        confidence: 0.7,
+        confidence_reason: ["MANUAL_REVIEWED"],
+      },
+    ],
+  };
+  const publication = {
+    items: [{
+      rag_doc_ref: "tencent-lke://law/private-source",
+      review_status: "approved",
+      legal_basis_status: "internal_reviewed",
+      citation_locator: "第一条",
+      cache_policy: "metadata_only",
+      raw_cached: false,
+    }],
+  };
+
+  const body = buildGraphContextResponse({ graph, publication, nodeId: "issue:private-source", depth: 1 });
+  const text = JSON.stringify(body);
+  assert.equal(body.law_refs.length, 0);
+  assert.equal(text.includes("src:private"), false);
 });

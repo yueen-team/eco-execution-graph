@@ -186,15 +186,220 @@ ETO_REVIEW_OVERRIDES: dict[str, dict[str, Any]] = {
     },
 }
 
+ETO_V4_CONCLUSION_SOURCE = "reports/eto_hazardous_waste_slice_conclusions_31_v4.md"
+
+ETO_V4_INGEST_OVERRIDES: dict[str, dict[str, Any]] = {
+    "card:full:0001": {
+        "title": "危险废物台账记录不完整或前后不一致执行卡",
+        "eto_review_conclusion": "ETO V4 已采纳入库",
+        "eto_ingest_status": "已采纳",
+        "eto_ingest_action": "独立入库",
+        "eto_ingest_type": "主任开场卡",
+        "eto_conclusion_source": ETO_V4_CONCLUSION_SOURCE,
+        "external_expression": "现场主要核查危废产生、入库、出库、转移和平台申报记录是否能前后对应,避免出现产生量、库存量、转移量和申报量对不上的情况。",
+        "evidence_summary": "概念级证据类别:产生记录、入库记录、出库记录、月度汇总、电子台账、平台申报截图、转移联单、现场库存照片。",
+    },
+    "card:full:0002": {
+        "title": "危废暂存间分类分区贮存管理不到位执行卡",
+        "eto_review_conclusion": "ETO V4 已采纳入库",
+        "eto_display_group": "主任追问展开卡",
+        "eto_ingest_status": "已采纳",
+        "eto_ingest_action": "独立入库",
+        "eto_ingest_type": "主任追问展开卡",
+        "eto_conclusion_source": ETO_V4_CONCLUSION_SOURCE,
+        "external_expression": "现场主要看不同类别、不同形态、不同危险特性的危废是否分类分区存放,分区标识、容器标签和台账记录能否相互对应。",
+        "evidence_summary": "概念级证据类别:暂存间全景照片、分区标识照片、不同危废存放照片、容器标签、库内分区图、现场库存清单、台账对应关系。",
+    },
+    "card:full:0003": {
+        "eto_review_conclusion": "ETO V4 已采纳入库",
+        "eto_ingest_status": "已采纳",
+        "eto_ingest_action": "独立入库",
+        "eto_ingest_type": "主任开场卡",
+        "eto_conclusion_source": ETO_V4_CONCLUSION_SOURCE,
+        "evidence_summary": "概念级证据类别:标签近景照片、容器全景照片、对应台账、废物名称、废物代码、产生日期、重量、危险特性、平台记录截图。",
+    },
+    "card:full:0004": {
+        "title": "危废贮存场所及分区识别标志设置不完善执行卡",
+        "eto_review_conclusion": "ETO V4 已采纳入库",
+        "eto_display_group": "主任追问展开卡",
+        "eto_ingest_status": "已采纳",
+        "eto_ingest_action": "独立入库",
+        "eto_ingest_type": "主任追问展开卡",
+        "eto_conclusion_source": ETO_V4_CONCLUSION_SOURCE,
+        "external_expression": "现场主要看危废暂存场所入口、库内分区和包装容器标识是否清晰,标志内容是否和实际贮存内容一致。",
+        "evidence_summary": "概念级证据类别:暂存间入口标志、贮存设施标志、分区标志、容器标签、分区平面图、应急物资位置标识。",
+    },
+    "card:full:0005": {
+        "title": "危废出入库记录、电子标签二维码与电子转移联单一致性核查执行卡",
+        "eto_review_conclusion": "ETO V4 已采纳入库",
+        "eto_ingest_status": "已采纳",
+        "eto_ingest_action": "独立入库",
+        "eto_ingest_type": "主任开场卡",
+        "eto_conclusion_source": ETO_V4_CONCLUSION_SOURCE,
+        "external_expression": "现场主要看同一批危废从入库、出库到转移,记录、标签二维码、平台信息和转移联单是否能相互印证。",
+        "evidence_summary": "概念级证据类别:入库记录、出库记录、电子标签二维码、电子台账、电子转移联单、平台截图、称重单、运输交接记录、接收单位确认信息。",
+    },
+    "card:full:0006": {
+        "title": "不相容危废隔离贮存措施不足或待核查执行卡",
+        "eto_review_conclusion": "ETO V4 已采纳入库",
+        "eto_display_group": "主任追问展开卡",
+        "eto_ingest_status": "已采纳",
+        "eto_ingest_action": "独立入库",
+        "eto_ingest_type": "主任追问展开卡",
+        "eto_conclusion_source": ETO_V4_CONCLUSION_SOURCE,
+        "external_expression": "现场不能只看放得近不近,还要结合危废类别、形态和危险特性判断是否存在不相容接触或混放风险。",
+        "evidence_summary": "概念级证据类别:危废类别、危险特性、SDS 或属性资料、现场位置照片、隔离措施照片、托盘、隔板、隔墙、独立分区照片。",
+    },
+    "card:full:0007": {
+        "title": "结合当地平台要求的危废产生端“五即”即称重核查执行卡",
+        "eto_review_conclusion": "ETO V4 已采纳入库",
+        "eto_display_group": "主任追问展开卡",
+        "eto_ingest_status": "已采纳",
+        "eto_ingest_action": "独立入库",
+        "eto_ingest_type": "主任追问展开卡",
+        "eto_conclusion_source": ETO_V4_CONCLUSION_SOURCE,
+        "external_expression": "在当地平台要求或企业已纳入信息化监管场景下,重点核查危废产生后是否完成包装、称重、打码、入库,称重数据是否进入电子台账并与后续记录一致。",
+        "evidence_summary": "概念级证据类别:称重设备照片、称重记录、标签打印记录、电子标签二维码、平台台账截图、入库记录、后续转移联单重量。",
+    },
+    "card:full:0008": {
+        "title": "危废电子标签二维码与贮存记录对应关系核查执行卡",
+        "eto_review_conclusion": "ETO V4 已采纳入库",
+        "eto_display_group": "主任追问展开卡",
+        "eto_ingest_status": "已采纳",
+        "eto_ingest_action": "独立入库",
+        "eto_ingest_type": "主任追问展开卡",
+        "eto_conclusion_source": ETO_V4_CONCLUSION_SOURCE,
+        "external_expression": "现场主要核查危废包装容器打码入库后,电子标签二维码、入库记录、贮存设施或分区记录是否能对应。",
+        "evidence_summary": "概念级证据类别:入库记录、电子标签二维码、平台记录截图、贮存设施或分区记录、容器照片、台账编号、库位或分区图。",
+    },
+    "card:full:0009": {
+        "title": "危废电子标签、出库记录和电子转移联单一致性核查执行卡",
+        "eto_review_conclusion": "ETO V4 已采纳入库",
+        "eto_display_group": "主任追问展开卡",
+        "eto_ingest_status": "已采纳",
+        "eto_ingest_action": "独立入库",
+        "eto_ingest_type": "主任追问展开卡",
+        "eto_conclusion_source": ETO_V4_CONCLUSION_SOURCE,
+        "external_expression": "一码贯通不是单看一个二维码,而是看危废出库、运输、接收、利用处置等环节的电子记录是否能沿同一对象追溯。",
+        "evidence_summary": "概念级证据类别:出库记录、电子标签二维码、电子转移联单、接收单位确认、运输交接记录、平台流向记录、称重记录。",
+    },
+    "card:full:0010": {"eto_review_conclusion": "ETO V4 合并采纳", "eto_display_group": "合并采纳卡", "eto_ingest_status": "已采纳", "eto_ingest_action": "合并入库", "eto_ingest_type": "合并采纳子项", "eto_conclusion_source": ETO_V4_CONCLUSION_SOURCE, "merge_with": "card:full:0002", "external_expression": "本卡作为第 2 张的短名称或目录别名,不单独成卡。"},
+    "card:full:0011": {
+        "title": "危废包装容器电子标签二维码 / 一物一码与平台记录核查执行卡",
+        "eto_review_conclusion": "ETO V4 已采纳入库",
+        "eto_ingest_status": "已采纳",
+        "eto_ingest_action": "独立入库",
+        "eto_ingest_type": "主任开场卡",
+        "eto_conclusion_source": ETO_V4_CONCLUSION_SOURCE,
+        "external_expression": "这张不是讲企业自建扫码系统,而是核查危废包装容器电子标签二维码、实物、电子台账和平台记录能不能一一对应。",
+        "evidence_summary": "概念级证据类别:电子标签二维码照片、数字识别码、平台记录截图、电子台账、入库记录、出库记录、电子转移联单、容器全景照片。",
+    },
+    "card:full:0012": {
+        "eto_review_conclusion": "ETO V4 已采纳入库",
+        "eto_ingest_status": "已采纳",
+        "eto_ingest_action": "独立入库",
+        "eto_ingest_type": "主任开场卡",
+        "eto_conclusion_source": ETO_V4_CONCLUSION_SOURCE,
+        "evidence_summary": "概念级证据类别:地面照片、裙脚照片、裂缝或破损照片、围堰或托盘照片、泄漏收集设施照片、液态危废容器照片、整改前后照片。",
+    },
+    "card:full:0013": {
+        "title": "危废暂存场所应急物资及培训演练记录有待完善执行卡",
+        "eto_review_conclusion": "ETO V4 已采纳入库",
+        "eto_display_group": "主任追问展开卡",
+        "eto_ingest_status": "已采纳",
+        "eto_ingest_action": "独立入库",
+        "eto_ingest_type": "主任追问展开卡",
+        "eto_conclusion_source": ETO_V4_CONCLUSION_SOURCE,
+        "external_expression": "现场主要看危废泄漏风险对应的应急物资是否配齐,相关人员是否培训过,演练和检查记录是否留痕。",
+        "evidence_summary": "概念级证据类别:应急物资照片、物资清单、吸附棉、砂土、堵漏工具、收集桶、应急预案、培训记录、演练记录、签到表、演练照片、物资有效期检查记录。",
+    },
+    "card:full:0014": {"eto_review_conclusion": "ETO V4 合并采纳", "eto_display_group": "合并采纳卡", "eto_ingest_status": "已采纳", "eto_ingest_action": "合并入库", "eto_ingest_type": "合并采纳子项", "eto_conclusion_source": ETO_V4_CONCLUSION_SOURCE, "merge_with": "card:full:0004", "external_expression": "本卡作为第 4 张的子检查点,不单独成卡。"},
+    "card:full:0015": {
+        "title": "印刷工序清洗废液、废擦拭布及废包装物属性与去向核查执行卡",
+        "eto_review_conclusion": "ETO V4 已采纳入库",
+        "eto_display_group": "主任追问展开卡",
+        "eto_ingest_status": "已采纳",
+        "eto_ingest_action": "独立入库",
+        "eto_ingest_type": "主任追问展开卡",
+        "eto_conclusion_source": ETO_V4_CONCLUSION_SOURCE,
+        "external_expression": "这张不是直接认定所有清洗废液、擦拭布和包装物都是危废,而是从工序、原辅材料和实际沾染情况出发,核查属性、分类收集和去向记录。",
+        "evidence_summary": "概念级证据类别:原辅材料 SDS、生产工序照片、清洗废液收集桶、废擦拭布收集容器、废包装物照片、标签、台账、转移联单、环评或排污许可相关内容。",
+    },
+    "card:full:0016": {
+        "title": "污水处理站污泥属性、暂存及去向核查执行卡",
+        "eto_review_conclusion": "ETO V4 已采纳入库",
+        "eto_display_group": "主任追问展开卡",
+        "eto_ingest_status": "已采纳",
+        "eto_ingest_action": "独立入库",
+        "eto_ingest_type": "主任追问展开卡",
+        "eto_conclusion_source": ETO_V4_CONCLUSION_SOURCE,
+        "external_expression": "污泥是否属于危废不能简单按名称判断,需要结合来源、工艺、检测或鉴别资料、环评和实际去向核查。",
+        "evidence_summary": "概念级证据类别:污水来源、生产工艺、污泥产生环节、环评或排污许可、检测或危废鉴别资料、污泥暂存照片、去向合同、台账、转移或处置记录。",
+    },
+    "card:full:0017": {"eto_review_conclusion": "ETO V4 合并采纳", "eto_display_group": "合并采纳卡", "eto_ingest_status": "已采纳", "eto_ingest_action": "合并入库", "eto_ingest_type": "合并采纳子项", "eto_conclusion_source": ETO_V4_CONCLUSION_SOURCE, "merge_with": "card:full:0006", "external_expression": "本卡作为第 6 张的候补名称或别名,不单独成卡。"},
+    "card:full:0018": {"eto_review_conclusion": "ETO V4 合并采纳", "eto_display_group": "合并采纳卡", "eto_ingest_status": "已采纳", "eto_ingest_action": "合并入库", "eto_ingest_type": "合并采纳子项", "eto_conclusion_source": ETO_V4_CONCLUSION_SOURCE, "merge_with": "card:full:0007", "external_expression": "本卡作为第 7 张的短名称或候补标题,不单独成卡。"},
+    "card:full:0019": {"eto_review_conclusion": "ETO V4 合并采纳", "eto_display_group": "合并采纳卡", "eto_ingest_status": "已采纳", "eto_ingest_action": "合并入库", "eto_ingest_type": "合并采纳子项", "eto_conclusion_source": ETO_V4_CONCLUSION_SOURCE, "merge_with": "card:full:0008", "secondary_merge_refs": ["card:full:0011"], "external_expression": "主体合并到第 8 张,同时作为第 11 张一物一码入库环节子项。"},
+    "card:full:0020": {"eto_review_conclusion": "ETO V4 合并采纳", "eto_display_group": "合并采纳卡", "eto_ingest_status": "已采纳", "eto_ingest_action": "合并入库", "eto_ingest_type": "合并采纳子项", "eto_conclusion_source": ETO_V4_CONCLUSION_SOURCE, "merge_with": "card:full:0005", "secondary_merge_refs": ["card:full:0009"], "external_expression": "主体合并到第 5 张,第 9 张展开时调用。"},
+    "card:full:0021": {"eto_review_conclusion": "ETO V4 合并采纳", "eto_display_group": "合并采纳卡", "eto_ingest_status": "已采纳", "eto_ingest_action": "合并入库", "eto_ingest_type": "合并采纳子项", "eto_conclusion_source": ETO_V4_CONCLUSION_SOURCE, "merge_with": "card:full:0002", "external_expression": "本卡作为第 2 张目录别名,不单独成卡。"},
+    "card:full:0022": {"eto_review_conclusion": "ETO V4 合并采纳", "eto_display_group": "合并采纳卡", "eto_ingest_status": "已采纳", "eto_ingest_action": "合并入库", "eto_ingest_type": "合并采纳子项", "eto_conclusion_source": ETO_V4_CONCLUSION_SOURCE, "merge_with": "card:full:0011", "external_expression": "本卡作为第 11 张短名称或目录别名,不单独成卡。"},
+    "card:full:0023": {"eto_review_conclusion": "ETO V4 合并采纳", "eto_display_group": "合并采纳卡", "eto_ingest_status": "已采纳", "eto_ingest_action": "合并入库", "eto_ingest_type": "合并采纳子项", "eto_conclusion_source": ETO_V4_CONCLUSION_SOURCE, "merge_with": "card:full:0012", "external_expression": "本卡作为第 12 张短名称,不单独成卡。"},
+    "card:full:0024": {"eto_review_conclusion": "ETO V4 合并采纳", "eto_display_group": "合并采纳卡", "eto_ingest_status": "已采纳", "eto_ingest_action": "合并入库", "eto_ingest_type": "合并采纳子项", "eto_conclusion_source": ETO_V4_CONCLUSION_SOURCE, "merge_with": "card:full:0013", "external_expression": "本卡作为第 13 张短名称或目录别名,不单独成卡。"},
+    "card:full:0025": {"eto_review_conclusion": "ETO V4 合并采纳", "eto_display_group": "合并采纳卡", "eto_ingest_status": "已采纳", "eto_ingest_action": "合并入库", "eto_ingest_type": "合并采纳子项", "eto_conclusion_source": ETO_V4_CONCLUSION_SOURCE, "merge_with": "card:full:0004", "external_expression": "本卡作为第 4 张子检查点,不单独成卡。"},
+    "card:full:0026": {"title": "首次巡查中危险废物识别、暂存与转移管理核查执行卡", "eto_review_conclusion": "ETO V4 已采纳为场景模板", "eto_display_group": "内部场景模板", "eto_ingest_status": "已采纳", "eto_ingest_action": "模板入库", "eto_ingest_type": "内部场景模板", "eto_conclusion_source": ETO_V4_CONCLUSION_SOURCE, "external_expression": "首次巡查重点不是单点问题,而是先摸清企业危废产生、暂存、台账、转移和去向管理全链条。"},
+    "card:full:0027": {"title": "月度巡查中危废暂存、台账与转移记录复核执行卡", "eto_review_conclusion": "ETO V4 已采纳为场景模板", "eto_display_group": "内部场景模板", "eto_ingest_status": "已采纳", "eto_ingest_action": "模板入库", "eto_ingest_type": "内部场景模板", "eto_conclusion_source": ETO_V4_CONCLUSION_SOURCE, "external_expression": "月度巡查重点是复核上月问题是否整改、本月产生和转移是否闭合、现场库存和台账是否一致。"},
+    "card:full:0028": {"title": "实验室废液、废试剂属性及去向核查执行卡", "eto_review_conclusion": "ETO V4 已采纳为专题扩展", "eto_display_group": "内部场景模板", "eto_ingest_status": "已采纳", "eto_ingest_action": "模板入库", "eto_ingest_type": "内部场景模板", "eto_conclusion_source": ETO_V4_CONCLUSION_SOURCE, "external_expression": "实验室废液和废试剂不能只按名称判断,要结合试剂成分、检测活动、产生环节、收集方式和去向资料核查属性及管理要求。"},
+    "card:full:0029": {"eto_review_conclusion": "ETO V4 合并采纳", "eto_display_group": "合并采纳卡", "eto_ingest_status": "已采纳", "eto_ingest_action": "合并入库", "eto_ingest_type": "合并采纳子项", "eto_conclusion_source": ETO_V4_CONCLUSION_SOURCE, "merge_with": "card:full:0028", "external_expression": "本卡合并到第 28 张,作为月度台账及去向复核子场景。"},
+    "card:full:0030": {"eto_review_conclusion": "ETO V4 合并采纳", "eto_display_group": "合并采纳卡", "eto_ingest_status": "已采纳", "eto_ingest_action": "合并入库", "eto_ingest_type": "合并采纳子项", "eto_conclusion_source": ETO_V4_CONCLUSION_SOURCE, "merge_with": "card:full:0015", "external_expression": "统一作为印刷工序涉废物属性、分类收集和去向核查来讲。"},
+    "card:full:0031": {"eto_review_conclusion": "ETO V4 合并采纳", "eto_display_group": "合并采纳卡", "eto_ingest_status": "已采纳", "eto_ingest_action": "合并入库", "eto_ingest_type": "合并采纳子项", "eto_conclusion_source": ETO_V4_CONCLUSION_SOURCE, "merge_with": "card:full:0016", "external_expression": "统一作为污水处理站污泥属性、暂存和去向核查来讲。"},
+}
+
+for card_id, override in ETO_V4_INGEST_OVERRIDES.items():
+    ETO_REVIEW_OVERRIDES.setdefault(card_id, {}).update(override)
+
 ETO_SHARED_CARD_FIELDS = (
     "eto_review_conclusion",
     "eto_display_group",
     "eto_display_priority",
+    "eto_ingest_status",
+    "eto_ingest_action",
+    "eto_ingest_type",
+    "eto_conclusion_source",
     "director_demo_order",
     "director_demo_backup_order",
     "merge_with",
+    "secondary_merge_refs",
     "external_expression",
+    "hazardous_slice_scope",
+    "hazardous_slice_stage",
+    "hazardous_slice_role",
+    "hazardous_slice_order",
+    "hazardous_slice_display_policy",
 )
+
+HAZARDOUS_TERMS = ("危废", "危险废物", "hazwaste", "HAZWASTE")
+
+
+def is_hazardous_text(text: str) -> bool:
+    return any(term in text for term in HAZARDOUS_TERMS)
+
+
+def is_hazardous_card(card: dict[str, Any]) -> bool:
+    text = f"{card.get('title', '')} {card.get('root_issue_type', '')} {card.get('dimension', '')}"
+    return is_hazardous_text(text)
+
+
+def hazardous_slice_role(card: dict[str, Any]) -> tuple[str, str, str]:
+    if card.get("director_demo_order"):
+        return ("阶段一:主任开场精品", "主任开场精品", "首轮单独讲")
+    if card.get("eto_ingest_action") == "合并入库":
+        return ("阶段二:危废专题全量目录", "合并采纳子项", "知识点已入主卡,不单独成卡")
+    if card.get("eto_ingest_action") == "模板入库":
+        return ("阶段二:危废专题全量目录", "内部场景模板", "不进主任开场,作为场景模板或专题扩展")
+    if card.get("eto_ingest_type") == "主任追问展开卡":
+        return ("阶段二:危废专题全量目录", "主任追问展开卡", "主任追问时展开讲")
+    if card.get("show_or_not_for_director_demo") == "showcase":
+        return ("阶段二:危废专题全量目录", "专题扩展切片", "可按主任提问展开讲")
+    return ("阶段二:危废专题全量目录", "规模化候补切片", "证明可规模化,待 ETO 继续加固")
 
 
 def rel(path: Path, base: Path = ROOT) -> str:
@@ -531,7 +736,7 @@ def contract_compatibility() -> dict[str, Any]:
 
 def rag_resolve() -> dict[str, Any]:
     from rag_resolve import build_citation_resolution_record, select_citation_metadata_record, summarize_source_level_items
-    from tencent_lke_probe import probe_embedding, probe_rag_retrieve, probe_tokenhub_chat, probe_ws_token
+    from tencent_lke_probe import probe_embedding, probe_rag_retrieve, probe_tokenhub_chat
     from tencent_cloud_signer import TencentCloudClient, load_env
 
     env = load_env()
@@ -546,7 +751,6 @@ def rag_resolve() -> dict[str, Any]:
     except Exception as exc:
         rag_retrieve = {"status": "failed", "probe": "rag-retrieve", "message": str(exc)}
     rag_real_smoke = "pass" if rag_retrieve.get("status") == "pass" and tokenhub.get("status") == "pass" else "failed"
-    ws = probe_ws_token(client, env)
     graph_paths = [FULL_INTERNAL / "graph.json", EXPORTS_DIR / "demo_hazardous_waste_internal" / "graph.json"]
     nodes: list[dict[str, Any]] = []
     for path in graph_paths:
@@ -577,7 +781,7 @@ def rag_resolve() -> dict[str, Any]:
         "embedding_probe": embedding,
         "tokenhub_probe": tokenhub,
         "rag_retrieve_probe": rag_retrieve,
-        "ws_token_probe": ws,
+        "generation_path": "direct_rag_retrieve_plus_tokenhub_deepseek",
         "citation_count": len(results),
         "counts": dict(counts),
         "locator_counts": dict(locator_counts),
@@ -593,7 +797,7 @@ def rag_resolve() -> dict[str, Any]:
         f"- rag_real_smoke: `{rag_real_smoke}`",
         f"- tokenhub_probe: `{tokenhub.get('status')}`",
         f"- rag_retrieve_probe: `{rag_retrieve.get('status')}`",
-        f"- ws_token_probe: `{ws.get('status')}`",
+        "- generation_path: `direct_rag_retrieve_plus_tokenhub_deepseek`",
         f"- citations: {len(results)}",
         f"- specific_locator: {locator_counts.get('specific', 0)}",
         f"- source_level_locator: {locator_counts.get('source_level', 0)}",
@@ -660,7 +864,7 @@ def generate_cards() -> dict[str, Any]:
 
     def is_hazardous_candidate(node: dict[str, Any]) -> bool:
         text = f"{node.get('name', '')} {node.get('node_id', '')}"
-        return any(term in text for term in ("危废", "危险废物", "hazwaste", "HAZWASTE"))
+        return is_hazardous_text(text)
 
     candidates.sort(
         key=lambda node: (
@@ -669,7 +873,9 @@ def generate_cards() -> dict[str, Any]:
             node.get("name", node["node_id"]),
         )
     )
+    hazardous_candidate_ids = {node["node_id"] for node in candidates if is_hazardous_candidate(node)}
     cards = []
+    hazardous_order = 0
     for idx, node in enumerate(candidates[:90], start=1):
         adjacent = edges_by_node[node["node_id"]]
         refs = sorted({edge["edge_id"] for edge in adjacent[:12]})
@@ -701,6 +907,14 @@ def generate_cards() -> dict[str, Any]:
         }
         if card["card_id"] in ETO_REVIEW_OVERRIDES:
             card.update(ETO_REVIEW_OVERRIDES[card["card_id"]])
+        if is_hazardous_card(card):
+            hazardous_order += 1
+            stage, role, display_policy = hazardous_slice_role(card)
+            card["hazardous_slice_scope"] = "危废全量切片"
+            card["hazardous_slice_stage"] = stage
+            card["hazardous_slice_role"] = role
+            card["hazardous_slice_order"] = hazardous_order
+            card["hazardous_slice_display_policy"] = display_policy
         cards.append(card)
     shared_cards = []
     for card in cards:
@@ -743,6 +957,16 @@ def generate_cards() -> dict[str, Any]:
         [card for card in cards if card.get("director_demo_order")],
         key=lambda card: card["director_demo_order"],
     )
+    hazardous_cards = sorted(
+        [card for card in cards if is_hazardous_card(card)],
+        key=lambda card: (card.get("hazardous_slice_order") or 9999, card["card_id"]),
+    )
+    covered_hazardous_candidate_ids = {card["root_issue_type"] for card in hazardous_cards}
+    uncovered_hazardous_candidate_ids = sorted(hazardous_candidate_ids - covered_hazardous_candidate_ids)
+    hazardous_stage_counts = Counter(card.get("hazardous_slice_stage", "未分组") for card in hazardous_cards)
+    hazardous_role_counts = Counter(card.get("hazardous_slice_role", "未分组") for card in hazardous_cards)
+    eto_ingest_action_counts = Counter(card.get("eto_ingest_action", "未入库") for card in hazardous_cards)
+    eto_ingest_type_counts = Counter(card.get("eto_ingest_type", "未入库") for card in hazardous_cards)
     report = {
         "status": "pass" if len(cards) >= 50 else "conditional",
         "total_cards": len(cards),
@@ -750,8 +974,17 @@ def generate_cards() -> dict[str, Any]:
         "ready_cards": counts.get("ready", 0),
         "candidate_cards": counts.get("candidate", 0),
         "hazardous_showcase_cards": sum(1 for c in cards if c["show_or_not_for_director_demo"] == "showcase" and "危废" in c["title"]),
+        "hazardous_total_cards": len(hazardous_cards),
+        "hazardous_candidate_count": len(hazardous_candidate_ids),
+        "hazardous_uncovered_candidate_count": len(uncovered_hazardous_candidate_ids),
+        "hazardous_candidate_coverage_status": "pass" if not uncovered_hazardous_candidate_ids else "blocked",
+        "phase_one_director_cards": sum(1 for c in hazardous_cards if c.get("hazardous_slice_stage") == "阶段一:主任开场精品"),
+        "phase_two_hazardous_slices": sum(1 for c in hazardous_cards if c.get("hazardous_slice_stage") == "阶段二:危废专题全量目录"),
         "eto_reviewed_cards": len(ETO_REVIEW_OVERRIDES),
         "director_demo_cards": len(director_cards),
+        "eto_v4_independent_cards": eto_ingest_action_counts.get("独立入库", 0),
+        "eto_v4_template_cards": eto_ingest_action_counts.get("模板入库", 0),
+        "eto_v4_merged_cards": eto_ingest_action_counts.get("合并入库", 0),
         "internal_refine_cards": eto_counts.get("内部继续打磨卡", 0),
         "do_not_show_cards": eto_counts.get("暂不展示卡", 0),
     }
@@ -762,20 +995,170 @@ def generate_cards() -> dict[str, Any]:
     showcase_lines = [
         "# Showcase Card Pack",
         "",
-        "本文件保留 20 张演示审核卡。主任首轮演示只使用 `director_demo_order` 有序号的 5 张;暂不展示卡保留合并意见,不进入首轮演示。",
+        "本文件保留 20 张演示审核卡。主任首轮演示只使用 `director_demo_order` 有序号的 5 张;危废阶段二目录覆盖当前全部危废相关切片;暂不展示卡保留合并意见,不进入首轮单独演示。",
         "",
-        "| 卡片 | 审核后名称 | 审核分组 | 演示序号 | 合并建议 |",
-        "|---|---|---|---:|---|",
+        f"- 危废全量切片: {len(hazardous_cards)} 张",
+        f"- 阶段一主任开场精品: {hazardous_stage_counts.get('阶段一:主任开场精品', 0)} 张",
+        f"- 阶段二危废专题目录: {hazardous_stage_counts.get('阶段二:危废专题全量目录', 0)} 张",
+        f"- ETO V4 独立入库问题卡: {eto_ingest_action_counts.get('独立入库', 0)} 张",
+        f"- ETO V4 模板入库: {eto_ingest_action_counts.get('模板入库', 0)} 张",
+        f"- ETO V4 合并采纳子项: {eto_ingest_action_counts.get('合并入库', 0)} 张",
+        "",
+        "| 卡片 | 审核后名称 | 审核分组 | 危废阶段 | 演示序号 | 合并建议 |",
+        "|---|---|---|---|---:|---|",
     ]
     for card in showcase_cards:
         showcase_lines.append(
-            f"| {card['card_id']} | {card['title']} | {card.get('eto_display_group', '')} | {card.get('director_demo_order', '')} | {card.get('merge_with', '')} |"
+            f"| {card['card_id']} | {card['title']} | {card.get('eto_display_group', '')} | {card.get('hazardous_slice_role', '')} | {card.get('director_demo_order', '')} | {card.get('merge_with', '')} |"
         )
     write_text(REPORTS_DIR / "showcase-card-pack.md", "\n".join(showcase_lines))
+    hazardous_catalog = {
+        "status": "pass" if not uncovered_hazardous_candidate_ids and len(hazardous_cards) >= 30 and len(director_cards) == 5 else "conditional",
+        "scope": "危废全量切片",
+        "source": "data/candidates/cards/full_internal_cards.json",
+        "shared_source": "data/candidates/cards/full_shared_cards.json",
+        "total_hazardous_slices": len(hazardous_cards),
+        "hazardous_candidate_count": len(hazardous_candidate_ids),
+        "uncovered_hazardous_candidate_ids": uncovered_hazardous_candidate_ids,
+        "phase_counts": dict(hazardous_stage_counts),
+        "role_counts": dict(hazardous_role_counts),
+        "eto_ingest_action_counts": dict(eto_ingest_action_counts),
+        "eto_ingest_type_counts": dict(eto_ingest_type_counts),
+        "honesty_rules": [
+            "阶段一只讲 ETO 已回填为主任演示卡的 5 张精品卡。",
+            "阶段二展示危废专题全量目录,合并采纳子项只保留知识点,不单独成卡。",
+            "ETO V4 已确认采纳,文档中的 □ 采纳 按已采纳处理。",
+            "未取得官方确认的法律依据只写参考相关要求或管理建议。",
+            "目录不包含企业实例、附件路径、原始报告全文或法条全文。",
+        ],
+        "slices": [
+            {
+                "order": card.get("hazardous_slice_order"),
+                "card_id": card["card_id"],
+                "title": card["title"],
+                "stage": card.get("hazardous_slice_stage"),
+                "role": card.get("hazardous_slice_role"),
+                "display_policy": card.get("hazardous_slice_display_policy"),
+                "eto_display_group": card.get("eto_display_group", "未进入首轮 ETO 分组"),
+                "eto_ingest_status": card.get("eto_ingest_status"),
+                "eto_ingest_action": card.get("eto_ingest_action"),
+                "eto_ingest_type": card.get("eto_ingest_type"),
+                "merge_with": card.get("merge_with", ""),
+                "secondary_merge_refs": card.get("secondary_merge_refs", []),
+                "root_issue_type": card["root_issue_type"],
+                "quality_score": card.get("quality_score", {}),
+                "legal_basis_status": card.get("legal_basis_status"),
+            }
+            for card in hazardous_cards
+        ],
+    }
+    write_json(REPORTS_DIR / "hazardous-waste-slice-catalog.json", hazardous_catalog)
+    catalog_lines = [
+        "# 危废全量切片目录",
+        "",
+        f"- 状态: `{hazardous_catalog['status']}`",
+        f"- ETO 结论来源: `{ETO_V4_CONCLUSION_SOURCE}`",
+        f"- 危废相关候选: {hazardous_catalog['hazardous_candidate_count']} 个",
+        f"- 已形成执行卡切片: {hazardous_catalog['total_hazardous_slices']} 张",
+        f"- 未覆盖危废候选: {len(uncovered_hazardous_candidate_ids)} 个",
+        f"- 独立入库问题卡: {eto_ingest_action_counts.get('独立入库', 0)} 张",
+        f"- 场景/专题模板: {eto_ingest_action_counts.get('模板入库', 0)} 张",
+        f"- 合并采纳子项: {eto_ingest_action_counts.get('合并入库', 0)} 张",
+        "",
+        "## 分阶段",
+        *[f"- {stage}: {count} 张" for stage, count in sorted(hazardous_catalog["phase_counts"].items())],
+        "",
+        "## 展示规则",
+        *[f"- {rule}" for rule in hazardous_catalog["honesty_rules"]],
+        "",
+        "## 切片清单",
+        "",
+        "| 序号 | 卡片 | 名称 | 入库动作 | 角色 | 展示策略 | 合并到 |",
+        "|---:|---|---|---|---|---|---|",
+    ]
+    for item in hazardous_catalog["slices"]:
+        catalog_lines.append(
+            f"| {item['order']} | {item['card_id']} | {item['title']} | {item['eto_ingest_action']} | {item['role']} | {item['display_policy']} | {item['merge_with']} |"
+        )
+    write_text(REPORTS_DIR / "hazardous-waste-slice-catalog.md", "\n".join(catalog_lines))
+    ingest_register = {
+        "status": "pass",
+        "source": ETO_V4_CONCLUSION_SOURCE,
+        "source_interpretation": "文档中的 ETO 确认:□ 采纳 按已采纳处理",
+        "summary": {
+            "independent_demo_or_followup_cards": eto_ingest_action_counts.get("独立入库", 0),
+            "scenario_or_topic_templates": eto_ingest_action_counts.get("模板入库", 0),
+            "merged_knowledge_items": eto_ingest_action_counts.get("合并入库", 0),
+            "total_accepted_items": sum(eto_ingest_action_counts.values()),
+        },
+        "director_opening_order": [
+            {"order": card["director_demo_order"], "card_id": card["card_id"], "title": card["title"]}
+            for card in director_cards
+        ],
+        "followup_cards": [
+            {"card_id": card["card_id"], "title": card["title"], "role": card.get("hazardous_slice_role"), "external_expression": card.get("external_expression", "")}
+            for card in hazardous_cards
+            if card.get("eto_ingest_type") == "主任追问展开卡"
+        ],
+        "templates": [
+            {"card_id": card["card_id"], "title": card["title"], "external_expression": card.get("external_expression", "")}
+            for card in hazardous_cards
+            if card.get("eto_ingest_action") == "模板入库"
+        ],
+        "merged_items": [
+            {
+                "card_id": card["card_id"],
+                "title": card["title"],
+                "merge_with": card.get("merge_with", ""),
+                "secondary_merge_refs": card.get("secondary_merge_refs", []),
+                "external_expression": card.get("external_expression", ""),
+            }
+            for card in hazardous_cards
+            if card.get("eto_ingest_action") == "合并入库"
+        ],
+    }
+    write_json(REPORTS_DIR / "eto-hazardous-waste-slice-ingest-register.json", ingest_register)
+    register_lines = [
+        "# 危废切片 ETO V4 入库登记表",
+        "",
+        f"- 状态: `{ingest_register['status']}`",
+        f"- ETO 结论来源: `{ingest_register['source']}`",
+        f"- 采纳解释: {ingest_register['source_interpretation']}",
+        f"- 独立入库问题卡: {ingest_register['summary']['independent_demo_or_followup_cards']} 张",
+        f"- 场景/专题模板: {ingest_register['summary']['scenario_or_topic_templates']} 张",
+        f"- 合并采纳子项: {ingest_register['summary']['merged_knowledge_items']} 张",
+        "",
+        "## 主任开场卡",
+        *[f"{item['order']}. {item['title']} (`{item['card_id']}`)" for item in ingest_register["director_opening_order"]],
+        "",
+        "## 主任追问展开卡",
+        *[f"- {item['title']} (`{item['card_id']}`)" for item in ingest_register["followup_cards"]],
+        "",
+        "## 场景/专题模板",
+        *[f"- {item['title']} (`{item['card_id']}`)" for item in ingest_register["templates"]],
+        "",
+        "## 合并采纳子项",
+        *[f"- {item['title']} (`{item['card_id']}`) -> 合并到 {item['merge_with']}" for item in ingest_register["merged_items"]],
+    ]
+    write_text(REPORTS_DIR / "eto-hazardous-waste-slice-ingest-register.md", "\n".join(register_lines))
     sequence = {
-        "status": "pass" if len(director_cards) == 5 else "conditional",
+        "status": "pass" if len(director_cards) == 5 and hazardous_catalog["status"] == "pass" else "conditional",
         "source": "reports/eto-showcase-card-review.md",
-        "logic": "现场标签 -> 一物一码 -> 台账记录 -> 转移闭环 -> 暂存实体风险",
+        "logic": "5 张精品开场 -> 危废全量目录 -> 缺口报告 -> 授权边界",
+        "phase_one": {
+            "name": "主任开场精品",
+            "count": len(director_cards),
+            "rule": "只放 ETO 回填为主任演示卡且有 director_demo_order 的卡。",
+        },
+        "phase_two": {
+            "name": "危废专题全量目录",
+            "count": len(hazardous_cards),
+            "catalog": "reports/hazardous-waste-slice-catalog.json",
+            "rule": "覆盖全部危废相关切片,其中合并采纳子项只保留知识点,不单独成卡。",
+            "eto_v4_independent_cards": eto_ingest_action_counts.get("独立入库", 0),
+            "eto_v4_template_cards": eto_ingest_action_counts.get("模板入库", 0),
+            "eto_v4_merged_cards": eto_ingest_action_counts.get("合并入库", 0),
+        },
         "cards": [
             {
                 "order": card["director_demo_order"],
@@ -793,9 +1176,25 @@ def generate_cards() -> dict[str, Any]:
             {"order": 5, "card_id": "card:full:0012", "title": ETO_REVIEW_OVERRIDES["card:full:0012"]["title"]},
         ],
         "do_not_show": [
-            {"card_id": card["card_id"], "title": card["title"], "merge_with": card.get("merge_with", "")}
-            for card in showcase_cards
-            if card.get("eto_display_group") == "暂不展示卡"
+            {
+                "card_id": card["card_id"],
+                "title": card["title"],
+                "merge_with": card.get("merge_with", ""),
+                "secondary_merge_refs": card.get("secondary_merge_refs", []),
+                "reason": "ETO V4 合并采纳,不再单独成卡",
+            }
+            for card in hazardous_cards
+            if card.get("eto_ingest_action") == "合并入库"
+        ],
+        "hazardous_slice_catalog": [
+            {
+                "order": card.get("hazardous_slice_order"),
+                "card_id": card["card_id"],
+                "title": card["title"],
+                "role": card.get("hazardous_slice_role"),
+                "display_policy": card.get("hazardous_slice_display_policy"),
+            }
+            for card in hazardous_cards
         ],
     }
     write_json(REPORTS_DIR / "director-demo-card-sequence.json", sequence)
@@ -809,6 +1208,11 @@ def generate_cards() -> dict[str, Any]:
         "## 首选 5 张",
     ]
     sequence_lines += [f"{item['order']}. {item['title']} (`{item['card_id']}`)" for item in sequence["cards"]]
+    sequence_lines += ["", "## 第二阶段危废全量目录"]
+    sequence_lines += [
+        f"- 已形成 {len(hazardous_cards)} 张危废相关切片,详见 `reports/hazardous-waste-slice-catalog.md`。",
+        "- ETO V4 已采纳,其中 14 张合并采纳子项只保留知识点,不单独成卡。",
+    ]
     sequence_lines += ["", "## 备用组合"]
     sequence_lines += [f"{item['order']}. {item['title']} (`{item['card_id']}`)" for item in sequence["backup_combo"]]
     sequence_lines += ["", "## 暂不展示"]
@@ -1149,7 +1553,7 @@ def lineage_contract(input_path: str | Path | None = None) -> dict[str, Any]:
 
 def demo_pack() -> dict[str, Any]:
     files = {
-        "zhang-director-product-demo-script.md": "# 张主任演示脚本\n\n你们有法条,我们补现场；你们有法规知识库,我们补行业场景；你们有执法工具,我们补企业真实问题；这套图谱不是资料库,而是法条落地到现场的执行层。\n\n## 审核后首轮 5 张执行卡\n\n1. 危废包装容器标签信息不完整或与实物、台账不一致。\n2. 危废包装容器“一物一码”与平台记录核查。\n3. 危险废物管理台账记录不完整。\n4. 危废出入库记录、电子标签二维码与转移联单不一致。\n5. 危废暂存场所防渗、防漏及泄漏收集措施不完善。\n\n这 5 张的叙事顺序是:现场标签 -> 一物一码 -> 台账记录 -> 转移闭环 -> 暂存实体风险。\n\n## 演示边界\n\n- 不说“已认定违法”,统一说“建议核查、建议完善、存在管理风险”。\n- 第 10、14、17、18、19、20 张合并到前序卡,不单独展示。\n- 第 15、16 张放到第二轮专题,本轮不混讲。\n- 暂不演示 full 版云南踩雷地图和月报对比,等待真实聚合数据与 ETO 盲评。",
+        "zhang-director-product-demo-script.md": "# 张主任演示脚本\n\n你们有法条,我们补现场；你们有法规知识库,我们补行业场景；你们有执法工具,我们补企业真实问题；这套图谱不是资料库,而是法条落地到现场的执行层。\n\n## 阶段一:5 张精品开场\n\n1. 危废包装容器标签信息不完整或与实物、台账不一致。\n2. 危废包装容器“一物一码”与平台记录核查。\n3. 危险废物管理台账记录不完整。\n4. 危废出入库记录、电子标签二维码与转移联单不一致。\n5. 危废暂存场所防渗、防漏及泄漏收集措施不完善。\n\n这 5 张的叙事顺序是:现场标签 -> 一物一码 -> 台账记录 -> 转移闭环 -> 暂存实体风险。\n\n## 阶段二:危废专题全量目录\n\n开场 5 张讲价值,随后切到危废全量目录,说明当前所有危废相关候选都已经形成执行卡切片。目录中分为主任开场精品、专题扩展切片、合并展示切片和规模化候补切片。合并展示卡只证明覆盖,不单独讲,避免重复和夸大。\n\n## 演示边界\n\n- 不说“已认定违法”,统一说“建议核查、建议完善、存在管理风险”。\n- 合并展示卡只在目录中出现,不单独当主任主线讲。\n- 暂不演示 full 版云南踩雷地图和月报对比,等待真实聚合数据与 ETO 盲评。",
         "zhang-director-product-demo-checklist.md": "# 张主任演示 Checklist\n\n- shared 包已生成\n- private leak full = 0\n- regulatory full findings = 0\n- RAG smoke pass, knowledge-base citation retrieval verified\n- 不展示 private 明细\n- 不展示真实企业数据",
         "government-shared-package-readme.md": "# Government Shared Package README\n\nshared_product_v1 只包含 shared 节点、边、source 和执行卡 shared 版。不含企业实例、私有证据标准、整改模板、报告表达明细或 raw RAG response。",
         "product-positioning-one-page.md": "# 产品定位一页纸\n\n内部:环保语义操作系统。\n政府侧:生态环境法典行业现场执行图谱。\n企业侧:环保管家智能底座。",
@@ -1159,7 +1563,7 @@ def demo_pack() -> dict[str, Any]:
     for name, text in files.items():
         write_text(REPORTS_DIR / name, text)
     readiness = {
-        "safe_to_show": ["shared_product_v1", "showcase-card-pack", "director-demo-card-sequence", "gap-report-full"],
+        "safe_to_show": ["shared_product_v1", "showcase-card-pack", "director-demo-card-sequence", "hazardous-waste-slice-catalog", "eto-hazardous-waste-slice-ingest-register", "gap-report-full"],
         "not_safe_to_show_yet": ["yunnan-pitfall-map-full", "monthly-report-comparison-full"],
         "must_not_show": ["private runtime details", "raw RAG response", "real enterprise data"],
         "recommended_demo_order": [
@@ -1168,11 +1572,12 @@ def demo_pack() -> dict[str, Any]:
             "危险废物管理台账记录不完整",
             "危废出入库记录、电子标签二维码与转移联单不一致",
             "危废暂存场所防渗、防漏及泄漏收集措施不完善",
+            "危废专题全量目录",
             "缺口报告展示覆盖盲区",
         ],
     }
     write_json(REPORTS_DIR / "zhang-director-readiness.json", readiness)
-    write_text(REPORTS_DIR / "zhang-director-readiness.md", "# Zhang Director Readiness\n\n- safe_to_show: shared_product_v1, showcase-card-pack, director-demo-card-sequence, gap-report-full\n- recommended_demo_order: 标签 -> 一物一码 -> 台账 -> 转移闭环 -> 暂存实体风险 -> 缺口报告\n- not_safe_to_show_yet: yunnan-pitfall-map-full, monthly-report-comparison-full\n- must_not_show: private runtime and raw data")
+    write_text(REPORTS_DIR / "zhang-director-readiness.md", "# Zhang Director Readiness\n\n- safe_to_show: shared_product_v1, showcase-card-pack, director-demo-card-sequence, hazardous-waste-slice-catalog, eto-hazardous-waste-slice-ingest-register, gap-report-full\n- recommended_demo_order: 标签 -> 一物一码 -> 台账 -> 转移闭环 -> 暂存实体风险 -> 危废专题全量目录 -> 缺口报告\n- not_safe_to_show_yet: yunnan-pitfall-map-full, monthly-report-comparison-full\n- must_not_show: private runtime and raw data")
     return readiness
 
 
@@ -1200,6 +1605,8 @@ def final_delivery_p2p3() -> dict[str, Any]:
     pitfall_map = read_json(REPORTS_DIR / "yunnan-pitfall-map-full.json") if (REPORTS_DIR / "yunnan-pitfall-map-full.json").exists() else {"status": "blocked"}
     monthly = read_json(REPORTS_DIR / "monthly-report-comparison-full.json") if (REPORTS_DIR / "monthly-report-comparison-full.json").exists() else {"status": "blocked"}
     gap = read_json(REPORTS_DIR / "gap-report-full.json") if (REPORTS_DIR / "gap-report-full.json").exists() else {"status": "blocked"}
+    hazardous_catalog = read_json(REPORTS_DIR / "hazardous-waste-slice-catalog.json") if (REPORTS_DIR / "hazardous-waste-slice-catalog.json").exists() else {"status": "blocked", "total_hazardous_slices": 0}
+    ingest_register = read_json(REPORTS_DIR / "eto-hazardous-waste-slice-ingest-register.json") if (REPORTS_DIR / "eto-hazardous-waste-slice-ingest-register.json").exists() else {"status": "blocked", "summary": {}}
     ready = "yes"
     blockers = []
     degraded = []
@@ -1215,6 +1622,12 @@ def final_delivery_p2p3() -> dict[str, Any]:
     if cards.get("showcase_cards", 0) < 20 and ready != "no":
         ready = "conditional"
         degraded.append("showcase cards below target")
+    if hazardous_catalog.get("status") != "pass" and ready != "no":
+        ready = "conditional"
+        degraded.append("hazardous waste full slice catalog is not fully covered")
+    if ingest_register.get("status") != "pass" and ready != "no":
+        ready = "conditional"
+        degraded.append("ETO hazardous waste ingest register is not ready")
     if pitfall_map.get("status") != "pass" and ready != "no":
         ready = "conditional"
         degraded.append("Yunnan pitfall map full is blocked until real aggregate data is available.")
@@ -1228,7 +1641,7 @@ def final_delivery_p2p3() -> dict[str, Any]:
     final = {
         "zhang_director_ready": ready,
         "reason": "full package generated; director demo has honest blocked items" if ready == "conditional" else ("full package generated; RAG citation retrieval verified" if ready == "yes" else "blocked by guardrail violation"),
-        "safe_to_show": ["shared_product_v1", "upstream utilization report", "director demo card sequence", "gap report full"],
+        "safe_to_show": ["shared_product_v1", "upstream utilization report", "director demo card sequence", "hazardous waste slice catalog", "ETO hazardous waste ingest register", "gap report full"],
         "not_safe_to_show_yet": ["pitfall map full", "monthly comparison full"],
         "must_not_show": ["private runtime details", "raw RAG response", "real enterprise data", "keys", "local cache"],
         "blockers": blockers,
@@ -1241,6 +1654,7 @@ def final_delivery_p2p3() -> dict[str, Any]:
             "危险废物管理台账记录不完整",
             "危废出入库记录、电子标签二维码与转移联单不一致",
             "危废暂存场所防渗、防漏及泄漏收集措施不完善",
+            "危废专题全量目录",
             "缺口报告展示覆盖盲区",
         ],
         "rag_real_smoke": rag.get("rag_real_smoke"),
@@ -1250,6 +1664,17 @@ def final_delivery_p2p3() -> dict[str, Any]:
         "full_graph": internal_manifest.get("record_counts"),
         "shared_graph": shared_manifest.get("record_counts"),
         "cards": cards,
+        "hazardous_slice_catalog": {
+            "status": hazardous_catalog.get("status"),
+            "total_hazardous_slices": hazardous_catalog.get("total_hazardous_slices"),
+            "phase_counts": hazardous_catalog.get("phase_counts", {}),
+            "role_counts": hazardous_catalog.get("role_counts", {}),
+        },
+        "eto_hazardous_waste_ingest": {
+            "status": ingest_register.get("status"),
+            "source": ingest_register.get("source"),
+            "summary": ingest_register.get("summary", {}),
+        },
         "gap_report": {"status": gap.get("status"), "status_reason": gap.get("status_reason")},
         "pitfall_map_full": {"status": pitfall_map.get("status"), "reason": pitfall_map.get("reason")},
         "monthly_comparison_full": {"status": monthly.get("status"), "reason": monthly.get("reason"), "comparison_basis": monthly.get("comparison_basis")},

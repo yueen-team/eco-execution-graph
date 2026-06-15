@@ -1,8 +1,12 @@
 {
   "rag_real_smoke": "pass",
   "embedding_probe": {
-    "status": "failed",
-    "message": "ResourceUnavailable.ResourcePackageRunOut: [20031] not enough quota"
+    "status": "pass",
+    "probe": "embedding",
+    "request_id": "54bb729c-2012-4799-869f-8cf5040296b9",
+    "total_tokens": 3,
+    "embedding_dimensions": 1024,
+    "time_offset_seconds": -7200
   },
   "tokenhub_probe": {
     "status": "pass",
@@ -178,13 +182,9 @@
         "request_id_present": true
       }
     ],
-    "time_offset_seconds": -7197
+    "time_offset_seconds": -7200
   },
-  "ws_token_probe": {
-    "status": "blocked",
-    "probe": "ws-token",
-    "reason": "TENCENT_ADP_BOT_APP_KEY is required after publishing the Tencent ADP app."
-  },
+  "generation_path": "direct_rag_retrieve_plus_tokenhub_deepseek",
   "citation_count": 218,
   "counts": {
     "resolved": 218

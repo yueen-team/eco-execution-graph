@@ -1,0 +1,118 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "eco-execution-graph/knowledge-publication.v1",
+  "title": "KnowledgePublicationBundleV1",
+  "description": "知识治理中层发布给专家智能体小悦、EcoCheck、EcoCheck 环保体检报告 EcoDoc worker 或内部审核的只读 bundle。",
+  "type": "object",
+  "required": [
+    "bundle_id",
+    "audience",
+    "version",
+    "generated_at",
+    "approval_basis",
+    "human_review_required",
+    "machine_gate_status",
+    "inputs",
+    "items",
+    "blocked_items",
+    "hash",
+    "redline_scan_status"
+  ],
+  "properties": {
+    "bundle_id": { "type": "string", "minLength": 3 },
+    "audience": { "enum": ["expert_agent", "ecocheck", "ecodoc", "internal_review"] },
+    "version": { "type": "string" },
+    "generated_at": { "type": "string" },
+    "approval_basis": { "const": "ETO_APPROVED_IN_GRAPH" },
+    "human_review_required": { "const": false },
+    "machine_gate_status": { "enum": ["pass", "partial", "blocked"] },
+    "inputs": { "type": "array", "items": { "type": "string" } },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "item_id",
+          "doc_id",
+          "title",
+          "doc_type",
+          "rag_doc_ref",
+          "source_ref",
+          "legal_basis_status",
+          "review_status",
+          "citation_locator",
+          "locator_level",
+          "source_hash",
+          "cache_policy",
+          "raw_cached",
+          "trace"
+        ],
+        "properties": {
+          "item_id": { "type": "string" },
+          "doc_id": { "type": "string" },
+          "title": { "type": "string" },
+          "doc_type": { "type": "string" },
+          "rag_doc_ref": { "type": "string" },
+          "source_ref": { "type": "string" },
+          "legal_basis_status": {
+            "enum": ["official_confirmed", "internal_reviewed"]
+          },
+          "review_status": { "enum": ["human_reviewed", "approved"] },
+          "citation_locator": { "type": "string", "minLength": 1 },
+          "locator_level": { "type": "string", "minLength": 1 },
+          "source_hash": { "type": "string", "minLength": 8 },
+          "cache_policy": { "const": "metadata_only" },
+          "raw_cached": { "const": false },
+          "trace": {
+            "type": "object",
+            "required": ["source_report", "node_ids", "rag_doc_refs"],
+            "properties": {
+              "source_report": { "type": "string" },
+              "node_ids": { "type": "array", "items": { "type": "string" } },
+              "rag_doc_refs": { "type": "array", "items": { "type": "string" } }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "blocked_items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["target_ref", "reason", "trace"],
+        "properties": {
+          "target_ref": { "type": "string" },
+          "reason": { "type": "string" },
+          "trace": { "type": "object" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "hash": { "type": "string", "minLength": 8 },
+    "redline_scan_status": { "enum": ["pass", "blocked"] }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "audience": { "enum": ["expert_agent", "ecocheck", "ecodoc"] } },
+        "required": ["audience"]
+      },
+      "then": {
+        "properties": {
+          "approval_basis": { "const": "ETO_APPROVED_IN_GRAPH" },
+          "human_review_required": { "const": false },
+          "machine_gate_status": { "enum": ["pass", "partial", "blocked"] }
+        },
+        "required": ["approval_basis", "human_review_required", "machine_gate_status"]
+      }
+    }
+  ],
+  "propertyNames": {
+    "not": {
+      "enum": ["Content", "content", "raw_text", "full_text", "original_text", "enterprise_name", "gps", "photo_path", "raw_report"]
+    }
+  },
+  "additionalProperties": false
+}

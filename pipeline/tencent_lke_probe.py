@@ -154,53 +154,48 @@ def probe_rag_retrieve(client: TencentCloudClient, env: dict[str, str]) -> dict:
     }
 
 
-def probe_ws_token(client: TencentCloudClient, env: dict[str, str]) -> dict:
-    bot_app_key = env.get("TENCENT_ADP_BOT_APP_KEY", "")
-    if not bot_app_key or "your-" in bot_app_key or "填入" in bot_app_key:
-        return {
-            "status": "blocked",
-            "probe": "ws-token",
-            "reason": "TENCENT_ADP_BOT_APP_KEY is required after publishing the Tencent ADP app.",
-        }
-    response = client.call(
-        service="lke",
-        host="lke.tencentcloudapi.com",
-        action="GetWsToken",
-        version="2023-11-30",
-        payload={
-            "Type": 5,
-            "BotAppKey": bot_app_key,
-            "VisitorBizId": env.get("TENCENT_ADP_VISITOR_BIZ_ID") or "eco-execution-graph-local-dev",
-        },
-    )
-    return {
-        "status": "pass",
-        "probe": "ws-token",
-        "request_id": response.get("RequestId"),
-        "balance_present": response.get("Balance") is not None,
-        "input_len_limit": response.get("InputLenLimit"),
-        "pattern": response.get("Pattern"),
-        "token_present": bool(response.get("Token")),
-        "time_offset_seconds": client.time_offset_seconds,
-    }
-
-
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("probe", choices=["embedding", "tokenhub-chat", "rag-retrieve", "ws-token", "all"], default="embedding", nargs="?")
+    parser.add_argument("probe", choices=["embedding", "tokenhub-chat", "rag-retrieve", "all"], default="embedding", nargs="?")
     args = parser.parse_args()
     env = load_env()
     client = TencentCloudClient.from_env(env)
+    probe_map = {
+        "embedding": lambda: probe_embedding(client),
+        "tokenhub-chat": lambda: probe_tokenhub_chat(env),
+        "rag-retrieve": lambda: probe_rag_retrieve(client, env),
+    }
+
+    if args.probe == "all":
+        results = []
+        for name in ("embedding", "tokenhub-chat", "rag-retrieve"):
+            try:
+                results.append(probe_map[name]())
+            except (TencentCloudError, ValueError) as error:
+                results.append({
+                    "status": "failed",
+                    "probe": name,
+                    "error_type": type(error).__name__,
+                    "code": getattr(error, "code", None),
+                    "request_id": getattr(error, "request_id", None),
+                    "message": str(error),
+                    "time_offset_seconds": getattr(client, "time_offset_seconds", 0),
+                })
+        by_probe = {item.get("probe"): item for item in results}
+        core_pass = (
+            by_probe.get("tokenhub-chat", {}).get("status") == "pass"
+            and by_probe.get("rag-retrieve", {}).get("status") == "pass"
+        )
+        print(json.dumps({
+            "status": "pass" if core_pass else "failed",
+            "knowledge_base_path": "direct_rag_retrieve_plus_tokenhub_deepseek",
+            "results": results,
+        }, ensure_ascii=False))
+        sys.exit(0 if core_pass else 1)
+
     results = []
     try:
-        if args.probe in {"embedding", "all"}:
-            results.append(probe_embedding(client))
-        if args.probe in {"tokenhub-chat", "all"}:
-            results.append(probe_tokenhub_chat(env))
-        if args.probe in {"rag-retrieve", "all"}:
-            results.append(probe_rag_retrieve(client, env))
-        if args.probe in {"ws-token", "all"}:
-            results.append(probe_ws_token(client, env))
+        results.append(probe_map[args.probe]())
     except (TencentCloudError, ValueError) as error:
         print(json.dumps({
             "status": "failed",
