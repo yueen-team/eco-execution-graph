@@ -1,0 +1,14 @@
+{
+  "generated_at": "2026-06-15",
+  "documents": 210,
+  "document_effective_status_counts": {
+    "effective": 210
+  },
+  "candidates": 33,
+  "candidate_type_counts": {
+    "alias_normalization": 6,
+    "locator_patch": 27
+  },
+  "redline_scan_status": "pass",
+  "offline_boundary": "local metadata-only governance outputs; no Tencent RAG document-management write; no EcoCheck production write"
+}

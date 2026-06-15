@@ -1,0 +1,28 @@
+{
+  "schema_version": "knowledge-publication-report.v1",
+  "generated_at": "2026-06-15",
+  "bundle_count": 4,
+  "audiences": {
+    "expert_agent": {
+      "items": 183,
+      "blocked_items": 27,
+      "redline_scan_status": "pass"
+    },
+    "ecocheck": {
+      "items": 183,
+      "blocked_items": 27,
+      "redline_scan_status": "pass"
+    },
+    "ecodoc": {
+      "items": 183,
+      "blocked_items": 27,
+      "redline_scan_status": "pass"
+    },
+    "internal_review": {
+      "items": 183,
+      "blocked_items": 60,
+      "redline_scan_status": "pass"
+    }
+  },
+  "offline_boundary": "v1 writes local bundles only; it does not call Tencent RAG document-management APIs or EcoCheck production databases."
+}

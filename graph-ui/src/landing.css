@@ -101,7 +101,15 @@
   line-height: 1.85;
 }
 
-.hero-actions { display: flex; flex-wrap: wrap; gap: 14px; }
+.hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; }
+.hero-login-link {
+  display: inline-flex; align-items: center;
+  font-size: 13.5px;
+  color: var(--text-3);
+  border-bottom: 1px solid transparent;
+  transition: color 0.18s, border-color 0.18s;
+}
+.hero-login-link:hover { color: var(--blue); border-bottom-color: var(--blue-line); }
 
 /* 数字带:克制的一行,不做巨型 hero 指标卡 */
 .hero-stats {
@@ -151,11 +159,83 @@
 
 .sec-sub { max-width: 62ch; margin-top: 16px; color: var(--text-2); }
 
+/* ---- 流程地图:两条路径 ---- */
+.lp-paths .sec-sub strong { color: var(--text-0); font-weight: 600; }
+.path-tracks {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+  margin-top: 44px;
+}
+.track {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 26px 26px 24px;
+  border: 1px solid var(--line-1);
+  border-radius: var(--r-lg);
+  background: linear-gradient(180deg, rgba(14, 41, 31, 0.42), rgba(10, 22, 17, 0.22));
+}
+.track-visitor { border-top: 2px solid var(--eco-line); }
+.track-internal { border-top: 2px solid var(--blue-line); }
+.track-tag { font-size: 11.5px; letter-spacing: 0.16em; color: var(--eco); }
+.track-tag-blue { color: var(--blue); }
+.track h3 {
+  font-family: var(--font-serif);
+  font-size: 20px;
+  margin: 6px 0 20px;
+  color: var(--text-0);
+  letter-spacing: 0.04em;
+}
+.track-steps { list-style: none; display: flex; flex-direction: column; flex: 1; }
+.track-steps li {
+  position: relative;
+  display: grid;
+  grid-template-columns: 28px 1fr;
+  gap: 14px;
+  padding-bottom: 18px;
+}
+.track-steps li:not(:last-child)::before {
+  content: "";
+  position: absolute;
+  left: 13.5px; top: 30px; bottom: -2px;
+  width: 1px;
+  background: var(--line-2);
+}
+.track-steps b {
+  position: relative; z-index: 1;
+  width: 28px; height: 28px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 50%;
+  border: 1px solid var(--eco-line);
+  background: var(--ink-1);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--eco);
+}
+.track-internal .track-steps b { border-color: var(--blue-line); color: var(--blue); }
+.track-steps h4 { font-size: 15px; color: var(--text-0); margin-bottom: 3px; }
+.track-steps p { font-size: 13.5px; color: var(--text-2); line-height: 1.7; }
+.track-cta { margin-top: 6px; align-self: flex-start; }
+.track-cta-blue:hover { border-color: var(--blue-line); color: var(--blue); }
+
 /* ---- 闭环时间线 ---- */
 .loop-line {
   list-style: none;
+  position: relative;
   margin-top: 46px;
   border-left: 1px solid var(--line-2);
+}
+.loop-line::after {
+  content: "";
+  position: absolute;
+  left: -1px;
+  top: 0;
+  width: 1px;
+  height: 100%;
+  background: linear-gradient(180deg, transparent, var(--eco), transparent);
+  transform-origin: top center;
+  animation: loopTrace 6.8s ease-in-out infinite;
 }
 .loop-line li {
   position: relative;
@@ -169,7 +249,12 @@
   border-radius: 50%;
   background: var(--eco);
   box-shadow: 0 0 12px rgba(46, 230, 168, 0.6);
+  z-index: 1;
+  animation: loopDot 5.6s ease-in-out infinite;
 }
+.loop-line li:nth-child(2)::before { animation-delay: 0.7s; }
+.loop-line li:nth-child(3)::before { animation-delay: 1.4s; }
+.loop-line li:nth-child(4)::before { animation-delay: 2.1s; }
 .loop-line b {
   font-family: var(--font-mono);
   font-size: 12.5px;
@@ -228,6 +313,56 @@
 .t-private { background: var(--amber); }
 .t-aggregate { background: var(--violet); }
 
+.export-gate {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 120px;
+  gap: 18px;
+  margin-top: 34px;
+  padding: 4px 0 10px;
+  border-top: 1px solid var(--line-1);
+  border-bottom: 1px solid var(--line-1);
+  background: none;
+  overflow: hidden;
+}
+.gate-lane {
+  grid-column: 1;
+  position: relative;
+  display: grid;
+  grid-template-columns: 156px 1fr;
+  align-items: center;
+  gap: 16px;
+  min-height: 42px;
+  color: var(--text-2);
+  font-size: 13px;
+}
+.gate-lane i {
+  display: block;
+  height: 1px;
+  border-radius: 999px;
+  transform-origin: left center;
+  animation: gateFlow 3.8s ease-in-out infinite;
+}
+.gate-shared i { background: linear-gradient(90deg, var(--eco), rgba(46, 230, 168, 0)); }
+.gate-private i {
+  width: 42%;
+  background: linear-gradient(90deg, var(--amber), rgba(245, 184, 77, 0));
+  animation-name: gateStop;
+}
+.gate-aggregate i { background: linear-gradient(90deg, var(--violet), rgba(167, 139, 250, 0)); animation-delay: 0.5s; }
+.gate-lock {
+  grid-column: 2;
+  grid-row: 1 / span 3;
+  display: grid;
+  place-items: center;
+  border-left: 1px solid rgba(46, 230, 168, 0.28);
+  border-radius: 0;
+  color: var(--eco);
+  background: none;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+}
+
 /* ---- 行动区 ---- */
 .lp-contact { text-align: center; padding-bottom: 30px; }
 .lp-contact .sec-sub { margin-left: auto; margin-right: auto; }
@@ -255,12 +390,54 @@
 
 @media (prefers-reduced-motion: reduce) {
   [data-reveal] { opacity: 1; transform: none; transition: none; }
+  .loop-line::after,
+  .loop-line li::before,
+  .gate-lane i { animation: none; }
 }
 
 /* ---- 响应式 ---- */
 @media (max-width: 860px) {
   .lp-nav { display: none; }
+  .lp-topbar { gap: 12px; padding-inline: 16px; }
+  .lp-brand { min-width: 0; font-size: 15px; letter-spacing: 0.02em; }
+  .lp-cta-top { padding: 9px 14px; white-space: nowrap; }
   .aud-row, .tier { grid-template-columns: 1fr; gap: 8px; }
+  .path-tracks { grid-template-columns: 1fr; gap: 16px; }
+  .export-gate { grid-template-columns: 1fr; }
+  .gate-lane { grid-template-columns: 1fr; gap: 8px; }
+  .gate-lock { grid-column: 1; grid-row: auto; min-height: 58px; }
   .hero { padding-top: 92px; }
+  .hero-copy { width: 100%; max-width: 342px; min-width: 0; }
+  .hero h1 {
+    font-size: clamp(25px, 8vw, 31px);
+    line-height: 1.42;
+    word-break: break-all;
+    overflow-wrap: anywhere;
+  }
+  .hero h1 br { display: none; }
+  .hero-sub { font-size: 14px; line-height: 1.8; overflow-wrap: anywhere; }
   .hero-stats { gap: 22px; }
+}
+
+@keyframes loopTrace {
+  0% { transform: scaleY(0); opacity: 0; }
+  22% { transform: scaleY(0.42); opacity: 0.55; }
+  62% { transform: scaleY(1); opacity: 0.45; }
+  100% { transform: scaleY(1); opacity: 0; }
+}
+
+@keyframes loopDot {
+  0%, 18%, 100% { box-shadow: 0 0 8px rgba(46, 230, 168, 0.34); transform: scale(1); }
+  36%, 56% { box-shadow: 0 0 18px rgba(46, 230, 168, 0.72); transform: scale(1.18); }
+}
+
+@keyframes gateFlow {
+  0% { transform: scaleX(0.08); opacity: 0.4; }
+  50% { transform: scaleX(1); opacity: 1; }
+  100% { transform: scaleX(1); opacity: 0.35; }
+}
+
+@keyframes gateStop {
+  0% { transform: scaleX(0.08); opacity: 0.45; }
+  48%, 100% { transform: scaleX(0.42); opacity: 0.9; }
 }

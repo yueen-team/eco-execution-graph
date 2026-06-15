@@ -1,0 +1,1128 @@
+{
+  "schema_version": "knowledge-governance-candidate.v1",
+  "generated_at": "2026-06-15",
+  "source_registry": "data/knowledge-governance/doc-registry/knowledge-documents.json",
+  "candidates": [
+    {
+      "candidate_id": "kg-cand:alias:kg-doc-std-GB-13456-2012",
+      "candidate_type": "alias_normalization",
+      "source_system": "rag_report",
+      "target_ref": "kg-doc:std-GB-13456-2012",
+      "proposed_change": {
+        "action": "review_canonical_title_and_aliases",
+        "reason": "Multiple title variants point to the same canonical document identity.",
+        "fields": {
+          "canonical_title": "《钢铁工业水污染物排放标准》(GB13456-2012)修改单",
+          "aliases": [
+            "钢铁工业水污染物排放标准(GB 13456-2012代替GB 13456-1992)"
+          ]
+        }
+      },
+      "evidence_refs": [
+        "tencent-lke://eco-kb/PDS-V8_0-0046",
+        "tencent-lke://eco-kb/PDS-V8_0-0124"
+      ],
+      "risk_level": "low",
+      "tier": "internal_review",
+      "review_status": "candidate",
+      "reviewer_role": "SYSTEM",
+      "contains_private_data": false,
+      "created_at": "2026-06-15",
+      "trace": {
+        "source_report": "reports/rag-citation-resolution-report.json",
+        "node_ids": [
+          "tech-spec:eco-kb:PDS-V8_0-0046",
+          "tech-spec:eco-kb:PDS-V8_0-0124"
+        ],
+        "rag_doc_refs": [
+          "tencent-lke://eco-kb/PDS-V8_0-0046",
+          "tencent-lke://eco-kb/PDS-V8_0-0124"
+        ]
+      }
+    },
+    {
+      "candidate_id": "kg-cand:alias:kg-doc-std-GB-15580-2011",
+      "candidate_type": "alias_normalization",
+      "source_system": "rag_report",
+      "target_ref": "kg-doc:std-GB-15580-2011",
+      "proposed_change": {
+        "action": "review_canonical_title_and_aliases",
+        "reason": "Multiple title variants point to the same canonical document identity.",
+        "fields": {
+          "canonical_title": "《磷肥工业水污染物排放标准》(GB15580-2011)修改单",
+          "aliases": [
+            "磷肥工业水污染物排放标准(GB 15580-2011)"
+          ]
+        }
+      },
+      "evidence_refs": [
+        "tencent-lke://eco-kb/PDS-V8_0-0045",
+        "tencent-lke://eco-kb/PDS-V8_0-0109"
+      ],
+      "risk_level": "low",
+      "tier": "internal_review",
+      "review_status": "candidate",
+      "reviewer_role": "SYSTEM",
+      "contains_private_data": false,
+      "created_at": "2026-06-15",
+      "trace": {
+        "source_report": "reports/rag-citation-resolution-report.json",
+        "node_ids": [
+          "tech-spec:eco-kb:PDS-V8_0-0045",
+          "tech-spec:eco-kb:PDS-V8_0-0109"
+        ],
+        "rag_doc_refs": [
+          "tencent-lke://eco-kb/PDS-V8_0-0045",
+          "tencent-lke://eco-kb/PDS-V8_0-0109"
+        ]
+      }
+    },
+    {
+      "candidate_id": "kg-cand:alias:kg-doc-std-GB-18597",
+      "candidate_type": "alias_normalization",
+      "source_system": "rag_report",
+      "target_ref": "kg-doc:std-GB-18597",
+      "proposed_change": {
+        "action": "review_canonical_title_and_aliases",
+        "reason": "Multiple title variants point to the same canonical document identity.",
+        "fields": {
+          "canonical_title": "GB18597危险废物贮存污染控制标准·标签管理",
+          "aliases": [
+            "GB 18597 危险废物贮存污染控制标准·贮存分区"
+          ]
+        }
+      },
+      "evidence_refs": [
+        "tencent-lke://spec/gb18597/label",
+        "tencent-lke://spec/gb18597/storage"
+      ],
+      "risk_level": "low",
+      "tier": "internal_review",
+      "review_status": "candidate",
+      "reviewer_role": "SYSTEM",
+      "contains_private_data": false,
+      "created_at": "2026-06-15",
+      "trace": {
+        "source_report": "reports/rag-citation-resolution-report.json",
+        "node_ids": [
+          "spec:gb18597:label",
+          "spec:gb18597:storage"
+        ],
+        "rag_doc_refs": [
+          "tencent-lke://spec/gb18597/label",
+          "tencent-lke://spec/gb18597/storage"
+        ]
+      }
+    },
+    {
+      "candidate_id": "kg-cand:alias:kg-doc-std-GB-27631-2011",
+      "candidate_type": "alias_normalization",
+      "source_system": "rag_report",
+      "target_ref": "kg-doc:std-GB-27631-2011",
+      "proposed_change": {
+        "action": "review_canonical_title_and_aliases",
+        "reason": "Multiple title variants point to the same canonical document identity.",
+        "fields": {
+          "canonical_title": "《发酵酒精和白酒工业水污染物排放标准》(GB27631-2011)修改单",
+          "aliases": [
+            "发酵酒精和白酒工业水污染物排放标准(GB 27631--2011)"
+          ]
+        }
+      },
+      "evidence_refs": [
+        "tencent-lke://eco-kb/PDS-V8_0-0044",
+        "tencent-lke://eco-kb/PDS-V8_0-0069"
+      ],
+      "risk_level": "low",
+      "tier": "internal_review",
+      "review_status": "candidate",
+      "reviewer_role": "SYSTEM",
+      "contains_private_data": false,
+      "created_at": "2026-06-15",
+      "trace": {
+        "source_report": "reports/rag-citation-resolution-report.json",
+        "node_ids": [
+          "tech-spec:eco-kb:PDS-V8_0-0044",
+          "tech-spec:eco-kb:PDS-V8_0-0069"
+        ],
+        "rag_doc_refs": [
+          "tencent-lke://eco-kb/PDS-V8_0-0044",
+          "tencent-lke://eco-kb/PDS-V8_0-0069"
+        ]
+      }
+    },
+    {
+      "candidate_id": "kg-cand:alias:kg-doc-std-HJ-1259",
+      "candidate_type": "alias_normalization",
+      "source_system": "rag_report",
+      "target_ref": "kg-doc:std-HJ-1259",
+      "proposed_change": {
+        "action": "review_canonical_title_and_aliases",
+        "reason": "Multiple title variants point to the same canonical document identity.",
+        "fields": {
+          "canonical_title": "HJ1259危险废物管理计划和管理台账制定技术导则·台账",
+          "aliases": [
+            "HJ 1259 危险废物管理计划和管理台账制定技术导则·转移记录"
+          ]
+        }
+      },
+      "evidence_refs": [
+        "tencent-lke://spec/hj1259/ledger",
+        "tencent-lke://spec/hj1259/transfer"
+      ],
+      "risk_level": "low",
+      "tier": "internal_review",
+      "review_status": "candidate",
+      "reviewer_role": "SYSTEM",
+      "contains_private_data": false,
+      "created_at": "2026-06-15",
+      "trace": {
+        "source_report": "reports/rag-citation-resolution-report.json",
+        "node_ids": [
+          "spec:hj1259:ledger",
+          "spec:hj1259:transfer"
+        ],
+        "rag_doc_refs": [
+          "tencent-lke://spec/hj1259/ledger",
+          "tencent-lke://spec/hj1259/transfer"
+        ]
+      }
+    },
+    {
+      "candidate_id": "kg-cand:alias:kg-doc-title-固体废物污染环境防治法",
+      "candidate_type": "alias_normalization",
+      "source_system": "rag_report",
+      "target_ref": "kg-doc:title-固体废物污染环境防治法",
+      "proposed_change": {
+        "action": "review_canonical_title_and_aliases",
+        "reason": "Multiple title variants point to the same canonical document identity.",
+        "fields": {
+          "canonical_title": "固体废物污染环境防治法",
+          "aliases": [
+            "固体废物污染环境防治法 第七十八条",
+            "固体废物污染环境防治法 第八十一条",
+            "固体废物污染环境防治法 第八十二条"
+          ]
+        }
+      },
+      "evidence_refs": [
+        "tencent-lke://law/swl/art77",
+        "tencent-lke://law/swl/art78",
+        "tencent-lke://law/swl/art81",
+        "tencent-lke://law/swl/art82"
+      ],
+      "risk_level": "low",
+      "tier": "internal_review",
+      "review_status": "candidate",
+      "reviewer_role": "SYSTEM",
+      "contains_private_data": false,
+      "created_at": "2026-06-15",
+      "trace": {
+        "source_report": "reports/rag-citation-resolution-report.json",
+        "node_ids": [
+          "law:swl:art77",
+          "law:swl:art78",
+          "law:swl:art81",
+          "law:swl:art82"
+        ],
+        "rag_doc_refs": [
+          "tencent-lke://law/swl/art77",
+          "tencent-lke://law/swl/art78",
+          "tencent-lke://law/swl/art81",
+          "tencent-lke://law/swl/art82"
+        ]
+      }
+    },
+    {
+      "candidate_id": "kg-cand:locator:tech-spec-eco-kb-PDS-V8_0-0001",
+      "candidate_type": "locator_patch",
+      "source_system": "rag_report",
+      "target_ref": "tech-spec:eco-kb:PDS-V8_0-0001",
+      "proposed_change": {
+        "action": "fill_article_standard_page_or_section_locator",
+        "reason": "missing_article_spec_page_section_metadata",
+        "fields": {
+          "citation_title": "中华人民共和国噪声污染防治法",
+          "current_locator": "source-level"
+        }
+      },
+      "evidence_refs": [
+        "reports/rag-citation-resolution-report.json",
+        "tech-spec:eco-kb:PDS-V8_0-0001"
+      ],
+      "risk_level": "high",
+      "tier": "internal_review",
+      "review_status": "candidate",
+      "reviewer_role": "SYSTEM",
+      "contains_private_data": false,
+      "created_at": "2026-06-15",
+      "trace": {
+        "source_report": "reports/rag-citation-resolution-report.json",
+        "node_ids": [
+          "tech-spec:eco-kb:PDS-V8_0-0001"
+        ],
+        "rag_doc_refs": [
+          "tencent-lke://eco-kb/PDS-V8_0-0001"
+        ]
+      }
+    },
+    {
+      "candidate_id": "kg-cand:locator:tech-spec-eco-kb-PDS-V8_0-0012",
+      "candidate_type": "locator_patch",
+      "source_system": "rag_report",
+      "target_ref": "tech-spec:eco-kb:PDS-V8_0-0012",
+      "proposed_change": {
+        "action": "fill_article_standard_page_or_section_locator",
+        "reason": "missing_article_spec_page_section_metadata",
+        "fields": {
+          "citation_title": "固定污染源烟气排放连续监测系统技术要求及检测方法(试行)",
+          "current_locator": "source-level"
+        }
+      },
+      "evidence_refs": [
+        "reports/rag-citation-resolution-report.json",
+        "tech-spec:eco-kb:PDS-V8_0-0012"
+      ],
+      "risk_level": "high",
+      "tier": "internal_review",
+      "review_status": "candidate",
+      "reviewer_role": "SYSTEM",
+      "contains_private_data": false,
+      "created_at": "2026-06-15",
+      "trace": {
+        "source_report": "reports/rag-citation-resolution-report.json",
+        "node_ids": [
+          "tech-spec:eco-kb:PDS-V8_0-0012"
+        ],
+        "rag_doc_refs": [
+          "tencent-lke://eco-kb/PDS-V8_0-0012"
+        ]
+      }
+    },
+    {
+      "candidate_id": "kg-cand:locator:tech-spec-eco-kb-PDS-V8_0-0013",
+      "candidate_type": "locator_patch",
+      "source_system": "rag_report",
+      "target_ref": "tech-spec:eco-kb:PDS-V8_0-0013",
+      "proposed_change": {
+        "action": "fill_article_standard_page_or_section_locator",
+        "reason": "missing_article_spec_page_section_metadata",
+        "fields": {
+          "citation_title": "固定源废气监测技术规范",
+          "current_locator": "source-level"
+        }
+      },
+      "evidence_refs": [
+        "reports/rag-citation-resolution-report.json",
+        "tech-spec:eco-kb:PDS-V8_0-0013"
+      ],
+      "risk_level": "high",
+      "tier": "internal_review",
+      "review_status": "candidate",
+      "reviewer_role": "SYSTEM",
+      "contains_private_data": false,
+      "created_at": "2026-06-15",
+      "trace": {
+        "source_report": "reports/rag-citation-resolution-report.json",
+        "node_ids": [
+          "tech-spec:eco-kb:PDS-V8_0-0013"
+        ],
+        "rag_doc_refs": [
+          "tencent-lke://eco-kb/PDS-V8_0-0013"
+        ]
+      }
+    },
+    {
+      "candidate_id": "kg-cand:locator:tech-spec-eco-kb-PDS-V8_0-0017",
+      "candidate_type": "locator_patch",
+      "source_system": "rag_report",
+      "target_ref": "tech-spec:eco-kb:PDS-V8_0-0017",
+      "proposed_change": {
+        "action": "fill_article_standard_page_or_section_locator",
+        "reason": "missing_article_spec_page_section_metadata",
+        "fields": {
+          "citation_title": "排污单位污染物排放口二维码标识",
+          "current_locator": "source-level"
+        }
+      },
+      "evidence_refs": [
+        "reports/rag-citation-resolution-report.json",
+        "tech-spec:eco-kb:PDS-V8_0-0017"
+      ],
+      "risk_level": "high",
+      "tier": "internal_review",
+      "review_status": "candidate",
+      "reviewer_role": "SYSTEM",
+      "contains_private_data": false,
+      "created_at": "2026-06-15",
+      "trace": {
+        "source_report": "reports/rag-citation-resolution-report.json",
+        "node_ids": [
+          "tech-spec:eco-kb:PDS-V8_0-0017"
+        ],
+        "rag_doc_refs": [
+          "tencent-lke://eco-kb/PDS-V8_0-0017"
+        ]
+      }
+    },
+    {
+      "candidate_id": "kg-cand:locator:tech-spec-eco-kb-PDS-V8_0-0041",
+      "candidate_type": "locator_patch",
+      "source_system": "rag_report",
+      "target_ref": "tech-spec:eco-kb:PDS-V8_0-0041",
+      "proposed_change": {
+        "action": "fill_article_standard_page_or_section_locator",
+        "reason": "missing_article_spec_page_section_metadata",
+        "fields": {
+          "citation_title": "防治城市扬尘污染技术规范",
+          "current_locator": "source-level"
+        }
+      },
+      "evidence_refs": [
+        "reports/rag-citation-resolution-report.json",
+        "tech-spec:eco-kb:PDS-V8_0-0041"
+      ],
+      "risk_level": "high",
+      "tier": "internal_review",
+      "review_status": "candidate",
+      "reviewer_role": "SYSTEM",
+      "contains_private_data": false,
+      "created_at": "2026-06-15",
+      "trace": {
+        "source_report": "reports/rag-citation-resolution-report.json",
+        "node_ids": [
+          "tech-spec:eco-kb:PDS-V8_0-0041"
+        ],
+        "rag_doc_refs": [
+          "tencent-lke://eco-kb/PDS-V8_0-0041"
+        ]
+      }
+    },
+    {
+      "candidate_id": "kg-cand:locator:tech-spec-eco-kb-PDS-V8_0-0043",
+      "candidate_type": "locator_patch",
+      "source_system": "rag_report",
+      "target_ref": "tech-spec:eco-kb:PDS-V8_0-0043",
+      "proposed_change": {
+        "action": "fill_article_standard_page_or_section_locator",
+        "reason": "missing_article_spec_page_section_metadata",
+        "fields": {
+          "citation_title": "2022年《国家先进污染防治技术目录（水污染防治领域）》",
+          "current_locator": "source-level"
+        }
+      },
+      "evidence_refs": [
+        "reports/rag-citation-resolution-report.json",
+        "tech-spec:eco-kb:PDS-V8_0-0043"
+      ],
+      "risk_level": "high",
+      "tier": "internal_review",
+      "review_status": "candidate",
+      "reviewer_role": "SYSTEM",
+      "contains_private_data": false,
+      "created_at": "2026-06-15",
+      "trace": {
+        "source_report": "reports/rag-citation-resolution-report.json",
+        "node_ids": [
+          "tech-spec:eco-kb:PDS-V8_0-0043"
+        ],
+        "rag_doc_refs": [
+          "tencent-lke://eco-kb/PDS-V8_0-0043"
+        ]
+      }
+    },
+    {
+      "candidate_id": "kg-cand:locator:tech-spec-eco-kb-PDS-V8_0-0047",
+      "candidate_type": "locator_patch",
+      "source_system": "rag_report",
+      "target_ref": "tech-spec:eco-kb:PDS-V8_0-0047",
+      "proposed_change": {
+        "action": "fill_article_standard_page_or_section_locator",
+        "reason": "missing_article_spec_page_section_metadata",
+        "fields": {
+          "citation_title": "中华人民共和国水污染防治法",
+          "current_locator": "source-level"
+        }
+      },
+      "evidence_refs": [
+        "reports/rag-citation-resolution-report.json",
+        "tech-spec:eco-kb:PDS-V8_0-0047"
+      ],
+      "risk_level": "high",
+      "tier": "internal_review",
+      "review_status": "candidate",
+      "reviewer_role": "SYSTEM",
+      "contains_private_data": false,
+      "created_at": "2026-06-15",
+      "trace": {
+        "source_report": "reports/rag-citation-resolution-report.json",
+        "node_ids": [
+          "tech-spec:eco-kb:PDS-V8_0-0047"
+        ],
+        "rag_doc_refs": [
+          "tencent-lke://eco-kb/PDS-V8_0-0047"
+        ]
+      }
+    },
+    {
+      "candidate_id": "kg-cand:locator:tech-spec-eco-kb-PDS-V8_0-0086",
+      "candidate_type": "locator_patch",
+      "source_system": "rag_report",
+      "target_ref": "tech-spec:eco-kb:PDS-V8_0-0086",
+      "proposed_change": {
+        "action": "fill_article_standard_page_or_section_locator",
+        "reason": "missing_article_spec_page_section_metadata",
+        "fields": {
+          "citation_title": "水污染治理工程导则",
+          "current_locator": "source-level"
+        }
+      },
+      "evidence_refs": [
+        "reports/rag-citation-resolution-report.json",
+        "tech-spec:eco-kb:PDS-V8_0-0086"
+      ],
+      "risk_level": "high",
+      "tier": "internal_review",
+      "review_status": "candidate",
+      "reviewer_role": "SYSTEM",
+      "contains_private_data": false,
+      "created_at": "2026-06-15",
+      "trace": {
+        "source_report": "reports/rag-citation-resolution-report.json",
+        "node_ids": [
+          "tech-spec:eco-kb:PDS-V8_0-0086"
+        ],
+        "rag_doc_refs": [
+          "tencent-lke://eco-kb/PDS-V8_0-0086"
+        ]
+      }
+    },
+    {
+      "candidate_id": "kg-cand:locator:tech-spec-eco-kb-PDS-V8_0-0130",
+      "candidate_type": "locator_patch",
+      "source_system": "rag_report",
+      "target_ref": "tech-spec:eco-kb:PDS-V8_0-0130",
+      "proposed_change": {
+        "action": "fill_article_standard_page_or_section_locator",
+        "reason": "missing_article_spec_page_section_metadata",
+        "fields": {
+          "citation_title": "饮用水水源保护区污染防治管理规定",
+          "current_locator": "source-level"
+        }
+      },
+      "evidence_refs": [
+        "reports/rag-citation-resolution-report.json",
+        "tech-spec:eco-kb:PDS-V8_0-0130"
+      ],
+      "risk_level": "high",
+      "tier": "internal_review",
+      "review_status": "candidate",
+      "reviewer_role": "SYSTEM",
+      "contains_private_data": false,
+      "created_at": "2026-06-15",
+      "trace": {
+        "source_report": "reports/rag-citation-resolution-report.json",
+        "node_ids": [
+          "tech-spec:eco-kb:PDS-V8_0-0130"
+        ],
+        "rag_doc_refs": [
+          "tencent-lke://eco-kb/PDS-V8_0-0130"
+        ]
+      }
+    },
+    {
+      "candidate_id": "kg-cand:locator:tech-spec-eco-kb-PDS-V8_0-0133",
+      "candidate_type": "locator_patch",
+      "source_system": "rag_report",
+      "target_ref": "tech-spec:eco-kb:PDS-V8_0-0133",
+      "proposed_change": {
+        "action": "fill_article_standard_page_or_section_locator",
+        "reason": "missing_article_spec_page_section_metadata",
+        "fields": {
+          "citation_title": "中华人民共和国固体废物污染环境防治法",
+          "current_locator": "source-level"
+        }
+      },
+      "evidence_refs": [
+        "reports/rag-citation-resolution-report.json",
+        "tech-spec:eco-kb:PDS-V8_0-0133"
+      ],
+      "risk_level": "high",
+      "tier": "internal_review",
+      "review_status": "candidate",
+      "reviewer_role": "SYSTEM",
+      "contains_private_data": false,
+      "created_at": "2026-06-15",
+      "trace": {
+        "source_report": "reports/rag-citation-resolution-report.json",
+        "node_ids": [
+          "tech-spec:eco-kb:PDS-V8_0-0133"
+        ],
+        "rag_doc_refs": [
+          "tencent-lke://eco-kb/PDS-V8_0-0133"
+        ]
+      }
+    },
+    {
+      "candidate_id": "kg-cand:locator:tech-spec-eco-kb-PDS-V8_0-0137",
+      "candidate_type": "locator_patch",
+      "source_system": "rag_report",
+      "target_ref": "tech-spec:eco-kb:PDS-V8_0-0137",
+      "proposed_change": {
+        "action": "fill_article_standard_page_or_section_locator",
+        "reason": "missing_article_spec_page_section_metadata",
+        "fields": {
+          "citation_title": "医疗废物管理条例",
+          "current_locator": "source-level"
+        }
+      },
+      "evidence_refs": [
+        "reports/rag-citation-resolution-report.json",
+        "tech-spec:eco-kb:PDS-V8_0-0137"
+      ],
+      "risk_level": "high",
+      "tier": "internal_review",
+      "review_status": "candidate",
+      "reviewer_role": "SYSTEM",
+      "contains_private_data": false,
+      "created_at": "2026-06-15",
+      "trace": {
+        "source_report": "reports/rag-citation-resolution-report.json",
+        "node_ids": [
+          "tech-spec:eco-kb:PDS-V8_0-0137"
+        ],
+        "rag_doc_refs": [
+          "tencent-lke://eco-kb/PDS-V8_0-0137"
+        ]
+      }
+    },
+    {
+      "candidate_id": "kg-cand:locator:tech-spec-eco-kb-PDS-V8_0-0138",
+      "candidate_type": "locator_patch",
+      "source_system": "rag_report",
+      "target_ref": "tech-spec:eco-kb:PDS-V8_0-0138",
+      "proposed_change": {
+        "action": "fill_article_standard_page_or_section_locator",
+        "reason": "missing_article_spec_page_section_metadata",
+        "fields": {
+          "citation_title": "医疗废物管理行政处罚办法",
+          "current_locator": "source-level"
+        }
+      },
+      "evidence_refs": [
+        "reports/rag-citation-resolution-report.json",
+        "tech-spec:eco-kb:PDS-V8_0-0138"
+      ],
+      "risk_level": "high",
+      "tier": "internal_review",
+      "review_status": "candidate",
+      "reviewer_role": "SYSTEM",
+      "contains_private_data": false,
+      "created_at": "2026-06-15",
+      "trace": {
+        "source_report": "reports/rag-citation-resolution-report.json",
+        "node_ids": [
+          "tech-spec:eco-kb:PDS-V8_0-0138"
+        ],
+        "rag_doc_refs": [
+          "tencent-lke://eco-kb/PDS-V8_0-0138"
+        ]
+      }
+    },
+    {
+      "candidate_id": "kg-cand:locator:tech-spec-eco-kb-PDS-V8_0-0141",
+      "candidate_type": "locator_patch",
+      "source_system": "rag_report",
+      "target_ref": "tech-spec:eco-kb:PDS-V8_0-0141",
+      "proposed_change": {
+        "action": "fill_article_standard_page_or_section_locator",
+        "reason": "missing_article_spec_page_section_metadata",
+        "fields": {
+          "citation_title": "危险化学品安全管理条例",
+          "current_locator": "source-level"
+        }
+      },
+      "evidence_refs": [
+        "reports/rag-citation-resolution-report.json",
+        "tech-spec:eco-kb:PDS-V8_0-0141"
+      ],
+      "risk_level": "high",
+      "tier": "internal_review",
+      "review_status": "candidate",
+      "reviewer_role": "SYSTEM",
+      "contains_private_data": false,
+      "created_at": "2026-06-15",
+      "trace": {
+        "source_report": "reports/rag-citation-resolution-report.json",
+        "node_ids": [
+          "tech-spec:eco-kb:PDS-V8_0-0141"
+        ],
+        "rag_doc_refs": [
+          "tencent-lke://eco-kb/PDS-V8_0-0141"
+        ]
+      }
+    },
+    {
+      "candidate_id": "kg-cand:locator:tech-spec-eco-kb-PDS-V8_0-0142",
+      "candidate_type": "locator_patch",
+      "source_system": "rag_report",
+      "target_ref": "tech-spec:eco-kb:PDS-V8_0-0142",
+      "proposed_change": {
+        "action": "fill_article_standard_page_or_section_locator",
+        "reason": "missing_article_spec_page_section_metadata",
+        "fields": {
+          "citation_title": "危险废物出口核准管理办法",
+          "current_locator": "source-level"
+        }
+      },
+      "evidence_refs": [
+        "reports/rag-citation-resolution-report.json",
+        "tech-spec:eco-kb:PDS-V8_0-0142"
+      ],
+      "risk_level": "high",
+      "tier": "internal_review",
+      "review_status": "candidate",
+      "reviewer_role": "SYSTEM",
+      "contains_private_data": false,
+      "created_at": "2026-06-15",
+      "trace": {
+        "source_report": "reports/rag-citation-resolution-report.json",
+        "node_ids": [
+          "tech-spec:eco-kb:PDS-V8_0-0142"
+        ],
+        "rag_doc_refs": [
+          "tencent-lke://eco-kb/PDS-V8_0-0142"
+        ]
+      }
+    },
+    {
+      "candidate_id": "kg-cand:locator:tech-spec-eco-kb-PDS-V8_0-0148",
+      "candidate_type": "locator_patch",
+      "source_system": "rag_report",
+      "target_ref": "tech-spec:eco-kb:PDS-V8_0-0148",
+      "proposed_change": {
+        "action": "fill_article_standard_page_or_section_locator",
+        "reason": "missing_article_spec_page_section_metadata",
+        "fields": {
+          "citation_title": "危险废物经营许可证管理办法",
+          "current_locator": "source-level"
+        }
+      },
+      "evidence_refs": [
+        "reports/rag-citation-resolution-report.json",
+        "tech-spec:eco-kb:PDS-V8_0-0148"
+      ],
+      "risk_level": "high",
+      "tier": "internal_review",
+      "review_status": "candidate",
+      "reviewer_role": "SYSTEM",
+      "contains_private_data": false,
+      "created_at": "2026-06-15",
+      "trace": {
+        "source_report": "reports/rag-citation-resolution-report.json",
+        "node_ids": [
+          "tech-spec:eco-kb:PDS-V8_0-0148"
+        ],
+        "rag_doc_refs": [
+          "tencent-lke://eco-kb/PDS-V8_0-0148"
+        ]
+      }
+    },
+    {
+      "candidate_id": "kg-cand:locator:tech-spec-eco-kb-PDS-V8_0-0152",
+      "candidate_type": "locator_patch",
+      "source_system": "rag_report",
+      "target_ref": "tech-spec:eco-kb:PDS-V8_0-0152",
+      "proposed_change": {
+        "action": "fill_article_standard_page_or_section_locator",
+        "reason": "missing_article_spec_page_section_metadata",
+        "fields": {
+          "citation_title": "危险废物转移管理办法",
+          "current_locator": "source-level"
+        }
+      },
+      "evidence_refs": [
+        "reports/rag-citation-resolution-report.json",
+        "tech-spec:eco-kb:PDS-V8_0-0152"
+      ],
+      "risk_level": "high",
+      "tier": "internal_review",
+      "review_status": "candidate",
+      "reviewer_role": "SYSTEM",
+      "contains_private_data": false,
+      "created_at": "2026-06-15",
+      "trace": {
+        "source_report": "reports/rag-citation-resolution-report.json",
+        "node_ids": [
+          "tech-spec:eco-kb:PDS-V8_0-0152"
+        ],
+        "rag_doc_refs": [
+          "tencent-lke://eco-kb/PDS-V8_0-0152"
+        ]
+      }
+    },
+    {
+      "candidate_id": "kg-cand:locator:tech-spec-eco-kb-PDS-V8_0-0153",
+      "candidate_type": "locator_patch",
+      "source_system": "rag_report",
+      "target_ref": "tech-spec:eco-kb:PDS-V8_0-0153",
+      "proposed_change": {
+        "action": "fill_article_standard_page_or_section_locator",
+        "reason": "missing_article_spec_page_section_metadata",
+        "fields": {
+          "citation_title": "危险废物鉴别技术规范",
+          "current_locator": "source-level"
+        }
+      },
+      "evidence_refs": [
+        "reports/rag-citation-resolution-report.json",
+        "tech-spec:eco-kb:PDS-V8_0-0153"
+      ],
+      "risk_level": "high",
+      "tier": "internal_review",
+      "review_status": "candidate",
+      "reviewer_role": "SYSTEM",
+      "contains_private_data": false,
+      "created_at": "2026-06-15",
+      "trace": {
+        "source_report": "reports/rag-citation-resolution-report.json",
+        "node_ids": [
+          "tech-spec:eco-kb:PDS-V8_0-0153"
+        ],
+        "rag_doc_refs": [
+          "tencent-lke://eco-kb/PDS-V8_0-0153"
+        ]
+      }
+    },
+    {
+      "candidate_id": "kg-cand:locator:tech-spec-eco-kb-PDS-V8_0-0161",
+      "candidate_type": "locator_patch",
+      "source_system": "rag_report",
+      "target_ref": "tech-spec:eco-kb:PDS-V8_0-0161",
+      "proposed_change": {
+        "action": "fill_article_standard_page_or_section_locator",
+        "reason": "missing_article_spec_page_section_metadata",
+        "fields": {
+          "citation_title": "危险废物集中焚烧处置工程建设技术规范",
+          "current_locator": "source-level"
+        }
+      },
+      "evidence_refs": [
+        "reports/rag-citation-resolution-report.json",
+        "tech-spec:eco-kb:PDS-V8_0-0161"
+      ],
+      "risk_level": "high",
+      "tier": "internal_review",
+      "review_status": "candidate",
+      "reviewer_role": "SYSTEM",
+      "contains_private_data": false,
+      "created_at": "2026-06-15",
+      "trace": {
+        "source_report": "reports/rag-citation-resolution-report.json",
+        "node_ids": [
+          "tech-spec:eco-kb:PDS-V8_0-0161"
+        ],
+        "rag_doc_refs": [
+          "tencent-lke://eco-kb/PDS-V8_0-0161"
+        ]
+      }
+    },
+    {
+      "candidate_id": "kg-cand:locator:tech-spec-eco-kb-PDS-V8_0-0166",
+      "candidate_type": "locator_patch",
+      "source_system": "rag_report",
+      "target_ref": "tech-spec:eco-kb:PDS-V8_0-0166",
+      "proposed_change": {
+        "action": "fill_article_standard_page_or_section_locator",
+        "reason": "missing_article_spec_page_section_metadata",
+        "fields": {
+          "citation_title": "国家危险废物名录(2025年版)",
+          "current_locator": "source-level"
+        }
+      },
+      "evidence_refs": [
+        "reports/rag-citation-resolution-report.json",
+        "tech-spec:eco-kb:PDS-V8_0-0166"
+      ],
+      "risk_level": "high",
+      "tier": "internal_review",
+      "review_status": "candidate",
+      "reviewer_role": "SYSTEM",
+      "contains_private_data": false,
+      "created_at": "2026-06-15",
+      "trace": {
+        "source_report": "reports/rag-citation-resolution-report.json",
+        "node_ids": [
+          "tech-spec:eco-kb:PDS-V8_0-0166"
+        ],
+        "rag_doc_refs": [
+          "tencent-lke://eco-kb/PDS-V8_0-0166"
+        ]
+      }
+    },
+    {
+      "candidate_id": "kg-cand:locator:tech-spec-eco-kb-PDS-V8_0-0179",
+      "candidate_type": "locator_patch",
+      "source_system": "rag_report",
+      "target_ref": "tech-spec:eco-kb:PDS-V8_0-0179",
+      "proposed_change": {
+        "action": "fill_article_standard_page_or_section_locator",
+        "reason": "missing_article_spec_page_section_metadata",
+        "fields": {
+          "citation_title": "铬渣污染治理环境保护技术规范",
+          "current_locator": "source-level"
+        }
+      },
+      "evidence_refs": [
+        "reports/rag-citation-resolution-report.json",
+        "tech-spec:eco-kb:PDS-V8_0-0179"
+      ],
+      "risk_level": "high",
+      "tier": "internal_review",
+      "review_status": "candidate",
+      "reviewer_role": "SYSTEM",
+      "contains_private_data": false,
+      "created_at": "2026-06-15",
+      "trace": {
+        "source_report": "reports/rag-citation-resolution-report.json",
+        "node_ids": [
+          "tech-spec:eco-kb:PDS-V8_0-0179"
+        ],
+        "rag_doc_refs": [
+          "tencent-lke://eco-kb/PDS-V8_0-0179"
+        ]
+      }
+    },
+    {
+      "candidate_id": "kg-cand:locator:tech-spec-eco-kb-PDS-V8_0-0182",
+      "candidate_type": "locator_patch",
+      "source_system": "rag_report",
+      "target_ref": "tech-spec:eco-kb:PDS-V8_0-0182",
+      "proposed_change": {
+        "action": "fill_article_standard_page_or_section_locator",
+        "reason": "missing_article_spec_page_section_metadata",
+        "fields": {
+          "citation_title": "废弃机电产品集中拆解利用处置区环境保护技术规范（试行）",
+          "current_locator": "source-level"
+        }
+      },
+      "evidence_refs": [
+        "reports/rag-citation-resolution-report.json",
+        "tech-spec:eco-kb:PDS-V8_0-0182"
+      ],
+      "risk_level": "high",
+      "tier": "internal_review",
+      "review_status": "candidate",
+      "reviewer_role": "SYSTEM",
+      "contains_private_data": false,
+      "created_at": "2026-06-15",
+      "trace": {
+        "source_report": "reports/rag-citation-resolution-report.json",
+        "node_ids": [
+          "tech-spec:eco-kb:PDS-V8_0-0182"
+        ],
+        "rag_doc_refs": [
+          "tencent-lke://eco-kb/PDS-V8_0-0182"
+        ]
+      }
+    },
+    {
+      "candidate_id": "kg-cand:locator:tech-spec-eco-kb-PDS-V8_0-0199",
+      "candidate_type": "locator_patch",
+      "source_system": "rag_report",
+      "target_ref": "tech-spec:eco-kb:PDS-V8_0-0199",
+      "proposed_change": {
+        "action": "fill_article_standard_page_or_section_locator",
+        "reason": "missing_article_spec_page_section_metadata",
+        "fields": {
+          "citation_title": "放射性固体废物贮存和处置许可管理办法",
+          "current_locator": "source-level"
+        }
+      },
+      "evidence_refs": [
+        "reports/rag-citation-resolution-report.json",
+        "tech-spec:eco-kb:PDS-V8_0-0199"
+      ],
+      "risk_level": "high",
+      "tier": "internal_review",
+      "review_status": "candidate",
+      "reviewer_role": "SYSTEM",
+      "contains_private_data": false,
+      "created_at": "2026-06-15",
+      "trace": {
+        "source_report": "reports/rag-citation-resolution-report.json",
+        "node_ids": [
+          "tech-spec:eco-kb:PDS-V8_0-0199"
+        ],
+        "rag_doc_refs": [
+          "tencent-lke://eco-kb/PDS-V8_0-0199"
+        ]
+      }
+    },
+    {
+      "candidate_id": "kg-cand:locator:tech-spec-eco-kb-PDS-V8_0-0202",
+      "candidate_type": "locator_patch",
+      "source_system": "rag_report",
+      "target_ref": "tech-spec:eco-kb:PDS-V8_0-0202",
+      "proposed_change": {
+        "action": "fill_article_standard_page_or_section_locator",
+        "reason": "missing_article_spec_page_section_metadata",
+        "fields": {
+          "citation_title": "核与辐射安全监督检查人员证件管理办法",
+          "current_locator": "source-level"
+        }
+      },
+      "evidence_refs": [
+        "reports/rag-citation-resolution-report.json",
+        "tech-spec:eco-kb:PDS-V8_0-0202"
+      ],
+      "risk_level": "high",
+      "tier": "internal_review",
+      "review_status": "candidate",
+      "reviewer_role": "SYSTEM",
+      "contains_private_data": false,
+      "created_at": "2026-06-15",
+      "trace": {
+        "source_report": "reports/rag-citation-resolution-report.json",
+        "node_ids": [
+          "tech-spec:eco-kb:PDS-V8_0-0202"
+        ],
+        "rag_doc_refs": [
+          "tencent-lke://eco-kb/PDS-V8_0-0202"
+        ]
+      }
+    },
+    {
+      "candidate_id": "kg-cand:locator:tech-spec-eco-kb-PDS-V8_0-0206",
+      "candidate_type": "locator_patch",
+      "source_system": "rag_report",
+      "target_ref": "tech-spec:eco-kb:PDS-V8_0-0206",
+      "proposed_change": {
+        "action": "fill_article_standard_page_or_section_locator",
+        "reason": "missing_article_spec_page_section_metadata",
+        "fields": {
+          "citation_title": "核设施环境保护管理导则放射性固体废物浅地层处置环境影响报告书的格式与内容",
+          "current_locator": "source-level"
+        }
+      },
+      "evidence_refs": [
+        "reports/rag-citation-resolution-report.json",
+        "tech-spec:eco-kb:PDS-V8_0-0206"
+      ],
+      "risk_level": "high",
+      "tier": "internal_review",
+      "review_status": "candidate",
+      "reviewer_role": "SYSTEM",
+      "contains_private_data": false,
+      "created_at": "2026-06-15",
+      "trace": {
+        "source_report": "reports/rag-citation-resolution-report.json",
+        "node_ids": [
+          "tech-spec:eco-kb:PDS-V8_0-0206"
+        ],
+        "rag_doc_refs": [
+          "tencent-lke://eco-kb/PDS-V8_0-0206"
+        ]
+      }
+    },
+    {
+      "candidate_id": "kg-cand:locator:tech-spec-eco-kb-PDS-V8_0-0210",
+      "candidate_type": "locator_patch",
+      "source_system": "rag_report",
+      "target_ref": "tech-spec:eco-kb:PDS-V8_0-0210",
+      "proposed_change": {
+        "action": "fill_article_standard_page_or_section_locator",
+        "reason": "missing_article_spec_page_section_metadata",
+        "fields": {
+          "citation_title": "辐射环境保护管理导则核技术利用建设项目环境影响评价文件的内容和格式",
+          "current_locator": "source-level"
+        }
+      },
+      "evidence_refs": [
+        "reports/rag-citation-resolution-report.json",
+        "tech-spec:eco-kb:PDS-V8_0-0210"
+      ],
+      "risk_level": "high",
+      "tier": "internal_review",
+      "review_status": "candidate",
+      "reviewer_role": "SYSTEM",
+      "contains_private_data": false,
+      "created_at": "2026-06-15",
+      "trace": {
+        "source_report": "reports/rag-citation-resolution-report.json",
+        "node_ids": [
+          "tech-spec:eco-kb:PDS-V8_0-0210"
+        ],
+        "rag_doc_refs": [
+          "tencent-lke://eco-kb/PDS-V8_0-0210"
+        ]
+      }
+    },
+    {
+      "candidate_id": "kg-cand:locator:tech-spec-eco-kb-PDS-V8_0-0211",
+      "candidate_type": "locator_patch",
+      "source_system": "rag_report",
+      "target_ref": "tech-spec:eco-kb:PDS-V8_0-0211",
+      "proposed_change": {
+        "action": "fill_article_standard_page_or_section_locator",
+        "reason": "missing_article_spec_page_section_metadata",
+        "fields": {
+          "citation_title": "辐射环境保护管理导则电磁辐射监测仪器和方法",
+          "current_locator": "source-level"
+        }
+      },
+      "evidence_refs": [
+        "reports/rag-citation-resolution-report.json",
+        "tech-spec:eco-kb:PDS-V8_0-0211"
+      ],
+      "risk_level": "high",
+      "tier": "internal_review",
+      "review_status": "candidate",
+      "reviewer_role": "SYSTEM",
+      "contains_private_data": false,
+      "created_at": "2026-06-15",
+      "trace": {
+        "source_report": "reports/rag-citation-resolution-report.json",
+        "node_ids": [
+          "tech-spec:eco-kb:PDS-V8_0-0211"
+        ],
+        "rag_doc_refs": [
+          "tencent-lke://eco-kb/PDS-V8_0-0211"
+        ]
+      }
+    },
+    {
+      "candidate_id": "kg-cand:locator:tech-spec-eco-kb-PDS-V8_0-0212",
+      "candidate_type": "locator_patch",
+      "source_system": "rag_report",
+      "target_ref": "tech-spec:eco-kb:PDS-V8_0-0212",
+      "proposed_change": {
+        "action": "fill_article_standard_page_or_section_locator",
+        "reason": "missing_article_spec_page_section_metadata",
+        "fields": {
+          "citation_title": "辐射环境监测技术规范",
+          "current_locator": "source-level"
+        }
+      },
+      "evidence_refs": [
+        "reports/rag-citation-resolution-report.json",
+        "tech-spec:eco-kb:PDS-V8_0-0212"
+      ],
+      "risk_level": "high",
+      "tier": "internal_review",
+      "review_status": "candidate",
+      "reviewer_role": "SYSTEM",
+      "contains_private_data": false,
+      "created_at": "2026-06-15",
+      "trace": {
+        "source_report": "reports/rag-citation-resolution-report.json",
+        "node_ids": [
+          "tech-spec:eco-kb:PDS-V8_0-0212"
+        ],
+        "rag_doc_refs": [
+          "tencent-lke://eco-kb/PDS-V8_0-0212"
+        ]
+      }
+    }
+  ]
+}

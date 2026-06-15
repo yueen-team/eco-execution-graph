@@ -113,9 +113,19 @@ if ($Target -in @("test", "all")) {
         try { Invoke-CheckedCommand -Command @("pnpm", "rag:resolve") }
         finally { Pop-Location }
     }
+    Invoke-Step "knowledge-governance" {
+        Push-Location $root
+        try { Invoke-CheckedCommand -Command @("pnpm", "knowledge:check") }
+        finally { Pop-Location }
+    }
     Invoke-Step "p2p3-full-graph" {
         Push-Location $root
         try { Invoke-CheckedCommand -Command @("pnpm", "graph:build:full") }
+        finally { Pop-Location }
+    }
+    Invoke-Step "p2p3-full-cards" {
+        Push-Location $root
+        try { Invoke-CheckedCommand -Command @("pnpm", "cards:generate:full") }
         finally { Pop-Location }
     }
     Invoke-Step "p2p3-full-reports" {

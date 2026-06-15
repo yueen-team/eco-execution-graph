@@ -1,7 +1,21 @@
 {
   "status": "pass",
   "source": "reports/eto-showcase-card-review.md",
-  "logic": "现场标签 -> 一物一码 -> 台账记录 -> 转移闭环 -> 暂存实体风险",
+  "logic": "5 张精品开场 -> 危废全量目录 -> 缺口报告 -> 授权边界",
+  "phase_one": {
+    "name": "主任开场精品",
+    "count": 5,
+    "rule": "只放 ETO 回填为主任演示卡且有 director_demo_order 的卡。"
+  },
+  "phase_two": {
+    "name": "危废专题全量目录",
+    "count": 31,
+    "catalog": "reports/hazardous-waste-slice-catalog.json",
+    "rule": "覆盖全部危废相关切片,其中合并采纳子项只保留知识点,不单独成卡。",
+    "eto_v4_independent_cards": 14,
+    "eto_v4_template_cards": 3,
+    "eto_v4_merged_cards": 14
+  },
   "cards": [
     {
       "order": 1,
@@ -12,20 +26,20 @@
     {
       "order": 2,
       "card_id": "card:full:0011",
-      "title": "危废包装容器“一物一码”与平台记录核查执行卡",
-      "external_expression": "危废包装容器“一物一码”与平台记录需保持一致,建议核查电子标签二维码、数字识别码、电子台账和平台记录。"
+      "title": "危废包装容器电子标签二维码 / 一物一码与平台记录核查执行卡",
+      "external_expression": "这张不是讲企业自建扫码系统,而是核查危废包装容器电子标签二维码、实物、电子台账和平台记录能不能一一对应。"
     },
     {
       "order": 3,
       "card_id": "card:full:0001",
-      "title": "危险废物管理台账记录不完整执行卡",
-      "external_expression": "企业危险废物管理台账记录不够完整,建议核查产生、入库、出库、月度汇总、平台申报和转移联单回填是否一致。"
+      "title": "危险废物台账记录不完整或前后不一致执行卡",
+      "external_expression": "现场主要核查危废产生、入库、出库、转移和平台申报记录是否能前后对应,避免出现产生量、库存量、转移量和申报量对不上的情况。"
     },
     {
       "order": 4,
       "card_id": "card:full:0005",
-      "title": "危废出入库记录、电子标签二维码与转移联单不一致执行卡",
-      "external_expression": "危废出入库记录、电子标签二维码与转移联单信息存在不一致风险,建议核查平台、台账、实物和联单闭环。"
+      "title": "危废出入库记录、电子标签二维码与电子转移联单一致性核查执行卡",
+      "external_expression": "现场主要看同一批危废从入库、出库到转移,记录、标签二维码、平台信息和转移联单是否能相互印证。"
     },
     {
       "order": 5,
@@ -43,12 +57,12 @@
     {
       "order": 2,
       "card_id": "card:full:0001",
-      "title": "危险废物管理台账记录不完整执行卡"
+      "title": "危险废物台账记录不完整或前后不一致执行卡"
     },
     {
       "order": 3,
       "card_id": "card:full:0005",
-      "title": "危废出入库记录、电子标签二维码与转移联单不一致执行卡"
+      "title": "危废出入库记录、电子标签二维码与电子转移联单一致性核查执行卡"
     },
     {
       "order": 4,
@@ -65,32 +79,323 @@
     {
       "card_id": "card:full:0010",
       "title": "危废分类分区贮存管理核查执行卡",
-      "merge_with": "card:full:0002"
+      "merge_with": "card:full:0002",
+      "secondary_merge_refs": [],
+      "reason": "ETO V4 合并采纳,不再单独成卡"
     },
     {
       "card_id": "card:full:0014",
       "title": "危废贮存设施和分区识别标志核查执行卡",
-      "merge_with": "card:full:0004"
+      "merge_with": "card:full:0004",
+      "secondary_merge_refs": [],
+      "reason": "ETO V4 合并采纳,不再单独成卡"
     },
     {
       "card_id": "card:full:0017",
       "title": "不相容危废隔离贮存候补执行卡",
-      "merge_with": "card:full:0006"
+      "merge_with": "card:full:0006",
+      "secondary_merge_refs": [],
+      "reason": "ETO V4 合并采纳,不再单独成卡"
     },
     {
       "card_id": "card:full:0018",
       "title": "危废产生端“五即”即称重候补执行卡",
-      "merge_with": "card:full:0007"
+      "merge_with": "card:full:0007",
+      "secondary_merge_refs": [],
+      "reason": "ETO V4 合并采纳,不再单独成卡"
     },
     {
       "card_id": "card:full:0019",
       "title": "危废入库打码与贮存记录对应关系候补执行卡",
-      "merge_with": "card:full:0008"
+      "merge_with": "card:full:0008",
+      "secondary_merge_refs": [
+        "card:full:0011"
+      ],
+      "reason": "ETO V4 合并采纳,不再单独成卡"
     },
     {
       "card_id": "card:full:0020",
       "title": "危废电子标签二维码与电子转移联单一致性候补执行卡",
-      "merge_with": "card:full:0009"
+      "merge_with": "card:full:0005",
+      "secondary_merge_refs": [
+        "card:full:0009"
+      ],
+      "reason": "ETO V4 合并采纳,不再单独成卡"
+    },
+    {
+      "card_id": "card:full:0021",
+      "title": "危废分类分区贮存执行卡",
+      "merge_with": "card:full:0002",
+      "secondary_merge_refs": [],
+      "reason": "ETO V4 合并采纳,不再单独成卡"
+    },
+    {
+      "card_id": "card:full:0022",
+      "title": "危废包装容器一物一码执行卡",
+      "merge_with": "card:full:0011",
+      "secondary_merge_refs": [],
+      "reason": "ETO V4 合并采纳,不再单独成卡"
+    },
+    {
+      "card_id": "card:full:0023",
+      "title": "危废暂存防渗和泄漏收集执行卡",
+      "merge_with": "card:full:0012",
+      "secondary_merge_refs": [],
+      "reason": "ETO V4 合并采纳,不再单独成卡"
+    },
+    {
+      "card_id": "card:full:0024",
+      "title": "危废泄漏应急物资和演练记录执行卡",
+      "merge_with": "card:full:0013",
+      "secondary_merge_refs": [],
+      "reason": "ETO V4 合并采纳,不再单独成卡"
+    },
+    {
+      "card_id": "card:full:0025",
+      "title": "危废贮存设施和分区识别标志执行卡",
+      "merge_with": "card:full:0004",
+      "secondary_merge_refs": [],
+      "reason": "ETO V4 合并采纳,不再单独成卡"
+    },
+    {
+      "card_id": "card:full:0029",
+      "title": "实验室废液与检测试剂危废候选 MONTHLY执行卡",
+      "merge_with": "card:full:0028",
+      "secondary_merge_refs": [],
+      "reason": "ETO V4 合并采纳,不再单独成卡"
+    },
+    {
+      "card_id": "card:full:0030",
+      "title": "洗车水/洗版废液、废擦拭布及废包装物收集闭环核查执行卡",
+      "merge_with": "card:full:0015",
+      "secondary_merge_refs": [],
+      "reason": "ETO V4 合并采纳,不再单独成卡"
+    },
+    {
+      "card_id": "card:full:0031",
+      "title": "脱水系统运行及污泥危废属性核查执行卡",
+      "merge_with": "card:full:0016",
+      "secondary_merge_refs": [],
+      "reason": "ETO V4 合并采纳,不再单独成卡"
+    }
+  ],
+  "hazardous_slice_catalog": [
+    {
+      "order": 1,
+      "card_id": "card:full:0001",
+      "title": "危险废物台账记录不完整或前后不一致执行卡",
+      "role": "主任开场精品",
+      "display_policy": "首轮单独讲"
+    },
+    {
+      "order": 2,
+      "card_id": "card:full:0002",
+      "title": "危废暂存间分类分区贮存管理不到位执行卡",
+      "role": "主任追问展开卡",
+      "display_policy": "主任追问时展开讲"
+    },
+    {
+      "order": 3,
+      "card_id": "card:full:0003",
+      "title": "危废包装容器标签信息不完整或与实物、台账不一致执行卡",
+      "role": "主任开场精品",
+      "display_policy": "首轮单独讲"
+    },
+    {
+      "order": 4,
+      "card_id": "card:full:0004",
+      "title": "危废贮存场所及分区识别标志设置不完善执行卡",
+      "role": "主任追问展开卡",
+      "display_policy": "主任追问时展开讲"
+    },
+    {
+      "order": 5,
+      "card_id": "card:full:0005",
+      "title": "危废出入库记录、电子标签二维码与电子转移联单一致性核查执行卡",
+      "role": "主任开场精品",
+      "display_policy": "首轮单独讲"
+    },
+    {
+      "order": 6,
+      "card_id": "card:full:0006",
+      "title": "不相容危废隔离贮存措施不足或待核查执行卡",
+      "role": "主任追问展开卡",
+      "display_policy": "主任追问时展开讲"
+    },
+    {
+      "order": 7,
+      "card_id": "card:full:0007",
+      "title": "结合当地平台要求的危废产生端“五即”即称重核查执行卡",
+      "role": "主任追问展开卡",
+      "display_policy": "主任追问时展开讲"
+    },
+    {
+      "order": 8,
+      "card_id": "card:full:0008",
+      "title": "危废电子标签二维码与贮存记录对应关系核查执行卡",
+      "role": "主任追问展开卡",
+      "display_policy": "主任追问时展开讲"
+    },
+    {
+      "order": 9,
+      "card_id": "card:full:0009",
+      "title": "危废电子标签、出库记录和电子转移联单一致性核查执行卡",
+      "role": "主任追问展开卡",
+      "display_policy": "主任追问时展开讲"
+    },
+    {
+      "order": 10,
+      "card_id": "card:full:0010",
+      "title": "危废分类分区贮存管理核查执行卡",
+      "role": "合并采纳子项",
+      "display_policy": "知识点已入主卡,不单独成卡"
+    },
+    {
+      "order": 11,
+      "card_id": "card:full:0011",
+      "title": "危废包装容器电子标签二维码 / 一物一码与平台记录核查执行卡",
+      "role": "主任开场精品",
+      "display_policy": "首轮单独讲"
+    },
+    {
+      "order": 12,
+      "card_id": "card:full:0012",
+      "title": "危废暂存场所防渗、防漏及泄漏收集措施不完善执行卡",
+      "role": "主任开场精品",
+      "display_policy": "首轮单独讲"
+    },
+    {
+      "order": 13,
+      "card_id": "card:full:0013",
+      "title": "危废暂存场所应急物资及培训演练记录有待完善执行卡",
+      "role": "主任追问展开卡",
+      "display_policy": "主任追问时展开讲"
+    },
+    {
+      "order": 14,
+      "card_id": "card:full:0014",
+      "title": "危废贮存设施和分区识别标志核查执行卡",
+      "role": "合并采纳子项",
+      "display_policy": "知识点已入主卡,不单独成卡"
+    },
+    {
+      "order": 15,
+      "card_id": "card:full:0015",
+      "title": "印刷工序清洗废液、废擦拭布及废包装物属性与去向核查执行卡",
+      "role": "主任追问展开卡",
+      "display_policy": "主任追问时展开讲"
+    },
+    {
+      "order": 16,
+      "card_id": "card:full:0016",
+      "title": "污水处理站污泥属性、暂存及去向核查执行卡",
+      "role": "主任追问展开卡",
+      "display_policy": "主任追问时展开讲"
+    },
+    {
+      "order": 17,
+      "card_id": "card:full:0017",
+      "title": "不相容危废隔离贮存候补执行卡",
+      "role": "合并采纳子项",
+      "display_policy": "知识点已入主卡,不单独成卡"
+    },
+    {
+      "order": 18,
+      "card_id": "card:full:0018",
+      "title": "危废产生端“五即”即称重候补执行卡",
+      "role": "合并采纳子项",
+      "display_policy": "知识点已入主卡,不单独成卡"
+    },
+    {
+      "order": 19,
+      "card_id": "card:full:0019",
+      "title": "危废入库打码与贮存记录对应关系候补执行卡",
+      "role": "合并采纳子项",
+      "display_policy": "知识点已入主卡,不单独成卡"
+    },
+    {
+      "order": 20,
+      "card_id": "card:full:0020",
+      "title": "危废电子标签二维码与电子转移联单一致性候补执行卡",
+      "role": "合并采纳子项",
+      "display_policy": "知识点已入主卡,不单独成卡"
+    },
+    {
+      "order": 21,
+      "card_id": "card:full:0021",
+      "title": "危废分类分区贮存执行卡",
+      "role": "合并采纳子项",
+      "display_policy": "知识点已入主卡,不单独成卡"
+    },
+    {
+      "order": 22,
+      "card_id": "card:full:0022",
+      "title": "危废包装容器一物一码执行卡",
+      "role": "合并采纳子项",
+      "display_policy": "知识点已入主卡,不单独成卡"
+    },
+    {
+      "order": 23,
+      "card_id": "card:full:0023",
+      "title": "危废暂存防渗和泄漏收集执行卡",
+      "role": "合并采纳子项",
+      "display_policy": "知识点已入主卡,不单独成卡"
+    },
+    {
+      "order": 24,
+      "card_id": "card:full:0024",
+      "title": "危废泄漏应急物资和演练记录执行卡",
+      "role": "合并采纳子项",
+      "display_policy": "知识点已入主卡,不单独成卡"
+    },
+    {
+      "order": 25,
+      "card_id": "card:full:0025",
+      "title": "危废贮存设施和分区识别标志执行卡",
+      "role": "合并采纳子项",
+      "display_policy": "知识点已入主卡,不单独成卡"
+    },
+    {
+      "order": 26,
+      "card_id": "card:full:0026",
+      "title": "首次巡查中危险废物识别、暂存与转移管理核查执行卡",
+      "role": "内部场景模板",
+      "display_policy": "不进主任开场,作为场景模板或专题扩展"
+    },
+    {
+      "order": 27,
+      "card_id": "card:full:0027",
+      "title": "月度巡查中危废暂存、台账与转移记录复核执行卡",
+      "role": "内部场景模板",
+      "display_policy": "不进主任开场,作为场景模板或专题扩展"
+    },
+    {
+      "order": 28,
+      "card_id": "card:full:0028",
+      "title": "实验室废液、废试剂属性及去向核查执行卡",
+      "role": "内部场景模板",
+      "display_policy": "不进主任开场,作为场景模板或专题扩展"
+    },
+    {
+      "order": 29,
+      "card_id": "card:full:0029",
+      "title": "实验室废液与检测试剂危废候选 MONTHLY执行卡",
+      "role": "合并采纳子项",
+      "display_policy": "知识点已入主卡,不单独成卡"
+    },
+    {
+      "order": 30,
+      "card_id": "card:full:0030",
+      "title": "洗车水/洗版废液、废擦拭布及废包装物收集闭环核查执行卡",
+      "role": "合并采纳子项",
+      "display_policy": "知识点已入主卡,不单独成卡"
+    },
+    {
+      "order": 31,
+      "card_id": "card:full:0031",
+      "title": "脱水系统运行及污泥危废属性核查执行卡",
+      "role": "合并采纳子项",
+      "display_policy": "知识点已入主卡,不单独成卡"
     }
   ]
 }

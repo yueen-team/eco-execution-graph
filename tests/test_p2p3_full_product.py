@@ -45,6 +45,9 @@ class P2P3FullProductTest(unittest.TestCase):
 
         self.assertEqual(report["rag_real_smoke"], "pass")
         self.assertEqual(report["rag_retrieve_probe"]["status"], "pass")
+        self.assertEqual(report["tokenhub_probe"]["status"], "pass")
+        self.assertEqual(report["generation_path"], "direct_rag_retrieve_plus_tokenhub_deepseek")
+        self.assertNotIn("ws_token_probe", report)
         self.assertGreaterEqual(report["citation_count"], 5)
         self.assertGreaterEqual(report["counts"].get("resolved", 0), 5)
         self.assertTrue(all(item["cache_policy"] == "metadata_only" for item in report["p1_core_resolution"]))
@@ -79,6 +82,14 @@ class P2P3FullProductTest(unittest.TestCase):
         self.assertEqual(cards["status"], "pass")
         self.assertGreaterEqual(cards["total_cards"], 50)
         self.assertGreaterEqual(cards["hazardous_showcase_cards"], 10)
+        self.assertGreaterEqual(cards["hazardous_total_cards"], 30)
+        self.assertEqual(cards["hazardous_candidate_coverage_status"], "pass")
+        self.assertEqual(cards["hazardous_uncovered_candidate_count"], 0)
+        self.assertEqual(cards["phase_one_director_cards"], 5)
+        self.assertGreaterEqual(cards["phase_two_hazardous_slices"], 25)
+        self.assertEqual(cards["eto_v4_independent_cards"], 14)
+        self.assertEqual(cards["eto_v4_template_cards"], 3)
+        self.assertEqual(cards["eto_v4_merged_cards"], 14)
         self.assertEqual(leak["status"], "pass")
         self.assertEqual(regulatory["status"], "pass")
 
@@ -131,10 +142,20 @@ class P2P3FullProductTest(unittest.TestCase):
             "eto_review_conclusion",
             "eto_display_group",
             "eto_display_priority",
+            "eto_ingest_status",
+            "eto_ingest_action",
+            "eto_ingest_type",
+            "eto_conclusion_source",
             "director_demo_order",
             "director_demo_backup_order",
             "merge_with",
+            "secondary_merge_refs",
             "external_expression",
+            "hazardous_slice_scope",
+            "hazardous_slice_stage",
+            "hazardous_slice_role",
+            "hazardous_slice_order",
+            "hazardous_slice_display_policy",
             "internal_capability_placeholders",
         }
 
@@ -146,6 +167,7 @@ class P2P3FullProductTest(unittest.TestCase):
     def test_eto_review_backfills_director_demo_sequence(self):
         sequence = read_json("reports/director-demo-card-sequence.json")
         showcase = read_json("reports/showcase-card-pack.json")
+        catalog = read_json("reports/hazardous-waste-slice-catalog.json")
 
         self.assertEqual(sequence["status"], "pass")
         self.assertEqual([item["card_id"] for item in sequence["cards"]], [
@@ -155,8 +177,26 @@ class P2P3FullProductTest(unittest.TestCase):
             "card:full:0005",
             "card:full:0012",
         ])
+        self.assertEqual(sequence["phase_one"]["count"], 5)
+        self.assertGreaterEqual(sequence["phase_two"]["count"], 30)
+        self.assertEqual(sequence["phase_two"]["catalog"], "reports/hazardous-waste-slice-catalog.json")
+        self.assertEqual(sequence["phase_two"]["eto_v4_independent_cards"], 14)
+        self.assertEqual(sequence["phase_two"]["eto_v4_template_cards"], 3)
+        self.assertEqual(sequence["phase_two"]["eto_v4_merged_cards"], 14)
         self.assertEqual(len([card for card in showcase if card.get("eto_display_group") == "主任演示卡"]), 5)
-        self.assertEqual(len([card for card in showcase if card.get("eto_display_group") == "暂不展示卡"]), 6)
+        self.assertEqual(len([card for card in showcase if card.get("eto_display_group") == "主任追问展开卡"]), 9)
+        self.assertEqual(catalog["status"], "pass")
+        self.assertEqual(catalog["total_hazardous_slices"], sequence["phase_two"]["count"])
+        self.assertFalse(catalog["uncovered_hazardous_candidate_ids"])
+        self.assertEqual(catalog["role_counts"]["主任开场精品"], 5)
+        self.assertEqual(catalog["role_counts"]["主任追问展开卡"], 9)
+        self.assertEqual(catalog["role_counts"]["内部场景模板"], 3)
+        self.assertEqual(catalog["role_counts"]["合并采纳子项"], 14)
+        self.assertEqual(catalog["eto_ingest_action_counts"]["独立入库"], 14)
+        self.assertEqual(catalog["eto_ingest_action_counts"]["模板入库"], 3)
+        self.assertEqual(catalog["eto_ingest_action_counts"]["合并入库"], 14)
+        self.assertEqual(len(sequence["do_not_show"]), 14)
+        self.assertTrue(all(item["display_policy"] != "首轮单独讲" for item in catalog["slices"] if item["role"] == "合并采纳子项"))
 
     def test_render_manifest_records_real_screenshots(self):
         manifest = read_json("reports/render-proof-p2p3/manifest.json")

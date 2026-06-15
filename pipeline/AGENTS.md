@@ -20,6 +20,7 @@
 | `quality_score.py` | 图谱质量评分与 staleness 风险计算 | confidence 必须可解释,不得手填孤立分数 |
 | `pitfall_map.py` | aggregate-only 踩雷地图数据生成 | 样本数不足不输出;不得读企业实例 |
 | `regulatory_consistency_check.py` | 报告口径一致性检查 | 先离线内部用;blocking 风险不得对外交付 |
+| `knowledge_governance.py` | RAG metadata + 图谱 thin refs → 文档注册表/治理候选/消费发布包 | metadata-only;不得写 RAG Content、法规/规范全文、企业私有证据;v1 不写腾讯云知识库或 EcoCheck 生产库 |
 
 ## 约定
 

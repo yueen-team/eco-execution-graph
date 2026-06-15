@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "eco-execution-graph/knowledge-governance-candidate.v1",
+  "title": "KnowledgeGovernanceCandidateV1",
+  "description": "知识治理中层待审核候选。所有候选默认 candidate,不得自动晋级 approved。",
+  "type": "object",
+  "required": [
+    "candidate_id",
+    "candidate_type",
+    "source_system",
+    "target_ref",
+    "proposed_change",
+    "evidence_refs",
+    "risk_level",
+    "tier",
+    "review_status",
+    "reviewer_role",
+    "contains_private_data",
+    "created_at",
+    "trace"
+  ],
+  "properties": {
+    "candidate_id": { "type": "string", "minLength": 3 },
+    "candidate_type": {
+      "enum": [
+        "doc_dedupe",
+        "doc_status_update",
+        "locator_patch",
+        "alias_normalization",
+        "graph_expert_candidate",
+        "legal_mapping_review",
+        "publication_blocker"
+      ]
+    },
+    "source_system": {
+      "enum": ["rag_report", "graph", "ecocheck_outbox", "eto_review", "manual"]
+    },
+    "target_ref": { "type": "string", "minLength": 1 },
+    "proposed_change": {
+      "type": "object",
+      "required": ["action", "reason"],
+      "properties": {
+        "action": { "type": "string" },
+        "reason": { "type": "string" },
+        "fields": { "type": "object" }
+      },
+      "additionalProperties": false
+    },
+    "evidence_refs": { "type": "array", "items": { "type": "string" } },
+    "risk_level": { "enum": ["low", "medium", "high"] },
+    "tier": { "enum": ["shared", "aggregate", "internal_review"] },
+    "review_status": { "enum": ["candidate", "human_reviewed", "approved", "rejected"] },
+    "reviewer_role": { "enum": ["SYSTEM", "ETO", "CANDY", "GOVERNMENT", "UNKNOWN"] },
+    "contains_private_data": { "const": false },
+    "created_at": { "type": "string" },
+    "trace": {
+      "type": "object",
+      "required": ["source_report", "node_ids", "rag_doc_refs"],
+      "properties": {
+        "source_report": { "type": "string" },
+        "node_ids": { "type": "array", "items": { "type": "string" } },
+        "rag_doc_refs": { "type": "array", "items": { "type": "string" } }
+      },
+      "additionalProperties": false
+    }
+  },
+  "propertyNames": {
+    "not": {
+      "enum": ["Content", "content", "raw_text", "full_text", "original_text", "enterprise_name", "gps", "photo_path", "raw_report"]
+    }
+  },
+  "additionalProperties": false
+}

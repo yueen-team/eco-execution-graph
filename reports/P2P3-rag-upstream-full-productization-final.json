@@ -5,6 +5,8 @@
     "shared_product_v1",
     "upstream utilization report",
     "director demo card sequence",
+    "hazardous waste slice catalog",
+    "ETO hazardous waste ingest register",
     "gap report full"
   ],
   "not_safe_to_show_yet": [
@@ -39,6 +41,7 @@
     "危险废物管理台账记录不完整",
     "危废出入库记录、电子标签二维码与转移联单不一致",
     "危废暂存场所防渗、防漏及泄漏收集措施不完善",
+    "危废专题全量目录",
     "缺口报告展示覆盖盲区"
   ],
   "rag_real_smoke": "pass",
@@ -62,10 +65,43 @@
     "ready_cards": 70,
     "candidate_cards": 0,
     "hazardous_showcase_cards": 17,
-    "eto_reviewed_cards": 20,
+    "hazardous_total_cards": 31,
+    "hazardous_candidate_count": 31,
+    "hazardous_uncovered_candidate_count": 0,
+    "hazardous_candidate_coverage_status": "pass",
+    "phase_one_director_cards": 5,
+    "phase_two_hazardous_slices": 26,
+    "eto_reviewed_cards": 31,
     "director_demo_cards": 5,
-    "internal_refine_cards": 9,
-    "do_not_show_cards": 6
+    "eto_v4_independent_cards": 14,
+    "eto_v4_template_cards": 3,
+    "eto_v4_merged_cards": 14,
+    "internal_refine_cards": 0,
+    "do_not_show_cards": 0
+  },
+  "hazardous_slice_catalog": {
+    "status": "pass",
+    "total_hazardous_slices": 31,
+    "phase_counts": {
+      "阶段一:主任开场精品": 5,
+      "阶段二:危废专题全量目录": 26
+    },
+    "role_counts": {
+      "主任开场精品": 5,
+      "主任追问展开卡": 9,
+      "合并采纳子项": 14,
+      "内部场景模板": 3
+    }
+  },
+  "eto_hazardous_waste_ingest": {
+    "status": "pass",
+    "source": "reports/eto_hazardous_waste_slice_conclusions_31_v4.md",
+    "summary": {
+      "independent_demo_or_followup_cards": 14,
+      "scenario_or_topic_templates": 3,
+      "merged_knowledge_items": 14,
+      "total_accepted_items": 31
+    }
   },
   "gap_report": {
     "status": "pass",

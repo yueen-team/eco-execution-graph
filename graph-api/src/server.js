@@ -5,6 +5,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { applyReviewDecision, buildPitfallBatch, normalizeFieldEvent } from "./review-store.js";
 import { createReviewStorage } from "./storage.js";
+import { buildGraphContextResponse, contextPathsFromRoot, loadGraphContextInputs } from "./graph-context.js";
 import {
   wecomConfigFromEnv, isWecomConfigured, buildWecomLoginUrl, exchangeWecomCode,
   isUserAllowed, issueSession, verifySession, parseCookies, sessionCookie,
@@ -16,6 +17,7 @@ const STAGING_PATH = process.env.ECO_GRAPH_STAGING_PATH || path.join(ROOT, "data
 const PORT = Number(process.env.PORT || 8787);
 const API_TOKEN = process.env.ECO_GRAPH_API_TOKEN || "";
 const DEFAULT_MAX_BODY_BYTES = Number(process.env.ECO_GRAPH_MAX_BODY_BYTES || 1024 * 1024);
+const DEFAULT_CONTEXT_PATHS = contextPathsFromRoot(ROOT);
 
 function isProductionLike(config = {}) {
   return (
@@ -86,6 +88,8 @@ function createHandler({
   stagingPath = STAGING_PATH,
   apiToken = API_TOKEN,
   maxBodyBytes = DEFAULT_MAX_BODY_BYTES,
+  contextGraphPath = DEFAULT_CONTEXT_PATHS.graphPath,
+  contextPublicationPath = DEFAULT_CONTEXT_PATHS.publicationPath,
   storage,
   storageOptions,
   wecom = wecomConfigFromEnv(),
@@ -162,6 +166,21 @@ function createHandler({
       const rows = await store.readAll();
       const status = url.searchParams.get("status");
       send(res, 200, { status: "pass", items: status ? rows.filter((row) => row["当前审核状态"] === status) : rows });
+      return;
+    }
+    if (req.method === "GET" && url.pathname === "/api/graph/context") {
+      const { graph, publication } = await loadGraphContextInputs({
+        graphPath: contextGraphPath,
+        publicationPath: contextPublicationPath,
+      });
+      send(res, 200, buildGraphContextResponse({
+        graph,
+        publication,
+        nodeId: url.searchParams.get("node_id") || "",
+        query: url.searchParams.get("q") || "",
+        depth: url.searchParams.get("depth") || 2,
+        limit: url.searchParams.get("limit") || 80,
+      }));
       return;
     }
     const detail = url.pathname.match(/^\/api\/review\/field-events\/([^/]+)$/);

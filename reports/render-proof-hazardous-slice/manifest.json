@@ -1,0 +1,25 @@
+{
+  "status": "pass",
+  "captured_at": "2026-06-15T13:04:26.217Z",
+  "url": "http://127.0.0.1:4173/app.html",
+  "scenario": "enter director demo, advance to hazardous-waste full slice catalog",
+  "assertions": {
+    "initial_director_card_nonblank": true,
+    "catalog_required_text_visible": [
+      "危废全量切片目录",
+      "主任开场精品",
+      "主任追问展开卡",
+      "合并采纳子项",
+      "知识点已入主卡"
+    ],
+    "row_click_preserved_catalog": true,
+    "mobile_catalog_nonblank": true,
+    "mobile_catalog_title_visible": true
+  },
+  "screenshots": [
+    "desktop-director-first-card.png",
+    "desktop-hazardous-catalog.png",
+    "desktop-catalog-row-clicked.png",
+    "mobile-hazardous-catalog.png"
+  ]
+}

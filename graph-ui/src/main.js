@@ -287,7 +287,7 @@ async function boot() {
     const params = new URLSearchParams(window.location.search);
     if (state.deployPolicy.readonlyShared && params.get("director") === "1") {
       syncControls();
-      setStatus("云端只读演示:正在播放主任演示主线。");
+      setStatus("云端只读演示:正在播放图谱演示主线。");
       enterDemo();
     } else if (state.deployPolicy.readonlyShared) {
       syncControls();

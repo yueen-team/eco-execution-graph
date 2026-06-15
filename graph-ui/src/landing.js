@@ -147,7 +147,18 @@ async function bootStats() {
 /* ---- 滚动浮现 ---- */
 
 function bootReveal() {
-  if (reduceMotion) return;
+  const revealVisible = () => {
+    document.querySelectorAll("[data-reveal]:not(.in)").forEach((el) => {
+      const rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight * 0.92 && rect.bottom > 0) {
+        el.classList.add("in");
+      }
+    });
+  };
+  if (reduceMotion) {
+    revealVisible();
+    return;
+  }
   const observer = new IntersectionObserver(
     (entries) => entries.forEach((entry) => {
       if (entry.isIntersecting) {
@@ -158,6 +169,8 @@ function bootReveal() {
     { threshold: 0.18 },
   );
   document.querySelectorAll("[data-reveal]").forEach((el) => observer.observe(el));
+  requestAnimationFrame(revealVisible);
+  window.addEventListener("hashchange", () => setTimeout(revealVisible, 80));
 }
 
 bootHeroGraph();

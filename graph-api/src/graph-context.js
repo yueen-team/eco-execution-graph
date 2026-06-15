@@ -1,0 +1,370 @@
+import fs from "node:fs/promises";
+import path from "node:path";
+
+const APPROVED_REVIEW_STATUSES = new Set(["APPROVED_BASELINE", "HUMAN_REVIEWED", "approved", "human_reviewed"]);
+const PUBLIC_TIERS = new Set(["shared", "aggregate"]);
+const LEGAL_EDGE_TYPES = new Set(["regulated_by", "manifests_as", "obligation_of", "limited_by"]);
+const CONFIRMED_LEGAL_STATUSES = new Set(["official_confirmed", "internal_reviewed"]);
+const REF_NODE_TYPES = new Set(["law_article", "tech_spec", "standard_limit"]);
+const FORBIDDEN_KEYS = new Set([
+  "content",
+  "raw_text",
+  "full_text",
+  "original_text",
+  "enterprise_name",
+  "company_name",
+  "gps",
+  "photo_path",
+  "raw_report",
+  "attachment_url",
+  "photo_url",
+  "secretid",
+  "secretkey",
+  "api_key",
+  "token",
+  "authorization",
+]);
+const FORBIDDEN_VALUE_PATTERNS = [
+  /RAG 原文正文/i,
+  /本法全文|全文如下|第一条.{20,}第二条/s,
+  /BEGIN PRIVATE KEY/i,
+  /\bAKID[A-Za-z0-9]{8,}/,
+  /https?:\/\/[^\s"]*(myqcloud|cos|attachment|evidence|photo)/i,
+  /经度|纬度|GPS/i,
+];
+
+const STANDARD_RE = /\b(?:GB|GB\/T|HJ|HJ\/T|DB\d{2}|DB\d{2}\/T|T\/[A-Z0-9]+)\s*[0-9][0-9A-Za-z./-]*(?:[-—－][0-9]{2,4})?\b/i;
+
+function asArray(value) {
+  if (!value) return [];
+  return Array.isArray(value) ? value : [value];
+}
+
+function clampNumber(value, fallback, min, max) {
+  const number = Number(value);
+  if (!Number.isFinite(number)) return fallback;
+  return Math.max(min, Math.min(max, number));
+}
+
+function normalizeText(value) {
+  return String(value ?? "").trim().toLowerCase();
+}
+
+function isApproved(record) {
+  return PUBLIC_TIERS.has(record?.tier) && APPROVED_REVIEW_STATUSES.has(record?.review_status);
+}
+
+function safeAttrs(node) {
+  const attrs = node?.attrs && typeof node.attrs === "object" ? node.attrs : {};
+  const allowed = [
+    "law_name",
+    "article_no",
+    "obligation_summary",
+    "effective_status",
+    "rag_doc_ref",
+    "standard_no",
+    "tech_spec_no",
+    "summary",
+    "inspection_type",
+    "score_item",
+    "applicable_when",
+  ];
+  return Object.fromEntries(allowed.filter((key) => attrs[key] !== undefined).map((key) => [key, attrs[key]]));
+}
+
+function slimNode(node) {
+  return {
+    node_id: node.node_id,
+    node_type: node.node_type,
+    name: node.name,
+    tier: node.tier,
+    review_status: node.review_status,
+    attrs: safeAttrs(node),
+  };
+}
+
+function slimEdge(edge) {
+  return {
+    edge_id: edge.edge_id,
+    from: edge.from,
+    to: edge.to,
+    edge_type: edge.edge_type,
+    tier: edge.tier,
+    review_status: edge.review_status,
+    source_ref: edge.source_ref,
+    legal_basis_status: edge.legal_basis_status,
+    confidence: edge.confidence,
+    confidence_reason: edge.confidence_reason,
+  };
+}
+
+function nodeSearchText(node) {
+  return [
+    node.node_id,
+    node.node_type,
+    node.name,
+    ...asArray(node.aliases),
+    node.attrs?.law_name,
+    node.attrs?.article_no,
+    node.attrs?.standard_no,
+    node.attrs?.tech_spec_no,
+  ].map(normalizeText).join(" ");
+}
+
+function standardNo(node) {
+  const explicit = node.attrs?.standard_no || node.attrs?.tech_spec_no;
+  if (explicit) return String(explicit).replace(/[—－]/g, "-").trim();
+  const match = STANDARD_RE.exec(node.name || "");
+  return match ? match[0].replace(/[—－]/g, "-").trim() : null;
+}
+
+function ragDocRef(node) {
+  return node.attrs?.rag_doc_ref || node.rag_doc_ref || "";
+}
+
+function traceFor(node, edge) {
+  return {
+    node_ids: [node.node_id],
+    edge_ids: edge ? [edge.edge_id] : [],
+    source_refs: edge?.source_ref ? [edge.source_ref] : [],
+  };
+}
+
+function scanForbidden(value, pathLabel = "$", violations = []) {
+  if (Array.isArray(value)) {
+    value.forEach((item, index) => scanForbidden(item, `${pathLabel}[${index}]`, violations));
+    return violations;
+  }
+  if (value && typeof value === "object") {
+    for (const [key, item] of Object.entries(value)) {
+      if (FORBIDDEN_KEYS.has(key.toLowerCase())) violations.push(`${pathLabel}.${key}`);
+      scanForbidden(item, `${pathLabel}.${key}`, violations);
+    }
+    return violations;
+  }
+  if (typeof value === "string") {
+    for (const pattern of FORBIDDEN_VALUE_PATTERNS) {
+      if (pattern.test(value)) violations.push(pathLabel);
+    }
+  }
+  return violations;
+}
+
+function assertRedlineClean(payload) {
+  const violations = [...new Set(scanForbidden(payload))];
+  if (violations.length) throw new Error(`图谱上下文包含不得输出的字段:${violations.join(",")}`);
+}
+
+function isPublicationItemAllowed(item) {
+  if (!item || typeof item !== "object") return false;
+  if (!item.rag_doc_ref) return false;
+  if (!new Set(["approved", "human_reviewed"]).has(item.review_status)) return false;
+  if (!CONFIRMED_LEGAL_STATUSES.has(item.legal_basis_status)) return false;
+  if (!item.citation_locator || item.citation_locator === "source-level") return false;
+  if (item.cache_policy !== "metadata_only") return false;
+  if (item.raw_cached !== false) return false;
+  return true;
+}
+
+function publicationAllowedRefs(publication) {
+  return new Set((publication?.items || []).filter(isPublicationItemAllowed).map((item) => item.rag_doc_ref));
+}
+
+function privateSourceRefs(graph) {
+  return new Set((graph.sources || [])
+    .filter((source) => source?.tier === "private" || source?.review_status === "CANDIDATE")
+    .map((source) => source.source_id)
+    .filter(Boolean));
+}
+
+function sourceAllowed(edge, blockedSources) {
+  return !edge.source_ref || !blockedSources.has(edge.source_ref);
+}
+
+function legalEdgesForNode(node, edges) {
+  return edges.filter((edge) => LEGAL_EDGE_TYPES.has(edge.edge_type) && (edge.from === node.node_id || edge.to === node.node_id));
+}
+
+function buildSlimRef(node, edge) {
+  const ref = {
+    node_id: node.node_id,
+    node_type: node.node_type,
+    title: node.name,
+    rag_doc_ref: ragDocRef(node),
+    legal_basis_status: edge?.legal_basis_status || "candidate",
+    source_ref: edge?.source_ref || "",
+    trace: traceFor(node, edge),
+  };
+  if (node.node_type === "law_article") {
+    ref.law_name = node.attrs?.law_name || node.name;
+    ref.article_no = node.attrs?.article_no || "";
+  } else {
+    ref.standard_no = standardNo(node);
+  }
+  return ref;
+}
+
+function addBlocked(blockedRefs, node, reason, edge) {
+  blockedRefs.push({
+    node_id: node.node_id,
+    node_type: node.node_type,
+    title: node.name,
+    rag_doc_ref: ragDocRef(node),
+    reason,
+    legal_basis_status: edge?.legal_basis_status || "candidate",
+    trace: traceFor(node, edge),
+  });
+}
+
+function contextStatus(rootNodes, blockedRefs) {
+  if (!rootNodes.length) return "blocked";
+  return blockedRefs.length ? "partial" : "pass";
+}
+
+export async function loadGraphContextInputs({ graphPath, publicationPath } = {}) {
+  const graph = JSON.parse(await fs.readFile(graphPath, "utf8"));
+  let publication = { items: [] };
+  if (publicationPath) {
+    try {
+      publication = JSON.parse(await fs.readFile(publicationPath, "utf8"));
+    } catch (error) {
+      if (error.code !== "ENOENT") throw error;
+    }
+  }
+  return { graph, publication };
+}
+
+export function buildGraphContextResponse({
+  graph,
+  publication = { items: [] },
+  nodeId = "",
+  query = "",
+  depth = 2,
+  limit = 80,
+} = {}) {
+  if (!graph || !Array.isArray(graph.nodes) || !Array.isArray(graph.edges)) {
+    throw new Error("缺少有效图谱数据");
+  }
+  const maxDepth = clampNumber(depth, 2, 0, 3);
+  const maxNodes = clampNumber(limit, 80, 1, 200);
+  const nodesById = new Map(graph.nodes.filter(isApproved).map((node) => [node.node_id, node]));
+  const blockedSources = privateSourceRefs(graph);
+  const edges = graph.edges.filter((edge) => (
+    isApproved(edge)
+    && sourceAllowed(edge, blockedSources)
+    && nodesById.has(edge.from)
+    && nodesById.has(edge.to)
+  ));
+
+  let rootNodes = [];
+  if (nodeId) {
+    const root = nodesById.get(nodeId);
+    if (root) rootNodes = [root];
+  } else if (query) {
+    const normalized = normalizeText(query);
+    rootNodes = [...nodesById.values()].filter((node) => nodeSearchText(node).includes(normalized)).slice(0, 5);
+  } else {
+    throw new Error("必须提供 node_id 或 q");
+  }
+
+  const selectedNodeIds = new Set(rootNodes.map((node) => node.node_id));
+  const selectedEdgeIds = new Set();
+  let frontier = new Set(selectedNodeIds);
+  for (let step = 0; step < maxDepth && selectedNodeIds.size < maxNodes; step += 1) {
+    const next = new Set();
+    for (const edge of edges) {
+      const touchesFrontier = frontier.has(edge.from) || frontier.has(edge.to);
+      if (!touchesFrontier) continue;
+      selectedEdgeIds.add(edge.edge_id);
+      for (const nodeIdOfEdge of [edge.from, edge.to]) {
+        if (!selectedNodeIds.has(nodeIdOfEdge) && selectedNodeIds.size < maxNodes) {
+          selectedNodeIds.add(nodeIdOfEdge);
+          next.add(nodeIdOfEdge);
+        }
+      }
+    }
+    frontier = next;
+    if (!frontier.size) break;
+  }
+
+  const contextNodes = [...selectedNodeIds].map((id) => nodesById.get(id)).filter(Boolean);
+  const contextEdges = edges.filter((edge) => selectedEdgeIds.has(edge.edge_id));
+  const allowedRagRefs = publicationAllowedRefs(publication);
+  const publicationGateEnabled = Array.isArray(publication?.items);
+  const lawRefs = [];
+  const techSpecRefs = [];
+  const blockedRefs = [];
+  const seenRefs = new Set();
+
+  for (const node of contextNodes.filter((item) => REF_NODE_TYPES.has(item.node_type))) {
+    const refKey = `${node.node_type}:${node.node_id}`;
+    if (seenRefs.has(refKey)) continue;
+    seenRefs.add(refKey);
+    const legalEdges = legalEdgesForNode(node, contextEdges);
+    const conflicting = legalEdges.find((edge) => !CONFIRMED_LEGAL_STATUSES.has(edge.legal_basis_status));
+    const edge = legalEdges.find((item) => CONFIRMED_LEGAL_STATUSES.has(item.legal_basis_status)) || legalEdges[0];
+    const ref = buildSlimRef(node, edge);
+    if (conflicting) {
+      addBlocked(blockedRefs, node, `legal_basis_status=${conflicting.legal_basis_status || "missing"}`, conflicting);
+      continue;
+    }
+    if (!ref.rag_doc_ref) {
+      addBlocked(blockedRefs, node, "missing_rag_doc_ref", edge);
+      continue;
+    }
+    if (!CONFIRMED_LEGAL_STATUSES.has(ref.legal_basis_status)) {
+      addBlocked(blockedRefs, node, `legal_basis_status=${ref.legal_basis_status}`, edge);
+      continue;
+    }
+    if (node.node_type === "law_article" && !ref.article_no) {
+      addBlocked(blockedRefs, node, "missing_article_no_or_locator", edge);
+      continue;
+    }
+    if (node.node_type !== "law_article" && !ref.standard_no) {
+      addBlocked(blockedRefs, node, "missing_standard_no_or_locator", edge);
+      continue;
+    }
+    if (publicationGateEnabled && !allowedRagRefs.has(ref.rag_doc_ref)) {
+      addBlocked(blockedRefs, node, "not_in_publication_bundle_or_source_level", edge);
+      continue;
+    }
+    if (node.node_type === "law_article") lawRefs.push(ref);
+    else techSpecRefs.push(ref);
+  }
+
+  const machineGateStatus = contextStatus(rootNodes, blockedRefs);
+  const response = {
+    status: machineGateStatus,
+    approval_basis: "ETO_APPROVED_IN_GRAPH",
+    human_review_required: false,
+    machine_gate_status: machineGateStatus,
+    query: {
+      node_id: nodeId || null,
+      q: query || null,
+      depth: maxDepth,
+      limit: maxNodes,
+    },
+    root_nodes: rootNodes.map(slimNode),
+    graph_context: {
+      nodes: contextNodes.map(slimNode),
+      edges: contextEdges.map(slimEdge),
+    },
+    law_refs: lawRefs,
+    tech_spec_refs: techSpecRefs,
+    blocked_refs: blockedRefs,
+    trace: {
+      node_ids: contextNodes.map((node) => node.node_id),
+      edge_ids: contextEdges.map((edge) => edge.edge_id),
+      source_refs: [...new Set(contextEdges.map((edge) => edge.source_ref).filter(Boolean))],
+    },
+  };
+  assertRedlineClean(response);
+  return response;
+}
+
+export function contextPathsFromRoot(root, env = process.env) {
+  return {
+    graphPath: env.ECO_GRAPH_CONTEXT_GRAPH_PATH || path.join(root, "data", "exports", "shared_product_v1", "graph.json"),
+    publicationPath: env.ECO_GRAPH_CONTEXT_PUBLICATION_PATH || path.join(root, "data", "knowledge-governance", "publications", "ecocheck.json"),
+  };
+}
