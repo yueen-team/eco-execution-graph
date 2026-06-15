@@ -62,7 +62,7 @@ CLI 部署命令:
 
 ```powershell
 pwsh -ExecutionPolicy Bypass -File scripts/prepare_cloudbase_static_readonly.ps1
-cloudbase hosting deploy -e yueen-huanbao-1gqfjr5s41e61180 -r ap-shanghai graph-ui/dist-cloudbase-static-readonly dist-cloudbase-static-readonly
+cloudbase hosting deploy -e yueen-huanbao-1gqfjr5s41e61180 graph-ui/dist-cloudbase-static-readonly dist-cloudbase-static-readonly
 ```
 
 验证 URL:

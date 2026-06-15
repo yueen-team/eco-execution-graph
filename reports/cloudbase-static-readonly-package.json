@@ -25,7 +25,7 @@
       "reason": "code bundle still contains internal vocabulary labels; data package is checked separately"
     },
     {
-      "file": "graph-ui/dist-cloudbase-static-readonly/assets/app-D6bil-uW.js",
+      "file": "graph-ui/dist-cloudbase-static-readonly/assets/app-BBPp4RGX.js",
       "reason": "code bundle still contains internal vocabulary labels; data package is checked separately"
     },
     {
@@ -46,8 +46,8 @@
     },
     {
       "path": "demo-data/full-cards.json",
-      "sha256": "983d6c9675f7d633347ed0a73b80a53d7cb061f2e7bb9acd8290e5d8652a01c6",
-      "bytes": 231192
+      "sha256": "3e2849655120dfebf601c821548140f780f40a6cd76b844ff74256a207b977a1",
+      "bytes": 251066
     },
     {
       "path": "demo-data/gap-report.json",
@@ -55,5 +55,5 @@
       "bytes": 193
     }
   ],
-  "generated_at": "2026-06-15T00:45:16"
+  "generated_at": "2026-06-15T10:56:30"
 }
