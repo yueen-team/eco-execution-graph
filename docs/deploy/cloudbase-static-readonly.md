@@ -40,6 +40,18 @@ graph-ui/dist-cloudbase-static-readonly/
 
 ## CloudBase 部署路径
 
+### 根目录保护红线
+
+`www.yueen.cc` 的根目录是悦恩官网吗,不是本项目目录。**任何人不得把本项目静态包上传到 CloudBase 静态托管根目录 `/`。**
+
+本项目只能部署到静态托管目标目录:
+
+```text
+dist-cloudbase-static-readonly
+```
+
+部署命令里的最后一个参数必须是 `dist-cloudbase-static-readonly`。如果误写成 `/`、空字符串、根目录默认值,会覆盖企业官网、`/ecomind-ai/` 等同域名下的其他应用。发现命令目标不是 `dist-cloudbase-static-readonly` 时,必须立刻停止部署。
+
 本环境自定义域名把 `/eco-execution-graph` 路由到静态托管目录 `dist-cloudbase-static-readonly/`。因此:
 
 - Vite 构建 base 必须是 `/eco-execution-graph/`;
@@ -100,4 +112,16 @@ CloudBase 静态托管回滚方式:
 2. 如新包异常,重新上传上一版目录;
 3. 如果发现 private 泄漏、真实企业数据、密钥或 RAG 原文响应,立即下线静态站并停止传播链接。
 
-本项目当前没有执行真实云端部署。本文件只说明可部署包的生成和安全边界。若要部署审核台,必须先完成上面的 `graph-api` 云托管前置条件。
+## 当前部署记录
+
+本项目当前采用:
+
+- CloudBase 环境: `yueen-huanbao-1gqfjr5s41e61180`;
+- 地域: `ap-shanghai`;
+- 静态托管目标目录: `dist-cloudbase-static-readonly`;
+- 静态访问路径: `https://www.yueen.cc/eco-execution-graph/`;
+- 云托管服务名: `graph-api`;
+- 云托管访问路径: `https://www.yueen.cc/container-eco-execution-graph`;
+- 后端运行端口: `8787`。
+
+若要部署审核台,必须先完成上面的 `graph-api` 云托管前置条件。每次部署后必须在交付记录中写清:环境、命令、smoke 结果、回滚风险。
