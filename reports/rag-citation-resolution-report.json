@@ -3,7 +3,7 @@
   "embedding_probe": {
     "status": "pass",
     "probe": "embedding",
-    "request_id": "54bb729c-2012-4799-869f-8cf5040296b9",
+    "request_id": "b1d61136-30fd-4cec-b0df-96a97d297f9b",
     "total_tokens": 3,
     "embedding_dimensions": 1024,
     "time_offset_seconds": -7200
