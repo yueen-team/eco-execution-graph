@@ -29,3 +29,11 @@ Feature: RAG citation resolution
     When citation resolution stores citation metadata
     Then Content is not cached
     And excerpt is empty unless a separately approved safe-short-excerpt policy is enabled
+
+  Scenario: External verification lane records evidence without promoting default gates
+    Given Tencent RAG and TokenHub configuration is required for external verification
+    When the external verification lane runs
+    Then it writes an external verification report with configured environment variable names only
+    And it does not write secret values or raw RAG Content
+    And it marks the gate as an environment-scoped blocking candidate only after a real smoke pass
+    And default verify:all remains independent from Tencent external availability

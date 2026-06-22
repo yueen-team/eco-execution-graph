@@ -34,6 +34,7 @@
     "graph:schema:blocking": "python pipeline/graph_schema_gate.py",
     "rag:resolve": "python pipeline/rag_resolve.py",
     "rag:real:gate": "python pipeline/rag_real_smoke_gate.py",
+    "external:verify": "python pipeline/external_verification_lane.py",
     "rag:contract": "python pipeline/rag_contract_test.py",
     "knowledge:governance": "python pipeline/knowledge_governance.py all",
     "knowledge:registry": "python pipeline/knowledge_governance.py build-registry",

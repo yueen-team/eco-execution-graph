@@ -1,0 +1,99 @@
+{
+  "lane_id": "GRAPH-RAG-REAL-SMOKE",
+  "mode": "external",
+  "status": "pass",
+  "checked_at_utc": "2026-06-22T17:41:56Z",
+  "report_only_source": "Tencent RAG real smoke remains outside default verify:all",
+  "preflight": {
+    "status": "pass",
+    "env_source_policy": ".env.local plus process environment; report records names only",
+    "required": [
+      {
+        "name": "TENCENT_LKE_SECRET_ID",
+        "configured": true
+      },
+      {
+        "name": "TENCENT_LKE_SECRET_KEY",
+        "configured": true
+      },
+      {
+        "name": "TENCENT_LKE_KNOWLEDGE_BASE_IDS",
+        "configured": true
+      }
+    ],
+    "alternatives": [
+      {
+        "group": "tokenhub_deepseek_api_key",
+        "accepted_env_names": [
+          "TENCENT_TOKENHUB_API_KEY",
+          "TENCENT_LKEAP_API_KEY"
+        ],
+        "configured_env_names": [
+          "TENCENT_TOKENHUB_API_KEY",
+          "TENCENT_LKEAP_API_KEY"
+        ],
+        "configured": true
+      }
+    ],
+    "missing": []
+  },
+  "steps": [
+    {
+      "name": "rag-resolve",
+      "command": "pnpm rag:resolve",
+      "status": "pass",
+      "exit_code": 0
+    },
+    {
+      "name": "rag-real-gate",
+      "command": "pnpm rag:real:gate",
+      "status": "pass",
+      "exit_code": 0
+    }
+  ],
+  "rag_summary": {
+    "status": "pass",
+    "rag_real_smoke": "pass",
+    "tokenhub_probe": "pass",
+    "rag_retrieve_probe": "pass",
+    "embedding_probe": "pass",
+    "citation_count": 218,
+    "counts": {
+      "resolved": 218
+    },
+    "locator_counts": {
+      "source_level": 27,
+      "specific": 191
+    },
+    "source_level_review_queue_size": 27,
+    "report": "reports/rag-citation-resolution-report.json",
+    "safety": {
+      "status": "pass",
+      "raw_cached_true_count": 0,
+      "non_empty_excerpt_count": 0,
+      "forbidden_payload_key_count": 0,
+      "forbidden_payload_key_examples": [],
+      "raw_rag_content_stored": false,
+      "cache_policy": "metadata_only"
+    }
+  },
+  "promotion_decision": {
+    "blocking_now": false,
+    "global_ontology_blocking": "no",
+    "environment_scoped_blocking_candidate": true,
+    "decision": "candidate_after_repeat_evidence",
+    "required_before_blocking": [
+      "repeat pass evidence in the target CI or hosted runtime",
+      "documented secret injection and outage policy for that runtime",
+      "explicit ADR cutover that scopes the gate to environments with Tencent credentials"
+    ]
+  },
+  "redaction_boundary": {
+    "secret_values_recorded": false,
+    "env_values_recorded": false,
+    "raw_rag_content_recorded": false,
+    "safe_reports": [
+      "reports/rag-citation-resolution-report.json"
+    ]
+  }
+}

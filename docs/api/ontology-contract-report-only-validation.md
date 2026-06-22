@@ -107,9 +107,14 @@ Graph-side acceptance commands:
 - `pnpm --dir graph-api check`
 - `pnpm verify:all`
 
-`pnpm verify:external` remains a separate Tencent RAG real-smoke gate. A real
-external pass or fail must be reported honestly, and default `pnpm verify:all`
-does not depend on Tencent SecretId/network availability.
+`pnpm verify:external` remains a separate Tencent RAG real-smoke lane. It calls
+`pnpm external:verify`, writes `reports/external-verification-lane.json` / `.md`,
+and then runs `rag:resolve` plus `rag:real:gate` only when the Tencent/TokenHub
+environment is configured. A real external pass or fail must be reported
+honestly, and default `pnpm verify:all` does not depend on Tencent
+SecretId/network availability. A pass makes `GRAPH-RAG-REAL-SMOKE` only an
+environment-scoped blocking candidate until repeat runtime evidence and a later
+ADR explicitly promote it.
 
 Graph consumes KB through `ECO_KB_PACKAGE_MANIFEST` or the default
 `manifests/graph_kb_package_manifest_v1_0.json` package manifest. New KB build

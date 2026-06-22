@@ -210,11 +210,10 @@ if ($Target -in @("build", "all")) {
 }
 
 if ($Target -eq "external") {
-    Invoke-Step "tencent-rag-real-smoke" {
+    Invoke-Step "external-verification-lane" {
         Push-Location $root
         try {
-            Invoke-CheckedCommand -Command @("pnpm", "rag:resolve")
-            Invoke-CheckedCommand -Command @("pnpm", "rag:real:gate")
+            Invoke-CheckedCommand -Command @("pnpm", "external:verify")
         }
         finally { Pop-Location }
     }

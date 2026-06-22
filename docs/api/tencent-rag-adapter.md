@@ -40,10 +40,20 @@ Current real smoke boundary:
   Contract validation, graph build, leak checks, API tests, and synthetic intake
   smoke must stay green without Tencent SecretId/network access.
 - `pnpm verify:external` or `pnpm verify:rag:real` runs the real RAG smoke:
-  `pnpm rag:resolve` followed by `pnpm rag:real:gate`.
+  `pnpm external:verify`. The lane performs credential/config preflight, then
+  runs `pnpm rag:resolve` followed by `pnpm rag:real:gate` when the external
+  environment is configured.
+- The external lane writes `reports/external-verification-lane.json` and `.md`.
+  These reports record only environment variable names/configured booleans,
+  step status, sanitized errors, citation counts, and promotion posture. They
+  must not record secret values, raw RAG `Content`, full law text, or full
+  technical-standard text.
 - A real smoke failure such as missing SecretId, invalid SecretKey, quota, or
   network timeout means the Tencent external dependency is not verified. It does
   not by itself indicate a contract/intake regression.
+- A passing external lane marks `GRAPH-RAG-REAL-SMOKE` as an
+  environment-scoped blocking candidate after repeat evidence and an ADR
+  cutover. It does not promote the default ontology or graph gates by itself.
 
 Previously verified smoke:
 
