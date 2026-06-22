@@ -8,8 +8,8 @@
 /login.html → GET /auth/wecom/start → 302 企业微信扫码页(login.work.weixin.qq.com/wwlogin/sso/login)
 → 扫码确认 → 企业微信回调 GET /auth/wecom/callback?code=…
 → graph-api 用 corpsecret 换 access_token,再用 code 换 userid(qyapi.weixin.qq.com/cgi-bin/auth/getuserinfo)
-→ 白名单校验 → 签发 HMAC 会话 cookie(eco_graph_session,HttpOnly + SameSite=Lax + Secure,12 小时)
-→ 302 /?workspace=review;此后 /api/* 凭会话放行
+→ 公司成员白名单校验 → 签发 HMAC 会话 cookie(eco_graph_session,HttpOnly + SameSite=Lax + Secure,12 小时)
+→ ETO/admin 进入 /?workspace=review;普通成员进入知识库只读入口
 ```
 
 应急通道:`/login.html` 折叠区可粘贴 `ECO_GRAPH_API_TOKEN`(Bearer),仅运维兜底用。
@@ -28,7 +28,8 @@
 | `ECO_GRAPH_WECOM_AGENT_ID` | 自建应用 AgentId |
 | `ECO_GRAPH_WECOM_CORP_SECRET` | 自建应用 Secret(密钥只走环境变量) |
 | `ECO_GRAPH_WECOM_REDIRECT_URI` | `https://<域名>/auth/wecom/callback` |
-| `ECO_GRAPH_WECOM_ALLOWED_USERS` | 逗号分隔 userid 白名单;留空=放行全企业成员 |
+| `ECO_GRAPH_WECOM_ALLOWED_USERS` | 公司成员登录白名单;留空=放行全企业成员 |
+| `ECO_GRAPH_WECOM_REVIEW_USERS` | ETO/admin 审核台白名单;逗号分隔企业微信 userid |
 | `ECO_GRAPH_SESSION_SECRET` | 32+ 随机字符,会话签名密钥 |
 
 未配置时 `/auth/wecom/start` 返回 503,绝不半开放;生产环境仍强制 `ECO_GRAPH_API_TOKEN`(fail-closed,见 server.js `validateRuntimeConfig`)。
@@ -36,7 +37,8 @@
 ## 边界
 
 - 只读共有演示包(着陆页、主任演示)不需要登录 —— 零门槛是演示价值的一部分。
-- 内部全量视图与审核台必须在登录后面。
+- 内部知识库入口必须在企业微信登录后面;审核台还必须命中 `ECO_GRAPH_WECOM_REVIEW_USERS`。
+- `/api/graph/context` 可由已登录公司成员读取瘦条款上下文;`/api/review/*`、`/api/ecocheck/field-events` 和 `/api/aggregate/pitfall-batches` 只允许 ETO/admin 会话或内部 Bearer token。
 - 会话只存 userid,不落任何个人敏感信息;staging 数据治理见 `ecocheck-field-event-intake.md`。
 
 ## 公开站备案提醒

@@ -32,7 +32,8 @@ async function boot() {
   const session = await fetchJson(apiPath("/auth/session")).catch(() => null);
   if (session?.ok) {
     setNotice(`已登录:${session.data?.userid || ""},正在进入…`, true);
-    window.location.replace(appPath("app.html?workspace=review"));
+    const target = session.data?.can_review ? "app.html?workspace=review" : "app.html";
+    window.location.replace(appPath(target));
     return;
   }
   if (session && session.data?.wecom_configured === false) {

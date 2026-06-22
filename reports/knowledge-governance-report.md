@@ -1,6 +1,6 @@
 # Knowledge Governance Report
 
-- generated_at: 2026-06-15
+- generated_at: 2026-06-22
 - documents: 210
 - candidates: 33
 - redline_scan_status: pass

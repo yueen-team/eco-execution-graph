@@ -1,12 +1,8 @@
 {
-  "rag_real_smoke": "pass",
+  "rag_real_smoke": "failed",
   "embedding_probe": {
-    "status": "pass",
-    "probe": "embedding",
-    "request_id": "54bb729c-2012-4799-869f-8cf5040296b9",
-    "total_tokens": 3,
-    "embedding_dimensions": 1024,
-    "time_offset_seconds": -7200
+    "status": "failed",
+    "message": "<urlopen error _ssl.c:993: The handshake operation timed out>"
   },
   "tokenhub_probe": {
     "status": "pass",
@@ -19,175 +15,14 @@
     "usage_present": true
   },
   "rag_retrieve_probe": {
-    "status": "pass",
+    "status": "failed",
     "probe": "rag-retrieve",
-    "results": [
-      {
-        "knowledge_base_id_suffix": "328640",
-        "status": "pass",
-        "record_count": 3,
-        "sample_record_keys": [
-          "Content",
-          "Metadata",
-          "Title"
-        ],
-        "sample_metadata_keys": [
-          "ChunkPageNumbers",
-          "ResultSource",
-          "Type"
-        ],
-        "metadata_samples": [
-          {
-            "knowledge_base_id_suffix": "328640",
-            "title": "危险废物识别标志设置技术规范(HJ 1276--2022)",
-            "metadata": {
-              "ChunkPageNumbers": [
-                12,
-                13,
-                14,
-                15,
-                16,
-                17
-              ],
-              "ResultSource": "FULL_TEXT",
-              "Type": "DOC"
-            },
-            "record_keys": [
-              "Content",
-              "Metadata",
-              "Title"
-            ],
-            "metadata_keys": [
-              "ChunkPageNumbers",
-              "ResultSource",
-              "Type"
-            ]
-          },
-          {
-            "knowledge_base_id_suffix": "328640",
-            "title": "危险废物识别标志设置技术规范(HJ 1276--2022)",
-            "metadata": {
-              "ChunkPageNumbers": [
-                18
-              ],
-              "ResultSource": "SEMANTIC",
-              "Type": "DOC"
-            },
-            "record_keys": [
-              "Content",
-              "Metadata",
-              "Title"
-            ],
-            "metadata_keys": [
-              "ChunkPageNumbers",
-              "ResultSource",
-              "Type"
-            ]
-          },
-          {
-            "knowledge_base_id_suffix": "328640",
-            "title": "排污许可证申请与核发技术规范制药工业一原料药制造(HJ858.1-2017)",
-            "metadata": {
-              "ChunkPageNumbers": [
-                53,
-                54,
-                55,
-                56,
-                57,
-                58
-              ],
-              "ResultSource": "FULL_TEXT",
-              "Type": "DOC"
-            },
-            "record_keys": [
-              "Content",
-              "Metadata",
-              "Title"
-            ],
-            "metadata_keys": [
-              "ChunkPageNumbers",
-              "ResultSource",
-              "Type"
-            ]
-          }
-        ],
-        "request_id_present": true
-      },
-      {
-        "knowledge_base_id_suffix": "073408",
-        "status": "pass",
-        "record_count": 3,
-        "sample_record_keys": [
-          "Content",
-          "Metadata",
-          "Title"
-        ],
-        "sample_metadata_keys": [
-          "ResultSource",
-          "Type"
-        ],
-        "metadata_samples": [
-          {
-            "knowledge_base_id_suffix": "073408",
-            "title": "医废危废__危险废物收集 贮存 运输技术规范（HJ2025-2012））__1a3f8fc0",
-            "metadata": {
-              "ResultSource": "FULL_TEXT",
-              "Type": "DOC"
-            },
-            "record_keys": [
-              "Content",
-              "Metadata",
-              "Title"
-            ],
-            "metadata_keys": [
-              "ResultSource",
-              "Type"
-            ]
-          },
-          {
-            "knowledge_base_id_suffix": "073408",
-            "title": "医废危废__国家危险废物名录（2025年版）__ef964625",
-            "metadata": {
-              "ResultSource": "FULL_TEXT",
-              "Type": "DOC"
-            },
-            "record_keys": [
-              "Content",
-              "Metadata",
-              "Title"
-            ],
-            "metadata_keys": [
-              "ResultSource",
-              "Type"
-            ]
-          },
-          {
-            "knowledge_base_id_suffix": "073408",
-            "title": "医废危废__国家危险废物名录（2025年版）__ef964625",
-            "metadata": {
-              "ResultSource": "FULL_TEXT",
-              "Type": "DOC"
-            },
-            "record_keys": [
-              "Content",
-              "Metadata",
-              "Title"
-            ],
-            "metadata_keys": [
-              "ResultSource",
-              "Type"
-            ]
-          }
-        ],
-        "request_id_present": true
-      }
-    ],
-    "time_offset_seconds": -7200
+    "message": "AuthFailure.SecretIdNotFound: The SecretId is not found, please ensure that your SecretId is correct."
   },
   "generation_path": "direct_rag_retrieve_plus_tokenhub_deepseek",
   "citation_count": 218,
   "counts": {
-    "resolved": 218
+    "blocked": 218
   },
   "locator_counts": {
     "source_level": 27,
@@ -332,7 +167,7 @@
   ],
   "p1_core_resolution": [
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://law/swl/art77",
       "node_id": "law:swl:art77",
@@ -350,10 +185,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "do_not_write_as_legal_basis"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://law/swl/art78",
       "node_id": "law:swl:art78",
@@ -371,10 +206,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "do_not_write_as_legal_basis"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://law/swl/art81",
       "node_id": "law:swl:art81",
@@ -392,10 +227,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "do_not_write_as_legal_basis"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://law/swl/art82",
       "node_id": "law:swl:art82",
@@ -413,10 +248,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "do_not_write_as_legal_basis"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://spec/gb18597/label",
       "node_id": "spec:gb18597:label",
@@ -434,10 +269,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "do_not_write_as_legal_basis"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://spec/gb18597/storage",
       "node_id": "spec:gb18597:storage",
@@ -455,10 +290,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "do_not_write_as_legal_basis"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://spec/gb15562/sign",
       "node_id": "spec:gb15562:sign",
@@ -476,10 +311,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "do_not_write_as_legal_basis"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://spec/hj1259/ledger",
       "node_id": "spec:hj1259:ledger",
@@ -497,10 +332,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "do_not_write_as_legal_basis"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://spec/hj1259/transfer",
       "node_id": "spec:hj1259:transfer",
@@ -518,12 +353,12 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "do_not_write_as_legal_basis"
     }
   ],
   "results": [
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0001",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0001",
@@ -541,10 +376,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0002",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0002",
@@ -562,10 +397,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0003",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0003",
@@ -583,10 +418,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0004",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0004",
@@ -604,10 +439,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0005",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0005",
@@ -625,10 +460,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0006",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0006",
@@ -646,10 +481,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0007",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0007",
@@ -667,10 +502,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0008",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0008",
@@ -688,10 +523,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0009",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0009",
@@ -709,10 +544,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0010",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0010",
@@ -730,10 +565,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0011",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0011",
@@ -751,10 +586,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0012",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0012",
@@ -772,10 +607,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0013",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0013",
@@ -793,10 +628,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0014",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0014",
@@ -814,10 +649,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0015",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0015",
@@ -835,10 +670,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0016",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0016",
@@ -856,10 +691,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0017",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0017",
@@ -877,10 +712,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0018",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0018",
@@ -898,10 +733,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0019",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0019",
@@ -919,10 +754,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0020",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0020",
@@ -940,10 +775,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0021",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0021",
@@ -961,10 +796,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0022",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0022",
@@ -982,10 +817,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0023",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0023",
@@ -1003,10 +838,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0024",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0024",
@@ -1024,10 +859,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0025",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0025",
@@ -1045,10 +880,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0026",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0026",
@@ -1066,10 +901,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0027",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0027",
@@ -1087,10 +922,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0028",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0028",
@@ -1108,10 +943,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0029",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0029",
@@ -1129,10 +964,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0030",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0030",
@@ -1150,10 +985,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0031",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0031",
@@ -1171,10 +1006,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0032",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0032",
@@ -1192,10 +1027,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0033",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0033",
@@ -1213,10 +1048,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0034",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0034",
@@ -1234,10 +1069,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0035",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0035",
@@ -1255,10 +1090,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0036",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0036",
@@ -1276,10 +1111,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0037",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0037",
@@ -1297,10 +1132,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0038",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0038",
@@ -1318,10 +1153,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0039",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0039",
@@ -1339,10 +1174,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0040",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0040",
@@ -1360,10 +1195,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0041",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0041",
@@ -1381,10 +1216,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0042",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0042",
@@ -1402,10 +1237,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0043",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0043",
@@ -1423,10 +1258,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0044",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0044",
@@ -1444,10 +1279,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0045",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0045",
@@ -1465,10 +1300,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0046",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0046",
@@ -1486,10 +1321,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0047",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0047",
@@ -1507,10 +1342,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0048",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0048",
@@ -1528,10 +1363,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0049",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0049",
@@ -1549,10 +1384,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0050",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0050",
@@ -1570,10 +1405,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0051",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0051",
@@ -1591,10 +1426,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0052",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0052",
@@ -1612,10 +1447,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0053",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0053",
@@ -1633,10 +1468,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0054",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0054",
@@ -1654,10 +1489,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0055",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0055",
@@ -1675,10 +1510,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0056",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0056",
@@ -1696,10 +1531,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0057",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0057",
@@ -1717,10 +1552,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0058",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0058",
@@ -1738,10 +1573,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0059",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0059",
@@ -1759,10 +1594,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0060",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0060",
@@ -1780,10 +1615,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0061",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0061",
@@ -1801,10 +1636,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0062",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0062",
@@ -1822,10 +1657,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0063",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0063",
@@ -1843,10 +1678,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0064",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0064",
@@ -1864,10 +1699,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0065",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0065",
@@ -1885,10 +1720,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0066",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0066",
@@ -1906,10 +1741,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0067",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0067",
@@ -1927,10 +1762,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0068",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0068",
@@ -1948,10 +1783,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0069",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0069",
@@ -1969,10 +1804,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0070",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0070",
@@ -1990,10 +1825,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0071",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0071",
@@ -2011,10 +1846,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0072",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0072",
@@ -2032,10 +1867,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0073",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0073",
@@ -2053,10 +1888,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0074",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0074",
@@ -2074,10 +1909,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0075",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0075",
@@ -2095,10 +1930,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0076",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0076",
@@ -2116,10 +1951,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0077",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0077",
@@ -2137,10 +1972,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0078",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0078",
@@ -2158,10 +1993,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0080",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0080",
@@ -2179,10 +2014,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0082",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0082",
@@ -2200,10 +2035,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0083",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0083",
@@ -2221,10 +2056,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0084",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0084",
@@ -2242,10 +2077,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0085",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0085",
@@ -2263,10 +2098,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0086",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0086",
@@ -2284,10 +2119,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0087",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0087",
@@ -2305,10 +2140,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0088",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0088",
@@ -2326,10 +2161,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0089",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0089",
@@ -2347,10 +2182,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0090",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0090",
@@ -2368,10 +2203,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0091",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0091",
@@ -2389,10 +2224,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0092",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0092",
@@ -2410,10 +2245,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0093",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0093",
@@ -2431,10 +2266,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0094",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0094",
@@ -2452,10 +2287,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0095",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0095",
@@ -2473,10 +2308,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0096",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0096",
@@ -2494,10 +2329,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0097",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0097",
@@ -2515,10 +2350,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0098",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0098",
@@ -2536,10 +2371,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0099",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0099",
@@ -2557,10 +2392,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0100",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0100",
@@ -2578,10 +2413,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0101",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0101",
@@ -2599,10 +2434,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0102",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0102",
@@ -2620,10 +2455,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0103",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0103",
@@ -2641,10 +2476,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0104",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0104",
@@ -2662,10 +2497,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0105",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0105",
@@ -2683,10 +2518,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0106",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0106",
@@ -2704,10 +2539,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0107",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0107",
@@ -2725,10 +2560,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0108",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0108",
@@ -2746,10 +2581,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0109",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0109",
@@ -2767,10 +2602,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0110",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0110",
@@ -2788,10 +2623,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0111",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0111",
@@ -2809,10 +2644,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0112",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0112",
@@ -2830,10 +2665,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0113",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0113",
@@ -2851,10 +2686,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0114",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0114",
@@ -2872,10 +2707,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0115",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0115",
@@ -2893,10 +2728,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0116",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0116",
@@ -2914,10 +2749,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0117",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0117",
@@ -2935,10 +2770,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0118",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0118",
@@ -2956,10 +2791,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0119",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0119",
@@ -2977,10 +2812,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0120",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0120",
@@ -2998,10 +2833,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0121",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0121",
@@ -3019,10 +2854,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0122",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0122",
@@ -3040,10 +2875,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0123",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0123",
@@ -3061,10 +2896,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0124",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0124",
@@ -3082,10 +2917,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0125",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0125",
@@ -3103,10 +2938,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0126",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0126",
@@ -3124,10 +2959,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0127",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0127",
@@ -3145,10 +2980,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0128",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0128",
@@ -3166,10 +3001,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0129",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0129",
@@ -3187,10 +3022,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0130",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0130",
@@ -3208,10 +3043,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0131",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0131",
@@ -3229,10 +3064,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0132",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0132",
@@ -3250,10 +3085,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0133",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0133",
@@ -3271,10 +3106,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0134",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0134",
@@ -3292,10 +3127,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0135",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0135",
@@ -3313,10 +3148,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0136",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0136",
@@ -3334,10 +3169,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0137",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0137",
@@ -3355,10 +3190,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0138",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0138",
@@ -3376,10 +3211,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0139",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0139",
@@ -3397,10 +3232,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0140",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0140",
@@ -3418,10 +3253,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0141",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0141",
@@ -3439,10 +3274,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0142",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0142",
@@ -3460,10 +3295,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0143",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0143",
@@ -3481,10 +3316,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0144",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0144",
@@ -3502,10 +3337,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0145",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0145",
@@ -3523,10 +3358,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0146",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0146",
@@ -3544,10 +3379,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0147",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0147",
@@ -3565,10 +3400,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0148",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0148",
@@ -3586,20 +3421,20 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0149",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0149",
-      "node_type": "DOC",
+      "node_type": "tech_spec",
       "law_name": "危险废物识别标志设置技术规范(HJ 1276--2022)",
       "article_no": null,
       "tech_spec_no": "HJ 1276-2022",
       "citation_title": "危险废物识别标志设置技术规范(HJ 1276--2022)",
-      "citation_locator": "HJ 1276-2022；第12-17页",
-      "locator_level": "spec_or_section_page",
+      "citation_locator": "HJ 1276-2022",
+      "locator_level": "spec_or_section",
       "source_level_reason": null,
       "excerpt": "",
       "source_hash": "3e32c7e38f08dc2983ad5953b8fa9f994df375d016252bcacdfef55a4da681e8",
@@ -3607,10 +3442,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0151",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0151",
@@ -3628,10 +3463,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0152",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0152",
@@ -3649,10 +3484,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0153",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0153",
@@ -3670,10 +3505,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0154",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0154",
@@ -3691,10 +3526,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0155",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0155",
@@ -3712,10 +3547,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0156",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0156",
@@ -3733,10 +3568,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0157",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0157",
@@ -3754,10 +3589,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0158",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0158",
@@ -3775,10 +3610,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0159",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0159",
@@ -3796,10 +3631,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0160",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0160",
@@ -3817,10 +3652,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0161",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0161",
@@ -3838,10 +3673,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0162",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0162",
@@ -3859,10 +3694,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0163",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0163",
@@ -3880,10 +3715,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0164",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0164",
@@ -3901,10 +3736,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0166",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0166",
@@ -3922,10 +3757,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0167",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0167",
@@ -3943,10 +3778,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0168",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0168",
@@ -3964,10 +3799,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0170",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0170",
@@ -3985,10 +3820,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0171",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0171",
@@ -4006,10 +3841,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0172",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0172",
@@ -4027,10 +3862,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0173",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0173",
@@ -4048,10 +3883,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0174",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0174",
@@ -4069,10 +3904,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0175",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0175",
@@ -4090,10 +3925,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0176",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0176",
@@ -4111,10 +3946,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0177",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0177",
@@ -4132,10 +3967,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0178",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0178",
@@ -4153,10 +3988,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0179",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0179",
@@ -4174,10 +4009,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0180",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0180",
@@ -4195,10 +4030,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0181",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0181",
@@ -4216,10 +4051,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0182",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0182",
@@ -4237,10 +4072,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0183",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0183",
@@ -4258,10 +4093,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0184",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0184",
@@ -4279,10 +4114,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0185",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0185",
@@ -4300,10 +4135,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0186",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0186",
@@ -4321,10 +4156,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0187",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0187",
@@ -4342,10 +4177,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0188",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0188",
@@ -4363,10 +4198,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0189",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0189",
@@ -4384,10 +4219,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0190",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0190",
@@ -4405,10 +4240,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0191",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0191",
@@ -4426,10 +4261,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0192",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0192",
@@ -4447,10 +4282,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0193",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0193",
@@ -4468,10 +4303,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0195",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0195",
@@ -4489,10 +4324,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0196",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0196",
@@ -4510,10 +4345,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0197",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0197",
@@ -4531,10 +4366,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0198",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0198",
@@ -4552,10 +4387,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0199",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0199",
@@ -4573,10 +4408,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0200",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0200",
@@ -4594,10 +4429,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0201",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0201",
@@ -4615,10 +4450,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0202",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0202",
@@ -4636,10 +4471,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0203",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0203",
@@ -4657,10 +4492,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0204",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0204",
@@ -4678,10 +4513,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0205",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0205",
@@ -4699,10 +4534,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0206",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0206",
@@ -4720,10 +4555,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0207",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0207",
@@ -4741,10 +4576,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0208",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0208",
@@ -4762,10 +4597,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0209",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0209",
@@ -4783,10 +4618,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0210",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0210",
@@ -4804,10 +4639,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0211",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0211",
@@ -4825,10 +4660,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0212",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0212",
@@ -4846,10 +4681,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0213",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0213",
@@ -4867,10 +4702,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0214",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0214",
@@ -4888,10 +4723,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0215",
       "node_id": "tech-spec:eco-kb:PDS-V8_0-0215",
@@ -4909,10 +4744,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "manual_upstream_basis_only"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://law/swl/art77",
       "node_id": "law:swl:art77",
@@ -4930,10 +4765,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "do_not_write_as_legal_basis"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://law/swl/art78",
       "node_id": "law:swl:art78",
@@ -4951,10 +4786,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "do_not_write_as_legal_basis"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://law/swl/art81",
       "node_id": "law:swl:art81",
@@ -4972,10 +4807,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "do_not_write_as_legal_basis"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://law/swl/art82",
       "node_id": "law:swl:art82",
@@ -4993,10 +4828,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "do_not_write_as_legal_basis"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://spec/gb18597/label",
       "node_id": "spec:gb18597:label",
@@ -5014,10 +4849,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "do_not_write_as_legal_basis"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://spec/gb18597/storage",
       "node_id": "spec:gb18597:storage",
@@ -5035,10 +4870,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "do_not_write_as_legal_basis"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://spec/gb15562/sign",
       "node_id": "spec:gb15562:sign",
@@ -5056,10 +4891,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "do_not_write_as_legal_basis"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://spec/hj1259/ledger",
       "node_id": "spec:hj1259:ledger",
@@ -5077,10 +4912,10 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "do_not_write_as_legal_basis"
     },
     {
-      "status": "resolved",
+      "status": "blocked",
       "provider": "tencent_lke_rag",
       "rag_doc_ref": "tencent-lke://spec/hj1259/transfer",
       "node_id": "spec:hj1259:transfer",
@@ -5098,8 +4933,8 @@
       "raw_cached": false,
       "cache_policy": "metadata_only",
       "retrieval_probe": "RetrieveKnowledge",
-      "report_usage_policy": "rag_metadata_only"
+      "report_usage_policy": "do_not_write_as_legal_basis"
     }
   ],
-  "zhang_director_rag_condition": "pass"
+  "zhang_director_rag_condition": "conditional"
 }

@@ -4,6 +4,7 @@ import csv
 import datetime as dt
 import gzip
 import json
+import os
 import re
 import subprocess
 from collections import Counter, defaultdict
@@ -15,7 +16,8 @@ from tier_policy import filter_shared_graph, nested_private_violations, structur
 
 
 TODAY = "2026-06-10"
-ECO_KB = Path(r"E:\eco-semantic-knowledge-base")
+DEFAULT_ECO_KB = Path(r"E:\eco-semantic-knowledge-base")
+DEFAULT_ECO_KB_MANIFEST = DEFAULT_ECO_KB / "manifests" / "graph_kb_package_manifest_v1_0.json"
 SPL = Path(r"E:\semantic-profile-lab")
 UPSTREAM_DIR = ROOT / "data" / "upstream"
 FULL_INTERNAL = EXPORTS_DIR / "full_internal_product_v1"
@@ -29,6 +31,24 @@ SUPPORTED_LINEAGE_EDGE_TYPES = (
     "inherits_from",
     "conflicts_with",
 )
+
+
+def resolve_eco_kb_manifest_path() -> Path:
+    return Path(os.environ.get("ECO_KB_PACKAGE_MANIFEST", DEFAULT_ECO_KB_MANIFEST))
+
+
+def resolve_eco_kb_root() -> Path:
+    configured_root = os.environ.get("ECO_KB_ROOT")
+    if configured_root:
+        return Path(configured_root)
+    manifest_path = resolve_eco_kb_manifest_path()
+    if manifest_path.exists() and manifest_path.parent.name == "manifests":
+        return manifest_path.parent.parent
+    return DEFAULT_ECO_KB
+
+
+ECO_KB_MANIFEST = resolve_eco_kb_manifest_path()
+ECO_KB = resolve_eco_kb_root()
 
 
 ETO_REVIEW_OVERRIDES: dict[str, dict[str, Any]] = {
@@ -545,6 +565,7 @@ def build_upstream_lock() -> dict[str, Any]:
     lock = {
         "generated_at": TODAY,
         "repos": repos,
+        "eco_kb_package_manifest": str(ECO_KB_MANIFEST),
         "assets": assets,
         "asset_count": len(assets),
         "status": "pass" if all(repo["status"] == "pass" for repo in repos) else "blocked",
@@ -667,6 +688,8 @@ def import_eco_kb() -> dict[str, Any]:
     report = {
         "status": "pass" if graph["nodes"] and graph["edges"] else "blocked",
         "source_commit": eco_commit,
+        "eco_kb_root": str(ECO_KB),
+        "eco_kb_package_manifest": str(ECO_KB_MANIFEST),
         "assets": asset_status,
         "node_counts": dict(node_counts),
         "edge_counts": dict(edge_counts),

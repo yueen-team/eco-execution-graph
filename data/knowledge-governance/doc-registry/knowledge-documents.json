@@ -1,6 +1,6 @@
 {
   "schema_version": "knowledge-document.v1",
-  "generated_at": "2026-06-15",
+  "generated_at": "2026-06-22",
   "source_reports": [
     "reports/rag-citation-resolution-report.json"
   ],
@@ -531,7 +531,7 @@
       "rag_doc_ref": "tencent-lke://spec/gb15562/sign",
       "rag_knowledge_base_id_suffix": null,
       "content_hash": "4f5e42db8407696103d88634d7280c883da2e22f2dc8d08d2656137e0bc7aa64",
-      "metadata_hash": "c453f066c5f153e7e9c9ff7aa8b51253b4884a6550b82db7acecba7d105fe2e6",
+      "metadata_hash": "d343eab1d2ef6a7967640acc05f839a8869929dd727528aa81abce1f26d82d40",
       "effective_status": "effective",
       "effective_date": null,
       "abolished_date": null,
@@ -546,7 +546,7 @@
           "rag_doc_ref": "tencent-lke://spec/gb15562/sign",
           "citation_locator": "GB 15562",
           "locator_level": "spec_or_section",
-          "source_hash": "1274e57926f3ac0f400c05785b235e9804d61019068c5a4406d68c00e5086842"
+          "source_hash": "35897416277734a7c8ad7f85f02e74bbbf3905cbaedc015c8588931826479d94"
         }
       ],
       "review_status": "approved",
@@ -809,7 +809,7 @@
       "rag_doc_ref": "tencent-lke://spec/gb18597/label",
       "rag_knowledge_base_id_suffix": null,
       "content_hash": "befd2c7f17f4e7ed6c5a7bae1bca115da67053d6781da6633add00936204c14d",
-      "metadata_hash": "fa882e690b901209a2c392876c0b38e3e48765fefc4aa172b79c50ad607cb0c6",
+      "metadata_hash": "ff0df24d7a3c8fec5d76c34c4211beab72f2d7273d5730b08366ae023d3e7328",
       "effective_status": "effective",
       "effective_date": null,
       "abolished_date": null,
@@ -826,7 +826,7 @@
           "rag_doc_ref": "tencent-lke://spec/gb18597/label",
           "citation_locator": "GB 18597",
           "locator_level": "spec_or_section",
-          "source_hash": "b53e8453898718e27c8539a6ead1d0bcbb849dabd3618fcd5cc3ed1f2da26dcf"
+          "source_hash": "e3aef87efba94296d7b6ca3e1f3b2e8ec762a0405cf4bdf61ba9374775b7a041"
         },
         {
           "node_id": "spec:gb18597:storage",
@@ -834,7 +834,7 @@
           "rag_doc_ref": "tencent-lke://spec/gb18597/storage",
           "citation_locator": "GB 18597",
           "locator_level": "spec_or_section",
-          "source_hash": "876aa846a4f2f6b653fc18b5ac8e34373e56d284e2de0e7cc1c33220aa0f8d1f"
+          "source_hash": "f17d8b2d40c6f2733bf07bd5fbb89db529be575d5deca82c1403d92b6ba8fc33"
         }
       ],
       "review_status": "approved",
@@ -3286,7 +3286,7 @@
       "rag_doc_ref": "tencent-lke://spec/hj1259/ledger",
       "rag_knowledge_base_id_suffix": null,
       "content_hash": "7c99fe751e7a1ac0453e0cd8eb7973070d2c3b24f7b6becfd40d6b253801eba8",
-      "metadata_hash": "92c2181a29e39d874da2d6a84077c82d46464cee2324fe3b812db6f4f8a8e207",
+      "metadata_hash": "efb594b69bcad5bba9066aabd8803c15a06bfe154630f45ce72e182fa2e01691",
       "effective_status": "effective",
       "effective_date": null,
       "abolished_date": null,
@@ -3303,7 +3303,7 @@
           "rag_doc_ref": "tencent-lke://spec/hj1259/ledger",
           "citation_locator": "HJ 1259",
           "locator_level": "spec_or_section",
-          "source_hash": "2d75957c4ee47a35546d4c2434ee4c156386f54193e0017478133d32d6388dca"
+          "source_hash": "19976faa9993394fcf19ffb4ab7e0d6b268e6642285d674578b7ea38c8ef5469"
         },
         {
           "node_id": "spec:hj1259:transfer",
@@ -3311,7 +3311,7 @@
           "rag_doc_ref": "tencent-lke://spec/hj1259/transfer",
           "citation_locator": "HJ 1259",
           "locator_level": "spec_or_section",
-          "source_hash": "709fbb823ee7f65511b8501b8e290bdb8e8773c29b362d3d310c9481c14cd993"
+          "source_hash": "fe82a586a0cc48ff202fe73b37576959fe439cc3d2282dc749e7e74019601822"
         }
       ],
       "review_status": "approved",
@@ -3374,7 +3374,7 @@
       "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0149",
       "rag_knowledge_base_id_suffix": null,
       "content_hash": "3e32c7e38f08dc2983ad5953b8fa9f994df375d016252bcacdfef55a4da681e8",
-      "metadata_hash": "1e456d025693b19d48b88b1f9f92feb571e55a949a5ed63ade7d5fc40652959d",
+      "metadata_hash": "342c2b761e3cba9934785f192e27543d3fb18feeaa4bdcece3cb947bedb98795",
       "effective_status": "effective",
       "effective_date": null,
       "abolished_date": null,
@@ -3385,10 +3385,10 @@
       "source_refs": [
         {
           "node_id": "tech-spec:eco-kb:PDS-V8_0-0149",
-          "node_type": "DOC",
+          "node_type": "tech_spec",
           "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0149",
-          "citation_locator": "HJ 1276-2022；第12-17页",
-          "locator_level": "spec_or_section_page",
+          "citation_locator": "HJ 1276-2022",
+          "locator_level": "spec_or_section",
           "source_hash": "3e32c7e38f08dc2983ad5953b8fa9f994df375d016252bcacdfef55a4da681e8"
         }
       ],
@@ -7480,7 +7480,7 @@
       "rag_doc_ref": "tencent-lke://law/swl/art77",
       "rag_knowledge_base_id_suffix": null,
       "content_hash": "3ef1904a0832cfaf28f8f68782b07c3a06a066f42b8f66dfd8d51d70df491f68",
-      "metadata_hash": "463df2ed71c76c9950c8e0eae613f44e341fb3ec719a795a39214cc16c3f6b87",
+      "metadata_hash": "b667b9b0ab081e7fe6d0b9d319253f3e6ac13f7931876456ec3e04c5c7aacb4a",
       "effective_status": "effective",
       "effective_date": null,
       "abolished_date": null,
@@ -7499,7 +7499,7 @@
           "rag_doc_ref": "tencent-lke://law/swl/art77",
           "citation_locator": "第七十七条",
           "locator_level": "article",
-          "source_hash": "a508726beb40ce4406a5c5d83217ba9c599a2d9bfa704eef170b820d61f8b6ac"
+          "source_hash": "efefe52c3197d5e0ddaf05dbf6cf6def85db75eda58b2bce2e4e8b8511ad0196"
         },
         {
           "node_id": "law:swl:art78",
@@ -7507,7 +7507,7 @@
           "rag_doc_ref": "tencent-lke://law/swl/art78",
           "citation_locator": "第七十八条",
           "locator_level": "article",
-          "source_hash": "f15ba3d6d4bcb90b18160e32e56a8b1e4b6bba0075cacf8c4aa40dc3ed32ac7d"
+          "source_hash": "4c9c0c9d5a19e4a39bc614f34887b6e909ca645cb6968982299d413910d54d98"
         },
         {
           "node_id": "law:swl:art81",
@@ -7515,7 +7515,7 @@
           "rag_doc_ref": "tencent-lke://law/swl/art81",
           "citation_locator": "第八十一条",
           "locator_level": "article",
-          "source_hash": "590ccefef51590771442f87688dda124d684d0956ffc0646c3a0932e085971c7"
+          "source_hash": "73691f6bcd5eb4de40f9cc31c79cb5c65169dfe7cc211cac612f1cd7f3954372"
         },
         {
           "node_id": "law:swl:art82",
@@ -7523,7 +7523,7 @@
           "rag_doc_ref": "tencent-lke://law/swl/art82",
           "citation_locator": "第八十二条",
           "locator_level": "article",
-          "source_hash": "77e4edc1dc14291d8840ae0a67f5479304ba6918d2b7da3f9a977bb5e176a88c"
+          "source_hash": "72d6773a3b1bc79b2070b429926c30242f27c8b23ec202ccc214edf86fe9c575"
         }
       ],
       "review_status": "approved",

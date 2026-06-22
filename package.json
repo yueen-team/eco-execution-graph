@@ -28,6 +28,7 @@
     "upstream:visibility": "python pipeline/upstream_visibility.py",
     "upstream:contracts:spl": "python pipeline/import_spl_contracts.py",
     "upstream:compat": "python pipeline/contract_compatibility.py",
+    "ontology:validate:report-only": "python pipeline/report_only_contract_validation.py",
     "rag:resolve": "python pipeline/rag_resolve.py",
     "rag:contract": "python pipeline/rag_contract_test.py",
     "knowledge:governance": "python pipeline/knowledge_governance.py all",
@@ -56,6 +57,7 @@
     "verify:all": "pwsh -ExecutionPolicy Bypass -File verify/verify.ps1 all"
   },
   "devDependencies": {
+    "@coco830/gherkin-v39-cli": "file:..\\gherkin-v39-cli",
     "@commitlint/cli": "^19.0.0",
     "@commitlint/config-conventional": "^19.0.0",
     "husky": "^9.0.0",

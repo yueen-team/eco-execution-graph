@@ -14,7 +14,14 @@ EcoCheck 负责现场业务事实确认,graph Web 端负责现场经验入图审
 Authorization: Bearer <ECO_GRAPH_API_TOKEN>
 ```
 
-请求体必须是 `ecocheck.semantic_event.v2`。第一版只读取以下最小字段:
+请求体必须是 `ecocheck.semantic_event.v2`。共享 schema 第一版落在
+`E:\eco-ontology\schemas\semantic_event.v2.schema.json`;graph 本仓通过
+`pnpm ontology:validate:report-only` 以 report-only 模式校验
+`data/fixtures/ecocheck-field-event-fixture.json` 和现有 graph 导出实例,报告写入
+`reports/ontology-contract-report-only-validation.json` / `.md`。该命令只记录
+drift,不阻断现有 verify。
+
+第一版只读取以下最小字段:
 
 ```jsonc
 {

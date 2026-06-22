@@ -496,6 +496,11 @@ export async function initReviewWorkspace({ readonlyShared, setStatus }) {
   const params = new URLSearchParams(window.location.search);
   reviewState.authToken = sessionStorage.getItem("ecoGraphReviewToken") || "";
   reviewState.apiBase = window.ECO_GRAPH_API_BASE || "";
+  const session = reviewState.authToken ? null : await fetchJson(`${reviewState.apiBase}/auth/session`, true);
+  if (session && session.can_review === false) {
+    button.hidden = true;
+    return;
+  }
   const apiData = await fetchJson(`${reviewState.apiBase}/api/review/field-events`, true);
   const demoData = await fetchJson(appPath("/review-data/field-event-review-demo.json"), true);
   reviewState.source = apiData?.items?.length ? "api" : "demo";

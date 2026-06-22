@@ -5,9 +5,9 @@
       "name": "coco830/eco-semantic-knowledge-base",
       "local_path": "E:\\eco-semantic-knowledge-base",
       "status": "pass",
-      "branch": "main",
-      "commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
-      "remote": "origin\tgit@github.com:coco830/eco-semantic-knowledge-base.git (fetch)"
+      "branch": "codex/kb-report-only-contract-validation",
+      "commit": "df38c06c30e92ddf32d3afd37ac2f2297373f899",
+      "remote": "origin\tgit@github.com:yueen-team/eco-semantic-knowledge-base.git (fetch)"
     },
     {
       "name": "coco830/semantic-profile-lab",
@@ -18,6 +18,7 @@
       "remote": "origin\tgit@github.com:coco830/semantic-profile-lab.git (fetch)"
     }
   ],
+  "eco_kb_package_manifest": "E:\\eco-semantic-knowledge-base\\manifests\\graph_kb_package_manifest_v1_0.json",
   "assets": [
     {
       "repo": "coco830/eco-semantic-knowledge-base",
@@ -36,6 +37,12 @@
       "path": "manifests/ecocheck_candidate_coverage_industry_influence_factor_samples_manifest_v1_0.json",
       "bytes": 3676,
       "sha256": "5c782d06b2962e36561e2c50724ac28608768f8815a4f8bd92a9f63ccf011173"
+    },
+    {
+      "repo": "coco830/eco-semantic-knowledge-base",
+      "path": "manifests/graph_kb_package_manifest_v1_0.json",
+      "bytes": 1617,
+      "sha256": "621f54e84e49ec1fa4c7e17e3848c61f90f463463c1301a1e033fb1edd2d9aa4"
     },
     {
       "repo": "coco830/eco-semantic-knowledge-base",
@@ -440,6 +447,6 @@
       "sha256": "f3c4a66014793d81932754d876b632053857d004c250c3212d20ec2fa8e2bd6f"
     }
   ],
-  "asset_count": 70,
+  "asset_count": 71,
   "status": "pass"
 }

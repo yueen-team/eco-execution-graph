@@ -1,7 +1,7 @@
 # P2P3 RAG Upstream Full Productization Final
 
 - zhang_director_ready: `conditional`
-- rag_real_smoke: `pass`
+- rag_real_smoke: `failed`
 - upstream_real_import: `pass`
 - private_leak_violations: 0
 - regulatory_findings: 0
@@ -30,6 +30,7 @@
 - local cache
 
 ## Degraded
+- Tencent RAG suite citation retrieval is not verified.
 - Yunnan pitfall map full is blocked until real aggregate data is available.
 - Monthly report comparison is blocked until ETO blind review is completed.
 
