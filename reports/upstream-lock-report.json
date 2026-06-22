@@ -6,7 +6,7 @@
       "local_path": "E:\\eco-semantic-knowledge-base",
       "status": "pass",
       "branch": "codex/kb-report-only-contract-validation",
-      "commit": "df38c06c30e92ddf32d3afd37ac2f2297373f899",
+      "commit": "ca2312c13295f68583e9d1d3fa7f6035d99cc4d8",
       "remote": "origin\tgit@github.com:yueen-team/eco-semantic-knowledge-base.git (fetch)"
     },
     {
@@ -41,8 +41,8 @@
     {
       "repo": "coco830/eco-semantic-knowledge-base",
       "path": "manifests/graph_kb_package_manifest_v1_0.json",
-      "bytes": 1617,
-      "sha256": "621f54e84e49ec1fa4c7e17e3848c61f90f463463c1301a1e033fb1edd2d9aa4"
+      "bytes": 3222,
+      "sha256": "a89625ed33263e3f57adeb802ce98c69a25b155444334b74e80e37671359a1b3"
     },
     {
       "repo": "coco830/eco-semantic-knowledge-base",
@@ -101,8 +101,8 @@
     {
       "repo": "coco830/eco-semantic-knowledge-base",
       "path": "manifests/knowledge_base_manifest_v1_8_noise_radiation_extension.json",
-      "bytes": 2202,
-      "sha256": "26e62e8a31fa008e7f13b0fa1def4007f9c6a41cda271e3d6f661111d4153f95"
+      "bytes": 2243,
+      "sha256": "fab7a16d9f3baef4b2beffc0eaec746b2ae37a5c1b7e05d912847a71e8712a2c"
     },
     {
       "repo": "coco830/eco-semantic-knowledge-base",
