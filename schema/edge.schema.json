@@ -40,7 +40,8 @@
           "ESO_REPORTED", "ETO_CONFIRMED", "RECTIFICATION_VERIFIED",
           "RECTIFICATION_REJECTED", "LAW_MAPPING_REVIEWED",
           "BASELINE_IMPORTED", "GOVERNMENT_CONFIRMED",
-          "RAG_RESOLVED", "AGGREGATE_OBSERVED", "MANUAL_REVIEWED"
+          "RAG_RESOLVED", "AGGREGATE_OBSERVED", "MANUAL_REVIEWED",
+          "UPSTREAM_APPROVED_BASELINE", "UPSTREAM_CANDIDATE_MAP"
         ]
       },
       "description": "置信原因,用于解释 confidence 从哪里来。"
@@ -79,6 +80,13 @@
       "description": "法律依据口径状态。regulated_by/manifests_as 等法律判断边必填,用于控制报告表达强度。"
     },
     "review_status": { "enum": ["CANDIDATE", "HUMAN_REVIEWED", "APPROVED_BASELINE", "DEPRECATED"] },
+    "report_usage_policy": { "type": "string", "description": "报告侧引用强度与使用边界。" },
+    "origin_repo": { "type": "string", "description": "上游仓库或本仓生成来源。" },
+    "origin_commit": { "type": "string", "description": "上游 commit 或 local 标记。" },
+    "origin_asset": { "type": "string", "description": "上游资产相对路径。" },
+    "origin_hash": { "type": "string", "description": "上游资产 sha256 或行级来源 hash。" },
+    "source_role": { "type": "string", "description": "来源角色,如 compatibility_sample。" },
+    "export_allowed": { "type": "boolean", "description": "导出前计算的 shared 可导出标记。" },
     "attrs": { "type": "object" }
   },
   "allOf": [

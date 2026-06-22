@@ -10,6 +10,7 @@
 | 监管口径一致性检查器 | `regulatory-consistency-checker.md` | v0 draft(P1 内部门禁) |
 | 知识治理中层 | `knowledge-governance-layer.md` | v1 draft(metadata-only,offline publication) |
 | EcoCheck / 小悦 / 环保体检报告 EcoDoc worker 图谱上下文对接 | `ecocheck-xiaoyue-graph-context-integration.md` | v1 draft(read-only graph context + RAG refs) |
+| Ontology report-only validation | `ontology-contract-report-only-validation.md` | report-only graph export / semantic_event / KB manifest drift checks |
 | 腾讯云 LKE/RAG 接入路径 | `tencent-lke-rag-integration.md` | v0 draft(官方文档核对后) |
 | 腾讯云 RAG adapter | `tencent-rag-adapter.md` / `rag-doc-ref-registry.md` | v0 draft(P2P3 citation metadata) |
 | 政府 lineage 数据交换格式 | `lineage-exchange.md` | v0 占位(待对接校准,specs Q4) |

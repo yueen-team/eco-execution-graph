@@ -5,9 +5,9 @@
       "name": "coco830/eco-semantic-knowledge-base",
       "local_path": "E:\\eco-semantic-knowledge-base",
       "status": "pass",
-      "branch": "main",
-      "commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
-      "remote": "origin\tgit@github.com:coco830/eco-semantic-knowledge-base.git (fetch)"
+      "branch": "codex/kb-report-only-contract-validation",
+      "commit": "e2c6cf8d7ffb3cff0974fcafa6b2bdc6e9ef675c",
+      "remote": "origin\tgit@github.com:yueen-team/eco-semantic-knowledge-base.git (fetch)"
     },
     {
       "name": "coco830/semantic-profile-lab",
@@ -18,6 +18,7 @@
       "remote": "origin\tgit@github.com:coco830/semantic-profile-lab.git (fetch)"
     }
   ],
+  "eco_kb_package_manifest": "E:\\eco-semantic-knowledge-base\\manifests\\graph_kb_package_manifest_v1_0.json",
   "assets": [
     {
       "repo": "coco830/eco-semantic-knowledge-base",
@@ -36,6 +37,12 @@
       "path": "manifests/ecocheck_candidate_coverage_industry_influence_factor_samples_manifest_v1_0.json",
       "bytes": 3676,
       "sha256": "5c782d06b2962e36561e2c50724ac28608768f8815a4f8bd92a9f63ccf011173"
+    },
+    {
+      "repo": "coco830/eco-semantic-knowledge-base",
+      "path": "manifests/graph_kb_package_manifest_v1_0.json",
+      "bytes": 3136,
+      "sha256": "e6bd2536ed58dcc38661732620a6c4e8400a1b69ab11e764d4228fadc5971637"
     },
     {
       "repo": "coco830/eco-semantic-knowledge-base",
@@ -94,8 +101,8 @@
     {
       "repo": "coco830/eco-semantic-knowledge-base",
       "path": "manifests/knowledge_base_manifest_v1_8_noise_radiation_extension.json",
-      "bytes": 2202,
-      "sha256": "26e62e8a31fa008e7f13b0fa1def4007f9c6a41cda271e3d6f661111d4153f95"
+      "bytes": 2243,
+      "sha256": "fab7a16d9f3baef4b2beffc0eaec746b2ae37a5c1b7e05d912847a71e8712a2c"
     },
     {
       "repo": "coco830/eco-semantic-knowledge-base",
@@ -440,6 +447,6 @@
       "sha256": "f3c4a66014793d81932754d876b632053857d004c250c3212d20ec2fa8e2bd6f"
     }
   ],
-  "asset_count": 70,
+  "asset_count": 71,
   "status": "pass"
 }

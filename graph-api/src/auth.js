@@ -16,6 +16,8 @@ export function wecomConfigFromEnv(env = process.env) {
     redirectUri: env.ECO_GRAPH_WECOM_REDIRECT_URI || "",
     allowedUsers: (env.ECO_GRAPH_WECOM_ALLOWED_USERS || "")
       .split(",").map((item) => item.trim()).filter(Boolean),
+    reviewUsers: (env.ECO_GRAPH_WECOM_REVIEW_USERS || env.ECO_GRAPH_WECOM_ALLOWED_REVIEW_USERS || "")
+      .split(",").map((item) => item.trim()).filter(Boolean),
     sessionSecret: env.ECO_GRAPH_SESSION_SECRET || "",
   };
 }
@@ -54,6 +56,10 @@ export async function exchangeWecomCode(code, config, fetchImpl = fetch) {
 export function isUserAllowed(userid, config) {
   if (!config.allowedUsers.length) return true; // 空白名单 = 放行全企业成员
   return config.allowedUsers.includes(userid);
+}
+
+export function isReviewUser(userid, config) {
+  return Boolean(userid && config.reviewUsers?.includes(userid));
 }
 
 function sign(payload, secret) {

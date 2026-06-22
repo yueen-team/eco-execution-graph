@@ -32,11 +32,17 @@ const FORBIDDEN_KEYS = new Set([
   "content",
   "attachment_url",
   "attachment_path",
+  "attachment",
   "cloud_path",
   "photo_url",
+  "file_id",
   "gps",
   "latitude",
   "longitude",
+  "raw_attachment",
+  "raw_attachments",
+  "raw_evidence",
+  "raw_report_text",
   "original_report_text",
   "secretid",
   "secretkey",
@@ -187,7 +193,8 @@ export function normalizeFieldEvent(payload, now = new Date().toISOString()) {
   const traceEvidence = trace.evidence_summary || {};
   const rectification = payload.rectification || {};
   const history = normalizeRectificationHistory(payload.rectification_history_summary);
-  const eventRef = text(payload.field_issue_uid || payload.event_id || payload.business_key, "unknown");
+  const businessKey = text(payload.business_key || payload.field_issue_uid || payload.event_id, "unknown");
+  const eventRef = businessKey;
   const lawRefs = asArray(payload.ai_regulatory_references).map((item) => ({
     "引用编号": text(item.ref || item.node_id || item.id, "待核对"),
     "名称": text(item.title || item.name, "待核对"),
@@ -201,6 +208,9 @@ export function normalizeFieldEvent(payload, now = new Date().toISOString()) {
     "来源系统": text(payload.source_system, "EcoCheck"),
     "来源阶段": STAGE_LABEL[payload.event_type] || "现场事实确认",
     "来源时间": text(payload.occurred_at, now),
+    "事件类别": "semantic_event",
+    "业务幂等键": businessKey,
+    "现场问题追溯编号": text(payload.field_issue_uid || payload.event_id, businessKey),
     "企业内部标识": text(source.company_id || source.enterprise_ref, "synthetic-or-internal"),
     "企业名称快照": text(source.company_name, "合成企业"),
     "区域": text(source.region, "未标注区域"),
@@ -236,10 +246,99 @@ export function normalizeFieldEvent(payload, now = new Date().toISOString()) {
     "技术追溯": {
       "来源记录编号": `src:${hash(payload.business_key || payload.source_id || eventRef)}`,
       "事件编号": eventRef,
+      "业务幂等键": businessKey,
       "同步时间": now,
       "原始系统": text(payload.source_system, "EcoCheck"),
     },
   };
+}
+
+export function assertAcceptableProfileGapEvent(payload) {
+  if (!payload || typeof payload !== "object") throw new Error("请求体必须是对象");
+  if (payload.schema_version !== "ecocheck.profile_gap_confirmed.v1") {
+    throw new Error("只接收 EcoCheck profile_gap_confirmed v1");
+  }
+  for (const field of ["company_id", "gap_dimension", "eso_decision", "site_verification", "knowledge_approval_basis"]) {
+    if (!payload[field]) throw new Error(`缺少企业画像缺口确认字段:${field}`);
+  }
+  if (payload.event_type !== "COMPANY_PROFILE_GAP_CONFIRMED") throw new Error("企业画像缺口事件类型不匹配");
+  const violations = [...new Set(scanForbidden(payload))];
+  if (violations.length) throw new Error(`包含不得进入 graph 的敏感或原始字段:${violations.join(",")}`);
+}
+
+export function normalizeProfileGapEvent(payload, now = new Date().toISOString()) {
+  assertAcceptableProfileGapEvent(payload);
+  const businessKey = text(
+    payload.business_key || `profile-gap:${payload.company_id}:${payload.gap_dimension}:${payload.knowledge_approval_basis}`,
+    "unknown",
+  );
+  const dimension = text(payload.gap_dimension, "未标注画像缺口");
+  return {
+    "审核编号": `profile-gap:${hash(businessKey)}`,
+    "事件编号": businessKey,
+    "来源系统": text(payload.source_system, "EcoCheck"),
+    "来源阶段": "企业画像缺口确认",
+    "来源时间": text(payload.occurred_at, now),
+    "事件类别": "profile_gap_confirmed",
+    "业务幂等键": businessKey,
+    "企业内部标识": text(payload.company_id, "synthetic-or-internal"),
+    "企业名称快照": "企业画像缺口确认事件不携带企业名称",
+    "区域": text(payload.region, "未标注区域"),
+    "行业": text(payload.industry_code, "未标注行业"),
+    "排污许可类型": "不适用",
+    "检查月份": "不适用",
+    "检查日期": "不适用",
+    "环保维度": dimension,
+    "建议问题类型": "企业画像缺口确认",
+    "问题类型引用": `profile-gap:${dimension}`,
+    "现场问题摘要": `企业画像缺口已由 ESO 确认可适用:${dimension}`,
+    "现场表现": [],
+    "证据摘要": {
+      "证据数量": 0,
+      "证据类型": ["企业画像缺口确认"],
+    },
+    "整改要求": "不作为现场问题或整改事实入图",
+    "复查要点": [],
+    "整改结果": "不适用",
+    "法条规范候选": [],
+    "信源标签": ["profile_gap_confirmed"],
+    "回档批次": normalizeBackfillContext(payload.backfill_context),
+    "字段补齐状态": {
+      "必补字段": [],
+      "可候选字段": [],
+      "不强行补字段": [],
+      "摘要": "profile-gap 事件只进入画像缺口治理记录,不进入现场问题/整改聚合。",
+    },
+    "机器补填说明": [],
+    "整改历史摘要": normalizeRectificationHistory(null),
+    "画像缺口确认": {
+      "缺口维度": dimension,
+      "ESO确认": text(payload.eso_decision),
+      "现场核验": text(payload.site_verification),
+      "知识审批依据": text(payload.knowledge_approval_basis),
+      "召回依据": payload.recall_basis ?? null,
+    },
+    "当前审核状态": REVIEW_STATUS.internalOnly,
+    "审核人": "SYSTEM",
+    "审核时间": now,
+    "审核意见": "profile-gap 事件不进入现场问题/整改聚合",
+    "是否允许进入聚合": false,
+    "进入聚合候选时间": null,
+    "合并目标问题类型": "",
+    "不可聚合原因": "profile_gap_not_field_issue",
+    "技术追溯": {
+      "来源记录编号": `src:${hash(businessKey)}`,
+      "事件编号": businessKey,
+      "业务幂等键": businessKey,
+      "同步时间": now,
+      "原始系统": text(payload.source_system, "EcoCheck"),
+    },
+  };
+}
+
+export function normalizeEcoCheckPayload(payload, now = new Date().toISOString()) {
+  if (payload?.schema_version === "ecocheck.profile_gap_confirmed.v1") return normalizeProfileGapEvent(payload, now);
+  return normalizeFieldEvent(payload, now);
 }
 
 export function applyReviewDecision(item, decision, now = new Date().toISOString()) {

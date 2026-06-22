@@ -36,8 +36,8 @@ eco-execution-graph/
 │   ├── verify.ps1            # 统一验证入口(check/test/leak/build/all)
 │   └── afk-test.config.json  # AFK 测试工程协议配置
 ├── reports/                  # 验证与 AFK 报告输出
-├── scripts/git-workflow/     # git hooks 脚本(来自 coco830/git-workflow-hooks)
-└── .husky/                   # husky 入口(pre-commit/commit-msg/pre-push)
+├── scripts/git-workflow/     # git hooks 脚本(来自 yueen-team/git-workflow-hooks)
+└── .husky/                   # husky 入口(pre-commit/commit-msg/pre-push); 刷新上游后用 hooks:install --path .husky
 ```
 
 ## 常用命令

@@ -54,11 +54,13 @@
 
 每条边必须有 `source_ref`(回指 sources 记录)和 `confidence`。confidence 初始由来源类型决定,之后由整改成效回写(ADR-0005)。
 
+shared 导出可携带瘦 provenance/export metadata:`source_ref`、`origin_repo`、`origin_commit`、`origin_asset`、`origin_hash`、`source_role`、`export_allowed`、`report_usage_policy`。这些字段只描述上游包、commit、资产路径、hash 和报告使用边界,不得包含私有企业、原始证据、GPS、附件路径、密钥或法规全文。
+
 ### 2.2 节点类型(本期)
 
 | tier | 节点类型 | 来源 |
 |---|---|---|
-| shared | industry / process_scenario / pollution_source / pollutant / standard_limit / tech_spec / law_article(瘦) / law_obligation / issue_type(问题分类法) / pitfall_class / evidence_category / 概念级 evidence_field_requirement | eco-kb baselines + 法规抽取 + 现场归一 |
+| shared | industry / process_scenario / pollution_source / pollutant / standard_limit / tech_spec / law_article(瘦) / law_obligation / inspection_item / issue_type(问题分类法) / pitfall_class / evidence_category / 概念级 evidence_field_requirement | eco-kb baselines + 法规抽取 + 现场归一 |
 | private | enterprise / facility / discharge_outlet / risk_unit / issue_instance / pitfall_instance / evidence_judgment_standard / evidence_instance / rectification_template / rectification_instance / report_expression / distill_event | EcoCheck 蒸馏流 + 私有沉淀 |
 | aggregate | stat_signal(区域/行业级统计) | 由私有层计算,单向输出 |
 
@@ -219,8 +221,8 @@ RAG citation metadata + 图谱 law/standard thin refs
 | 私有仓库 | coco830/semantic-profile-lab | 私有 | 图模型契约(graph-export v2.1、provenance v1.9、治理门禁) | schema 继承并扩展 |
 | 私有仓库 | coco830/ecocheck | 私有 | semantic_event_outbox 蒸馏流(v2) | pipeline/ingest 消费 |
 | 私有仓库 | coco830/Yunnan-emission-smart-calculator | 私有 | pollutant_id 标准化字典、系数维度键 | 只共享键,不接核算(治理膜) |
-| 私有仓库 | coco830/git-workflow-hooks | 私有 | pre-commit/commit-msg/pre-push 门禁、主干保护 | scripts/git-workflow + .husky |
-| 私有仓库 | coco830/gherkin-v39-cli | 私有 | BDD .feature → Cucumber Messages NDJSON | `pnpm bdd:export` |
+| 私有仓库 | yueen-team/git-workflow-hooks | 私有 | pre-commit/commit-msg/pre-push 门禁、主干保护 | scripts/git-workflow + .husky |
+| 私有仓库 | yueen-team/gherkin-v39-cli | 私有 | BDD .feature → Cucumber Messages NDJSON | `pnpm bdd:export` |
 | 工具 | GitNexus | — | **仅用于本仓库代码导航,不用于领域图谱**(职责澄清,勿混用) | 本地 CLI |
 | 延后评估 | Microsoft GraphRAG | MIT | 非结构化文本抽图 + 社区摘要探索管道 | 不作为主业务图谱,只可在 tool-lab 中试验辅助抽取 |
 | 延后评估 | Neo4j Community / Graphiti | GPLv3 / Apache-2.0 | 图数据库/时序上下文图(关系复杂度达标后再评估) | ADR-0006 延后 |

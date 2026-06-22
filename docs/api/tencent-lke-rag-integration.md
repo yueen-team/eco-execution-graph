@@ -13,7 +13,7 @@
 
 ## 本地配置
 
-`.env.local` 仅本机使用,不得入库。
+`.env.local` 仅本机使用,不得入库。CloudBase/CI/托管环境注入的 `TENCENT_*` 运行环境变量优先于 `.env.local`,本地文件只作为开发 fallback。
 
 ```env
 TENCENT_LKE_SECRET_ID=...

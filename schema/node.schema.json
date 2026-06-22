@@ -15,6 +15,7 @@
       "enum": [
         "industry", "process_scenario", "pollution_source", "pollutant",
         "standard_limit", "tech_spec", "law_article", "law_obligation",
+        "inspection_item",
         "issue_type", "pitfall_class", "pitfall_pattern_stat", "pitfall_instance",
         "enterprise", "facility", "discharge_outlet", "risk_unit",
         "issue_instance", "evidence_category", "evidence_field_requirement",
@@ -38,6 +39,13 @@
       "type": "string",
       "description": "所属环保维度(13 维之一),例:危废管理。"
     },
+    "source_ref": { "type": "string", "description": "主来源 source_id;shared 导出可携带瘦溯源指针。" },
+    "origin_repo": { "type": "string", "description": "上游仓库或本仓生成来源。" },
+    "origin_commit": { "type": "string", "description": "上游 commit 或 local 标记。" },
+    "origin_asset": { "type": "string", "description": "上游资产相对路径。" },
+    "origin_hash": { "type": "string", "description": "上游资产 sha256 或行级来源 hash。" },
+    "source_role": { "type": "string", "description": "来源角色,如 compatibility_sample。" },
+    "export_allowed": { "type": "boolean", "description": "导出前计算的 shared 可导出标记。" },
     "review_status": {
       "enum": ["CANDIDATE", "HUMAN_REVIEWED", "APPROVED_BASELINE", "DEPRECATED"],
       "description": "治理膜:ingest 产物默认 CANDIDATE;晋级需人工审核记录。"

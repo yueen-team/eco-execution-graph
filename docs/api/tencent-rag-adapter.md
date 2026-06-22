@@ -34,7 +34,18 @@ Every normalized citation record must expose these stable fields:
 
 When a citation remains `source-level`, `reports/rag-citation-resolution-report.md` must list it with a reason. This is not a failure by itself, but it is an ETO/governance review queue.
 
-Current verified smoke:
+Current real smoke boundary:
+
+- Default `pnpm verify:all` does not call the external Tencent RAG real smoke.
+  Contract validation, graph build, leak checks, API tests, and synthetic intake
+  smoke must stay green without Tencent SecretId/network access.
+- `pnpm verify:external` or `pnpm verify:rag:real` runs the real RAG smoke:
+  `pnpm rag:resolve` followed by `pnpm rag:real:gate`.
+- A real smoke failure such as missing SecretId, invalid SecretKey, quota, or
+  network timeout means the Tencent external dependency is not verified. It does
+  not by itself indicate a contract/intake regression.
+
+Previously verified smoke:
 
 - TokenHub DeepSeek chat: `tokenhub-chat` passes with `deepseek-v4-flash-202605`.
 - Tencent API 3.0 embedding: credentials work, but `GetEmbedding` may fail when the account resource package is exhausted.

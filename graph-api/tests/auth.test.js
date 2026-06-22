@@ -1,10 +1,10 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { mkdir, rm } from "node:fs/promises";
+import { mkdir, rm, writeFile } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import {
-  buildWecomLoginUrl, isUserAllowed, issueSession, verifySession, sessionCookie,
+  buildWecomLoginUrl, isReviewUser, isUserAllowed, issueSession, verifySession, sessionCookie,
 } from "../src/auth.js";
 import { createServer } from "../src/server.js";
 
@@ -14,6 +14,7 @@ const WECOM = {
   corpSecret: "secret",
   redirectUri: "https://graph.example.com/auth/wecom/callback",
   allowedUsers: [],
+  reviewUsers: ["eto-candy", "admin-candy"],
   sessionSecret: "session-secret-for-test",
 };
 
@@ -41,7 +42,13 @@ test("空白名单放行全企业成员,白名单只放名单内成员", () => {
   assert.equal(isUserAllowed("outsider", limited), false);
 });
 
-test("企业微信回调签发会话,会话可直接访问审核接口", async () => {
+test("审核台名单只放行 ETO/admin,普通成员只能进知识库", () => {
+  assert.equal(isReviewUser("eto-candy", WECOM), true);
+  assert.equal(isReviewUser("admin-candy", WECOM), true);
+  assert.equal(isReviewUser("regular-staff", WECOM), false);
+});
+
+test("企业微信回调签发审核员会话,可直接访问审核接口", async () => {
   const temp = path.join(os.tmpdir(), `eco-graph-auth-${Date.now()}`);
   await mkdir(temp, { recursive: true });
   const server = createServer({
@@ -69,10 +76,54 @@ test("企业微信回调签发会话,会话可直接访问审核接口", async (
     const sessionValue = cookie.split(";")[0];
     const session = await fetch(`${base}/auth/session`, { headers: { cookie: sessionValue } });
     assert.equal(session.status, 200);
-    assert.equal((await session.json()).userid, "eto-candy");
+    const sessionBody = await session.json();
+    assert.equal(sessionBody.userid, "eto-candy");
+    assert.equal(sessionBody.can_review, true);
 
     const allowed = await fetch(`${base}/api/review/field-events`, { headers: { cookie: sessionValue } });
     assert.equal(allowed.status, 200);
+  } finally {
+    await new Promise((resolve) => server.close(resolve));
+    await rm(temp, { recursive: true, force: true });
+  }
+});
+
+test("普通企业微信成员可登录但不能访问审核台 API", async () => {
+  const temp = path.join(os.tmpdir(), `eco-graph-auth-member-${Date.now()}`);
+  await mkdir(temp, { recursive: true });
+  const graphPath = path.join(temp, "graph.json");
+  const publicationPath = path.join(temp, "ecocheck.json");
+  await writeFile(graphPath, JSON.stringify({
+    nodes: [{ node_id: "issue:member", node_type: "issue_type", name: "成员可读", tier: "shared", review_status: "APPROVED_BASELINE" }],
+    edges: [],
+  }), "utf8");
+  await writeFile(publicationPath, JSON.stringify({ items: [] }), "utf8");
+  const server = createServer({
+    stagingPath: path.join(temp, "field-events.jsonl"),
+    apiToken: "bearer-only-secret",
+    contextGraphPath: graphPath,
+    contextPublicationPath: publicationPath,
+    wecom: WECOM,
+    exchangeCode: async () => "regular-staff",
+  });
+  await new Promise((resolve) => server.listen(0, "127.0.0.1", resolve));
+  const base = `http://127.0.0.1:${server.address().port}`;
+
+  try {
+    const callback = await fetch(`${base}/auth/wecom/callback?code=member-code`, { redirect: "manual" });
+    assert.equal(callback.status, 302);
+    assert.equal(callback.headers.get("location"), "/");
+    const sessionValue = callback.headers.get("set-cookie").split(";")[0];
+
+    const session = await fetch(`${base}/auth/session`, { headers: { cookie: sessionValue } });
+    assert.equal(session.status, 200);
+    assert.equal((await session.json()).can_review, false);
+
+    const context = await fetch(`${base}/api/graph/context?node_id=issue%3Amember`, { headers: { cookie: sessionValue } });
+    assert.equal(context.status, 200);
+
+    const review = await fetch(`${base}/api/review/field-events`, { headers: { cookie: sessionValue } });
+    assert.equal(review.status, 403);
   } finally {
     await new Promise((resolve) => server.close(resolve));
     await rm(temp, { recursive: true, force: true });

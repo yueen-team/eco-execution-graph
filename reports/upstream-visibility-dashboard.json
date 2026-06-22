@@ -4,7 +4,7 @@
   "plain_summary": "eco-semantic-knowledge-base 已作为已审核公共基线接入图谱底座:它提供场景、污染物、技术规范、检查项和标准映射;现场经验、ETO 审核、整改闭环和授权边界仍留在现场执行图谱治理。",
   "repo": {
     "名称": "coco830/eco-semantic-knowledge-base",
-    "提交": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+    "提交": "e2c6cf8d7ffb3cff0974fcafa6b2bdc6e9ef675c",
     "状态": "已接入",
     "口径": "现场经验为内容，公开标准为骨架"
   },

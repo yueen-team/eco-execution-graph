@@ -1,6 +1,6 @@
 {
   "schema_version": "knowledge-governance-candidate.v1",
-  "generated_at": "2026-06-15",
+  "generated_at": "2026-06-22",
   "source_registry": "data/knowledge-governance/doc-registry/knowledge-documents.json",
   "candidates": [
     {
@@ -27,7 +27,7 @@
       "review_status": "candidate",
       "reviewer_role": "SYSTEM",
       "contains_private_data": false,
-      "created_at": "2026-06-15",
+      "created_at": "2026-06-22",
       "trace": {
         "source_report": "reports/rag-citation-resolution-report.json",
         "node_ids": [
@@ -64,7 +64,7 @@
       "review_status": "candidate",
       "reviewer_role": "SYSTEM",
       "contains_private_data": false,
-      "created_at": "2026-06-15",
+      "created_at": "2026-06-22",
       "trace": {
         "source_report": "reports/rag-citation-resolution-report.json",
         "node_ids": [
@@ -101,7 +101,7 @@
       "review_status": "candidate",
       "reviewer_role": "SYSTEM",
       "contains_private_data": false,
-      "created_at": "2026-06-15",
+      "created_at": "2026-06-22",
       "trace": {
         "source_report": "reports/rag-citation-resolution-report.json",
         "node_ids": [
@@ -138,7 +138,7 @@
       "review_status": "candidate",
       "reviewer_role": "SYSTEM",
       "contains_private_data": false,
-      "created_at": "2026-06-15",
+      "created_at": "2026-06-22",
       "trace": {
         "source_report": "reports/rag-citation-resolution-report.json",
         "node_ids": [
@@ -175,7 +175,7 @@
       "review_status": "candidate",
       "reviewer_role": "SYSTEM",
       "contains_private_data": false,
-      "created_at": "2026-06-15",
+      "created_at": "2026-06-22",
       "trace": {
         "source_report": "reports/rag-citation-resolution-report.json",
         "node_ids": [
@@ -216,7 +216,7 @@
       "review_status": "candidate",
       "reviewer_role": "SYSTEM",
       "contains_private_data": false,
-      "created_at": "2026-06-15",
+      "created_at": "2026-06-22",
       "trace": {
         "source_report": "reports/rag-citation-resolution-report.json",
         "node_ids": [
@@ -255,7 +255,7 @@
       "review_status": "candidate",
       "reviewer_role": "SYSTEM",
       "contains_private_data": false,
-      "created_at": "2026-06-15",
+      "created_at": "2026-06-22",
       "trace": {
         "source_report": "reports/rag-citation-resolution-report.json",
         "node_ids": [
@@ -288,7 +288,7 @@
       "review_status": "candidate",
       "reviewer_role": "SYSTEM",
       "contains_private_data": false,
-      "created_at": "2026-06-15",
+      "created_at": "2026-06-22",
       "trace": {
         "source_report": "reports/rag-citation-resolution-report.json",
         "node_ids": [
@@ -321,7 +321,7 @@
       "review_status": "candidate",
       "reviewer_role": "SYSTEM",
       "contains_private_data": false,
-      "created_at": "2026-06-15",
+      "created_at": "2026-06-22",
       "trace": {
         "source_report": "reports/rag-citation-resolution-report.json",
         "node_ids": [
@@ -354,7 +354,7 @@
       "review_status": "candidate",
       "reviewer_role": "SYSTEM",
       "contains_private_data": false,
-      "created_at": "2026-06-15",
+      "created_at": "2026-06-22",
       "trace": {
         "source_report": "reports/rag-citation-resolution-report.json",
         "node_ids": [
@@ -387,7 +387,7 @@
       "review_status": "candidate",
       "reviewer_role": "SYSTEM",
       "contains_private_data": false,
-      "created_at": "2026-06-15",
+      "created_at": "2026-06-22",
       "trace": {
         "source_report": "reports/rag-citation-resolution-report.json",
         "node_ids": [
@@ -420,7 +420,7 @@
       "review_status": "candidate",
       "reviewer_role": "SYSTEM",
       "contains_private_data": false,
-      "created_at": "2026-06-15",
+      "created_at": "2026-06-22",
       "trace": {
         "source_report": "reports/rag-citation-resolution-report.json",
         "node_ids": [
@@ -453,7 +453,7 @@
       "review_status": "candidate",
       "reviewer_role": "SYSTEM",
       "contains_private_data": false,
-      "created_at": "2026-06-15",
+      "created_at": "2026-06-22",
       "trace": {
         "source_report": "reports/rag-citation-resolution-report.json",
         "node_ids": [
@@ -486,7 +486,7 @@
       "review_status": "candidate",
       "reviewer_role": "SYSTEM",
       "contains_private_data": false,
-      "created_at": "2026-06-15",
+      "created_at": "2026-06-22",
       "trace": {
         "source_report": "reports/rag-citation-resolution-report.json",
         "node_ids": [
@@ -519,7 +519,7 @@
       "review_status": "candidate",
       "reviewer_role": "SYSTEM",
       "contains_private_data": false,
-      "created_at": "2026-06-15",
+      "created_at": "2026-06-22",
       "trace": {
         "source_report": "reports/rag-citation-resolution-report.json",
         "node_ids": [
@@ -552,7 +552,7 @@
       "review_status": "candidate",
       "reviewer_role": "SYSTEM",
       "contains_private_data": false,
-      "created_at": "2026-06-15",
+      "created_at": "2026-06-22",
       "trace": {
         "source_report": "reports/rag-citation-resolution-report.json",
         "node_ids": [
@@ -585,7 +585,7 @@
       "review_status": "candidate",
       "reviewer_role": "SYSTEM",
       "contains_private_data": false,
-      "created_at": "2026-06-15",
+      "created_at": "2026-06-22",
       "trace": {
         "source_report": "reports/rag-citation-resolution-report.json",
         "node_ids": [
@@ -618,7 +618,7 @@
       "review_status": "candidate",
       "reviewer_role": "SYSTEM",
       "contains_private_data": false,
-      "created_at": "2026-06-15",
+      "created_at": "2026-06-22",
       "trace": {
         "source_report": "reports/rag-citation-resolution-report.json",
         "node_ids": [
@@ -651,7 +651,7 @@
       "review_status": "candidate",
       "reviewer_role": "SYSTEM",
       "contains_private_data": false,
-      "created_at": "2026-06-15",
+      "created_at": "2026-06-22",
       "trace": {
         "source_report": "reports/rag-citation-resolution-report.json",
         "node_ids": [
@@ -684,7 +684,7 @@
       "review_status": "candidate",
       "reviewer_role": "SYSTEM",
       "contains_private_data": false,
-      "created_at": "2026-06-15",
+      "created_at": "2026-06-22",
       "trace": {
         "source_report": "reports/rag-citation-resolution-report.json",
         "node_ids": [
@@ -717,7 +717,7 @@
       "review_status": "candidate",
       "reviewer_role": "SYSTEM",
       "contains_private_data": false,
-      "created_at": "2026-06-15",
+      "created_at": "2026-06-22",
       "trace": {
         "source_report": "reports/rag-citation-resolution-report.json",
         "node_ids": [
@@ -750,7 +750,7 @@
       "review_status": "candidate",
       "reviewer_role": "SYSTEM",
       "contains_private_data": false,
-      "created_at": "2026-06-15",
+      "created_at": "2026-06-22",
       "trace": {
         "source_report": "reports/rag-citation-resolution-report.json",
         "node_ids": [
@@ -783,7 +783,7 @@
       "review_status": "candidate",
       "reviewer_role": "SYSTEM",
       "contains_private_data": false,
-      "created_at": "2026-06-15",
+      "created_at": "2026-06-22",
       "trace": {
         "source_report": "reports/rag-citation-resolution-report.json",
         "node_ids": [
@@ -816,7 +816,7 @@
       "review_status": "candidate",
       "reviewer_role": "SYSTEM",
       "contains_private_data": false,
-      "created_at": "2026-06-15",
+      "created_at": "2026-06-22",
       "trace": {
         "source_report": "reports/rag-citation-resolution-report.json",
         "node_ids": [
@@ -849,7 +849,7 @@
       "review_status": "candidate",
       "reviewer_role": "SYSTEM",
       "contains_private_data": false,
-      "created_at": "2026-06-15",
+      "created_at": "2026-06-22",
       "trace": {
         "source_report": "reports/rag-citation-resolution-report.json",
         "node_ids": [
@@ -882,7 +882,7 @@
       "review_status": "candidate",
       "reviewer_role": "SYSTEM",
       "contains_private_data": false,
-      "created_at": "2026-06-15",
+      "created_at": "2026-06-22",
       "trace": {
         "source_report": "reports/rag-citation-resolution-report.json",
         "node_ids": [
@@ -915,7 +915,7 @@
       "review_status": "candidate",
       "reviewer_role": "SYSTEM",
       "contains_private_data": false,
-      "created_at": "2026-06-15",
+      "created_at": "2026-06-22",
       "trace": {
         "source_report": "reports/rag-citation-resolution-report.json",
         "node_ids": [
@@ -948,7 +948,7 @@
       "review_status": "candidate",
       "reviewer_role": "SYSTEM",
       "contains_private_data": false,
-      "created_at": "2026-06-15",
+      "created_at": "2026-06-22",
       "trace": {
         "source_report": "reports/rag-citation-resolution-report.json",
         "node_ids": [
@@ -981,7 +981,7 @@
       "review_status": "candidate",
       "reviewer_role": "SYSTEM",
       "contains_private_data": false,
-      "created_at": "2026-06-15",
+      "created_at": "2026-06-22",
       "trace": {
         "source_report": "reports/rag-citation-resolution-report.json",
         "node_ids": [
@@ -1014,7 +1014,7 @@
       "review_status": "candidate",
       "reviewer_role": "SYSTEM",
       "contains_private_data": false,
-      "created_at": "2026-06-15",
+      "created_at": "2026-06-22",
       "trace": {
         "source_report": "reports/rag-citation-resolution-report.json",
         "node_ids": [
@@ -1047,7 +1047,7 @@
       "review_status": "candidate",
       "reviewer_role": "SYSTEM",
       "contains_private_data": false,
-      "created_at": "2026-06-15",
+      "created_at": "2026-06-22",
       "trace": {
         "source_report": "reports/rag-citation-resolution-report.json",
         "node_ids": [
@@ -1080,7 +1080,7 @@
       "review_status": "candidate",
       "reviewer_role": "SYSTEM",
       "contains_private_data": false,
-      "created_at": "2026-06-15",
+      "created_at": "2026-06-22",
       "trace": {
         "source_report": "reports/rag-citation-resolution-report.json",
         "node_ids": [
@@ -1113,7 +1113,7 @@
       "review_status": "candidate",
       "reviewer_role": "SYSTEM",
       "contains_private_data": false,
-      "created_at": "2026-06-15",
+      "created_at": "2026-06-22",
       "trace": {
         "source_report": "reports/rag-citation-resolution-report.json",
         "node_ids": [

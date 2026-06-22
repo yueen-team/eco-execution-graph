@@ -8,7 +8,7 @@
   "properties": {
     "source_id": { "type": "string", "minLength": 3 },
     "source_type": {
-      "enum": ["law_or_standard_doc", "field_event", "baseline_import", "expert_note", "government_lineage", "aggregation_job"]
+      "enum": ["law_or_standard_doc", "field_event", "baseline_import", "approved_baseline", "candidate_map", "expert_note", "government_lineage", "aggregation_job"]
     },
     "tier": {
       "enum": ["shared", "private", "aggregate"],
@@ -19,6 +19,10 @@
     "event_ref": { "type": "string", "description": "EcoCheck semantic_event v2 事件 ID(field_event 时必填)" },
     "reviewer": { "type": "string" },
     "review_status": { "enum": ["CANDIDATE", "HUMAN_REVIEWED", "APPROVED_BASELINE", "DEPRECATED"] },
+    "origin_repo": { "type": "string", "description": "上游仓库或本仓生成来源。" },
+    "origin_commit": { "type": "string", "description": "上游 commit 或 local 标记。" },
+    "origin_asset": { "type": "string", "description": "上游资产相对路径。" },
+    "origin_hash": { "type": "string", "description": "上游资产 sha256 或行级来源 hash。" },
     "open_question_refs": { "type": "array", "items": { "type": "string" } },
     "notes": { "type": "string" }
   },

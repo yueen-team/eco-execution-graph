@@ -4,6 +4,7 @@ import { mkdir, rm, writeFile } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import fixture from "../../data/fixtures/ecocheck-field-event-fixture.json" with { type: "json" };
+import profileGapFixture from "../../data/fixtures/ecocheck-profile-gap-confirmed-fixture.json" with { type: "json" };
 import { createServer, isAuthorized, validateRuntimeConfig } from "../src/server.js";
 import { buildGraphContextResponse } from "../src/graph-context.js";
 
@@ -115,6 +116,45 @@ test("历史回档字段 POST 后进入待审核中文记录", async () => {
     assert.equal(persisted.item["字段补齐状态"]["必补字段"][0]["字段"], "问题类型");
     assert.equal(persisted.item["机器补填说明"][0]["字段"], "问题类型");
     assert.equal(persisted.item["整改历史摘要"]["最新状态"], "VERIFIED");
+  } finally {
+    await new Promise((resolve) => server.close(resolve));
+    await rm(temp, { recursive: true, force: true });
+  }
+});
+
+test("profile-gap 事件 POST 后作为非聚合治理记录保存", async () => {
+  const temp = path.join(os.tmpdir(), `eco-graph-profile-gap-${Date.now()}`);
+  await mkdir(temp, { recursive: true });
+  const stagingPath = path.join(temp, "field-events.jsonl");
+  const server = createServer({ stagingPath, apiToken: "secret-for-test" });
+  await new Promise((resolve) => server.listen(0, "127.0.0.1", resolve));
+  const base = `http://127.0.0.1:${server.address().port}`;
+  const headers = {
+    "content-type": "application/json",
+    authorization: "Bearer secret-for-test",
+  };
+
+  try {
+    const create = await fetch(`${base}/api/ecocheck/field-events`, {
+      method: "POST",
+      headers,
+      body: JSON.stringify(profileGapFixture),
+    });
+    assert.equal(create.status, 201);
+    const created = await create.json();
+    assert.equal(created.item["事件类别"], "profile_gap_confirmed");
+    assert.equal(created.item["是否允许进入聚合"], false);
+    assert.equal(created.item["业务幂等键"], "synthetic-profile-gap-001");
+
+    const batch = await fetch(`${base}/api/aggregate/pitfall-batches`, {
+      method: "POST",
+      headers,
+      body: JSON.stringify({ batch_id: "profile-gap-test" }),
+    });
+    assert.equal(batch.status, 200);
+    const body = await batch.json();
+    assert.equal(body.rows.length, 0);
+    assert.equal(body.sample_limited.length, 0);
   } finally {
     await new Promise((resolve) => server.close(resolve));
     await rm(temp, { recursive: true, force: true });

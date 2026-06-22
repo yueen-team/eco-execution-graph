@@ -4,6 +4,7 @@ import datetime as dt
 import hashlib
 import hmac
 import json
+import os
 import re
 import urllib.error
 import urllib.request
@@ -26,14 +27,16 @@ class TencentCloudError(RuntimeError):
 
 def load_env(path: Path = ENV_PATH) -> dict[str, str]:
     env: dict[str, str] = {}
-    if not path.exists():
-        return env
-    for raw in path.read_text(encoding="utf-8-sig").splitlines():
-        line = raw.strip()
-        if not line or line.startswith("#") or "=" not in line:
-            continue
-        key, value = line.split("=", 1)
-        env[key.strip()] = value.strip()
+    if path.exists():
+        for raw in path.read_text(encoding="utf-8-sig").splitlines():
+            line = raw.strip()
+            if not line or line.startswith("#") or "=" not in line:
+                continue
+            key, value = line.split("=", 1)
+            env[key.strip()] = value.strip()
+    for key, value in os.environ.items():
+        if key.startswith("TENCENT_") and value:
+            env[key] = value
     return env
 
 

@@ -1,6 +1,6 @@
 # 统一验证入口 · eco-execution-graph
-# 用法: .\verify\verify.ps1 [check|test|leak|build|all]
-param([Parameter(Position = 0)][ValidateSet("check", "test", "leak", "build", "all")][string]$Target = "all")
+# 用法: .\verify\verify.ps1 [check|test|leak|build|all|external]
+param([Parameter(Position = 0)][ValidateSet("check", "test", "leak", "build", "all", "external")][string]$Target = "all")
 
 $ErrorActionPreference = "Stop"
 $root = Split-Path $PSScriptRoot -Parent
@@ -35,6 +35,11 @@ if ($Target -in @("check", "all")) {
     Invoke-Step "bdd-export" {
         Push-Location $root
         try { Invoke-CheckedCommand -Command @("pnpm", "bdd:export") }
+        finally { Pop-Location }
+    }
+    Invoke-Step "ontology-contract-blocking" {
+        Push-Location $root
+        try { Invoke-CheckedCommand -Command @("pnpm", "ontology:validate:blocking") }
         finally { Pop-Location }
     }
 }
@@ -80,6 +85,7 @@ if ($Target -in @("test", "all")) {
         try {
             Invoke-CheckedCommand -Command @("pnpm", "api:check")
             Invoke-CheckedCommand -Command @("pnpm", "api:test")
+            Invoke-CheckedCommand -Command @("pnpm", "api:smoke:intake")
         }
         finally { Pop-Location }
     }
@@ -111,11 +117,6 @@ if ($Target -in @("test", "all")) {
     Invoke-Step "p2p3-spl-compat" {
         Push-Location $root
         try { Invoke-CheckedCommand -Command @("pnpm", "upstream:compat") }
-        finally { Pop-Location }
-    }
-    Invoke-Step "p2p3-rag-resolve" {
-        Push-Location $root
-        try { Invoke-CheckedCommand -Command @("pnpm", "rag:resolve") }
         finally { Pop-Location }
     }
     Invoke-Step "knowledge-governance" {
@@ -199,6 +200,17 @@ if ($Target -in @("build", "all")) {
     Invoke-Step "p2p3-delivery-report" {
         Push-Location $root
         try { Invoke-CheckedCommand -Command @("pnpm", "delivery:p2p3") }
+        finally { Pop-Location }
+    }
+}
+
+if ($Target -eq "external") {
+    Invoke-Step "tencent-rag-real-smoke" {
+        Push-Location $root
+        try {
+            Invoke-CheckedCommand -Command @("pnpm", "rag:resolve")
+            Invoke-CheckedCommand -Command @("pnpm", "rag:real:gate")
+        }
         finally { Pop-Location }
     }
 }

@@ -3,12 +3,12 @@ import crypto from "node:crypto";
 import { URL } from "node:url";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { applyReviewDecision, buildPitfallBatch, normalizeFieldEvent } from "./review-store.js";
+import { applyReviewDecision, buildPitfallBatch, normalizeEcoCheckPayload } from "./review-store.js";
 import { createReviewStorage } from "./storage.js";
 import { buildGraphContextResponse, contextPathsFromRoot, loadGraphContextInputs } from "./graph-context.js";
 import {
   wecomConfigFromEnv, isWecomConfigured, buildWecomLoginUrl, exchangeWecomCode,
-  isUserAllowed, issueSession, verifySession, parseCookies, sessionCookie,
+  isUserAllowed, isReviewUser, issueSession, verifySession, parseCookies, sessionCookie,
 } from "./auth.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -84,6 +84,42 @@ export function isAuthorized(headers, token = API_TOKEN, sessionSecret = "") {
   return crypto.timingSafeEqual(given, expected);
 }
 
+function sessionUserFromHeaders(headers, sessionSecret = "") {
+  if (!sessionSecret) return null;
+  const cookies = parseCookies(headers.cookie || "");
+  return verifySession(cookies.eco_graph_session, sessionSecret);
+}
+
+function isApiTokenAuthorized(headers, token = API_TOKEN) {
+  if (!token) return !isProductionLike({
+    nodeEnv: process.env.NODE_ENV,
+    ecoGraphEnv: process.env.ECO_GRAPH_ENV,
+    deployTarget: process.env.ECO_GRAPH_DEPLOY_TARGET,
+    tcbEnv: process.env.TCB_ENV,
+  });
+  const header = headers.authorization || "";
+  const prefix = "Bearer ";
+  if (!header.startsWith(prefix)) return false;
+  const given = Buffer.from(header.slice(prefix.length));
+  const expected = Buffer.from(token);
+  if (given.length !== expected.length) return false;
+  return crypto.timingSafeEqual(given, expected);
+}
+
+function isReviewApiPath(pathname) {
+  return (
+    pathname.startsWith("/api/review/") ||
+    pathname === "/api/ecocheck/field-events" ||
+    pathname === "/api/aggregate/pitfall-batches"
+  );
+}
+
+function isReviewAuthorized(headers, token, wecom) {
+  if (isApiTokenAuthorized(headers, token)) return true;
+  const userid = sessionUserFromHeaders(headers, wecom.sessionSecret);
+  return isReviewUser(userid, wecom);
+}
+
 function createHandler({
   stagingPath = STAGING_PATH,
   apiToken = API_TOKEN,
@@ -130,12 +166,12 @@ function createHandler({
       }
       const userid = await exchangeCode(code, wecom);
       if (!isUserAllowed(userid, wecom)) {
-        send(res, 403, { status: "fail", reason: "该企业微信账号不在审核台允许名单内" });
+        send(res, 403, { status: "fail", reason: "该企业微信账号不在知识库允许名单内" });
         return;
       }
       const token = issueSession(userid, wecom.sessionSecret);
       res.writeHead(302, {
-        location: "/?workspace=review",
+        location: isReviewUser(userid, wecom) ? "/?workspace=review" : "/",
         "set-cookie": sessionCookie(token, { secure: req.headers["x-forwarded-proto"] === "https" }),
         "cache-control": "no-store",
       });
@@ -145,7 +181,7 @@ function createHandler({
     if (req.method === "GET" && url.pathname === "/auth/session") {
       const cookies = parseCookies(req.headers.cookie || "");
       const userid = verifySession(cookies.eco_graph_session, wecom.sessionSecret);
-      if (userid) send(res, 200, { status: "pass", userid, login: "wecom" });
+      if (userid) send(res, 200, { status: "pass", userid, login: "wecom", can_review: isReviewUser(userid, wecom) });
       else send(res, 401, { status: "fail", reason: "未登录", wecom_configured: isWecomConfigured(wecom) });
       return;
     }
@@ -153,9 +189,13 @@ function createHandler({
       send(res, 401, { status: "fail", reason: "请先通过企业微信登录,或提供有效的内部访问令牌" });
       return;
     }
+    if (isReviewApiPath(url.pathname) && !isReviewAuthorized(req.headers, apiToken, wecom)) {
+      send(res, 403, { status: "fail", reason: "只有 ETO 或 admin 可进入审核台" });
+      return;
+    }
     if (req.method === "POST" && url.pathname === "/api/ecocheck/field-events") {
       const payload = await readBody(req, maxBodyBytes);
-      const item = normalizeFieldEvent(payload);
+      const item = normalizeEcoCheckPayload(payload);
       const store = await getStorage();
       await store.upsert(item);
       send(res, 201, { status: "pass", item });

@@ -17,7 +17,7 @@
     "tech_spec_refs": [
       "spec:hj1259:ledger"
     ],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:产生记录、入库记录、出库记录、月度汇总、电子台账、平台申报截图、转移联单、现场库存照片。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -114,7 +114,7 @@
     "tech_spec_refs": [
       "spec:gb18597:storage"
     ],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:暂存间全景照片、分区标识照片、不同危废存放照片、容器标签、库内分区图、现场库存清单、台账对应关系。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -211,7 +211,7 @@
     "tech_spec_refs": [
       "spec:gb18597:label"
     ],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:标签近景照片、容器全景照片、对应台账、废物名称、废物代码、产生日期、重量、危险特性、平台记录截图。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -308,7 +308,7 @@
     "tech_spec_refs": [
       "spec:gb15562:sign"
     ],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:暂存间入口标志、贮存设施标志、分区标志、容器标签、分区平面图、应急物资位置标识。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -404,7 +404,7 @@
     "tech_spec_refs": [
       "spec:hj1259:transfer"
     ],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:入库记录、出库记录、电子标签二维码、电子台账、电子转移联单、平台截图、称重单、运输交接记录、接收单位确认信息。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -497,7 +497,7 @@
     "related_obligations": [],
     "law_refs": [],
     "tech_spec_refs": [],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:危废类别、危险特性、SDS 或属性资料、现场位置照片、隔离措施照片、托盘、隔板、隔墙、独立分区照片。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -517,7 +517,7 @@
         "src:eco-kb:specialized-items"
       ],
       "origin_repo": "coco830/eco-semantic-knowledge-base",
-      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_commit": "e2c6cf8d7ffb3cff0974fcafa6b2bdc6e9ef675c",
       "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
     },
     "tier_policy": {
@@ -577,7 +577,7 @@
     "related_obligations": [],
     "law_refs": [],
     "tech_spec_refs": [],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:称重设备照片、称重记录、标签打印记录、电子标签二维码、平台台账截图、入库记录、后续转移联单重量。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -597,7 +597,7 @@
         "src:eco-kb:specialized-items"
       ],
       "origin_repo": "coco830/eco-semantic-knowledge-base",
-      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_commit": "e2c6cf8d7ffb3cff0974fcafa6b2bdc6e9ef675c",
       "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
     },
     "tier_policy": {
@@ -657,7 +657,7 @@
     "related_obligations": [],
     "law_refs": [],
     "tech_spec_refs": [],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:入库记录、电子标签二维码、平台记录截图、贮存设施或分区记录、容器照片、台账编号、库位或分区图。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -677,7 +677,7 @@
         "src:eco-kb:specialized-items"
       ],
       "origin_repo": "coco830/eco-semantic-knowledge-base",
-      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_commit": "e2c6cf8d7ffb3cff0974fcafa6b2bdc6e9ef675c",
       "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
     },
     "tier_policy": {
@@ -737,7 +737,7 @@
     "related_obligations": [],
     "law_refs": [],
     "tech_spec_refs": [],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:出库记录、电子标签二维码、电子转移联单、接收单位确认、运输交接记录、平台流向记录、称重记录。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -757,7 +757,7 @@
         "src:eco-kb:specialized-items"
       ],
       "origin_repo": "coco830/eco-semantic-knowledge-base",
-      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_commit": "e2c6cf8d7ffb3cff0974fcafa6b2bdc6e9ef675c",
       "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
     },
     "tier_policy": {
@@ -817,7 +817,7 @@
     "related_obligations": [],
     "law_refs": [],
     "tech_spec_refs": [],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -837,7 +837,7 @@
         "src:eco-kb:specialized-items"
       ],
       "origin_repo": "coco830/eco-semantic-knowledge-base",
-      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_commit": "e2c6cf8d7ffb3cff0974fcafa6b2bdc6e9ef675c",
       "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
     },
     "tier_policy": {
@@ -898,7 +898,7 @@
     "related_obligations": [],
     "law_refs": [],
     "tech_spec_refs": [],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:电子标签二维码照片、数字识别码、平台记录截图、电子台账、入库记录、出库记录、电子转移联单、容器全景照片。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -918,7 +918,7 @@
         "src:eco-kb:specialized-items"
       ],
       "origin_repo": "coco830/eco-semantic-knowledge-base",
-      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_commit": "e2c6cf8d7ffb3cff0974fcafa6b2bdc6e9ef675c",
       "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
     },
     "tier_policy": {
@@ -979,7 +979,7 @@
     "related_obligations": [],
     "law_refs": [],
     "tech_spec_refs": [],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:地面照片、裙脚照片、裂缝或破损照片、围堰或托盘照片、泄漏收集设施照片、液态危废容器照片、整改前后照片。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -999,7 +999,7 @@
         "src:eco-kb:specialized-items"
       ],
       "origin_repo": "coco830/eco-semantic-knowledge-base",
-      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_commit": "e2c6cf8d7ffb3cff0974fcafa6b2bdc6e9ef675c",
       "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
     },
     "tier_policy": {
@@ -1060,7 +1060,7 @@
     "related_obligations": [],
     "law_refs": [],
     "tech_spec_refs": [],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:应急物资照片、物资清单、吸附棉、砂土、堵漏工具、收集桶、应急预案、培训记录、演练记录、签到表、演练照片、物资有效期检查记录。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -1080,7 +1080,7 @@
         "src:eco-kb:specialized-items"
       ],
       "origin_repo": "coco830/eco-semantic-knowledge-base",
-      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_commit": "e2c6cf8d7ffb3cff0974fcafa6b2bdc6e9ef675c",
       "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
     },
     "tier_policy": {
@@ -1140,7 +1140,7 @@
     "related_obligations": [],
     "law_refs": [],
     "tech_spec_refs": [],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -1160,7 +1160,7 @@
         "src:eco-kb:specialized-items"
       ],
       "origin_repo": "coco830/eco-semantic-knowledge-base",
-      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_commit": "e2c6cf8d7ffb3cff0974fcafa6b2bdc6e9ef675c",
       "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
     },
     "tier_policy": {
@@ -1221,7 +1221,7 @@
     "related_obligations": [],
     "law_refs": [],
     "tech_spec_refs": [],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:原辅材料 SDS、生产工序照片、清洗废液收集桶、废擦拭布收集容器、废包装物照片、标签、台账、转移联单、环评或排污许可相关内容。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -1241,7 +1241,7 @@
         "src:eco-kb:specialized-items"
       ],
       "origin_repo": "coco830/eco-semantic-knowledge-base",
-      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_commit": "e2c6cf8d7ffb3cff0974fcafa6b2bdc6e9ef675c",
       "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
     },
     "tier_policy": {
@@ -1301,7 +1301,7 @@
     "related_obligations": [],
     "law_refs": [],
     "tech_spec_refs": [],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:污水来源、生产工艺、污泥产生环节、环评或排污许可、检测或危废鉴别资料、污泥暂存照片、去向合同、台账、转移或处置记录。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -1321,7 +1321,7 @@
         "src:eco-kb:specialized-items"
       ],
       "origin_repo": "coco830/eco-semantic-knowledge-base",
-      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_commit": "e2c6cf8d7ffb3cff0974fcafa6b2bdc6e9ef675c",
       "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
     },
     "tier_policy": {
@@ -1381,7 +1381,7 @@
     "related_obligations": [],
     "law_refs": [],
     "tech_spec_refs": [],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -1399,7 +1399,7 @@
         "src:eco-kb:specialized-items"
       ],
       "origin_repo": "coco830/eco-semantic-knowledge-base",
-      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_commit": "e2c6cf8d7ffb3cff0974fcafa6b2bdc6e9ef675c",
       "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
     },
     "tier_policy": {
@@ -1460,7 +1460,7 @@
     "related_obligations": [],
     "law_refs": [],
     "tech_spec_refs": [],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -1478,7 +1478,7 @@
         "src:eco-kb:specialized-items"
       ],
       "origin_repo": "coco830/eco-semantic-knowledge-base",
-      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_commit": "e2c6cf8d7ffb3cff0974fcafa6b2bdc6e9ef675c",
       "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
     },
     "tier_policy": {
@@ -1539,7 +1539,7 @@
     "related_obligations": [],
     "law_refs": [],
     "tech_spec_refs": [],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -1557,7 +1557,7 @@
         "src:eco-kb:specialized-items"
       ],
       "origin_repo": "coco830/eco-semantic-knowledge-base",
-      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_commit": "e2c6cf8d7ffb3cff0974fcafa6b2bdc6e9ef675c",
       "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
     },
     "tier_policy": {
@@ -1621,7 +1621,7 @@
     "related_obligations": [],
     "law_refs": [],
     "tech_spec_refs": [],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -1639,7 +1639,7 @@
         "src:eco-kb:specialized-items"
       ],
       "origin_repo": "coco830/eco-semantic-knowledge-base",
-      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_commit": "e2c6cf8d7ffb3cff0974fcafa6b2bdc6e9ef675c",
       "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
     },
     "tier_policy": {
@@ -1703,7 +1703,7 @@
     "related_obligations": [],
     "law_refs": [],
     "tech_spec_refs": [],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -1721,7 +1721,7 @@
         "src:eco-kb:specialized-items"
       ],
       "origin_repo": "coco830/eco-semantic-knowledge-base",
-      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_commit": "e2c6cf8d7ffb3cff0974fcafa6b2bdc6e9ef675c",
       "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
     },
     "tier_policy": {
@@ -1781,7 +1781,7 @@
     "related_obligations": [],
     "law_refs": [],
     "tech_spec_refs": [],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -1799,7 +1799,7 @@
         "src:eco-kb:specialized-items"
       ],
       "origin_repo": "coco830/eco-semantic-knowledge-base",
-      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_commit": "e2c6cf8d7ffb3cff0974fcafa6b2bdc6e9ef675c",
       "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
     },
     "tier_policy": {
@@ -1859,7 +1859,7 @@
     "related_obligations": [],
     "law_refs": [],
     "tech_spec_refs": [],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -1877,7 +1877,7 @@
         "src:eco-kb:specialized-items"
       ],
       "origin_repo": "coco830/eco-semantic-knowledge-base",
-      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_commit": "e2c6cf8d7ffb3cff0974fcafa6b2bdc6e9ef675c",
       "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
     },
     "tier_policy": {
@@ -1937,7 +1937,7 @@
     "related_obligations": [],
     "law_refs": [],
     "tech_spec_refs": [],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -1955,7 +1955,7 @@
         "src:eco-kb:specialized-items"
       ],
       "origin_repo": "coco830/eco-semantic-knowledge-base",
-      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_commit": "e2c6cf8d7ffb3cff0974fcafa6b2bdc6e9ef675c",
       "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
     },
     "tier_policy": {
@@ -2015,7 +2015,7 @@
     "related_obligations": [],
     "law_refs": [],
     "tech_spec_refs": [],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -2033,7 +2033,7 @@
         "src:eco-kb:specialized-items"
       ],
       "origin_repo": "coco830/eco-semantic-knowledge-base",
-      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_commit": "e2c6cf8d7ffb3cff0974fcafa6b2bdc6e9ef675c",
       "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
     },
     "tier_policy": {
@@ -2093,7 +2093,7 @@
     "related_obligations": [],
     "law_refs": [],
     "tech_spec_refs": [],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -2111,7 +2111,7 @@
         "src:eco-kb:show-if"
       ],
       "origin_repo": "coco830/eco-semantic-knowledge-base",
-      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_commit": "e2c6cf8d7ffb3cff0974fcafa6b2bdc6e9ef675c",
       "origin_asset": "data/approved_baseline/approved_show_if_rules_v1_0.csv"
     },
     "tier_policy": {
@@ -2170,7 +2170,7 @@
     "related_obligations": [],
     "law_refs": [],
     "tech_spec_refs": [],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -2188,7 +2188,7 @@
         "src:eco-kb:show-if"
       ],
       "origin_repo": "coco830/eco-semantic-knowledge-base",
-      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_commit": "e2c6cf8d7ffb3cff0974fcafa6b2bdc6e9ef675c",
       "origin_asset": "data/approved_baseline/approved_show_if_rules_v1_0.csv"
     },
     "tier_policy": {
@@ -2247,7 +2247,7 @@
     "related_obligations": [],
     "law_refs": [],
     "tech_spec_refs": [],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -2265,7 +2265,7 @@
         "src:eco-kb:show-if"
       ],
       "origin_repo": "coco830/eco-semantic-knowledge-base",
-      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_commit": "e2c6cf8d7ffb3cff0974fcafa6b2bdc6e9ef675c",
       "origin_asset": "data/approved_baseline/approved_show_if_rules_v1_0.csv"
     },
     "tier_policy": {
@@ -2324,7 +2324,7 @@
     "related_obligations": [],
     "law_refs": [],
     "tech_spec_refs": [],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -2342,7 +2342,7 @@
         "src:eco-kb:show-if"
       ],
       "origin_repo": "coco830/eco-semantic-knowledge-base",
-      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_commit": "e2c6cf8d7ffb3cff0974fcafa6b2bdc6e9ef675c",
       "origin_asset": "data/approved_baseline/approved_show_if_rules_v1_0.csv"
     },
     "tier_policy": {
@@ -2402,7 +2402,7 @@
     "related_obligations": [],
     "law_refs": [],
     "tech_spec_refs": [],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -2420,7 +2420,7 @@
         "src:eco-kb:specialized-items"
       ],
       "origin_repo": "coco830/eco-semantic-knowledge-base",
-      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_commit": "e2c6cf8d7ffb3cff0974fcafa6b2bdc6e9ef675c",
       "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
     },
     "tier_policy": {
@@ -2480,7 +2480,7 @@
     "related_obligations": [],
     "law_refs": [],
     "tech_spec_refs": [],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -2498,7 +2498,7 @@
         "src:eco-kb:specialized-items"
       ],
       "origin_repo": "coco830/eco-semantic-knowledge-base",
-      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_commit": "e2c6cf8d7ffb3cff0974fcafa6b2bdc6e9ef675c",
       "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
     },
     "tier_policy": {
@@ -2558,7 +2558,7 @@
     "related_obligations": [],
     "law_refs": [],
     "tech_spec_refs": [],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -2578,7 +2578,7 @@
         "src:eco-kb:specialized-items"
       ],
       "origin_repo": "coco830/eco-semantic-knowledge-base",
-      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_commit": "e2c6cf8d7ffb3cff0974fcafa6b2bdc6e9ef675c",
       "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
     },
     "tier_policy": {
@@ -2625,7 +2625,7 @@
     "related_obligations": [],
     "law_refs": [],
     "tech_spec_refs": [],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -2645,7 +2645,7 @@
         "src:eco-kb:specialized-items"
       ],
       "origin_repo": "coco830/eco-semantic-knowledge-base",
-      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_commit": "e2c6cf8d7ffb3cff0974fcafa6b2bdc6e9ef675c",
       "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
     },
     "tier_policy": {
@@ -2692,7 +2692,7 @@
     "related_obligations": [],
     "law_refs": [],
     "tech_spec_refs": [],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -2712,7 +2712,7 @@
         "src:eco-kb:specialized-items"
       ],
       "origin_repo": "coco830/eco-semantic-knowledge-base",
-      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_commit": "e2c6cf8d7ffb3cff0974fcafa6b2bdc6e9ef675c",
       "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
     },
     "tier_policy": {
@@ -2759,7 +2759,7 @@
     "related_obligations": [],
     "law_refs": [],
     "tech_spec_refs": [],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -2779,7 +2779,7 @@
         "src:eco-kb:specialized-items"
       ],
       "origin_repo": "coco830/eco-semantic-knowledge-base",
-      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_commit": "e2c6cf8d7ffb3cff0974fcafa6b2bdc6e9ef675c",
       "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
     },
     "tier_policy": {
@@ -2826,7 +2826,7 @@
     "related_obligations": [],
     "law_refs": [],
     "tech_spec_refs": [],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -2846,7 +2846,7 @@
         "src:eco-kb:specialized-items"
       ],
       "origin_repo": "coco830/eco-semantic-knowledge-base",
-      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_commit": "e2c6cf8d7ffb3cff0974fcafa6b2bdc6e9ef675c",
       "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
     },
     "tier_policy": {
@@ -2893,7 +2893,7 @@
     "related_obligations": [],
     "law_refs": [],
     "tech_spec_refs": [],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -2913,7 +2913,7 @@
         "src:eco-kb:specialized-items"
       ],
       "origin_repo": "coco830/eco-semantic-knowledge-base",
-      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_commit": "e2c6cf8d7ffb3cff0974fcafa6b2bdc6e9ef675c",
       "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
     },
     "tier_policy": {
@@ -2960,7 +2960,7 @@
     "related_obligations": [],
     "law_refs": [],
     "tech_spec_refs": [],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -2980,7 +2980,7 @@
         "src:eco-kb:specialized-items"
       ],
       "origin_repo": "coco830/eco-semantic-knowledge-base",
-      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_commit": "e2c6cf8d7ffb3cff0974fcafa6b2bdc6e9ef675c",
       "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
     },
     "tier_policy": {
@@ -3027,7 +3027,7 @@
     "related_obligations": [],
     "law_refs": [],
     "tech_spec_refs": [],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -3047,7 +3047,7 @@
         "src:eco-kb:specialized-items"
       ],
       "origin_repo": "coco830/eco-semantic-knowledge-base",
-      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_commit": "e2c6cf8d7ffb3cff0974fcafa6b2bdc6e9ef675c",
       "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
     },
     "tier_policy": {
@@ -3094,7 +3094,7 @@
     "related_obligations": [],
     "law_refs": [],
     "tech_spec_refs": [],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -3114,7 +3114,7 @@
         "src:eco-kb:specialized-items"
       ],
       "origin_repo": "coco830/eco-semantic-knowledge-base",
-      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_commit": "e2c6cf8d7ffb3cff0974fcafa6b2bdc6e9ef675c",
       "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
     },
     "tier_policy": {
@@ -3161,7 +3161,7 @@
     "related_obligations": [],
     "law_refs": [],
     "tech_spec_refs": [],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -3181,7 +3181,7 @@
         "src:eco-kb:specialized-items"
       ],
       "origin_repo": "coco830/eco-semantic-knowledge-base",
-      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_commit": "e2c6cf8d7ffb3cff0974fcafa6b2bdc6e9ef675c",
       "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
     },
     "tier_policy": {
@@ -3228,7 +3228,7 @@
     "related_obligations": [],
     "law_refs": [],
     "tech_spec_refs": [],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -3248,7 +3248,7 @@
         "src:eco-kb:specialized-items"
       ],
       "origin_repo": "coco830/eco-semantic-knowledge-base",
-      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_commit": "e2c6cf8d7ffb3cff0974fcafa6b2bdc6e9ef675c",
       "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
     },
     "tier_policy": {
@@ -3295,7 +3295,7 @@
     "related_obligations": [],
     "law_refs": [],
     "tech_spec_refs": [],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -3315,7 +3315,7 @@
         "src:eco-kb:specialized-items"
       ],
       "origin_repo": "coco830/eco-semantic-knowledge-base",
-      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_commit": "e2c6cf8d7ffb3cff0974fcafa6b2bdc6e9ef675c",
       "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
     },
     "tier_policy": {
@@ -3362,7 +3362,7 @@
     "related_obligations": [],
     "law_refs": [],
     "tech_spec_refs": [],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -3382,7 +3382,7 @@
         "src:eco-kb:specialized-items"
       ],
       "origin_repo": "coco830/eco-semantic-knowledge-base",
-      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_commit": "e2c6cf8d7ffb3cff0974fcafa6b2bdc6e9ef675c",
       "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
     },
     "tier_policy": {
@@ -3429,7 +3429,7 @@
     "related_obligations": [],
     "law_refs": [],
     "tech_spec_refs": [],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -3449,7 +3449,7 @@
         "src:eco-kb:specialized-items"
       ],
       "origin_repo": "coco830/eco-semantic-knowledge-base",
-      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_commit": "e2c6cf8d7ffb3cff0974fcafa6b2bdc6e9ef675c",
       "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
     },
     "tier_policy": {
@@ -3496,7 +3496,7 @@
     "related_obligations": [],
     "law_refs": [],
     "tech_spec_refs": [],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -3516,7 +3516,7 @@
         "src:eco-kb:specialized-items"
       ],
       "origin_repo": "coco830/eco-semantic-knowledge-base",
-      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_commit": "e2c6cf8d7ffb3cff0974fcafa6b2bdc6e9ef675c",
       "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
     },
     "tier_policy": {
@@ -3563,7 +3563,7 @@
     "related_obligations": [],
     "law_refs": [],
     "tech_spec_refs": [],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -3583,7 +3583,7 @@
         "src:eco-kb:specialized-items"
       ],
       "origin_repo": "coco830/eco-semantic-knowledge-base",
-      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_commit": "e2c6cf8d7ffb3cff0974fcafa6b2bdc6e9ef675c",
       "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
     },
     "tier_policy": {
@@ -3630,7 +3630,7 @@
     "related_obligations": [],
     "law_refs": [],
     "tech_spec_refs": [],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -3650,7 +3650,7 @@
         "src:eco-kb:specialized-items"
       ],
       "origin_repo": "coco830/eco-semantic-knowledge-base",
-      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_commit": "e2c6cf8d7ffb3cff0974fcafa6b2bdc6e9ef675c",
       "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
     },
     "tier_policy": {
@@ -3697,7 +3697,7 @@
     "related_obligations": [],
     "law_refs": [],
     "tech_spec_refs": [],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -3717,7 +3717,7 @@
         "src:eco-kb:specialized-items"
       ],
       "origin_repo": "coco830/eco-semantic-knowledge-base",
-      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_commit": "e2c6cf8d7ffb3cff0974fcafa6b2bdc6e9ef675c",
       "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
     },
     "tier_policy": {
@@ -3764,7 +3764,7 @@
     "related_obligations": [],
     "law_refs": [],
     "tech_spec_refs": [],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -3784,7 +3784,7 @@
         "src:eco-kb:specialized-items"
       ],
       "origin_repo": "coco830/eco-semantic-knowledge-base",
-      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_commit": "e2c6cf8d7ffb3cff0974fcafa6b2bdc6e9ef675c",
       "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
     },
     "tier_policy": {
@@ -3831,7 +3831,7 @@
     "related_obligations": [],
     "law_refs": [],
     "tech_spec_refs": [],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -3851,7 +3851,7 @@
         "src:eco-kb:specialized-items"
       ],
       "origin_repo": "coco830/eco-semantic-knowledge-base",
-      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_commit": "e2c6cf8d7ffb3cff0974fcafa6b2bdc6e9ef675c",
       "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
     },
     "tier_policy": {
@@ -3898,7 +3898,7 @@
     "related_obligations": [],
     "law_refs": [],
     "tech_spec_refs": [],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -3918,7 +3918,7 @@
         "src:eco-kb:specialized-items"
       ],
       "origin_repo": "coco830/eco-semantic-knowledge-base",
-      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_commit": "e2c6cf8d7ffb3cff0974fcafa6b2bdc6e9ef675c",
       "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
     },
     "tier_policy": {
@@ -3965,7 +3965,7 @@
     "related_obligations": [],
     "law_refs": [],
     "tech_spec_refs": [],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -3985,7 +3985,7 @@
         "src:eco-kb:specialized-items"
       ],
       "origin_repo": "coco830/eco-semantic-knowledge-base",
-      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_commit": "e2c6cf8d7ffb3cff0974fcafa6b2bdc6e9ef675c",
       "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
     },
     "tier_policy": {
@@ -4032,7 +4032,7 @@
     "related_obligations": [],
     "law_refs": [],
     "tech_spec_refs": [],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -4052,7 +4052,7 @@
         "src:eco-kb:specialized-items"
       ],
       "origin_repo": "coco830/eco-semantic-knowledge-base",
-      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_commit": "e2c6cf8d7ffb3cff0974fcafa6b2bdc6e9ef675c",
       "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
     },
     "tier_policy": {
@@ -4099,7 +4099,7 @@
     "related_obligations": [],
     "law_refs": [],
     "tech_spec_refs": [],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -4119,7 +4119,7 @@
         "src:eco-kb:specialized-items"
       ],
       "origin_repo": "coco830/eco-semantic-knowledge-base",
-      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_commit": "e2c6cf8d7ffb3cff0974fcafa6b2bdc6e9ef675c",
       "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
     },
     "tier_policy": {
@@ -4166,7 +4166,7 @@
     "related_obligations": [],
     "law_refs": [],
     "tech_spec_refs": [],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -4186,7 +4186,7 @@
         "src:eco-kb:specialized-items"
       ],
       "origin_repo": "coco830/eco-semantic-knowledge-base",
-      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_commit": "e2c6cf8d7ffb3cff0974fcafa6b2bdc6e9ef675c",
       "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
     },
     "tier_policy": {
@@ -4233,7 +4233,7 @@
     "related_obligations": [],
     "law_refs": [],
     "tech_spec_refs": [],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -4253,7 +4253,7 @@
         "src:eco-kb:specialized-items"
       ],
       "origin_repo": "coco830/eco-semantic-knowledge-base",
-      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_commit": "e2c6cf8d7ffb3cff0974fcafa6b2bdc6e9ef675c",
       "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
     },
     "tier_policy": {
@@ -4300,7 +4300,7 @@
     "related_obligations": [],
     "law_refs": [],
     "tech_spec_refs": [],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -4320,7 +4320,7 @@
         "src:eco-kb:specialized-items"
       ],
       "origin_repo": "coco830/eco-semantic-knowledge-base",
-      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_commit": "e2c6cf8d7ffb3cff0974fcafa6b2bdc6e9ef675c",
       "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
     },
     "tier_policy": {
@@ -4367,7 +4367,7 @@
     "related_obligations": [],
     "law_refs": [],
     "tech_spec_refs": [],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -4387,7 +4387,7 @@
         "src:eco-kb:specialized-items"
       ],
       "origin_repo": "coco830/eco-semantic-knowledge-base",
-      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_commit": "e2c6cf8d7ffb3cff0974fcafa6b2bdc6e9ef675c",
       "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
     },
     "tier_policy": {
@@ -4434,7 +4434,7 @@
     "related_obligations": [],
     "law_refs": [],
     "tech_spec_refs": [],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -4454,7 +4454,7 @@
         "src:eco-kb:specialized-items"
       ],
       "origin_repo": "coco830/eco-semantic-knowledge-base",
-      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_commit": "e2c6cf8d7ffb3cff0974fcafa6b2bdc6e9ef675c",
       "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
     },
     "tier_policy": {
@@ -4501,7 +4501,7 @@
     "related_obligations": [],
     "law_refs": [],
     "tech_spec_refs": [],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -4521,7 +4521,7 @@
         "src:eco-kb:specialized-items"
       ],
       "origin_repo": "coco830/eco-semantic-knowledge-base",
-      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_commit": "e2c6cf8d7ffb3cff0974fcafa6b2bdc6e9ef675c",
       "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
     },
     "tier_policy": {
@@ -4568,7 +4568,7 @@
     "related_obligations": [],
     "law_refs": [],
     "tech_spec_refs": [],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -4588,7 +4588,7 @@
         "src:eco-kb:specialized-items"
       ],
       "origin_repo": "coco830/eco-semantic-knowledge-base",
-      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_commit": "e2c6cf8d7ffb3cff0974fcafa6b2bdc6e9ef675c",
       "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
     },
     "tier_policy": {
@@ -4635,7 +4635,7 @@
     "related_obligations": [],
     "law_refs": [],
     "tech_spec_refs": [],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -4655,7 +4655,7 @@
         "src:eco-kb:specialized-items"
       ],
       "origin_repo": "coco830/eco-semantic-knowledge-base",
-      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_commit": "e2c6cf8d7ffb3cff0974fcafa6b2bdc6e9ef675c",
       "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
     },
     "tier_policy": {
@@ -4702,7 +4702,7 @@
     "related_obligations": [],
     "law_refs": [],
     "tech_spec_refs": [],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -4722,7 +4722,7 @@
         "src:eco-kb:specialized-items"
       ],
       "origin_repo": "coco830/eco-semantic-knowledge-base",
-      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_commit": "e2c6cf8d7ffb3cff0974fcafa6b2bdc6e9ef675c",
       "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
     },
     "tier_policy": {
@@ -4769,7 +4769,7 @@
     "related_obligations": [],
     "law_refs": [],
     "tech_spec_refs": [],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -4789,7 +4789,7 @@
         "src:eco-kb:specialized-items"
       ],
       "origin_repo": "coco830/eco-semantic-knowledge-base",
-      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_commit": "e2c6cf8d7ffb3cff0974fcafa6b2bdc6e9ef675c",
       "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
     },
     "tier_policy": {
@@ -4836,7 +4836,7 @@
     "related_obligations": [],
     "law_refs": [],
     "tech_spec_refs": [],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -4856,7 +4856,7 @@
         "src:eco-kb:specialized-items"
       ],
       "origin_repo": "coco830/eco-semantic-knowledge-base",
-      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_commit": "e2c6cf8d7ffb3cff0974fcafa6b2bdc6e9ef675c",
       "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
     },
     "tier_policy": {
@@ -4903,7 +4903,7 @@
     "related_obligations": [],
     "law_refs": [],
     "tech_spec_refs": [],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -4923,7 +4923,7 @@
         "src:eco-kb:specialized-items"
       ],
       "origin_repo": "coco830/eco-semantic-knowledge-base",
-      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_commit": "e2c6cf8d7ffb3cff0974fcafa6b2bdc6e9ef675c",
       "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
     },
     "tier_policy": {
@@ -4970,7 +4970,7 @@
     "related_obligations": [],
     "law_refs": [],
     "tech_spec_refs": [],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -4990,7 +4990,7 @@
         "src:eco-kb:specialized-items"
       ],
       "origin_repo": "coco830/eco-semantic-knowledge-base",
-      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_commit": "e2c6cf8d7ffb3cff0974fcafa6b2bdc6e9ef675c",
       "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
     },
     "tier_policy": {
@@ -5037,7 +5037,7 @@
     "related_obligations": [],
     "law_refs": [],
     "tech_spec_refs": [],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -5057,7 +5057,7 @@
         "src:eco-kb:specialized-items"
       ],
       "origin_repo": "coco830/eco-semantic-knowledge-base",
-      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_commit": "e2c6cf8d7ffb3cff0974fcafa6b2bdc6e9ef675c",
       "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
     },
     "tier_policy": {
@@ -5104,7 +5104,7 @@
     "related_obligations": [],
     "law_refs": [],
     "tech_spec_refs": [],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -5122,7 +5122,7 @@
         "src:eco-kb:show-if"
       ],
       "origin_repo": "coco830/eco-semantic-knowledge-base",
-      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_commit": "e2c6cf8d7ffb3cff0974fcafa6b2bdc6e9ef675c",
       "origin_asset": "data/approved_baseline/approved_show_if_rules_v1_0.csv"
     },
     "tier_policy": {
@@ -5169,7 +5169,7 @@
     "related_obligations": [],
     "law_refs": [],
     "tech_spec_refs": [],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -5187,7 +5187,7 @@
         "src:eco-kb:show-if"
       ],
       "origin_repo": "coco830/eco-semantic-knowledge-base",
-      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_commit": "e2c6cf8d7ffb3cff0974fcafa6b2bdc6e9ef675c",
       "origin_asset": "data/approved_baseline/approved_show_if_rules_v1_0.csv"
     },
     "tier_policy": {
@@ -5234,7 +5234,7 @@
     "related_obligations": [],
     "law_refs": [],
     "tech_spec_refs": [],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -5252,7 +5252,7 @@
         "src:eco-kb:specialized-items"
       ],
       "origin_repo": "coco830/eco-semantic-knowledge-base",
-      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_commit": "e2c6cf8d7ffb3cff0974fcafa6b2bdc6e9ef675c",
       "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
     },
     "tier_policy": {
@@ -5299,7 +5299,7 @@
     "related_obligations": [],
     "law_refs": [],
     "tech_spec_refs": [],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -5317,7 +5317,7 @@
         "src:eco-kb:specialized-items"
       ],
       "origin_repo": "coco830/eco-semantic-knowledge-base",
-      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_commit": "e2c6cf8d7ffb3cff0974fcafa6b2bdc6e9ef675c",
       "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
     },
     "tier_policy": {
@@ -5364,7 +5364,7 @@
     "related_obligations": [],
     "law_refs": [],
     "tech_spec_refs": [],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -5382,7 +5382,7 @@
         "src:eco-kb:specialized-items"
       ],
       "origin_repo": "coco830/eco-semantic-knowledge-base",
-      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_commit": "e2c6cf8d7ffb3cff0974fcafa6b2bdc6e9ef675c",
       "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
     },
     "tier_policy": {
@@ -5429,7 +5429,7 @@
     "related_obligations": [],
     "law_refs": [],
     "tech_spec_refs": [],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -5447,7 +5447,7 @@
         "src:eco-kb:show-if"
       ],
       "origin_repo": "coco830/eco-semantic-knowledge-base",
-      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_commit": "e2c6cf8d7ffb3cff0974fcafa6b2bdc6e9ef675c",
       "origin_asset": "data/approved_baseline/approved_show_if_rules_v1_0.csv"
     },
     "tier_policy": {
@@ -5494,7 +5494,7 @@
     "related_obligations": [],
     "law_refs": [],
     "tech_spec_refs": [],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -5512,7 +5512,7 @@
         "src:eco-kb:show-if"
       ],
       "origin_repo": "coco830/eco-semantic-knowledge-base",
-      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_commit": "e2c6cf8d7ffb3cff0974fcafa6b2bdc6e9ef675c",
       "origin_asset": "data/approved_baseline/approved_show_if_rules_v1_0.csv"
     },
     "tier_policy": {
@@ -5559,7 +5559,7 @@
     "related_obligations": [],
     "law_refs": [],
     "tech_spec_refs": [],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -5577,7 +5577,7 @@
         "src:eco-kb:specialized-items"
       ],
       "origin_repo": "coco830/eco-semantic-knowledge-base",
-      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_commit": "e2c6cf8d7ffb3cff0974fcafa6b2bdc6e9ef675c",
       "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
     },
     "tier_policy": {
@@ -5624,7 +5624,7 @@
     "related_obligations": [],
     "law_refs": [],
     "tech_spec_refs": [],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -5642,7 +5642,7 @@
         "src:eco-kb:specialized-items"
       ],
       "origin_repo": "coco830/eco-semantic-knowledge-base",
-      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_commit": "e2c6cf8d7ffb3cff0974fcafa6b2bdc6e9ef675c",
       "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
     },
     "tier_policy": {
@@ -5689,7 +5689,7 @@
     "related_obligations": [],
     "law_refs": [],
     "tech_spec_refs": [],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -5707,7 +5707,7 @@
         "src:eco-kb:specialized-items"
       ],
       "origin_repo": "coco830/eco-semantic-knowledge-base",
-      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_commit": "e2c6cf8d7ffb3cff0974fcafa6b2bdc6e9ef675c",
       "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
     },
     "tier_policy": {
@@ -5754,7 +5754,7 @@
     "related_obligations": [],
     "law_refs": [],
     "tech_spec_refs": [],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -5772,7 +5772,7 @@
         "src:eco-kb:specialized-items"
       ],
       "origin_repo": "coco830/eco-semantic-knowledge-base",
-      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_commit": "e2c6cf8d7ffb3cff0974fcafa6b2bdc6e9ef675c",
       "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
     },
     "tier_policy": {
@@ -5819,7 +5819,7 @@
     "related_obligations": [],
     "law_refs": [],
     "tech_spec_refs": [],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -5837,7 +5837,7 @@
         "src:eco-kb:specialized-items"
       ],
       "origin_repo": "coco830/eco-semantic-knowledge-base",
-      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_commit": "e2c6cf8d7ffb3cff0974fcafa6b2bdc6e9ef675c",
       "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
     },
     "tier_policy": {
@@ -5884,7 +5884,7 @@
     "related_obligations": [],
     "law_refs": [],
     "tech_spec_refs": [],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -5902,7 +5902,7 @@
         "src:eco-kb:specialized-items"
       ],
       "origin_repo": "coco830/eco-semantic-knowledge-base",
-      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_commit": "e2c6cf8d7ffb3cff0974fcafa6b2bdc6e9ef675c",
       "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
     },
     "tier_policy": {
@@ -5949,7 +5949,7 @@
     "related_obligations": [],
     "law_refs": [],
     "tech_spec_refs": [],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -5967,7 +5967,7 @@
         "src:eco-kb:show-if"
       ],
       "origin_repo": "coco830/eco-semantic-knowledge-base",
-      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_commit": "e2c6cf8d7ffb3cff0974fcafa6b2bdc6e9ef675c",
       "origin_asset": "data/approved_baseline/approved_show_if_rules_v1_0.csv"
     },
     "tier_policy": {
@@ -6014,7 +6014,7 @@
     "related_obligations": [],
     "law_refs": [],
     "tech_spec_refs": [],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -6032,7 +6032,7 @@
         "src:eco-kb:show-if"
       ],
       "origin_repo": "coco830/eco-semantic-knowledge-base",
-      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_commit": "e2c6cf8d7ffb3cff0974fcafa6b2bdc6e9ef675c",
       "origin_asset": "data/approved_baseline/approved_show_if_rules_v1_0.csv"
     },
     "tier_policy": {
@@ -6079,7 +6079,7 @@
     "related_obligations": [],
     "law_refs": [],
     "tech_spec_refs": [],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -6097,7 +6097,7 @@
         "src:eco-kb:specialized-items"
       ],
       "origin_repo": "coco830/eco-semantic-knowledge-base",
-      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_commit": "e2c6cf8d7ffb3cff0974fcafa6b2bdc6e9ef675c",
       "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
     },
     "tier_policy": {
@@ -6144,7 +6144,7 @@
     "related_obligations": [],
     "law_refs": [],
     "tech_spec_refs": [],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -6162,7 +6162,7 @@
         "src:eco-kb:specialized-items"
       ],
       "origin_repo": "coco830/eco-semantic-knowledge-base",
-      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_commit": "e2c6cf8d7ffb3cff0974fcafa6b2bdc6e9ef675c",
       "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
     },
     "tier_policy": {
@@ -6209,7 +6209,7 @@
     "related_obligations": [],
     "law_refs": [],
     "tech_spec_refs": [],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -6227,7 +6227,7 @@
         "src:eco-kb:show-if"
       ],
       "origin_repo": "coco830/eco-semantic-knowledge-base",
-      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_commit": "e2c6cf8d7ffb3cff0974fcafa6b2bdc6e9ef675c",
       "origin_asset": "data/approved_baseline/approved_show_if_rules_v1_0.csv"
     },
     "tier_policy": {
@@ -6274,7 +6274,7 @@
     "related_obligations": [],
     "law_refs": [],
     "tech_spec_refs": [],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -6292,7 +6292,7 @@
         "src:eco-kb:show-if"
       ],
       "origin_repo": "coco830/eco-semantic-knowledge-base",
-      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_commit": "e2c6cf8d7ffb3cff0974fcafa6b2bdc6e9ef675c",
       "origin_asset": "data/approved_baseline/approved_show_if_rules_v1_0.csv"
     },
     "tier_policy": {
@@ -6339,7 +6339,7 @@
     "related_obligations": [],
     "law_refs": [],
     "tech_spec_refs": [],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -6357,7 +6357,7 @@
         "src:eco-kb:specialized-items"
       ],
       "origin_repo": "coco830/eco-semantic-knowledge-base",
-      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_commit": "e2c6cf8d7ffb3cff0974fcafa6b2bdc6e9ef675c",
       "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
     },
     "tier_policy": {
@@ -6404,7 +6404,7 @@
     "related_obligations": [],
     "law_refs": [],
     "tech_spec_refs": [],
-    "rag_citation_status": "resolved",
+    "rag_citation_status": "blocked_or_manual_upstream_basis",
     "evidence_summary": "概念级证据类别:现场照片、台账记录、平台截图、标签或联单。",
     "rectification_summary": "整改方向仅保留 shared 骨架;内部模板不进入 shared 包。",
     "report_expression_summary": "未取得 official_confirmed 前只写参考相关要求或管理建议。",
@@ -6422,7 +6422,7 @@
         "src:eco-kb:specialized-items"
       ],
       "origin_repo": "coco830/eco-semantic-knowledge-base",
-      "origin_commit": "d7b8179bc99dd80ce9322ee01af16ffdde6a4e38",
+      "origin_commit": "e2c6cf8d7ffb3cff0974fcafa6b2bdc6e9ef675c",
       "origin_asset": "data/approved_baseline/approved_specialized_inspection_items_v1_0.csv"
     },
     "tier_policy": {

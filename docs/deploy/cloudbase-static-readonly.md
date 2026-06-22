@@ -90,6 +90,16 @@ https://www.yueen.cc/eco-execution-graph/?director=1
 4. 云托管入口必须限制为内部访问,不得把 private staging API 暴露为公网匿名读写。
 5. 继续禁止接收真实附件路径、原始照片、GPS、法条全文、原始报告全文和密钥。
 
+### EcoCheck 联调门禁
+
+上线联调前必须逐项确认:
+
+1. CloudBase 控制台已手工配置 `ECO_GRAPH_API_TOKEN`、`ECO_GRAPH_SESSION_SECRET`、`ECO_GRAPH_WECOM_*` 和 `ECO_GRAPH_MYSQL_*`;仓库只保留 `.env.example` 占位符。
+2. 存储形态已明确:本地或单实例试运行可用 `ECO_GRAPH_STORAGE_DRIVER=jsonl`;CloudBase 多实例或可扩缩云托管必须使用 `ECO_GRAPH_STORAGE_DRIVER=mysql`。
+3. EcoCheck CloudRun 的 `ECO_GRAPH_API_TOKEN` 必须与 graph-api 接收端的 `ECO_GRAPH_API_TOKEN` 是同一个值;EcoCheck 的 `/api/graph/context` 拉取和 `/api/ecocheck/field-events` 回流共用该 token。
+4. EcoCheck 回流必须显式设置 `ECO_GRAPH_PUSH_ENABLED=true` 和 `ECO_GRAPH_FIELD_EVENT_ENDPOINT=https://<graph-api-domain>/api/ecocheck/field-events`;只设置 context endpoint 不会启动回流 worker。
+5. 部署记录不得回显 token、MySQL 密码、企业微信 secret 或生产企业数据;只记录变量是否已配置、命令、smoke 结果和回滚风险。
+
 当前 CloudBase 服务若仍保留旧入口命令 `pnpm --dir graph-api start`,镜像内提供了同名兼容启动垫片,只用于过渡到本仓库 Dockerfile。正式入口建议改为使用 Dockerfile 默认 `CMD`,或改成等价命令:
 
 ```text

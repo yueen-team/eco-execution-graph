@@ -1,0 +1,26 @@
+{
+  "validator_id": "ECO-GRAPH-CONTRACT-VALIDATION",
+  "mode": "report-only",
+  "ontology_schemas": {
+    "semantic_event": "E:\\eco-ontology\\schemas\\semantic_event.v2.schema.json",
+    "profile_gap_confirmed": "E:\\eco-ontology\\schemas\\profile_gap_confirmed.v1.schema.json",
+    "kb_product_manifest": "E:\\eco-ontology\\schemas\\kb_product_manifest.v1.schema.json"
+  },
+  "blocking_policy": {
+    "fail_on": [
+      "red",
+      "yellow"
+    ],
+    "failed": false
+  },
+  "consumer_repo": "eco-execution-graph",
+  "checked_at": "2026-06-22T11:37:03.251317+00:00",
+  "eco_kb_root": "E:\\eco-semantic-knowledge-base",
+  "eco_kb_package_manifest": "E:\\eco-semantic-knowledge-base\\manifests\\graph_kb_package_manifest_v1_0.json",
+  "summary": {
+    "red": 0,
+    "yellow": 0,
+    "info": 0
+  },
+  "findings": []
+}
