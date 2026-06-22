@@ -1,0 +1,112 @@
+{
+  "report_id": "p3-baseline-freeze-2026-06-22",
+  "status": "final",
+  "checked_at": "2026-06-22T14:45:33Z",
+  "graph": {
+    "repo": "eco-execution-graph",
+    "branch": "codex/p3-baseline-freeze-20260622",
+    "validation_base_commit": "8add28f",
+    "base_closure_branch": "codex/p0-p1-p2-closure-20260622",
+    "base_closure_commit": "8add28f",
+    "based_on_p0_p1_p2_closure": true,
+    "main_push_or_merge": false
+  },
+  "ontology": {
+    "repo": "eco-ontology",
+    "final_branch": "origin/codex/p3-baseline-freeze",
+    "final_commit": "13dcd706067f8763546080f33b7dc8d0cfee494d",
+    "baseline_json": "E:\\eco-ontology\\contracts\\p3-baseline.v0.json",
+    "kb_product_manifest_schema": "E:\\eco-ontology\\schemas\\kb_product_manifest.v1.schema.json",
+    "schema_compatibility": "draft-07 / Ajv v6 compatible"
+  },
+  "kb": {
+    "repo": "eco-semantic-knowledge-base",
+    "final_branch": "origin/codex/kb-p3-build-foundation",
+    "final_commit": "5f8245e42280fb9390f2b30b5c783fa0d03527e0",
+    "graph_consumer_manifest": "E:\\eco-semantic-knowledge-base\\manifests\\graph_kb_package_manifest_v1_0.json",
+    "manifest_sha256": "sha256:0795f3b777ccc485af66f06e110f6941cafdc038c13be68005a242ba805b9910",
+    "outputs_count": 4,
+    "kb_lib_present": true,
+    "kb_build_present": true,
+    "consumer_surface_change": "no_change",
+    "note": "KB P3 build helpers are internal. Graph still consumes the package manifest via ECO_KB_PACKAGE_MANIFEST or the default manifest path; no new local KB path was hard-coded."
+  },
+  "final_validation": {
+    "pnpm upstream:lock": {
+      "status": "pass",
+      "locked_kb_commit": "5f8245e42280fb9390f2b30b5c783fa0d03527e0",
+      "report": "reports/upstream-lock-report.json"
+    },
+    "pnpm upstream:import:eco-kb": {
+      "status": "pass",
+      "source_commit": "5f8245e42280fb9390f2b30b5c783fa0d03527e0",
+      "rows": {
+        "approved_show_if_rules": 56,
+        "pollutant_domain_approved_baseline": 209,
+        "pollutant_standard_link_map": 923,
+        "approved_specialized_inspection_items": 49
+      },
+      "node_counts": {
+        "process_scenario": 58,
+        "inspection_item": 105,
+        "pollutant": 24,
+        "tech_spec": 209,
+        "evidence_category": 1,
+        "issue_type": 49
+      },
+      "edge_counts": {
+        "occurs_in": 105,
+        "limited_by": 709,
+        "evidenced_by": 49,
+        "manifests_as": 49
+      },
+      "report": "data/upstream/eco-kb-import.json"
+    },
+    "pnpm ontology:validate:blocking": {
+      "status": "pass",
+      "summary": {
+        "red": 0,
+        "yellow": 0,
+        "info": 0
+      },
+      "report": "reports/ontology-contract-blocking-validation.json"
+    },
+    "pnpm verify:check": "pass",
+    "pnpm --dir graph-api check": "pass",
+    "pnpm verify:all": "pass",
+    "pnpm verify:external": {
+      "status": "pass",
+      "scope": "external Tencent RAG real smoke",
+      "default_verify_dependency": false,
+      "raw_content_cached": false,
+      "report": "reports/rag-citation-resolution-report.json"
+    }
+  },
+  "reports": {
+    "kb_lock": "reports/upstream-lock-report.json",
+    "kb_import": "data/upstream/eco-kb-import.json",
+    "ontology_blocking": "reports/ontology-contract-blocking-validation.json",
+    "p0_p1_closure": "reports/ecocheck-graph-p0-p1-closure-2026-06-22.json",
+    "rag_real_smoke": "reports/rag-citation-resolution-report.json"
+  },
+  "not_verified": [
+    "CloudBase storage driver live proof was not performed in this P3 run.",
+    "Enterprise WeCom live scan login callback was not exercised in this P3 run.",
+    "No CloudBase deployment was performed."
+  ],
+  "risk": {
+    "level": "low",
+    "affected_flows": [
+      "KB upstream lock/import refresh",
+      "ontology contract blocking validation",
+      "shared export/demo-data regeneration",
+      "external Tencent RAG smoke reporting"
+    ],
+    "reason": "Graph consumer manifest path and approved output shape did not change; final gates passed against KB final commit."
+  },
+  "three_repo_follow_up": [
+    "EcoCheck still needs to feed real approved aggregate data for full pitfall-map product readiness.",
+    "CloudBase storage diagnostics and live WeCom scan remain external verification tasks.",
+    "Ontology baseline JSON currently records its internal snapshot commit separately from the final commit; graph references the pushed final commit in this report."
+  ]
+}

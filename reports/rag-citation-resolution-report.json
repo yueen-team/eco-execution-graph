@@ -3,10 +3,10 @@
   "embedding_probe": {
     "status": "pass",
     "probe": "embedding",
-    "request_id": "ed4bfdb6-8f66-4cf9-bf71-4361c12f2a33",
+    "request_id": "c7ca49cb-e7c3-48c1-bedc-4f52c2b2d249",
     "total_tokens": 3,
     "embedding_dimensions": 1024,
-    "time_offset_seconds": -7211
+    "time_offset_seconds": -7210
   },
   "tokenhub_probe": {
     "status": "pass",
@@ -182,7 +182,7 @@
         "request_id_present": true
       }
     ],
-    "time_offset_seconds": -7211
+    "time_offset_seconds": -7210
   },
   "generation_path": "direct_rag_retrieve_plus_tokenhub_deepseek",
   "citation_count": 218,

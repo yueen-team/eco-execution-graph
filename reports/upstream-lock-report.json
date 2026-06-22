@@ -5,8 +5,8 @@
       "name": "coco830/eco-semantic-knowledge-base",
       "local_path": "E:\\eco-semantic-knowledge-base",
       "status": "pass",
-      "branch": "main",
-      "commit": "92cae4604eb659fc0fc70ef36c89538a0049471f",
+      "branch": "codex/kb-p3-build-foundation",
+      "commit": "5f8245e42280fb9390f2b30b5c783fa0d03527e0",
       "remote": "origin\tgit@github.com:yueen-team/eco-semantic-knowledge-base.git (fetch)"
     },
     {

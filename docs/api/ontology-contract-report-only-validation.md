@@ -61,3 +61,28 @@ Blocking pass criteria:
 - no schema drift in graph exports
 - no forbidden raw attachment/GPS/secret/full-law-text fields in EcoCheck fixtures
 - no KB manifest path/hash/version mismatch
+
+## P3 KB Consumer Acceptance
+
+P3-1/P3-2 changes in `eco-semantic-knowledge-base` are accepted by graph only
+after the KB branch has a final commit/hash and graph reruns the consumer gates.
+Pre-final KB snapshots may be recorded as interim evidence, but must not be
+reported as final green.
+
+Graph-side acceptance commands:
+
+- `pnpm upstream:lock`
+- `pnpm upstream:import:eco-kb`
+- `pnpm ontology:validate:blocking`
+- `pnpm verify:check`
+- `pnpm --dir graph-api check`
+- `pnpm verify:all`
+
+`pnpm verify:external` remains a separate Tencent RAG real-smoke gate. A real
+external pass or fail must be reported honestly, and default `pnpm verify:all`
+does not depend on Tencent SecretId/network availability.
+
+Graph consumes KB through `ECO_KB_PACKAGE_MANIFEST` or the default
+`manifests/graph_kb_package_manifest_v1_0.json` package manifest. New KB build
+helpers such as `kb_lib.py` or `kb_build` are KB-internal unless the final
+manifest path, hashes, or output shape changes.

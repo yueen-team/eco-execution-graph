@@ -9,18 +9,18 @@
   },
   "files": {
     "graph.json": {
-      "sha256": "c4ae5d75d8290f1c31eab1d6b05c61658b738b21fb0b436aaabdf63176737934"
+      "sha256": "13c5b3a3b9fff8317da73973ebb2665d2fa4d0a435a7f56df116df4aee008e1c"
     },
     "graph.ndjson": {
-      "sha256": "e55b250b5d42b32151cd086384a522273cc3336d3516424b5adbea4c470eb65a"
+      "sha256": "920e3ddd8cd516bcd01ba713d8ab324d0b9f0cd22d753116a466c18e17b637a5"
     },
     "manifest.json": {
-      "sha256": "bb4c0705c3cc0f00d043f41f1954befcb8e98e49fb9573f35ff853e15896c356"
+      "sha256": "dec9b5bf5c89069d5cb49bfe7c5d69993ac3aabcc76f0304ea79c1e137df9e8f"
     }
   },
   "scope": "full_product",
   "contains_real_enterprise_data": false,
-  "rag_real_smoke": "failed",
+  "rag_real_smoke": "pass",
   "upstream_real_import": "pass",
   "cards": 90
 }
