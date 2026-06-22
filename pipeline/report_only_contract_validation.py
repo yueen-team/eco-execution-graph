@@ -23,6 +23,28 @@ PROFILE_GAP_SCHEMA = Path(
 KB_PRODUCT_MANIFEST_SCHEMA = Path(
     os.environ.get("ECO_ONTOLOGY_KB_PRODUCT_MANIFEST_SCHEMA", ONTOLOGY_ROOT / "schemas" / "kb_product_manifest.v1.schema.json")
 )
+GRAPH_ONTOLOGY_PROJECTIONS = {
+    "registry": {
+        "path": Path(
+            os.environ.get(
+                "ECO_ONTOLOGY_GRAPH_REGISTRY_PROJECTION",
+                ONTOLOGY_ROOT / "dist" / "projections" / "graph" / "ontology-registry.generated.json",
+            )
+        ),
+        "sha256": "18846a7375b54b034c8512a5e71de6222fd8db086b2b031594ba87b0ad173479",
+        "schema_version": "eco-ontology.projection.graph.registry.v1",
+    },
+    "schema_fragment": {
+        "path": Path(
+            os.environ.get(
+                "ECO_ONTOLOGY_GRAPH_SCHEMA_FRAGMENT_PROJECTION",
+                ONTOLOGY_ROOT / "dist" / "projections" / "graph" / "schema.fragment.generated.json",
+            )
+        ),
+        "sha256": "f2720412066da1d80ff3eeadcdb070863338f7053a01a23719b3fa714bb81ea6",
+        "schema_version": "eco-ontology.projection.graph.schema_fragment.v1",
+    },
+}
 MAX_FINDINGS_PER_CHECK = 80
 BLOCKING_SEVERITIES = {"red", "yellow"}
 
@@ -207,7 +229,54 @@ def validate_kb_columns(findings: list[dict[str, Any]]) -> None:
                         add_finding(findings, "yellow", "GRAPH-005", f"{asset_name}[{index}].{column}", "Required KB import column is empty.")
 
 
-def write_report(findings: list[dict[str, Any]], mode: str) -> dict[str, Any]:
+def validate_ontology_projections(findings: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    projection_reports: list[dict[str, Any]] = []
+    for projection_id, projection in GRAPH_ONTOLOGY_PROJECTIONS.items():
+        path = projection["path"]
+        record = {
+            "projection_id": projection_id,
+            "path": str(path),
+            "expected_sha256": projection["sha256"],
+            "sha256": "",
+            "schema_version": "",
+            "ontology_version": "",
+        }
+        projection_reports.append(record)
+        if not path.exists():
+            add_finding(findings, "red", "GRAPH-ONTOLOGY-PROJECTION", str(path), "Ontology graph projection is missing.")
+            continue
+        record["sha256"] = sha256_file(path)
+        if record["sha256"] != projection["sha256"]:
+            add_finding(
+                findings,
+                "red",
+                "GRAPH-ONTOLOGY-PROJECTION",
+                str(path),
+                "Ontology graph projection sha256 does not match v0.1.0 compatibility matrix.",
+            )
+        payload = read_json(path)
+        record["schema_version"] = payload.get("schema_version", "")
+        record["ontology_version"] = payload.get("generated_by", {}).get("ontology_version", "")
+        if record["schema_version"] != projection["schema_version"]:
+            add_finding(
+                findings,
+                "red",
+                "GRAPH-ONTOLOGY-PROJECTION",
+                "$.schema_version",
+                "Ontology graph projection schema_version is not the expected v0.1.0 projection.",
+            )
+        if record["ontology_version"] != "0.1.0":
+            add_finding(
+                findings,
+                "red",
+                "GRAPH-ONTOLOGY-PROJECTION",
+                "$.generated_by.ontology_version",
+                "Ontology graph projection must be generated from ontology v0.1.0.",
+            )
+    return projection_reports
+
+
+def write_report(findings: list[dict[str, Any]], mode: str, ontology_projections: list[dict[str, Any]]) -> dict[str, Any]:
     summary = {"red": 0, "yellow": 0, "info": 0}
     for finding in findings:
         summary[finding["severity"]] += 1
@@ -219,6 +288,12 @@ def write_report(findings: list[dict[str, Any]], mode: str) -> dict[str, Any]:
             "semantic_event": str(SEMANTIC_EVENT_SCHEMA),
             "profile_gap_confirmed": str(PROFILE_GAP_SCHEMA),
             "kb_product_manifest": str(KB_PRODUCT_MANIFEST_SCHEMA),
+        },
+        "ontology_projections": ontology_projections,
+        "upstream_lock_policy": {
+            "status": "pinned",
+            "reason": "Graph keeps KB upstream lock pinning until a KB manifest update ships with manifest sha256 evidence.",
+            "lock_path": str(ROOT / "data" / "upstream" / "upstream-lock.json"),
         },
         "blocking_policy": {
             "fail_on": sorted(BLOCKING_SEVERITIES),
@@ -240,6 +315,7 @@ def write_report(findings: list[dict[str, Any]], mode: str) -> dict[str, Any]:
         f"- semantic_event_schema: `{report['ontology_schemas']['semantic_event']}`",
         f"- profile_gap_schema: `{report['ontology_schemas']['profile_gap_confirmed']}`",
         f"- kb_product_manifest_schema: `{report['ontology_schemas']['kb_product_manifest']}`",
+        f"- upstream_lock_policy: `{report['upstream_lock_policy']['status']}`",
         f"- eco_kb_root: `{report['eco_kb_root']}`",
         f"- eco_kb_package_manifest: `{report['eco_kb_package_manifest']}`",
         f"- red: {summary['red']}",
@@ -247,9 +323,18 @@ def write_report(findings: list[dict[str, Any]], mode: str) -> dict[str, Any]:
         f"- info: {summary['info']}",
         f"- blocking_failed: `{str(blocking_failed).lower()}`",
         "",
-        "## Findings",
+        "## Ontology Projections",
         "",
     ]
+    for projection in ontology_projections:
+        lines.append(
+            f"- {projection['projection_id']}: `{projection['path']}` sha256=`{projection['sha256'] or 'missing'}`"
+        )
+    lines.extend([
+        "",
+        "## Findings",
+        "",
+    ])
     if findings:
         for finding in findings:
             lines.append(f"- {finding['severity']} {finding['check_id']} {finding['path']}: {finding['message']}")
@@ -270,7 +355,8 @@ def main() -> None:
     validate_profile_gap_fixture(findings)
     validate_kb_manifest(findings)
     validate_kb_columns(findings)
-    report = write_report(findings, args.mode)
+    ontology_projections = validate_ontology_projections(findings)
+    report = write_report(findings, args.mode, ontology_projections)
     status = "fail" if args.mode == "blocking" and report["blocking_policy"]["failed"] else args.mode
     print(json.dumps({"status": status, "summary": report["summary"]}, ensure_ascii=False))
     if args.mode == "blocking" and report["blocking_policy"]["failed"]:
