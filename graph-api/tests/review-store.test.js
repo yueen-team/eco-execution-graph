@@ -1,7 +1,8 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import fixture from "../../data/fixtures/ecocheck-field-event-fixture.json" with { type: "json" };
-import { applyReviewDecision, buildPitfallBatch, normalizeFieldEvent } from "../src/review-store.js";
+import profileGapFixture from "../../data/fixtures/ecocheck-profile-gap-confirmed-fixture.json" with { type: "json" };
+import { applyReviewDecision, buildPitfallBatch, normalizeEcoCheckPayload, normalizeFieldEvent, normalizeProfileGapEvent } from "../src/review-store.js";
 
 function clone(value) {
   return structuredClone(value);
@@ -14,6 +15,7 @@ test("EcoCheck 候选事件接收后默认待审核", () => {
   assert.equal(item["是否允许进入聚合"], false);
   assert.equal(item["来源阶段"], "整改验收通过");
   assert.equal(item["建议问题类型"], "危废标签内容不完整");
+  assert.equal(item["业务幂等键"], "synthetic-inspection-001");
 });
 
 test("含法条全文或原始附件路径的事件会被拒绝", () => {
@@ -21,6 +23,37 @@ test("含法条全文或原始附件路径的事件会被拒绝", () => {
   unsafe.law_full_text = "第一条 这里模拟法规全文,第二条 这里仍然是正文。";
 
   assert.throws(() => normalizeFieldEvent(unsafe), /不得进入 graph/);
+});
+
+test("企业画像缺口确认单独入记录,不进入现场问题聚合", () => {
+  const item = normalizeProfileGapEvent(clone(profileGapFixture), "2026-06-22T10:40:00+08:00");
+  const batch = buildPitfallBatch([item], "pitfall-map:profile-gap-test");
+
+  assert.equal(item["事件类别"], "profile_gap_confirmed");
+  assert.equal(item["来源阶段"], "企业画像缺口确认");
+  assert.equal(item["当前审核状态"], "仅保留内部案例");
+  assert.equal(item["是否允许进入聚合"], false);
+  assert.equal(item["不可聚合原因"], "profile_gap_not_field_issue");
+  assert.equal(item["业务幂等键"], "synthetic-profile-gap-001");
+  assert.equal(item["画像缺口确认"]["缺口维度"], "危险废物管理");
+  assert.equal(batch.rows.length, 0);
+  assert.equal(batch.sample_limited.length, 0);
+});
+
+test("统一 EcoCheck payload 分发识别 semantic_event 与 profile_gap", () => {
+  assert.equal(normalizeEcoCheckPayload(clone(fixture))["事件类别"], "semantic_event");
+  assert.equal(normalizeEcoCheckPayload(clone(profileGapFixture))["事件类别"], "profile_gap_confirmed");
+});
+
+test("企业画像缺口确认拒绝原始附件、GPS、密钥和法条全文", () => {
+  for (const patch of [
+    { raw_attachment: "cos://bucket/raw.jpg" },
+    { gps: "102.0,24.0" },
+    { token: "secret-token" },
+    { law_full_text: "第一条 这里模拟法规全文,第二条 这里仍然是正文。" },
+  ]) {
+    assert.throws(() => normalizeProfileGapEvent({ ...clone(profileGapFixture), ...patch }), /不得进入 graph/);
+  }
 });
 
 test("历史回档机器补填字段会转成中文审核记录", () => {

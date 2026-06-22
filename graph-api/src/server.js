@@ -3,7 +3,7 @@ import crypto from "node:crypto";
 import { URL } from "node:url";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { applyReviewDecision, buildPitfallBatch, normalizeFieldEvent } from "./review-store.js";
+import { applyReviewDecision, buildPitfallBatch, normalizeEcoCheckPayload } from "./review-store.js";
 import { createReviewStorage } from "./storage.js";
 import { buildGraphContextResponse, contextPathsFromRoot, loadGraphContextInputs } from "./graph-context.js";
 import {
@@ -195,7 +195,7 @@ function createHandler({
     }
     if (req.method === "POST" && url.pathname === "/api/ecocheck/field-events") {
       const payload = await readBody(req, maxBodyBytes);
-      const item = normalizeFieldEvent(payload);
+      const item = normalizeEcoCheckPayload(payload);
       const store = await getStorage();
       await store.upsert(item);
       send(res, 201, { status: "pass", item });

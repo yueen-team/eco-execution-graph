@@ -14,14 +14,20 @@ EcoCheck 负责现场业务事实确认,graph Web 端负责现场经验入图审
 Authorization: Bearer <ECO_GRAPH_API_TOKEN>
 ```
 
-请求体必须是 `ecocheck.semantic_event.v2`。共享 schema 第一版落在
-`E:\eco-ontology\schemas\semantic_event.v2.schema.json`;graph 本仓通过
-`pnpm ontology:validate:report-only` 以 report-only 模式校验
-`data/fixtures/ecocheck-field-event-fixture.json` 和现有 graph 导出实例,报告写入
-`reports/ontology-contract-report-only-validation.json` / `.md`。该命令只记录
-drift,不阻断现有 verify。
+请求体支持两类 EcoCheck payload:
 
-第一版只读取以下最小字段:
+- `ecocheck.semantic_event.v2`:现场问题、审核、整改事实候选。
+- `ecocheck.profile_gap_confirmed.v1`:企业画像缺口确认,只进入画像缺口治理记录,不进入现场问题/整改聚合统计。
+
+共享 schema 第一版落在
+`E:\eco-ontology\schemas\semantic_event.v2.schema.json` 和
+`E:\eco-ontology\schemas\profile_gap_confirmed.v1.schema.json`;graph 本仓通过
+`pnpm ontology:validate:report-only` 以 report-only 模式校验
+`data/fixtures/ecocheck-field-event-fixture.json`、
+`data/fixtures/ecocheck-profile-gap-confirmed-fixture.json` 和现有 graph 导出实例,报告写入
+`reports/ontology-contract-report-only-validation.json` / `.md`。该命令只记录 drift,不阻断现有 verify。
+
+`semantic_event.v2` 第一版只读取以下最小字段:
 
 ```jsonc
 {
@@ -62,6 +68,27 @@ drift,不阻断现有 verify。
 }
 ```
 
+`profile_gap_confirmed.v1` 第一版只读取以下最小字段:
+
+```jsonc
+{
+  "schema_version": "ecocheck.profile_gap_confirmed.v1",
+  "event_type": "COMPANY_PROFILE_GAP_CONFIRMED",
+  "business_key": "synthetic-profile-gap-001",
+  "company_id": "synthetic-company-profile-gap-001",
+  "gap_dimension": "危险废物管理",
+  "eso_decision": "PRESENT",
+  "site_verification": "ESO_CONFIRMED_APPLICABLE",
+  "knowledge_approval_basis": "approved_show_if_rules_v1_0",
+  "recall_basis": {
+    "rule_ref": "SHOWIF::SCN_HAZWASTE_STORAGE_TRANSFER::FIRST",
+    "sanitized_reason": "现场确认企业存在危废暂存和转移场景"
+  }
+}
+```
+
+`business_key` 是 graph intake 的幂等键。若 EcoCheck 暂时仍在 transport envelope 中携带该值,进入 blocking 前必须保证 graph 请求体 root 或显式 envelope 可见同一个值;当前 graph 已保留 root `business_key` 到审核记录和技术追溯。
+
 ## 接收后状态
 
 graph 必须生成一条中文审核记录:
@@ -71,6 +98,8 @@ graph 必须生成一条中文审核记录:
 - 存储位置:`private staging`
 
 该记录不得直接写入 aggregate,也不得进入 shared 导出。
+
+`profile_gap_confirmed.v1` 生成的记录必须标记为 `事件类别=profile_gap_confirmed`,默认 `仅保留内部案例`,并保持 `是否允许进入聚合=false`。
 
 ## 拒绝规则
 

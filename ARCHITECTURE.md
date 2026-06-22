@@ -54,11 +54,13 @@
 
 每条边必须有 `source_ref`(回指 sources 记录)和 `confidence`。confidence 初始由来源类型决定,之后由整改成效回写(ADR-0005)。
 
+shared 导出可携带瘦 provenance/export metadata:`source_ref`、`origin_repo`、`origin_commit`、`origin_asset`、`origin_hash`、`source_role`、`export_allowed`、`report_usage_policy`。这些字段只描述上游包、commit、资产路径、hash 和报告使用边界,不得包含私有企业、原始证据、GPS、附件路径、密钥或法规全文。
+
 ### 2.2 节点类型(本期)
 
 | tier | 节点类型 | 来源 |
 |---|---|---|
-| shared | industry / process_scenario / pollution_source / pollutant / standard_limit / tech_spec / law_article(瘦) / law_obligation / issue_type(问题分类法) / pitfall_class / evidence_category / 概念级 evidence_field_requirement | eco-kb baselines + 法规抽取 + 现场归一 |
+| shared | industry / process_scenario / pollution_source / pollutant / standard_limit / tech_spec / law_article(瘦) / law_obligation / inspection_item / issue_type(问题分类法) / pitfall_class / evidence_category / 概念级 evidence_field_requirement | eco-kb baselines + 法规抽取 + 现场归一 |
 | private | enterprise / facility / discharge_outlet / risk_unit / issue_instance / pitfall_instance / evidence_judgment_standard / evidence_instance / rectification_template / rectification_instance / report_expression / distill_event | EcoCheck 蒸馏流 + 私有沉淀 |
 | aggregate | stat_signal(区域/行业级统计) | 由私有层计算,单向输出 |
 

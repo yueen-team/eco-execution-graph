@@ -15,6 +15,8 @@ The validator covers:
 - GRAPH-005 KB import CSV required columns.
 - GRAPH-006 `ecocheck.semantic_event.v2` fixture against
   `E:\eco-ontology\schemas\semantic_event.v2.schema.json`.
+- GRAPH-007 `ecocheck.profile_gap_confirmed.v1` fixture against
+  `E:\eco-ontology\schemas\profile_gap_confirmed.v1.schema.json`.
 
 ## Inputs
 
@@ -26,6 +28,8 @@ Defaults remain compatible with the current local setup:
 - `ECO_ONTOLOGY_ROOT`, default `E:\eco-ontology`
 - `ECO_ONTOLOGY_SEMANTIC_EVENT_SCHEMA`, default
   `E:\eco-ontology\schemas\semantic_event.v2.schema.json`
+- `ECO_ONTOLOGY_PROFILE_GAP_SCHEMA`, default
+  `E:\eco-ontology\schemas\profile_gap_confirmed.v1.schema.json`
 
 If `ECO_KB_PACKAGE_MANIFEST` points to a manifest under a `manifests` directory
 and `ECO_KB_ROOT` is unset, the validator and KB importer derive the KB root

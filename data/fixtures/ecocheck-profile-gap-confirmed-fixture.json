@@ -1,0 +1,18 @@
+{
+  "schema_version": "ecocheck.profile_gap_confirmed.v1",
+  "event_type": "COMPANY_PROFILE_GAP_CONFIRMED",
+  "source_system": "EcoCheck",
+  "occurred_at": "2026-06-22T10:30:00+08:00",
+  "business_key": "synthetic-profile-gap-001",
+  "company_id": "synthetic-company-profile-gap-001",
+  "industry_code": "synthetic-auto-repair",
+  "gap_dimension": "危险废物管理",
+  "eso_decision": "PRESENT",
+  "site_verification": "ESO_CONFIRMED_APPLICABLE",
+  "knowledge_approval_basis": "approved_show_if_rules_v1_0",
+  "recall_basis": {
+    "rule_ref": "SHOWIF::SCN_HAZWASTE_STORAGE_TRANSFER::FIRST",
+    "sanitized_reason": "现场确认企业存在危废暂存和转移场景"
+  },
+  "region": "昆明市"
+}

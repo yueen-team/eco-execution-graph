@@ -14,6 +14,9 @@ ONTOLOGY_ROOT = Path(os.environ.get("ECO_ONTOLOGY_ROOT", ROOT.parent / "eco-onto
 SEMANTIC_EVENT_SCHEMA = Path(
     os.environ.get("ECO_ONTOLOGY_SEMANTIC_EVENT_SCHEMA", ONTOLOGY_ROOT / "schemas" / "semantic_event.v2.schema.json")
 )
+PROFILE_GAP_SCHEMA = Path(
+    os.environ.get("ECO_ONTOLOGY_PROFILE_GAP_SCHEMA", ONTOLOGY_ROOT / "schemas" / "profile_gap_confirmed.v1.schema.json")
+)
 MAX_FINDINGS_PER_CHECK = 80
 
 GRAPH_PACKAGES = [
@@ -55,7 +58,11 @@ def add_finding(findings: list[dict[str, Any]], severity: str, check_id: str, pa
     findings.append({"severity": severity, "check_id": check_id, "path": path, "message": message, "owner": owner})
 
 
-def type_matches(value: Any, expected: str) -> bool:
+def type_matches(value: Any, expected: str | list[str]) -> bool:
+    if isinstance(expected, list):
+        return any(type_matches(value, item) for item in expected)
+    if expected == "null":
+        return value is None
     if expected == "object":
         return isinstance(value, dict)
     if expected == "array":
@@ -78,9 +85,13 @@ def validate_value(value: Any, schema: Any, path: str, check_id: str, findings: 
     if not isinstance(schema, dict):
         return
     expected_type = schema.get("type")
-    if isinstance(expected_type, str) and not type_matches(value, expected_type):
+    if isinstance(expected_type, (str, list)) and not type_matches(value, expected_type):
         add_finding(findings, "red", check_id, path, f"Expected {expected_type}, got {type(value).__name__}.")
         return
+    if "anyOf" in schema and not any(matches_schema(value, candidate) for candidate in schema["anyOf"]):
+        add_finding(findings, "red", check_id, path, "Value does not match any allowed schema branch.")
+    if "oneOf" in schema and sum(1 for candidate in schema["oneOf"] if matches_schema(value, candidate)) != 1:
+        add_finding(findings, "red", check_id, path, "Value must match exactly one allowed schema branch.")
     if "const" in schema and value != schema["const"]:
         add_finding(findings, "red", check_id, path, f"Expected const {schema['const']!r}.")
     if "enum" in schema and value not in schema["enum"]:
@@ -98,6 +109,12 @@ def validate_value(value: Any, schema: Any, path: str, check_id: str, findings: 
     if isinstance(value, list) and "items" in schema:
         for index, item in enumerate(value):
             validate_value(item, schema["items"], f"{path}[{index}]", check_id, findings)
+
+
+def matches_schema(value: Any, schema: Any) -> bool:
+    findings: list[dict[str, Any]] = []
+    validate_value(value, schema, "$", "_MATCH", findings)
+    return not any(item["severity"] == "red" for item in findings)
 
 
 def validate_graph_exports(findings: list[dict[str, Any]]) -> None:
@@ -151,6 +168,17 @@ def validate_semantic_event_fixture(findings: list[dict[str, Any]]) -> None:
     payload = read_json(fixture_path)
     schema = read_json(SEMANTIC_EVENT_SCHEMA)
     validate_value(payload, schema, "$", "GRAPH-006", findings)
+    scan_forbidden(payload, "$", findings)
+
+
+def validate_profile_gap_fixture(findings: list[dict[str, Any]]) -> None:
+    fixture_path = ROOT / "data" / "fixtures" / "ecocheck-profile-gap-confirmed-fixture.json"
+    if not PROFILE_GAP_SCHEMA.exists():
+        add_finding(findings, "red", "GRAPH-007", str(PROFILE_GAP_SCHEMA), "profile_gap_confirmed.v1 schema is missing.")
+        return
+    payload = read_json(fixture_path)
+    schema = read_json(PROFILE_GAP_SCHEMA)
+    validate_value(payload, schema, "$", "GRAPH-007", findings)
     scan_forbidden(payload, "$", findings)
 
 
@@ -222,7 +250,10 @@ def write_report(findings: list[dict[str, Any]]) -> dict[str, Any]:
     report = {
         "validator_id": "ECO-GRAPH-CONTRACT-REPORT-ONLY",
         "mode": "report-only",
-        "ontology_schema": str(SEMANTIC_EVENT_SCHEMA),
+        "ontology_schemas": {
+            "semantic_event": str(SEMANTIC_EVENT_SCHEMA),
+            "profile_gap_confirmed": str(PROFILE_GAP_SCHEMA),
+        },
         "consumer_repo": "eco-execution-graph",
         "checked_at": dt.datetime.now(dt.timezone.utc).isoformat(),
         "eco_kb_root": str(ECO_KB),
@@ -235,7 +266,8 @@ def write_report(findings: list[dict[str, Any]]) -> dict[str, Any]:
         "# Ontology Contract Report-only Validation",
         "",
         f"- mode: `{report['mode']}`",
-        f"- semantic_event_schema: `{report['ontology_schema']}`",
+        f"- semantic_event_schema: `{report['ontology_schemas']['semantic_event']}`",
+        f"- profile_gap_schema: `{report['ontology_schemas']['profile_gap_confirmed']}`",
         f"- eco_kb_root: `{report['eco_kb_root']}`",
         f"- eco_kb_package_manifest: `{report['eco_kb_package_manifest']}`",
         f"- red: {summary['red']}",
@@ -258,6 +290,7 @@ def main() -> None:
     findings: list[dict[str, Any]] = []
     validate_graph_exports(findings)
     validate_semantic_event_fixture(findings)
+    validate_profile_gap_fixture(findings)
     validate_kb_manifest(findings)
     validate_kb_columns(findings)
     report = write_report(findings)
