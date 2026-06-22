@@ -4,7 +4,7 @@
 - package_dir: `graph-ui/dist-cloudbase-static-readonly`
 - deploy_target: CloudBase static hosting
 - access_policy: read-only shared demo; no private tier; no real enterprise data; no keys; no raw RAG response
-- file_count: 20
+- file_count: 21
 
 ## Safe Data Handling
 - `full-graph.json` and `graph.json` are overwritten with `shared_product_v1/graph.json`.
@@ -17,8 +17,8 @@
 
 ## Code Warnings
 - graph-ui/dist-cloudbase-static-readonly/app.html: code bundle still contains internal vocabulary labels; data package is checked separately
-- graph-ui/dist-cloudbase-static-readonly/assets/app-BBPp4RGX.js: code bundle still contains internal vocabulary labels; data package is checked separately
-- graph-ui/dist-cloudbase-static-readonly/assets/cytoscape.esm-Rr0APn4h.js: code bundle still contains internal vocabulary labels; data package is checked separately
+- graph-ui/dist-cloudbase-static-readonly/assets/app-jyayy3JP.js: code bundle still contains internal vocabulary labels; data package is checked separately
+- graph-ui/dist-cloudbase-static-readonly/assets/cytoscape.esm-D7nAx_r2.js: code bundle still contains internal vocabulary labels; data package is checked separately
 
 ## Deploy Command
 - Upload directory: graph-ui/dist-cloudbase-static-readonly

@@ -17,7 +17,7 @@
     "demo-data/cards.json",
     "demo-data/deploy-policy.json"
   ],
-  "file_count": 20,
+  "file_count": 21,
   "findings": [],
   "code_warnings": [
     {
@@ -25,11 +25,11 @@
       "reason": "code bundle still contains internal vocabulary labels; data package is checked separately"
     },
     {
-      "file": "graph-ui/dist-cloudbase-static-readonly/assets/app-BBPp4RGX.js",
+      "file": "graph-ui/dist-cloudbase-static-readonly/assets/app-jyayy3JP.js",
       "reason": "code bundle still contains internal vocabulary labels; data package is checked separately"
     },
     {
-      "file": "graph-ui/dist-cloudbase-static-readonly/assets/cytoscape.esm-Rr0APn4h.js",
+      "file": "graph-ui/dist-cloudbase-static-readonly/assets/cytoscape.esm-D7nAx_r2.js",
       "reason": "code bundle still contains internal vocabulary labels; data package is checked separately"
     }
   ],
@@ -41,19 +41,19 @@
     },
     {
       "path": "demo-data/full-graph.json",
-      "sha256": "d21e019cc87be876582f185211261eab2ac067d3c0f580b7062f401cdac88d77",
-      "bytes": 1554053
+      "sha256": "b2a99cee91a4f3a65c4fcd73296249e61fc5f74c31fa1ae8f1e2076921224e05",
+      "bytes": 1553835
     },
     {
       "path": "demo-data/full-cards.json",
-      "sha256": "3e2849655120dfebf601c821548140f780f40a6cd76b844ff74256a207b977a1",
-      "bytes": 251066
+      "sha256": "1fd0856841140903baaf1bbafd595e0004a8f73f6c7f0e8a17daab8f9798c913",
+      "bytes": 253226
     },
     {
       "path": "demo-data/gap-report.json",
-      "sha256": "9642e4a1cc2a68b19f110fdf56b72315eb6cf7961954d813aa3c726150732a8d",
-      "bytes": 193
+      "sha256": "212cecf13d5907e286944533f448cc4ed434ce7fb9f9635f2afee0706ca336b9",
+      "bytes": 195
     }
   ],
-  "generated_at": "2026-06-15T10:56:30"
+  "generated_at": "2026-06-22T09:01:53"
 }
