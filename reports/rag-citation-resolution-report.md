@@ -1,29 +1,29 @@
 # RAG Citation Resolution Report
 
-- rag_real_smoke: `failed`
+- rag_real_smoke: `pass`
 - tokenhub_probe: `pass`
-- rag_retrieve_probe: `failed`
+- rag_retrieve_probe: `pass`
 - generation_path: `direct_rag_retrieve_plus_tokenhub_deepseek`
 - citations: 218
 - specific_locator: 191
 - source_level_locator: 27
-- resolved: 0
+- resolved: 218
 - not_found: 0
 - ambiguous: 0
 - api_error: 0
-- blocked: 218
+- blocked: 0
 - fixture_only: 0
 
 ## P1 Core
-- law:swl:art77: `blocked` 第七十七条 (do_not_write_as_legal_basis)
-- law:swl:art78: `blocked` 第七十八条 (do_not_write_as_legal_basis)
-- law:swl:art81: `blocked` 第八十一条 (do_not_write_as_legal_basis)
-- law:swl:art82: `blocked` 第八十二条 (do_not_write_as_legal_basis)
-- spec:gb18597:label: `blocked` GB 18597 (do_not_write_as_legal_basis)
-- spec:gb18597:storage: `blocked` GB 18597 (do_not_write_as_legal_basis)
-- spec:gb15562:sign: `blocked` GB 15562 (do_not_write_as_legal_basis)
-- spec:hj1259:ledger: `blocked` HJ 1259 (do_not_write_as_legal_basis)
-- spec:hj1259:transfer: `blocked` HJ 1259 (do_not_write_as_legal_basis)
+- law:swl:art77: `resolved` 第七十七条 (rag_metadata_only)
+- law:swl:art78: `resolved` 第七十八条 (rag_metadata_only)
+- law:swl:art81: `resolved` 第八十一条 (rag_metadata_only)
+- law:swl:art82: `resolved` 第八十二条 (rag_metadata_only)
+- spec:gb18597:label: `resolved` GB 18597 (rag_metadata_only)
+- spec:gb18597:storage: `resolved` GB 18597 (rag_metadata_only)
+- spec:gb15562:sign: `resolved` GB 15562 (rag_metadata_only)
+- spec:hj1259:ledger: `resolved` HJ 1259 (rag_metadata_only)
+- spec:hj1259:transfer: `resolved` HJ 1259 (rag_metadata_only)
 
 ## Still Source-Level
 - tech-spec:eco-kb:PDS-V8_0-0001: missing_article_spec_page_section_metadata - 中华人民共和国噪声污染防治法

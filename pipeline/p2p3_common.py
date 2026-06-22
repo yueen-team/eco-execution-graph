@@ -1628,6 +1628,8 @@ def final_delivery_p2p3() -> dict[str, Any]:
     pitfall_map = read_json(REPORTS_DIR / "yunnan-pitfall-map-full.json") if (REPORTS_DIR / "yunnan-pitfall-map-full.json").exists() else {"status": "blocked"}
     monthly = read_json(REPORTS_DIR / "monthly-report-comparison-full.json") if (REPORTS_DIR / "monthly-report-comparison-full.json").exists() else {"status": "blocked"}
     gap = read_json(REPORTS_DIR / "gap-report-full.json") if (REPORTS_DIR / "gap-report-full.json").exists() else {"status": "blocked"}
+    closure_path = REPORTS_DIR / "ecocheck-graph-p0-p1-closure-2026-06-22.json"
+    closure = read_json(closure_path) if closure_path.exists() else {}
     hazardous_catalog = read_json(REPORTS_DIR / "hazardous-waste-slice-catalog.json") if (REPORTS_DIR / "hazardous-waste-slice-catalog.json").exists() else {"status": "blocked", "total_hazardous_slices": 0}
     ingest_register = read_json(REPORTS_DIR / "eto-hazardous-waste-slice-ingest-register.json") if (REPORTS_DIR / "eto-hazardous-waste-slice-ingest-register.json").exists() else {"status": "blocked", "summary": {}}
     ready = "yes"
@@ -1653,12 +1655,25 @@ def final_delivery_p2p3() -> dict[str, Any]:
         degraded.append("ETO hazardous waste ingest register is not ready")
     if pitfall_map.get("status") != "pass" and ready != "no":
         ready = "conditional"
-        degraded.append("Yunnan pitfall map full is blocked until real aggregate data is available.")
+        transport_status = closure.get("aggregate_pitfall_transport", {}).get("status")
+        if transport_status:
+            degraded.append("Pitfall map full remains external-data pending; EcoCheck-to-graph aggregate transport is verified.")
+        else:
+            degraded.append("Yunnan pitfall map full is blocked until real aggregate data is available.")
     if monthly.get("status") != "pass" and ready != "no":
         ready = "conditional"
-        degraded.append("Monthly report comparison is blocked until ETO blind review is completed.")
+        degraded.append("Monthly report comparison is deferred until the app flow and ETO blind review samples are ready.")
     lineage = read_json(REPORTS_DIR / "lineage-contract-readiness.json") if (REPORTS_DIR / "lineage-contract-readiness.json").exists() else {"status": "blocked", "government_lineage_real_import": "blocked"}
-    next_steps = ["obtain government_confirmed lineage exchange file", "connect real EcoCheck aggregate pitfall data", "complete ETO blind review for monthly comparison"]
+    external_pending = closure.get("external_pending", {
+        "government_lineage_real_import": "waiting_for_government_confirmed_exchange_file",
+        "real_ecocheck_aggregate_pitfall_map": "waiting_for_real_ecocheck_aggregate_data",
+        "eto_blind_review_for_monthly_comparison": "waiting_for_eto_blind_review",
+    })
+    next_steps = [
+        "wait for government_confirmed lineage exchange file; interface is reserved",
+        "finish EcoCheck app flow and feed real aggregate pitfall data through the verified transport",
+        "complete ETO blind review after real desensitized monthly samples are ready",
+    ]
     if not all(item.get("exists") and item.get("bytes", 0) > 0 for item in render_manifest.get("screenshots", [])):
         next_steps.append("capture final director screenshots")
     final = {
@@ -1669,8 +1684,16 @@ def final_delivery_p2p3() -> dict[str, Any]:
         "must_not_show": ["private runtime details", "raw RAG response", "real enterprise data", "keys", "local cache"],
         "blockers": blockers,
         "degraded": degraded,
-        "not_done": ["government lineage real import", "real EcoCheck aggregate pitfall map", "ETO blind review for monthly comparison"],
+        "not_done": list(external_pending.keys()),
+        "external_pending": external_pending,
         "next_steps": next_steps,
+        "p0_p1_closure": {
+            "report": rel(closure_path) if closure else None,
+            "token_alignment": closure.get("token_alignment", {}).get("status"),
+            "synthetic_live_smoke": closure.get("synthetic_live_smoke", {}).get("status"),
+            "aggregate_pitfall_transport": closure.get("aggregate_pitfall_transport", {}).get("status"),
+            "not_verified": closure.get("not_verified", []),
+        },
         "recommended_demo_order": [
             "危废包装容器标签信息不完整或与实物、台账不一致",
             "危废包装容器“一物一码”与平台记录核查",
@@ -1700,11 +1723,43 @@ def final_delivery_p2p3() -> dict[str, Any]:
         },
         "gap_report": {"status": gap.get("status"), "status_reason": gap.get("status_reason")},
         "pitfall_map_full": {"status": pitfall_map.get("status"), "reason": pitfall_map.get("reason")},
+        "pitfall_map_transport": closure.get("aggregate_pitfall_transport"),
         "monthly_comparison_full": {"status": monthly.get("status"), "reason": monthly.get("reason"), "comparison_basis": monthly.get("comparison_basis")},
         "lineage_contract": {"status": lineage.get("status"), "government_lineage_real_import": lineage.get("government_lineage_real_import"), "edge_preview_count": lineage.get("edge_preview_count")},
         "render_proof": {"status": render_manifest.get("status"), "screenshots": len(render_manifest.get("screenshots", []))},
     }
     write_json(REPORTS_DIR / "P2P3-rag-upstream-full-productization-final.json", final)
-    lines = ["# P2P3 RAG Upstream Full Productization Final", "", f"- zhang_director_ready: `{ready}`", f"- rag_real_smoke: `{final['rag_real_smoke']}`", f"- upstream_real_import: `{final['upstream_real_import']}`", f"- private_leak_violations: {final['private_leak_violations']}", f"- regulatory_findings: {final['regulatory_findings']}", f"- full_graph: {final['full_graph']}", f"- shared_graph: {final['shared_graph']}", f"- lineage_contract: {final['lineage_contract']}", f"- render_proof: {final['render_proof']}", "", "## Safe To Show", *[f"- {item}" for item in final["safe_to_show"]], "", "## Not Safe To Show Yet", *[f"- {item}" for item in final["not_safe_to_show_yet"]], "", "## Must Not Show", *[f"- {item}" for item in final["must_not_show"]], "", "## Degraded", *[f"- {item}" for item in final["degraded"]], "", "## Not Done", *[f"- {item}" for item in final["not_done"]], "", "## Next Steps", *[f"- {item}" for item in final["next_steps"]]]
+    lines = [
+        "# P2P3 RAG Upstream Full Productization Final",
+        "",
+        f"- zhang_director_ready: `{ready}`",
+        f"- rag_real_smoke: `{final['rag_real_smoke']}`",
+        f"- upstream_real_import: `{final['upstream_real_import']}`",
+        f"- private_leak_violations: {final['private_leak_violations']}",
+        f"- regulatory_findings: {final['regulatory_findings']}",
+        f"- full_graph: {final['full_graph']}",
+        f"- shared_graph: {final['shared_graph']}",
+        f"- lineage_contract: {final['lineage_contract']}",
+        f"- render_proof: {final['render_proof']}",
+        f"- p0_p1_closure: {final['p0_p1_closure']}",
+        "",
+        "## Safe To Show",
+        *[f"- {item}" for item in final["safe_to_show"]],
+        "",
+        "## Not Safe To Show Yet",
+        *[f"- {item}" for item in final["not_safe_to_show_yet"]],
+        "",
+        "## Must Not Show",
+        *[f"- {item}" for item in final["must_not_show"]],
+        "",
+        "## Degraded",
+        *[f"- {item}" for item in final["degraded"]],
+        "",
+        "## External Pending",
+        *[f"- {key}: {value}" for key, value in final["external_pending"].items()],
+        "",
+        "## Next Steps",
+        *[f"- {item}" for item in final["next_steps"]],
+    ]
     write_text(REPORTS_DIR / "P2P3-rag-upstream-full-productization-final.md", "\n".join(lines))
     return final

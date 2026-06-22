@@ -1,0 +1,64 @@
+{
+  "checked_at": "2026-06-22T10:14:23.9770475-04:00",
+  "cloudbase_env": "yueen-huanbao-1gqfjr5s41e61180",
+  "graph_api_base_url": "https://www.yueen.cc/container-eco-execution-graph",
+  "graph_api_service": {
+    "name": "graph-api",
+    "status": "normal",
+    "updated_at": "2026-06-22 19:17:19"
+  },
+  "token_alignment": {
+    "status": "pass",
+    "evidence": [
+      "Authenticated GET /api/review/field-events returned 200.",
+      "Authenticated GET /api/graph/context returned 200 and status=pass.",
+      "Unauthenticated /api/review/field-events returned 401."
+    ],
+    "token_echoed": false
+  },
+  "synthetic_live_smoke": {
+    "status": "pass",
+    "command": "pnpm semantic:graph:smoke -- --business-key synthetic-smoke:p0-20260622-N",
+    "posted_count": 5,
+    "matched_in_graph_review": 5,
+    "business_keys": [
+      "synthetic-smoke:p0-20260622-1",
+      "synthetic-smoke:p0-20260622-2",
+      "synthetic-smoke:p0-20260622-3",
+      "synthetic-smoke:p0-20260622-4",
+      "synthetic-smoke:p0-20260622-5"
+    ],
+    "post_marking": {
+      "decision": "do_not_promote",
+      "updated_count": 5,
+      "aggregate_allowed": false
+    }
+  },
+  "aggregate_pitfall_transport": {
+    "status": "pass_transport_blocked_by_no_approved_real_samples",
+    "endpoint": "POST /api/aggregate/pitfall-batches",
+    "http_status": 200,
+    "response_status": "blocked",
+    "meaning": "The graph aggregate endpoint is reachable and reads review data; full pitfall-map output is intentionally blocked until real EcoCheck aggregate data and ETO-reviewed samples are available."
+  },
+  "tencent_rag_real_smoke": {
+    "status": "pass",
+    "report": "reports/rag-citation-resolution-report.json",
+    "citation_count": 218,
+    "specific_locator": 191,
+    "source_level_locator": 27
+  },
+  "external_pending": {
+    "government_lineage_real_import": "interface_reserved_waiting_for_government_confirmed_exchange_file",
+    "real_ecocheck_aggregate_pitfall_map": "transport_verified_waiting_for_app_flow_and_real_aggregate_data",
+    "eto_blind_review_for_monthly_comparison": "waiting_for_app_flow_and_real_desensitized_samples"
+  },
+  "not_verified": [
+    "CloudBase graph-api storage driver cannot be proven from the public graph-api surface or CloudBase CLI list output without a dedicated non-secret diagnostics endpoint or console evidence.",
+    "Enterprise WeCom login callback was not exercised because no live扫码 session was initiated in this verification."
+  ],
+  "secrets_policy": {
+    "secrets_echoed": false,
+    "raw_rag_content_cached": false
+  }
+}
