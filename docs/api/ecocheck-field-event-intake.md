@@ -25,7 +25,20 @@ Authorization: Bearer <ECO_GRAPH_API_TOKEN>
 `pnpm ontology:validate:report-only` 以 report-only 模式校验
 `data/fixtures/ecocheck-field-event-fixture.json`、
 `data/fixtures/ecocheck-profile-gap-confirmed-fixture.json` 和现有 graph 导出实例,报告写入
-`reports/ontology-contract-report-only-validation.json` / `.md`。该命令只记录 drift,不阻断现有 verify。
+`reports/ontology-contract-report-only-validation.json` / `.md`。`pnpm ontology:validate:blocking`
+写入 `reports/ontology-contract-blocking-validation.json` / `.md`,并在 schema drift、禁用原始字段、KB manifest 路径/哈希/版本错位时失败。默认 `pnpm verify:check`
+和 `pnpm verify:all` 已包含 blocking gate。
+
+本地可重复 HTTP smoke:
+
+```powershell
+pnpm api:smoke:intake
+```
+
+该 smoke 使用合成 fixture 和临时 jsonl store,覆盖
+`ecocheck.semantic_event.v2` 与 `ecocheck.profile_gap_confirmed.v1` 两类
+payload;执行后清理临时目录。普通企业微信成员 session 访问审核/回流 API
+预期 403;ETO/admin session 或内部 Bearer 才能写入/查看审核记录。
 
 `semantic_event.v2` 第一版只读取以下最小字段:
 

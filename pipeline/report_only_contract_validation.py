@@ -1,9 +1,12 @@
 from __future__ import annotations
 
+import argparse
 import csv
 import datetime as dt
 import json
 import os
+import re
+import sys
 from pathlib import Path
 from typing import Any
 
@@ -17,7 +20,11 @@ SEMANTIC_EVENT_SCHEMA = Path(
 PROFILE_GAP_SCHEMA = Path(
     os.environ.get("ECO_ONTOLOGY_PROFILE_GAP_SCHEMA", ONTOLOGY_ROOT / "schemas" / "profile_gap_confirmed.v1.schema.json")
 )
+KB_PRODUCT_MANIFEST_SCHEMA = Path(
+    os.environ.get("ECO_ONTOLOGY_KB_PRODUCT_MANIFEST_SCHEMA", ONTOLOGY_ROOT / "schemas" / "kb_product_manifest.v1.schema.json")
+)
 MAX_FINDINGS_PER_CHECK = 80
+BLOCKING_SEVERITIES = {"red", "yellow"}
 
 GRAPH_PACKAGES = [
     EXPORTS_DIR / "shared_product_v1" / "graph.json",
@@ -96,16 +103,23 @@ def validate_value(value: Any, schema: Any, path: str, check_id: str, findings: 
         add_finding(findings, "red", check_id, path, f"Expected const {schema['const']!r}.")
     if "enum" in schema and value not in schema["enum"]:
         add_finding(findings, "red", check_id, path, f"Value {value!r} is not declared by schema enum.")
+    if isinstance(value, str) and "pattern" in schema and not re.search(schema["pattern"], value):
+        add_finding(findings, "red", check_id, path, f"String does not match pattern {schema['pattern']!r}.")
     if isinstance(value, dict):
+        if "minProperties" in schema and len(value) < int(schema["minProperties"]):
+            add_finding(findings, "red", check_id, path, f"Object has fewer than {schema['minProperties']} properties.")
         for field in schema.get("required", []):
             if field not in value:
                 add_finding(findings, "red", check_id, f"{path}.{field}", "Required field is missing.")
         properties = schema.get("properties", {})
+        additional = schema.get("additionalProperties")
         for key, item in value.items():
             if key in properties:
                 validate_value(item, properties[key], f"{path}.{key}", check_id, findings)
-            elif schema.get("additionalProperties") is False:
+            elif additional is False:
                 add_finding(findings, "red", check_id, f"{path}.{key}", "Additional property is not declared by schema.")
+            elif isinstance(additional, dict):
+                validate_value(item, additional, f"{path}.{key}", check_id, findings)
     if isinstance(value, list) and "items" in schema:
         for index, item in enumerate(value):
             validate_value(item, schema["items"], f"{path}[{index}]", check_id, findings)
@@ -221,6 +235,17 @@ def validate_kb_manifest(findings: list[dict[str, Any]]) -> None:
             add_finding(findings, "red", "GRAPH-004", item["path"], "Manifest output path does not exist under ECO_KB root.")
         elif item["sha256"] and item["sha256"] != sha256_file(path):
             add_finding(findings, "red", "GRAPH-004", item["path"], "Manifest sha256 does not match local file.")
+    if KB_PRODUCT_MANIFEST_SCHEMA.exists():
+        schema = read_json(KB_PRODUCT_MANIFEST_SCHEMA)
+        validate_value(manifest, schema, "$", "GRAPH-008", findings)
+    else:
+        add_finding(
+            findings,
+            "info",
+            "GRAPH-008",
+            str(KB_PRODUCT_MANIFEST_SCHEMA),
+            "Formal ontology kb_product_manifest.v1 schema is pending; graph validates path/version/hash contract directly.",
+        )
 
 
 def validate_kb_columns(findings: list[dict[str, Any]]) -> None:
@@ -243,16 +268,22 @@ def validate_kb_columns(findings: list[dict[str, Any]]) -> None:
                         add_finding(findings, "yellow", "GRAPH-005", f"{asset_name}[{index}].{column}", "Required KB import column is empty.")
 
 
-def write_report(findings: list[dict[str, Any]]) -> dict[str, Any]:
+def write_report(findings: list[dict[str, Any]], mode: str) -> dict[str, Any]:
     summary = {"red": 0, "yellow": 0, "info": 0}
     for finding in findings:
         summary[finding["severity"]] += 1
+    blocking_failed = any(finding["severity"] in BLOCKING_SEVERITIES for finding in findings)
     report = {
-        "validator_id": "ECO-GRAPH-CONTRACT-REPORT-ONLY",
-        "mode": "report-only",
+        "validator_id": "ECO-GRAPH-CONTRACT-VALIDATION",
+        "mode": mode,
         "ontology_schemas": {
             "semantic_event": str(SEMANTIC_EVENT_SCHEMA),
             "profile_gap_confirmed": str(PROFILE_GAP_SCHEMA),
+            "kb_product_manifest": str(KB_PRODUCT_MANIFEST_SCHEMA),
+        },
+        "blocking_policy": {
+            "fail_on": sorted(BLOCKING_SEVERITIES),
+            "failed": blocking_failed,
         },
         "consumer_repo": "eco-execution-graph",
         "checked_at": dt.datetime.now(dt.timezone.utc).isoformat(),
@@ -261,18 +292,21 @@ def write_report(findings: list[dict[str, Any]]) -> dict[str, Any]:
         "summary": summary,
         "findings": findings,
     }
-    write_json(REPORTS_DIR / "ontology-contract-report-only-validation.json", report)
+    stem = "ontology-contract-report-only-validation" if mode == "report-only" else "ontology-contract-blocking-validation"
+    write_json(REPORTS_DIR / f"{stem}.json", report)
     lines = [
-        "# Ontology Contract Report-only Validation",
+        "# Ontology Contract Validation",
         "",
         f"- mode: `{report['mode']}`",
         f"- semantic_event_schema: `{report['ontology_schemas']['semantic_event']}`",
         f"- profile_gap_schema: `{report['ontology_schemas']['profile_gap_confirmed']}`",
+        f"- kb_product_manifest_schema: `{report['ontology_schemas']['kb_product_manifest']}`",
         f"- eco_kb_root: `{report['eco_kb_root']}`",
         f"- eco_kb_package_manifest: `{report['eco_kb_package_manifest']}`",
         f"- red: {summary['red']}",
         f"- yellow: {summary['yellow']}",
         f"- info: {summary['info']}",
+        f"- blocking_failed: `{str(blocking_failed).lower()}`",
         "",
         "## Findings",
         "",
@@ -282,19 +316,26 @@ def write_report(findings: list[dict[str, Any]]) -> dict[str, Any]:
             lines.append(f"- {finding['severity']} {finding['check_id']} {finding['path']}: {finding['message']}")
     else:
         lines.append("- none")
-    write_text(REPORTS_DIR / "ontology-contract-report-only-validation.md", "\n".join(lines))
+    write_text(REPORTS_DIR / f"{stem}.md", "\n".join(lines))
     return report
 
 
 def main() -> None:
+    parser = argparse.ArgumentParser(description="Validate graph artifacts against ontology contracts.")
+    parser.add_argument("--mode", choices=["report-only", "blocking"], default="report-only")
+    args = parser.parse_args()
+
     findings: list[dict[str, Any]] = []
     validate_graph_exports(findings)
     validate_semantic_event_fixture(findings)
     validate_profile_gap_fixture(findings)
     validate_kb_manifest(findings)
     validate_kb_columns(findings)
-    report = write_report(findings)
-    print(json.dumps({"status": "report-only", "summary": report["summary"]}, ensure_ascii=False))
+    report = write_report(findings, args.mode)
+    status = "fail" if args.mode == "blocking" and report["blocking_policy"]["failed"] else args.mode
+    print(json.dumps({"status": status, "summary": report["summary"]}, ensure_ascii=False))
+    if args.mode == "blocking" and report["blocking_policy"]["failed"]:
+        sys.exit(1)
 
 
 if __name__ == "__main__":

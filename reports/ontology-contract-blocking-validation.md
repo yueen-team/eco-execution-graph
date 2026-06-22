@@ -1,6 +1,6 @@
 # Ontology Contract Validation
 
-- mode: `report-only`
+- mode: `blocking`
 - semantic_event_schema: `E:\eco-ontology\schemas\semantic_event.v2.schema.json`
 - profile_gap_schema: `E:\eco-ontology\schemas\profile_gap_confirmed.v1.schema.json`
 - kb_product_manifest_schema: `E:\eco-ontology\schemas\kb_product_manifest.v1.schema.json`

@@ -17,6 +17,7 @@
     "ecocheck:aggregate": "python pipeline/ecocheck_aggregation.py",
     "api:test": "pnpm --dir graph-api test",
     "api:check": "pnpm --dir graph-api check",
+    "api:smoke:intake": "pnpm --dir graph-api smoke:intake",
     "delivery:report": "python pipeline/final_delivery.py",
     "tencent:probe": "python pipeline/tencent_lke_probe.py all",
     "tencent:probe:embedding": "python pipeline/tencent_lke_probe.py embedding",
@@ -29,7 +30,9 @@
     "upstream:contracts:spl": "python pipeline/import_spl_contracts.py",
     "upstream:compat": "python pipeline/contract_compatibility.py",
     "ontology:validate:report-only": "python pipeline/report_only_contract_validation.py",
+    "ontology:validate:blocking": "python pipeline/report_only_contract_validation.py --mode blocking",
     "rag:resolve": "python pipeline/rag_resolve.py",
+    "rag:real:gate": "python pipeline/rag_real_smoke_gate.py",
     "rag:contract": "python pipeline/rag_contract_test.py",
     "knowledge:governance": "python pipeline/knowledge_governance.py all",
     "knowledge:registry": "python pipeline/knowledge_governance.py build-registry",
@@ -54,7 +57,9 @@
     "skills:index": "echo skills-index: not applicable in this project",
     "verify:check": "pwsh -ExecutionPolicy Bypass -File verify/verify.ps1 check",
     "verify:leak": "pwsh -ExecutionPolicy Bypass -File verify/verify.ps1 leak",
-    "verify:all": "pwsh -ExecutionPolicy Bypass -File verify/verify.ps1 all"
+    "verify:all": "pwsh -ExecutionPolicy Bypass -File verify/verify.ps1 all",
+    "verify:external": "pwsh -ExecutionPolicy Bypass -File verify/verify.ps1 external",
+    "verify:rag:real": "pwsh -ExecutionPolicy Bypass -File verify/verify.ps1 external"
   },
   "devDependencies": {
     "@coco830/gherkin-v39-cli": "file:..\\gherkin-v39-cli",

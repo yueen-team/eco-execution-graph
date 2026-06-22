@@ -2,7 +2,7 @@
   "rag_real_smoke": "failed",
   "embedding_probe": {
     "status": "failed",
-    "message": "<urlopen error _ssl.c:993: The handshake operation timed out>"
+    "message": "AuthFailure.SecretIdNotFound: The SecretId is not found, please ensure that your SecretId is correct."
   },
   "tokenhub_probe": {
     "status": "pass",
