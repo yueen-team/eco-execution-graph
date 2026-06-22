@@ -28,6 +28,10 @@
 | git-workflow-hooks | Git 门禁(pre-commit/commit-msg/pre-push/main-ship) |
 | gherkin-v39-cli | BDD .feature → Cucumber Messages NDJSON |
 | ai-operation-protocol | 全局 AI 操作协议与 skills 路由 |
+
+`git-workflow-hooks` main `1bb8a1123a1f0dec323a5607a35d3e46533d7337` adds native
+Node hook trampolines for Windows. After refreshing the vendored hook scripts,
+run `pnpm hooks:install -- --path .husky --set-hooks-path --force`.
 | afk-test-engineering-protocol | AFK 测试工程协议(verify/afk-test.config.json 的上游规范) |
 
 ## 方法论与设计来源(致谢/参考,非依赖)

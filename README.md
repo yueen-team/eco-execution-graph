@@ -35,8 +35,8 @@ pnpm verify:all      # 或 .\verify\verify.ps1 all
 | 构建管道 | Python 3.11+(标准库优先) | 沿用 eco-semantic-knowledge-base 的 build_*.py 风格 |
 | 可视化 | Cytoscape.js + Vite | ego 视图,不做全图毛线球(见 ADR-0009) |
 | 法规全文 | 腾讯云知识引擎原子能力 + RAG 组件 | 图谱是法规检索的瘦索引,不是法规副本(见 ADR-0003) |
-| 行为合同 | Gherkin(coco830/gherkin-v39-cli) | specs/ 下 BDD 合同,`pnpm bdd:export` |
-| Git 门禁 | coco830/git-workflow-hooks | pre-commit / commit-msg / pre-push,主干保护 |
+| 行为合同 | Gherkin(yueen-team/gherkin-v39-cli) | specs/ 下 BDD 合同,`pnpm bdd:export` |
+| Git 门禁 | yueen-team/git-workflow-hooks | pre-commit / commit-msg / pre-push,主干保护 |
 
 ## 文档导航
 

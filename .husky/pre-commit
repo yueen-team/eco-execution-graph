@@ -1,1 +1,20 @@
-node scripts/git-workflow/pre-commit.mjs
+#!/usr/bin/env node
+import('node:child_process')
+  .then(({ spawnSync }) => {
+    const result = spawnSync(process.execPath, ["scripts/git-workflow/pre-commit.mjs", ...process.argv.slice(2)], {
+      cwd: process.cwd(),
+      env: process.env,
+      stdio: 'inherit',
+    });
+
+    if (result.error) {
+      console.error(`[git-workflow-hooks] Failed to run pre-commit: ${result.error.message}`);
+      process.exit(1);
+    }
+
+    process.exit(result.status ?? 1);
+  })
+  .catch((error) => {
+    console.error(`[git-workflow-hooks] Failed to bootstrap pre-commit: ${error.message}`);
+    process.exit(1);
+  });

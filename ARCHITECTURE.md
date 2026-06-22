@@ -221,8 +221,8 @@ RAG citation metadata + 图谱 law/standard thin refs
 | 私有仓库 | coco830/semantic-profile-lab | 私有 | 图模型契约(graph-export v2.1、provenance v1.9、治理门禁) | schema 继承并扩展 |
 | 私有仓库 | coco830/ecocheck | 私有 | semantic_event_outbox 蒸馏流(v2) | pipeline/ingest 消费 |
 | 私有仓库 | coco830/Yunnan-emission-smart-calculator | 私有 | pollutant_id 标准化字典、系数维度键 | 只共享键,不接核算(治理膜) |
-| 私有仓库 | coco830/git-workflow-hooks | 私有 | pre-commit/commit-msg/pre-push 门禁、主干保护 | scripts/git-workflow + .husky |
-| 私有仓库 | coco830/gherkin-v39-cli | 私有 | BDD .feature → Cucumber Messages NDJSON | `pnpm bdd:export` |
+| 私有仓库 | yueen-team/git-workflow-hooks | 私有 | pre-commit/commit-msg/pre-push 门禁、主干保护 | scripts/git-workflow + .husky |
+| 私有仓库 | yueen-team/gherkin-v39-cli | 私有 | BDD .feature → Cucumber Messages NDJSON | `pnpm bdd:export` |
 | 工具 | GitNexus | — | **仅用于本仓库代码导航,不用于领域图谱**(职责澄清,勿混用) | 本地 CLI |
 | 延后评估 | Microsoft GraphRAG | MIT | 非结构化文本抽图 + 社区摘要探索管道 | 不作为主业务图谱,只可在 tool-lab 中试验辅助抽取 |
 | 延后评估 | Neo4j Community / Graphiti | GPLv3 / Apache-2.0 | 图数据库/时序上下文图(关系复杂度达标后再评估) | ADR-0006 延后 |
