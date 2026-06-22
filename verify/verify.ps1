@@ -42,6 +42,11 @@ if ($Target -in @("check", "all")) {
         try { Invoke-CheckedCommand -Command @("pnpm", "ontology:validate:blocking") }
         finally { Pop-Location }
     }
+    Invoke-Step "graph-schema-blocking" {
+        Push-Location $root
+        try { Invoke-CheckedCommand -Command @("pnpm", "graph:schema:blocking") }
+        finally { Pop-Location }
+    }
 }
 
 if ($Target -in @("test", "all")) {

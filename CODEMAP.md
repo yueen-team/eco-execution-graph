@@ -25,6 +25,13 @@ eco-execution-graph/
 │   ├── build_graph.py        # candidates+approved → 全量图(JSON+NDJSON)
 │   ├── export.py             # tier 过滤导出(shared/aggregate 包)
 │   ├── gap_report.py         # 双向缺边检测报告
+│   ├── p2p3_common.py        # P2/P3 兼容 facade,旧 import 保持可用
+│   ├── p2p3_paths.py / p2p3_io.py / p2p3_graph_records.py
+│   │                         # P2/P3 路径、IO、record factory helper
+│   ├── p2p3_review_overrides.py / p2p3_upstream_helpers.py
+│   │                         # ETO override loader、KB/upstream lock helper
+│   ├── schema_validation.py / graph_schema_gate.py
+│   │                         # JSON Schema instance validator + graph blocking gate
 │   └── validate_no_private_leak.py  # 拒绝型泄漏契约测试
 ├── graph-ui/                 # Cytoscape.js ego 视图(Vite,子 AGENTS.md)
 ├── data/
@@ -47,6 +54,8 @@ pnpm install                  # 首次:依赖 + husky hooks 激活
 pnpm graph:build              # python pipeline/build_graph.py
 pnpm graph:export:shared      # 导出共有包(自动跑泄漏测试)
 pnpm gap:report               # 生成双向缺口报告
+pnpm graph:schema:blocking    # P3-5: 用 node/edge/source schema 校验当前图数据集
+pnpm ontology:validate:blocking # 契约 blocking gate,verify:check 默认包含
 pnpm ui:dev                   # 演示驾驶舱开发服务器
 pnpm ui:build                 # 演示打包
 pnpm bdd:export               # Gherkin → Cucumber Messages NDJSON

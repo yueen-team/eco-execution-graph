@@ -8,7 +8,7 @@
   "properties": {
     "source_id": { "type": "string", "minLength": 3 },
     "source_type": {
-      "enum": ["law_or_standard_doc", "field_event", "baseline_import", "approved_baseline", "candidate_map", "expert_note", "government_lineage", "aggregation_job"]
+      "enum": ["law_or_standard_doc", "field_event", "baseline_import", "approved_baseline", "candidate_map", "expert_note", "government_lineage", "aggregation_job", "contract", "rag_metadata"]
     },
     "tier": {
       "enum": ["shared", "private", "aggregate"],

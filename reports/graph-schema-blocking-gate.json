@@ -1,0 +1,55 @@
+{
+  "gate": "graph-schema-blocking",
+  "mode": "blocking",
+  "summary": {
+    "status": "pass",
+    "red": 0,
+    "yellow": 0,
+    "info": 0,
+    "checked_datasets": [
+      {
+        "dataset": "upstream-eco-kb-import",
+        "path": "data/upstream/eco-kb-import.json",
+        "nodes": 446,
+        "edges": 912,
+        "sources": 4
+      },
+      {
+        "dataset": "upstream-full-graph-source",
+        "path": "data/upstream/full-graph-source.json",
+        "nodes": 513,
+        "edges": 1007,
+        "sources": 10
+      },
+      {
+        "dataset": "demo-hazardous-waste-internal",
+        "path": "data/exports/demo_hazardous_waste_internal/graph.json",
+        "nodes": 67,
+        "edges": 95,
+        "sources": 4
+      },
+      {
+        "dataset": "full-internal-product-v1",
+        "path": "data/exports/full_internal_product_v1/graph.json",
+        "nodes": 513,
+        "edges": 1007,
+        "sources": 10
+      },
+      {
+        "dataset": "shared-product-v1",
+        "path": "data/exports/shared_product_v1/graph.json",
+        "nodes": 483,
+        "edges": 977,
+        "sources": 6
+      },
+      {
+        "dataset": "shared-hazardous-waste-v1",
+        "path": "data/exports/shared_hazardous_waste_v1/graph.json",
+        "nodes": 37,
+        "edges": 65,
+        "sources": 2
+      }
+    ]
+  },
+  "findings": []
+}

@@ -11,6 +11,13 @@ It writes a separate blocking report and exits non-zero when any red or yellow
 finding appears. The default `pnpm verify:check` and `pnpm verify:all` include
 this blocking gate.
 
+`pnpm graph:schema:blocking` is the P3-5 graph data-vs-schema gate. It uses the
+same lightweight `pipeline/schema_validation.py` helper as report-only contract
+validation, but validates current graph datasets directly against
+`schema/node.schema.json`, `schema/edge.schema.json`, and
+`schema/source.schema.json`. The default `pnpm verify:check` and
+`pnpm verify:all` include this blocking gate after ontology contract blocking.
+
 The validator covers:
 
 - GRAPH-001 nodes in shared graph exports against `schema/node.schema.json`.
@@ -27,6 +34,13 @@ The validator covers:
   ontology schema is available. If the ontology schema is not yet present, the
   graph validator keeps direct path/version/hash checks and records an info
   finding.
+- P3-5 graph schema blocking coverage:
+  `data/upstream/eco-kb-import.json`,
+  `data/upstream/full-graph-source.json`,
+  `data/exports/demo_hazardous_waste_internal/graph.json`,
+  `data/exports/full_internal_product_v1/graph.json`,
+  `data/exports/shared_product_v1/graph.json`, and
+  `data/exports/shared_hazardous_waste_v1/graph.json`.
 
 ## Inputs
 
@@ -53,14 +67,29 @@ from that manifest path.
 - `reports/ontology-contract-report-only-validation.md`
 - `reports/ontology-contract-blocking-validation.json`
 - `reports/ontology-contract-blocking-validation.md`
+- `reports/graph-schema-blocking-gate.json`
+- `reports/graph-schema-blocking-gate.md`
 
 Blocking pass criteria:
 
 - `red=0`
 - `yellow=0`
 - no schema drift in graph exports
+- no schema drift in current upstream/full/shared graph datasets
 - no forbidden raw attachment/GPS/secret/full-law-text fields in EcoCheck fixtures
 - no KB manifest path/hash/version mismatch
+
+## P3-4 Helper Boundaries
+
+`pipeline/p2p3_common.py` remains the compatibility facade for older pipeline
+imports. New code should import focused helpers directly:
+
+- `pipeline/p2p3_paths.py`: KB manifest/root resolution and stable graph paths.
+- `pipeline/p2p3_io.py`: local path rendering, git command, CSV and Markdown helpers.
+- `pipeline/p2p3_graph_records.py`: node/edge/source record factories and ID/confidence helpers.
+- `pipeline/p2p3_review_overrides.py`: ETO review override data loader and hazardous-waste card helpers.
+- `pipeline/p2p3_upstream_helpers.py`: upstream repo metadata and lock asset collection.
+- `pipeline/schema_validation.py`: shared lightweight JSON Schema instance validator.
 
 ## P3 KB Consumer Acceptance
 

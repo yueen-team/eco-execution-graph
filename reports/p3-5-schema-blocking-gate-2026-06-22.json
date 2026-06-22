@@ -1,0 +1,113 @@
+{
+  "report": "p3-5-schema-blocking-gate",
+  "date": "2026-06-22",
+  "graph_branch": "codex/p3-4-p2p3-common-schema-gate",
+  "ontology_final": {
+    "branch": "origin/codex/p3-5-schema-blocking-gate",
+    "commit": "e136a21422ab221d75c5269e3f1a8c7017651789",
+    "command": "pnpm validate:blocking",
+    "summary": {
+      "red": 0,
+      "yellow": 0,
+      "info": 0,
+      "blocking_failures": 0
+    }
+  },
+  "kb_observed": {
+    "branch": "origin/codex/kb-p3-6-legacy-script-retirement",
+    "commit": "6190d97bae39c028916c2baa13ee1b0ab13d0a75",
+    "manifest_shape_changed_for_graph": false,
+    "note": "Default verify refreshed graph upstream lock/import outputs to the current KB final hash."
+  },
+  "commands": {
+    "blocking_gate": "pnpm graph:schema:blocking",
+    "verify_integration": "pnpm verify:check"
+  },
+  "reports": [
+    "reports/graph-schema-blocking-gate.json",
+    "reports/graph-schema-blocking-gate.md",
+    "reports/ontology-contract-blocking-validation.json",
+    "reports/ontology-contract-report-only-validation.json"
+  ],
+  "coverage": [
+    {
+      "dataset": "upstream-eco-kb-import",
+      "path": "data/upstream/eco-kb-import.json",
+      "nodes": 446,
+      "edges": 912,
+      "sources": 4
+    },
+    {
+      "dataset": "upstream-full-graph-source",
+      "path": "data/upstream/full-graph-source.json",
+      "nodes": 513,
+      "edges": 1007,
+      "sources": 10
+    },
+    {
+      "dataset": "demo-hazardous-waste-internal",
+      "path": "data/exports/demo_hazardous_waste_internal/graph.json",
+      "nodes": 67,
+      "edges": 95,
+      "sources": 4
+    },
+    {
+      "dataset": "full-internal-product-v1",
+      "path": "data/exports/full_internal_product_v1/graph.json",
+      "nodes": 513,
+      "edges": 1007,
+      "sources": 10
+    },
+    {
+      "dataset": "shared-product-v1",
+      "path": "data/exports/shared_product_v1/graph.json",
+      "nodes": 483,
+      "edges": 977,
+      "sources": 6
+    },
+    {
+      "dataset": "shared-hazardous-waste-v1",
+      "path": "data/exports/shared_hazardous_waste_v1/graph.json",
+      "nodes": 37,
+      "edges": 65,
+      "sources": 2
+    }
+  ],
+  "summary": {
+    "red": 0,
+    "yellow": 0,
+    "info": 0,
+    "status": "pass"
+  },
+  "negative_tests": [
+    "tests/test_schema_validation_gate.py::GraphSchemaGateTest.test_bad_graph_node_fails_blocking_validation",
+    "tests/test_schema_validation_gate.py::GraphSchemaGateTest.test_regulated_edge_requires_legal_basis_status"
+  ],
+  "schema_updates": [
+    "schema/source.schema.json adds contract and rag_metadata source_type values used by full graph sources"
+  ],
+  "validation": {
+    "pnpm_graph_schema_blocking": "pass",
+    "pnpm_ontology_validate_report_only": "pass red=0 yellow=0 info=0",
+    "pnpm_ontology_validate_blocking": "pass red=0 yellow=0 info=0",
+    "pnpm_verify_check": "pass",
+    "pnpm_graph_api_check": "pass",
+    "pnpm_graph_api_test": "pass 33 tests",
+    "pnpm_verify_leak": "pass",
+    "pnpm_verify_all": "pass",
+    "pipeline_unit_tests_in_verify_all": "pass 56 tests"
+  },
+  "external_manual_gates": [
+    "Tencent RAG real smoke",
+    "CloudBase/WeCom live scan",
+    "government lineage real import",
+    "real EcoCheck aggregate/ETO blind review"
+  ],
+  "deployment": {
+    "performed": false,
+    "environment": "local repo only",
+    "command": "none",
+    "smoke_result": "not applicable",
+    "rollback_risk": "none; no CloudBase or graph-api deployment performed"
+  }
+}

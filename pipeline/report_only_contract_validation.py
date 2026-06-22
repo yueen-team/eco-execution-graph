@@ -5,13 +5,13 @@ import csv
 import datetime as dt
 import json
 import os
-import re
 import sys
 from pathlib import Path
 from typing import Any
 
 from common import EXPORTS_DIR, REPORTS_DIR, ROOT, read_json, sha256_file, write_json, write_text
 from p2p3_common import ECO_KB, ECO_KB_MANIFEST
+from schema_validation import validate_against_schema
 
 ONTOLOGY_ROOT = Path(os.environ.get("ECO_ONTOLOGY_ROOT", ROOT.parent / "eco-ontology"))
 SEMANTIC_EVENT_SCHEMA = Path(
@@ -65,70 +65,9 @@ def add_finding(findings: list[dict[str, Any]], severity: str, check_id: str, pa
     findings.append({"severity": severity, "check_id": check_id, "path": path, "message": message, "owner": owner})
 
 
-def type_matches(value: Any, expected: str | list[str]) -> bool:
-    if isinstance(expected, list):
-        return any(type_matches(value, item) for item in expected)
-    if expected == "null":
-        return value is None
-    if expected == "object":
-        return isinstance(value, dict)
-    if expected == "array":
-        return isinstance(value, list)
-    if expected == "string":
-        return isinstance(value, str)
-    if expected == "number":
-        return isinstance(value, (int, float)) and not isinstance(value, bool)
-    if expected == "integer":
-        return isinstance(value, int) and not isinstance(value, bool)
-    if expected == "boolean":
-        return isinstance(value, bool)
-    return True
-
-
 def validate_value(value: Any, schema: Any, path: str, check_id: str, findings: list[dict[str, Any]]) -> None:
-    if schema is False:
-        add_finding(findings, "red", check_id, path, "Forbidden field is present.")
-        return
-    if not isinstance(schema, dict):
-        return
-    expected_type = schema.get("type")
-    if isinstance(expected_type, (str, list)) and not type_matches(value, expected_type):
-        add_finding(findings, "red", check_id, path, f"Expected {expected_type}, got {type(value).__name__}.")
-        return
-    if "anyOf" in schema and not any(matches_schema(value, candidate) for candidate in schema["anyOf"]):
-        add_finding(findings, "red", check_id, path, "Value does not match any allowed schema branch.")
-    if "oneOf" in schema and sum(1 for candidate in schema["oneOf"] if matches_schema(value, candidate)) != 1:
-        add_finding(findings, "red", check_id, path, "Value must match exactly one allowed schema branch.")
-    if "const" in schema and value != schema["const"]:
-        add_finding(findings, "red", check_id, path, f"Expected const {schema['const']!r}.")
-    if "enum" in schema and value not in schema["enum"]:
-        add_finding(findings, "red", check_id, path, f"Value {value!r} is not declared by schema enum.")
-    if isinstance(value, str) and "pattern" in schema and not re.search(schema["pattern"], value):
-        add_finding(findings, "red", check_id, path, f"String does not match pattern {schema['pattern']!r}.")
-    if isinstance(value, dict):
-        if "minProperties" in schema and len(value) < int(schema["minProperties"]):
-            add_finding(findings, "red", check_id, path, f"Object has fewer than {schema['minProperties']} properties.")
-        for field in schema.get("required", []):
-            if field not in value:
-                add_finding(findings, "red", check_id, f"{path}.{field}", "Required field is missing.")
-        properties = schema.get("properties", {})
-        additional = schema.get("additionalProperties")
-        for key, item in value.items():
-            if key in properties:
-                validate_value(item, properties[key], f"{path}.{key}", check_id, findings)
-            elif additional is False:
-                add_finding(findings, "red", check_id, f"{path}.{key}", "Additional property is not declared by schema.")
-            elif isinstance(additional, dict):
-                validate_value(item, additional, f"{path}.{key}", check_id, findings)
-    if isinstance(value, list) and "items" in schema:
-        for index, item in enumerate(value):
-            validate_value(item, schema["items"], f"{path}[{index}]", check_id, findings)
-
-
-def matches_schema(value: Any, schema: Any) -> bool:
-    findings: list[dict[str, Any]] = []
-    validate_value(value, schema, "$", "_MATCH", findings)
-    return not any(item["severity"] == "red" for item in findings)
+    for issue in validate_against_schema(value, schema, path):
+        add_finding(findings, "red", check_id, issue["path"], issue["message"])
 
 
 def validate_graph_exports(findings: list[dict[str, Any]]) -> None:

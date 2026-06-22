@@ -31,6 +31,7 @@
     "upstream:compat": "python pipeline/contract_compatibility.py",
     "ontology:validate:report-only": "python pipeline/report_only_contract_validation.py",
     "ontology:validate:blocking": "python pipeline/report_only_contract_validation.py --mode blocking",
+    "graph:schema:blocking": "python pipeline/graph_schema_gate.py",
     "rag:resolve": "python pipeline/rag_resolve.py",
     "rag:real:gate": "python pipeline/rag_real_smoke_gate.py",
     "rag:contract": "python pipeline/rag_contract_test.py",

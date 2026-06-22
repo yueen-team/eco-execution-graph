@@ -2,7 +2,7 @@
 
 - status: `pass`
 - 上游仓库: `coco830/eco-semantic-knowledge-base`
-- 锁定提交: `5f8245e42280fb9390f2b30b5c783fa0d03527e0`
+- 锁定提交: `6190d97bae39c028916c2baa13ee1b0ab13d0a75`
 - 说明: eco-semantic-knowledge-base 已作为已审核公共基线接入图谱底座:它提供场景、污染物、技术规范、检查项和标准映射;现场经验、ETO 审核、整改闭环和授权边界仍留在现场执行图谱治理。
 
 ## 可见指标

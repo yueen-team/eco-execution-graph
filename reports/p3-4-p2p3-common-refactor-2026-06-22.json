@@ -1,0 +1,96 @@
+{
+  "report": "p3-4-p2p3-common-refactor",
+  "date": "2026-06-22",
+  "graph_branch": "codex/p3-4-p2p3-common-schema-gate",
+  "base_selection": {
+    "origin_main_contains_p3_baseline": false,
+    "base_ref": "origin/codex/p3-baseline-freeze-20260622",
+    "base_commit": "a9020fac6aa42fc7124957deaab364f73040606d",
+    "origin_main": "b2c2f784571ca43ee804aae695d8caf6a921dbca"
+  },
+  "line_count": {
+    "pipeline/p2p3_common.py_before": 1666,
+    "pipeline/p2p3_common.py_after": 1246,
+    "delta": -420
+  },
+  "gitnexus": {
+    "query": "source_schema found report-only schema validation processes and schema/source.schema.json references",
+    "impact": [
+      {
+        "target": "build_full_graph",
+        "risk": "LOW",
+        "direct_callers": [
+          "pipeline/source_merge.py",
+          "pipeline/conflict_resolve.py",
+          "pipeline/build_full_graph.py"
+        ],
+        "processes_affected": 0
+      },
+      {
+        "target": "build_upstream_lock",
+        "risk": "HIGH",
+        "direct_callers": 4,
+        "processes_affected": [
+          "build_full_graph",
+          "contract_compatibility",
+          "import_eco_kb",
+          "build_upstream_inventory"
+        ],
+        "mitigation": "kept public facade imports and preserved upstream asset traversal order"
+      }
+    ]
+  },
+  "split_modules": [
+    "pipeline/p2p3_paths.py",
+    "pipeline/p2p3_io.py",
+    "pipeline/p2p3_graph_records.py",
+    "pipeline/p2p3_review_overrides.py",
+    "pipeline/p2p3_upstream_helpers.py",
+    "pipeline/schema_validation.py"
+  ],
+  "data_files": [
+    "data/review/eto_review_overrides.json"
+  ],
+  "facade_imports_preserved": [
+    "ECO_KB",
+    "ECO_KB_MANIFEST",
+    "resolve_eco_kb_root",
+    "resolve_eco_kb_manifest_path",
+    "ETO_REVIEW_OVERRIDES",
+    "load_eto_review_overrides",
+    "ETO_SHARED_CARD_FIELDS",
+    "ETO_V4_CONCLUSION_SOURCE",
+    "is_hazardous_card",
+    "hazardous_slice_role",
+    "rel",
+    "run_git",
+    "read_csv",
+    "write_md_table",
+    "source_record",
+    "node_record",
+    "edge_record",
+    "safe_id",
+    "confidence_value",
+    "upstream_repo_info"
+  ],
+  "regression_tests": [
+    "tests/test_p2p3_common_refactor.py"
+  ],
+  "validation": {
+    "python_py_compile": "pass",
+    "focused_unittest": "pass",
+    "pnpm_verify_check": "pass",
+    "pnpm_verify_all": "pass"
+  },
+  "deployment": {
+    "performed": false,
+    "environment": "local repo only",
+    "command": "none",
+    "smoke_result": "not applicable",
+    "rollback_risk": "none; no CloudBase or graph-api deployment performed"
+  },
+  "risks": [
+    "build_upstream_lock is high fan-out; facade compatibility and regression tests reduce import-break risk",
+    "p2p3_common.py still owns large P2/P3 orchestration functions; this split is first reversible step only"
+  ]
+}
