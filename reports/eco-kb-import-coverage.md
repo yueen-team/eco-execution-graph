@@ -1,7 +1,7 @@
 # Eco-KB Import Coverage
 
 - status: `pass`
-- source_commit: `e2c6cf8d7ffb3cff0974fcafa6b2bdc6e9ef675c`
+- source_commit: `92cae4604eb659fc0fc70ef36c89538a0049471f`
 - nodes: 446
 - edges: 912
 - sources: 4
