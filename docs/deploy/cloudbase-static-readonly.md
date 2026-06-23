@@ -82,12 +82,19 @@ Signature expired. Please use local time and enable NTP service for time synchro
 3. 本机没有可用 CloudBase 凭据时,交付记录必须把阻塞项写成“CloudBase CLI 凭据/时间漂移处理未就绪”,并记录已完成的本地打包、命令、失败原文和回滚风险。
 4. 不得在仓库、报告或终端回显 `TENCENT_SECRET_KEY`、`CLOUDBASE_API_KEY`、MySQL 密码、企业微信 secret 等密钥。
 
-可选的非交互登录形态如下,具体以当前 CloudBase CLI 版本支持的参数为准:
+本仓库固定使用部署包装脚本处理本机时间漂移。脚本会从 CloudBase HTTP `Date` 响应头计算偏移,通过 `NODE_OPTIONS=--require scripts/cloudbase-time-offset-shim.cjs` 只影响本次 CloudBase CLI 子进程,不会修改系统时间。
+
+CloudBase CLI 凭据从进程环境变量或 `.env.local` 读取,只记录变量来源,不得输出变量值。支持的变量:
 
 ```powershell
-cloudbase login --apiKeyId $env:TENCENT_SECRET_ID --apiKey $env:TENCENT_SECRET_KEY
-cloudbase login --cloudbase-api-key $env:CLOUDBASE_API_KEY -e yueen-huanbao-1gqfjr5s41e61180
+CLOUDBASE_API_KEY
+TENCENT_SECRET_ID / TENCENT_SECRET_KEY
+TENCENTCLOUD_SECRET_ID / TENCENTCLOUD_SECRET_KEY
+TCB_SECRET_ID / TCB_SECRET_KEY
+TENCENT_LKE_SECRET_ID / TENCENT_LKE_SECRET_KEY
 ```
+
+其中 `TENCENT_LKE_SECRET_*` 仅作为本机历史变量名兼容;新配置优先写 `CLOUDBASE_API_KEY` 或 `TENCENT_SECRET_*`。
 
 验证 URL:
 
@@ -113,6 +120,21 @@ https://www.yueen.cc/eco-execution-graph/?director=1
 3. 文件化 `data/private-staging/` 只能用于本地或单实例试运行。CloudBase 云托管建议设置 `ECO_GRAPH_STORAGE_DRIVER=mysql`,由 `graph-api` 启动脚本自动建表、补齐缺失列和索引。
 4. 云托管入口必须限制为内部访问,不得把 private staging API 暴露为公网匿名读写。
 5. 继续禁止接收真实附件路径、原始照片、GPS、法条全文、原始报告全文和密钥。
+
+后端云托管部署命令固定使用:
+
+```powershell
+pnpm deploy:cloudbase:graph-api
+```
+
+该命令会执行:
+
+1. 加载 `.env.local` 中的本地部署凭据,不回显密钥;
+2. 计算 CloudBase CLI 时间偏移并注入本次子进程;
+3. 同步 `graph-api/data`;
+4. 运行 `pnpm --dir graph-api check` 和 `pnpm --dir graph-api test`;
+5. 执行 `cloudbase cloudrun deploy -e yueen-huanbao-1gqfjr5s41e61180 -s graph-api --source graph-api --port 8787 --force --json`;
+6. smoke `/healthz`、未授权 `/api/graph/context` 401,本地有 `ECO_GRAPH_API_TOKEN` 时再做授权 context smoke。
 
 ### EcoCheck 联调门禁
 

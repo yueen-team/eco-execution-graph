@@ -14,6 +14,14 @@ pnpm --dir graph-api start
 
 部署前先读 `docs/deploy/cloudbase-static-readonly.md` 的 CloudBase 路径和“本机时间漂移硬规则”。本机时间可能与真实时间存在漂移,部署代理不得要求 candy 修改系统时间、时区或 Windows Time/NTP 服务;CloudBase CLI / 腾讯云签名失败时必须用非交互密钥登录、CI/云端执行器或签名层服务端时间偏移重试来处理。
 
+本仓库固定部署入口:
+
+```powershell
+pnpm deploy:cloudbase:graph-api
+```
+
+该命令会加载 `.env.local` 或进程环境变量中的 CloudBase 凭据,为 CloudBase CLI 注入本次进程内时间偏移,同步 `graph-api/data`,执行检查/测试,部署后 smoke 远端服务。
+
 构建目标目录填写:
 
 ```text
