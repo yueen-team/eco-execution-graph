@@ -1,6 +1,6 @@
 {
   "schema_version": "knowledge-document.v1",
-  "generated_at": "2026-06-22",
+  "generated_at": "2026-06-23",
   "source_reports": [
     "reports/rag-citation-resolution-report.json"
   ],

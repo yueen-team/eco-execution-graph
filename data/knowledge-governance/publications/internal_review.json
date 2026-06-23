@@ -2,7 +2,7 @@
   "bundle_id": "kg-publication:internal_review:v1",
   "audience": "internal_review",
   "version": "v1",
-  "generated_at": "2026-06-22",
+  "generated_at": "2026-06-23",
   "approval_basis": "ETO_APPROVED_IN_GRAPH",
   "human_review_required": false,
   "machine_gate_status": "partial",
@@ -5218,6 +5218,6 @@
       }
     }
   ],
-  "hash": "1f40ac717d1b7f757d6088649f3ee53a07cc952a151f15e932006ecfd99749a6",
+  "hash": "35362182ecd650e67256c6a9b2682f40b0fc348b496cdee69c59bf0e7ec1daf2",
   "redline_scan_status": "pass"
 }

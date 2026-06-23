@@ -9,13 +9,13 @@
   },
   "files": {
     "graph.json": {
-      "sha256": "3671a12be195aa0dfb1df20577421a17314af68926f5c5df2127e4cc99af3eeb"
+      "sha256": "550144c3275c4a4c0b3f05ee8fbf942e47f2f15fe471045a2175c48679dd5254"
     },
     "graph.ndjson": {
-      "sha256": "46eb6dc7005c8b7dbe6491728902c8d79e538b403826c28ef93c42061d9878e6"
+      "sha256": "1a1f14315c6b3b6cf3d6fd2ff93ae7eecdac6cbe4ee59b849baa3e1d5c7f6fee"
     },
     "manifest.json": {
-      "sha256": "62b7a0d68c661dea6159ebbead15cbece4af0fa6f3b6e8135b7097aecec3f43c"
+      "sha256": "250bbfdd5f0da96297debfa692cf5b3590ed28edd4b74ad3f0e00ded8fee2fa5"
     }
   },
   "scope": "full_product",
