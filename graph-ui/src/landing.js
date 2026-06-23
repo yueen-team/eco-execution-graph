@@ -37,7 +37,8 @@ function revealHeroCopy(targets = null) {
   document.querySelector(".hero-copy")?.classList.add("in");
   // 「会生长」三字长成后解除裁剪,开启呼吸辉光
   if (!reduceMotion) {
-    setTimeout(() => document.querySelector(".grow-word")?.classList.add("grown"), 1750);
+    // 末字破土生长结束(delay 1.42s + 时长 1.75s ≈ 3.17s)后再解除裁剪、起呼吸辉光
+    setTimeout(() => document.querySelector(".grow-word")?.classList.add("grown"), 3300);
   } else {
     document.querySelector(".grow-word")?.classList.add("grown");
   }
@@ -107,5 +108,124 @@ function bootReveal() {
   window.addEventListener("hashchange", () => setTimeout(revealVisible, 80));
 }
 
+/* ---- 叙事光流:置信度主轨随滚动充能 + 节点旁白 ---- */
+
+function bootStory() {
+  const story = document.getElementById("story");
+  const rail = story?.querySelector(".story-rail");
+  const confEl = document.getElementById("storyConf");
+  const stageEl = document.getElementById("storyStage");
+  const readout = story?.querySelector(".story-readout");
+  if (!story || !confEl || !stageEl || !readout) return;
+
+  const beats = [...story.querySelectorAll("[data-beat]")];
+  const clamp01 = (n) => (n < 0 ? 0 : n > 1 ? 1 : n);
+
+  // 与闭环同款"播放头驱动"的元素:到视口中线才点亮 / 出现(滚回则复原)
+  const audRows = [...document.querySelectorAll(".aud-row")];
+  const tiers = [...document.querySelectorAll(".tier")];
+  const note = document.querySelector(".loop-note");
+  const riseEls = [...document.querySelectorAll("[data-rise]")];
+
+  // 缩减动效:直接落到终态,全部点亮 / 出现,不做滚动驱动
+  if (reduceMotion) {
+    confEl.textContent = "71";
+    stageEl.textContent = "整改验证 · 一次次挣回来";
+    audRows.forEach((e) => e.classList.add("lit"));
+    tiers.forEach((e) => e.classList.add("lit"));
+    note?.classList.add("lit");
+    riseEls.forEach((e) => e.classList.add("shown"));
+    return;
+  }
+
+  // 数字"挣回来":每经过一个节点,平滑跳到该节点的置信度
+  let shownConf = 0;
+  let tweenId = 0;
+  function tweenConf(target) {
+    cancelAnimationFrame(tweenId);
+    const from = shownConf;
+    const start = performance.now();
+    const dur = 620;
+    const step = (now) => {
+      const t = clamp01((now - start) / dur);
+      const eased = 1 - Math.pow(1 - t, 3);
+      shownConf = from + (target - from) * eased;
+      confEl.textContent = String(Math.round(shownConf));
+      if (t < 1) tweenId = requestAnimationFrame(step);
+      else shownConf = target;
+    };
+    tweenId = requestAnimationFrame(step);
+  }
+
+  // 激活状态直接由滚动位置推导(对快速甩动 / 跳转都稳,不会漏拍)
+  let activeIdx = -1;
+  const loopBeats = beats.filter((b) => b.matches(".loop-line li"));
+
+  // 主轨充能 + 领光点下行 + 当前节点旁白:以视口中线为播放头
+  let ticking = false;
+  const draw = () => {
+    ticking = false;
+    const rect = story.getBoundingClientRect();
+    const playhead = window.innerHeight * 0.5;
+    const p = clamp01((playhead - rect.top) / rect.height);
+    story.style.setProperty("--story-p", p.toFixed(4));
+    rail.style.setProperty("--story-cap", `${(p * rect.height).toFixed(1)}px`);
+
+    // 窄屏底部 HUD:仅当叙事段落跨过视口中段时浮现
+    const vh = window.innerHeight;
+    document.body.classList.toggle(
+      "story-active",
+      rect.top < vh * 0.55 && rect.bottom > vh * 0.45,
+    );
+
+    // 播放头扫过的最后一个节点 = 当前旁白
+    let idx = -1;
+    for (let i = 0; i < beats.length; i++) {
+      if (beats[i].getBoundingClientRect().top <= playhead) idx = i;
+    }
+    // 闭环节点:被扫过即点亮(累积"挣得"感)
+    loopBeats.forEach((li) => {
+      li.classList.toggle("lit", li.getBoundingClientRect().top <= playhead);
+    });
+    // 受众 / 红线标题 + 硬约束框:同样到中线才点亮(滚回则熄灭,可重复)
+    audRows.forEach((el) => {
+      el.classList.toggle("lit", el.getBoundingClientRect().top <= playhead);
+    });
+    tiers.forEach((el) => {
+      el.classList.toggle("lit", el.getBoundingClientRect().top <= playhead);
+    });
+    if (note) note.classList.toggle("lit", note.getBoundingClientRect().top <= playhead);
+    // 行动区:文案/按钮从底部缓慢升起(进入视口下三分之一即触发)
+    const riseLine = vh * 0.84;
+    riseEls.forEach((el) => {
+      el.classList.toggle("shown", el.getBoundingClientRect().top <= riseLine);
+    });
+    if (idx !== activeIdx) {
+      activeIdx = idx;
+      if (idx < 0) {
+        tweenConf(0);
+        stageEl.textContent = "置信度 · 从零起步";
+        readout.dataset.tone = rail.dataset.tone = "up";
+      } else {
+        const el = beats[idx];
+        tweenConf(Number(el.dataset.conf) || 0);
+        stageEl.textContent = el.dataset.stage || "";
+        const tone = el.dataset.tone || "up";
+        readout.dataset.tone = rail.dataset.tone = tone;
+      }
+    }
+  };
+  const onScroll = () => {
+    if (!ticking) {
+      ticking = true;
+      requestAnimationFrame(draw);
+    }
+  };
+  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", onScroll, { passive: true });
+  draw();
+}
+
 bootHero();
 bootReveal();
+bootStory();
