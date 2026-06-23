@@ -4,6 +4,7 @@ graph-ui/dist-cloudbase-static-readonly/
 __pycache__/
 *.pyc
 .venv/
+.tmp/
 .env
 .env.local
 reports/render-proof/*.png

@@ -2,10 +2,11 @@ param(
   [string]$EnvId = "yueen-huanbao-1gqfjr5s41e61180",
   [string]$Region = "ap-shanghai",
   [string]$ServiceName = "graph-api",
-  [string]$Source = "graph-api",
+  [string]$Source = ".tmp/cloudbase-graph-api-deploy",
   [int]$Port = 8787,
   [string]$EnvFile = ".env.local",
   [string]$TimeSourceUrl = "https://www.yueen.cc/eco-execution-graph/",
+  [int]$DeployWaitSeconds = 600,
   [switch]$SkipChecks,
   [switch]$SkipSmoke
 )
@@ -152,6 +153,48 @@ function Invoke-Native {
   }
 }
 
+function Assert-PathInside {
+  param(
+    [string]$Path,
+    [string]$Parent
+  )
+
+  $fullPath = [System.IO.Path]::GetFullPath($Path)
+  $fullParent = [System.IO.Path]::GetFullPath($Parent)
+  if (-not $fullParent.EndsWith([System.IO.Path]::DirectorySeparatorChar)) {
+    $fullParent = "$fullParent$([System.IO.Path]::DirectorySeparatorChar)"
+  }
+  if (-not $fullPath.StartsWith($fullParent, [System.StringComparison]::OrdinalIgnoreCase)) {
+    throw "Path must stay inside $fullParent, got $fullPath"
+  }
+}
+
+function Prepare-CloudBaseDeploySource {
+  param([string]$TargetSource)
+
+  $tmpRoot = Join-Path $repoRoot ".tmp"
+  $target = Join-Path $repoRoot $TargetSource
+  Assert-PathInside $target $tmpRoot
+
+  if (Test-Path $target) {
+    Remove-Item -LiteralPath $target -Recurse -Force
+  }
+
+  New-Item -ItemType Directory -Force -Path (Join-Path $target "graph-api") | Out-Null
+  Copy-Item -LiteralPath (Join-Path $repoRoot "cloudbaserc.json") -Destination (Join-Path $target "cloudbaserc.json") -Force
+
+  foreach ($file in @("Dockerfile", "package.json", "pnpm", "cloudbaserc.json")) {
+    Copy-Item -LiteralPath (Join-Path $repoRoot "graph-api/$file") -Destination (Join-Path $target "graph-api/$file") -Force
+  }
+  foreach ($dir in @("src", "scripts", "data")) {
+    Copy-Item -LiteralPath (Join-Path $repoRoot "graph-api/$dir") -Destination (Join-Path $target "graph-api/$dir") -Recurse -Force
+  }
+
+  $resolved = (Resolve-Path $target).Path
+  Write-Host "prepared deploy source: $resolved"
+  return $resolved
+}
+
 function Invoke-CloudBase {
   param(
     [string[]]$Arguments,
@@ -187,6 +230,91 @@ function Invoke-CloudBase {
     $env:NODE_OPTIONS = $oldNodeOptions
     $env:CLOUDBASE_TIME_OFFSET_SECONDS = $oldOffset
   }
+}
+
+function Invoke-CloudBaseListOutput {
+  param([int]$TimeOffsetSeconds)
+
+  $oldNodeOptions = $env:NODE_OPTIONS
+  $oldOffset = $env:CLOUDBASE_TIME_OFFSET_SECONDS
+  $shim = (Resolve-Path (Join-Path $PSScriptRoot "cloudbase-time-offset-shim.cjs")).Path.Replace("\", "/")
+
+  try {
+    if ([Math]::Abs($TimeOffsetSeconds) -gt 30) {
+      $env:CLOUDBASE_TIME_OFFSET_SECONDS = [string]$TimeOffsetSeconds
+      $shimOption = "--require=$shim"
+      if ($oldNodeOptions) {
+        $env:NODE_OPTIONS = "$shimOption $oldNodeOptions"
+      } else {
+        $env:NODE_OPTIONS = $shimOption
+      }
+    }
+
+    $output = & cloudbase cloudrun list -e $EnvId --json 2>&1
+    $exitCode = $LASTEXITCODE
+    if ($exitCode -ne 0) {
+      throw "cloudbase cloudrun list failed with exit code $exitCode"
+    }
+    return ($output -join [Environment]::NewLine)
+  } finally {
+    $env:NODE_OPTIONS = $oldNodeOptions
+    $env:CLOUDBASE_TIME_OFFSET_SECONDS = $oldOffset
+  }
+}
+
+function Remove-Ansi {
+  param([string]$Text)
+
+  $esc = [char]27
+  return (($Text -replace "$esc\[[0-9;?]*[ -/]*[@-~]", "") -replace "`r", "")
+}
+
+function Get-CloudRunServiceSnapshot {
+  param([int]$TimeOffsetSeconds)
+
+  $output = Invoke-CloudBaseListOutput $TimeOffsetSeconds
+  $plain = Remove-Ansi $output
+  foreach ($line in ($plain -split "`n")) {
+    if ($line -notmatch $ServiceName) {
+      continue
+    }
+    $columns = @($line -split "│" | ForEach-Object { $_.Trim() } | Where-Object { $_ })
+    if ($columns.Count -ge 5 -and $columns[0] -eq $ServiceName) {
+      return [pscustomobject]@{
+        Service = $columns[0]
+        Type = $columns[1]
+        UpdatedAt = $columns[2]
+        Status = $columns[3]
+        PublicAccess = $columns[4]
+        Raw = $line.Trim()
+      }
+    }
+  }
+  return $null
+}
+
+function Wait-CloudRunDeployment {
+  param(
+    [string]$BeforeUpdatedAt,
+    [int]$TimeOffsetSeconds,
+    [int]$TimeoutSeconds
+  )
+
+  $deadline = (Get-Date).AddSeconds($TimeoutSeconds)
+  do {
+    Start-Sleep -Seconds 20
+    $snapshot = Get-CloudRunServiceSnapshot $TimeOffsetSeconds
+    if ($snapshot) {
+      Write-Host "cloudrun $($snapshot.Service) updated_at=$($snapshot.UpdatedAt) status=$($snapshot.Status)"
+      if ($snapshot.UpdatedAt -and $snapshot.UpdatedAt -ne $BeforeUpdatedAt -and $snapshot.Status -eq "normal") {
+        return $snapshot
+      }
+    } else {
+      Write-Host "cloudrun $ServiceName not found while waiting"
+    }
+  } while ((Get-Date) -lt $deadline)
+
+  throw "CloudBase deployment did not reach a new normal revision within $TimeoutSeconds seconds. Previous updated_at=$BeforeUpdatedAt"
 }
 
 function Invoke-GraphApiTests {
@@ -260,17 +388,27 @@ if ($credential.Kind -eq "cloudbase-api-key") {
 
 Write-Step "cloudbase control-plane check"
 Invoke-CloudBase -Arguments @("cloudrun", "list", "-e", $EnvId, "--json") -TimeOffsetSeconds $timeOffsetSeconds
+$beforeSnapshot = Get-CloudRunServiceSnapshot $timeOffsetSeconds
+$beforeUpdatedAt = if ($beforeSnapshot) { $beforeSnapshot.UpdatedAt } else { "" }
+Write-Host "previous $ServiceName updated_at=$beforeUpdatedAt"
+
+Write-Step "prepare graph-api deploy source"
+$deploySource = Prepare-CloudBaseDeploySource $Source
 
 Write-Step "deploy graph-api cloudrun"
 Invoke-CloudBase -Arguments @(
   "cloudrun", "deploy",
   "-e", $EnvId,
   "-s", $ServiceName,
-  "--source", $Source,
+  "--source", $deploySource,
   "--port", [string]$Port,
   "--force",
   "--json"
 ) -TimeOffsetSeconds $timeOffsetSeconds -InputText "n`n"
+
+Write-Step "wait for CloudBase deployment"
+$afterSnapshot = Wait-CloudRunDeployment $beforeUpdatedAt $timeOffsetSeconds $DeployWaitSeconds
+Write-Host "deployed $ServiceName updated_at=$($afterSnapshot.UpdatedAt) status=$($afterSnapshot.Status)"
 
 if (-not $SkipSmoke) {
   $baseUrl = "https://www.yueen.cc/container-eco-execution-graph"
@@ -291,6 +429,6 @@ Write-Step "deployment summary"
 Write-Host "environment=$EnvId"
 Write-Host "region=$Region"
 Write-Host "service=$ServiceName"
-Write-Host "source=$Source"
+Write-Host "source=$deploySource"
 Write-Host "port=$Port"
 Write-Host "rollback=risk limited to graph-api cloudrun revision; use CloudBase cloudrun traffic rollback if the new revision fails smoke"

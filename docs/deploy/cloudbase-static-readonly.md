@@ -133,8 +133,10 @@ pnpm deploy:cloudbase:graph-api
 2. 计算 CloudBase CLI 时间偏移并注入本次子进程;
 3. 同步 `graph-api/data`;
 4. 运行 `pnpm --dir graph-api check` 和 `pnpm --dir graph-api test`;
-5. 执行 `cloudbase cloudrun deploy -e yueen-huanbao-1gqfjr5s41e61180 -s graph-api --source graph-api --port 8787 --force --json`;
-6. smoke `/healthz`、未授权 `/api/graph/context` 401,本地有 `ECO_GRAPH_API_TOKEN` 时再做授权 context smoke。
+5. 生成 `.tmp/cloudbase-graph-api-deploy/` 临时部署根目录,其中必须包含 `graph-api/` 子目录,以匹配 CloudBase 服务端 BuildDir;
+6. 执行 `cloudbase cloudrun deploy -e yueen-huanbao-1gqfjr5s41e61180 -s graph-api --source .tmp/cloudbase-graph-api-deploy --port 8787 --force --json`;
+7. 轮询 `cloudbase cloudrun list`,直到 `graph-api` 更新时间发生变化且状态为 `normal`;只提交构建不算部署完成;
+8. smoke `/healthz`、未授权 `/api/graph/context` 401,本地有 `ECO_GRAPH_API_TOKEN` 时再做授权 context smoke。
 
 ### EcoCheck 联调门禁
 

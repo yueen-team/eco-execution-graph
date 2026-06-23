@@ -20,7 +20,7 @@ pnpm --dir graph-api start
 pnpm deploy:cloudbase:graph-api
 ```
 
-该命令会加载 `.env.local` 或进程环境变量中的 CloudBase 凭据,为 CloudBase CLI 注入本次进程内时间偏移,同步 `graph-api/data`,执行检查/测试,部署后 smoke 远端服务。
+该命令会加载 `.env.local` 或进程环境变量中的 CloudBase 凭据,为 CloudBase CLI 注入本次进程内时间偏移,同步 `graph-api/data`,执行检查/测试,生成包含 `graph-api/` 子目录的临时部署根目录,等待云端构建后的服务更新时间变化并进入 `normal`,再 smoke 远端服务。
 
 构建目标目录填写:
 
