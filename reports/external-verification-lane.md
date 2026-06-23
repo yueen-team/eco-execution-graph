@@ -3,7 +3,9 @@
 - lane_id: `GRAPH-EXTERNAL-VERIFICATION`
 - mode: `external`
 - status: `pass`
-- checked_at_utc: `2026-06-23T04:08:18Z`
+- checked_at_utc: `2026-06-23T05:09:25Z`
+- source_commit: `6b6fd57d7f28` (dirty)
+- credentials_present: `true`
 - required_gate_ids: `GRAPH-RAG-REAL-SMOKE`
 - rag_real_smoke: `pass`
 - tokenhub_probe: `pass`
@@ -23,7 +25,7 @@
 | gate | status | reason |
 | --- | --- | --- |
 | GRAPH-RAG-REAL-SMOKE | `pass` |  |
-| ECOCHECK-GRAPH-PUSH-REAL-SMOKE | `pass` |  |
+| ECOCHECK-GRAPH-PUSH-REAL-SMOKE | `blocked` | EcoCheck graph smoke report location is not configured. |
 | ECOCHECK-AGGREGATE-ETO-BLIND-REVIEW | `blocked` | Requires real aggregate rows plus ETO blind review of desensitized monthly samples. |
 | GOVERNMENT-LINEAGE-REAL-IMPORT | `blocked` | Requires a government_confirmed lineage exchange dataset, not only the contract fixture. |
 
