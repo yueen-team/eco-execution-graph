@@ -1,9 +1,59 @@
 {
-  "lane_id": "GRAPH-RAG-REAL-SMOKE",
+  "lane_id": "GRAPH-EXTERNAL-VERIFICATION",
   "mode": "external",
   "status": "pass",
-  "checked_at_utc": "2026-06-22T17:41:56Z",
-  "report_only_source": "Tencent RAG real smoke remains outside default verify:all",
+  "checked_at": "2026-06-23T04:08:18Z",
+  "checked_at_utc": "2026-06-23T04:08:18Z",
+  "report_only_source": "External gates remain outside default verify:all unless explicitly required by this lane.",
+  "required_gate_ids": [
+    "GRAPH-RAG-REAL-SMOKE"
+  ],
+  "gates": [
+    {
+      "gate_id": "GRAPH-RAG-REAL-SMOKE",
+      "status": "pass",
+      "preflight_status": "pass",
+      "rag_summary_status": "pass",
+      "report": "reports/rag-citation-resolution-report.json",
+      "reason": null
+    },
+    {
+      "gate_id": "ECOCHECK-GRAPH-PUSH-REAL-SMOKE",
+      "status": "pass",
+      "report": "E:\\EcoCheck\\docs\\validation\\graph-synthetic-smoke.latest.json",
+      "checked_at": "2026-06-23T04:02:35.261Z",
+      "mode": "live",
+      "endpoint": "https://www.yueen.cc/container-eco-execution-graph/api/ecocheck/field-events",
+      "token_configured": true,
+      "business_key": "synthetic-smoke:semantic-event-v2-20260623-autoclean2",
+      "posted_case_count": 1,
+      "synthetic_cleanup_status": "marked_not_for_graph",
+      "synthetic_review_id": "review:bc1da557a06a72d3",
+      "reason": null
+    },
+    {
+      "gate_id": "ECOCHECK-AGGREGATE-ETO-BLIND-REVIEW",
+      "status": "blocked",
+      "aggregate_report": "reports/ecocheck-aggregate-pitfall-candidates.json",
+      "monthly_comparison_report": "reports/monthly-report-comparison-full.json",
+      "aggregate_status": "blocked",
+      "aggregate_rows": 0,
+      "monthly_comparison_status": "blocked",
+      "eto_blind_review_status": "pending",
+      "reason": "Requires real aggregate rows plus ETO blind review of desensitized monthly samples."
+    },
+    {
+      "gate_id": "GOVERNMENT-LINEAGE-REAL-IMPORT",
+      "status": "blocked",
+      "report": "reports/lineage-contract-readiness.json",
+      "exchange_path": "data/candidates/government_lineage_contract_fixture.json",
+      "dataset_status": "contract_fixture",
+      "government_lineage_real_import": "blocked",
+      "record_count": 6,
+      "edge_preview_count": 6,
+      "reason": "Requires a government_confirmed lineage exchange dataset, not only the contract fixture."
+    }
+  ],
   "preflight": {
     "status": "pass",
     "env_source_policy": ".env.local plus process environment; report records names only",
@@ -82,10 +132,13 @@
     "global_ontology_blocking": "no",
     "environment_scoped_blocking_candidate": true,
     "decision": "candidate_after_repeat_evidence",
+    "required_gate_ids": [
+      "GRAPH-RAG-REAL-SMOKE"
+    ],
     "required_before_blocking": [
       "repeat pass evidence in the target CI or hosted runtime",
       "documented secret injection and outage policy for that runtime",
-      "explicit ADR cutover that scopes the gate to environments with Tencent credentials"
+      "explicit ADR cutover that scopes each gate to environments with its required credentials or data"
     ]
   },
   "redaction_boundary": {

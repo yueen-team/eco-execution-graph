@@ -68,6 +68,59 @@ class ExternalVerificationLaneTest(unittest.TestCase):
         self.assertEqual(rag["safety"]["status"], "failed")
         self.assertTrue(rag["safety"]["raw_rag_content_stored"])
 
+    def test_default_required_gate_is_only_rag(self):
+        report = build_report(
+            checked_at="2026-06-22T00:00:00Z",
+            env={
+                "TENCENT_LKE_SECRET_ID": "configured-secret-id",
+                "TENCENT_LKE_SECRET_KEY": "configured-secret-key",
+                "TENCENT_LKE_KNOWLEDGE_BASE_IDS": "kb-1",
+                "TENCENT_TOKENHUB_API_KEY": "configured-tokenhub",
+            },
+            steps=[
+                {"name": "rag-resolve", "command": "pnpm rag:resolve", "status": "pass", "exit_code": 0},
+                {"name": "rag-real-gate", "command": "pnpm rag:real:gate", "status": "pass", "exit_code": 0},
+            ],
+            rag_report={
+                "rag_real_smoke": "pass",
+                "tokenhub_probe": {"status": "pass"},
+                "rag_retrieve_probe": {"status": "pass"},
+                "embedding_probe": {"status": "pass"},
+                "results": [{"raw_cached": False, "excerpt": ""}],
+            },
+        )
+
+        self.assertEqual(report["status"], "pass")
+        self.assertEqual(report["required_gate_ids"], ["GRAPH-RAG-REAL-SMOKE"])
+        gate_statuses = {gate["gate_id"]: gate["status"] for gate in report["gates"]}
+        self.assertEqual(gate_statuses["GRAPH-RAG-REAL-SMOKE"], "pass")
+
+    def test_all_required_gates_fail_closed_when_external_inputs_are_absent(self):
+        report = build_report(
+            checked_at="2026-06-22T00:00:00Z",
+            env={
+                "GRAPH_EXTERNAL_REQUIRED_GATES": "all",
+                "TENCENT_LKE_SECRET_ID": "configured-secret-id",
+                "TENCENT_LKE_SECRET_KEY": "configured-secret-key",
+                "TENCENT_LKE_KNOWLEDGE_BASE_IDS": "kb-1",
+                "TENCENT_TOKENHUB_API_KEY": "configured-tokenhub",
+            },
+            steps=[
+                {"name": "rag-resolve", "command": "pnpm rag:resolve", "status": "pass", "exit_code": 0},
+                {"name": "rag-real-gate", "command": "pnpm rag:real:gate", "status": "pass", "exit_code": 0},
+            ],
+            rag_report={
+                "rag_real_smoke": "pass",
+                "tokenhub_probe": {"status": "pass"},
+                "rag_retrieve_probe": {"status": "pass"},
+                "embedding_probe": {"status": "pass"},
+                "results": [{"raw_cached": False, "excerpt": ""}],
+            },
+        )
+
+        self.assertEqual(report["status"], "blocked")
+        self.assertIn("ECOCHECK-AGGREGATE-ETO-BLIND-REVIEW", report["required_gate_ids"])
+
 
 if __name__ == "__main__":
     unittest.main()

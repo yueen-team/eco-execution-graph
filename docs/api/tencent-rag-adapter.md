@@ -39,9 +39,12 @@ Current real smoke boundary:
 - Default `pnpm verify:all` does not call the external Tencent RAG real smoke.
   Contract validation, graph build, leak checks, API tests, and synthetic intake
   smoke must stay green without Tencent SecretId/network access.
-- `pnpm verify:external` or `pnpm verify:rag:real` runs the real RAG smoke:
-  `pnpm external:verify`. The lane performs credential/config preflight, then
-  runs `pnpm rag:resolve` followed by `pnpm rag:real:gate` when the external
+- `pnpm verify:external` or `pnpm verify:rag:real` runs the graph external
+  verification lane: `pnpm external:verify`. By default the lane requires only
+  `GRAPH-RAG-REAL-SMOKE`; additional gates can be made fail-closed with
+  `GRAPH_EXTERNAL_REQUIRED_GATES=all` or a comma-separated gate subset.
+- For the RAG gate, the lane performs credential/config preflight, then runs
+  `pnpm rag:resolve` followed by `pnpm rag:real:gate` when the external
   environment is configured.
 - The external lane writes `reports/external-verification-lane.json` and `.md`.
   These reports record only environment variable names/configured booleans,
@@ -55,8 +58,10 @@ Current real smoke boundary:
   environment-scoped blocking candidate after repeat evidence and an ADR
   cutover. It does not promote the default ontology or graph gates by itself.
 - ADR-0012 accepts the owner-repo cutover boundary: `pnpm verify:external` may
-  be blocking only in a credentialed external CI lane, while default
-  `pnpm verify:all` remains independent from Tencent availability.
+  be blocking only in a credentialed/data-bearing external CI lane, while
+  default `pnpm verify:all` remains independent from Tencent availability.
+  The same lane now reserves fail-closed surfaces for EcoCheck live graph push,
+  real aggregate plus ETO blind review, and government-confirmed lineage import.
 
 Previously verified smoke:
 

@@ -1,9 +1,10 @@
 # External Verification Lane
 
-- lane_id: `GRAPH-RAG-REAL-SMOKE`
+- lane_id: `GRAPH-EXTERNAL-VERIFICATION`
 - mode: `external`
 - status: `pass`
-- checked_at_utc: `2026-06-22T17:41:56Z`
+- checked_at_utc: `2026-06-23T04:08:18Z`
+- required_gate_ids: `GRAPH-RAG-REAL-SMOKE`
 - rag_real_smoke: `pass`
 - tokenhub_probe: `pass`
 - rag_retrieve_probe: `pass`
@@ -16,6 +17,15 @@
 - TENCENT_LKE_SECRET_KEY: configured=true
 - TENCENT_LKE_KNOWLEDGE_BASE_IDS: configured=true
 - tokenhub_deepseek_api_key: configured=true via TENCENT_TOKENHUB_API_KEY, TENCENT_LKEAP_API_KEY
+
+## External Gates
+
+| gate | status | reason |
+| --- | --- | --- |
+| GRAPH-RAG-REAL-SMOKE | `pass` |  |
+| ECOCHECK-GRAPH-PUSH-REAL-SMOKE | `pass` |  |
+| ECOCHECK-AGGREGATE-ETO-BLIND-REVIEW | `blocked` | Requires real aggregate rows plus ETO blind review of desensitized monthly samples. |
+| GOVERNMENT-LINEAGE-REAL-IMPORT | `blocked` | Requires a government_confirmed lineage exchange dataset, not only the contract fixture. |
 
 ## Steps
 - rag-resolve: `pass` exit=0
@@ -34,4 +44,4 @@
 - required_before_blocking:
   - repeat pass evidence in the target CI or hosted runtime
   - documented secret injection and outage policy for that runtime
-  - explicit ADR cutover that scopes the gate to environments with Tencent credentials
+  - explicit ADR cutover that scopes each gate to environments with its required credentials or data
