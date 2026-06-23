@@ -12,6 +12,8 @@ pnpm --dir graph-api start
 
 ## CloudBase 云托管
 
+部署前先读 `docs/deploy/cloudbase-static-readonly.md` 的 CloudBase 路径和“本机时间漂移硬规则”。本机时间可能与真实时间存在漂移,部署代理不得要求 candy 修改系统时间、时区或 Windows Time/NTP 服务;CloudBase CLI / 腾讯云签名失败时必须用非交互密钥登录、CI/云端执行器或签名层服务端时间偏移重试来处理。
+
 构建目标目录填写:
 
 ```text

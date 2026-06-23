@@ -65,6 +65,30 @@ pwsh -ExecutionPolicy Bypass -File scripts/prepare_cloudbase_static_readonly.ps1
 cloudbase hosting deploy -e yueen-huanbao-1gqfjr5s41e61180 graph-ui/dist-cloudbase-static-readonly dist-cloudbase-static-readonly
 ```
 
+### 本机时间漂移硬规则
+
+部署代理不得要求 candy 修改本机系统时间、时区或 Windows Time/NTP 服务。本机时间可能与真实时间存在漂移,这是已知部署前提,不是人工前置操作。
+
+遇到 CloudBase CLI / 腾讯云 TC3 签名类报错时,必须按部署流程处理时间漂移,不得把交付结论写成“请先校准本机时间”。典型报错包括:
+
+```text
+Signature expired. Please use local time and enable NTP service for time synchronization to avoid a deviation between Timestamp and the server time ...
+```
+
+处理规则:
+
+1. 腾讯云 API 代码路径必须使用服务端时间偏移重试;项目签名层支持 `TENCENT_CLOUD_TIME_OFFSET_SECONDS`,并会在 `Signature expired` 时根据服务端时间调整后重试。
+2. CloudBase CLI 登录或部署如果因本机时间漂移失败,优先使用非交互密钥登录或具备正确时间的 CI/云端部署执行器,而不是要求修改本机时间。
+3. 本机没有可用 CloudBase 凭据时,交付记录必须把阻塞项写成“CloudBase CLI 凭据/时间漂移处理未就绪”,并记录已完成的本地打包、命令、失败原文和回滚风险。
+4. 不得在仓库、报告或终端回显 `TENCENT_SECRET_KEY`、`CLOUDBASE_API_KEY`、MySQL 密码、企业微信 secret 等密钥。
+
+可选的非交互登录形态如下,具体以当前 CloudBase CLI 版本支持的参数为准:
+
+```powershell
+cloudbase login --apiKeyId $env:TENCENT_SECRET_ID --apiKey $env:TENCENT_SECRET_KEY
+cloudbase login --cloudbase-api-key $env:CLOUDBASE_API_KEY -e yueen-huanbao-1gqfjr5s41e61180
+```
+
 验证 URL:
 
 ```text
