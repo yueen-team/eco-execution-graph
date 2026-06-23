@@ -6,7 +6,13 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "pipeline"))
 
-from external_verification_lane import build_report, summarize_rag_report
+from external_verification_lane import (
+    build_report,
+    redact_text,
+    resolve_ecocheck_smoke_report_path,
+    summarize_ecocheck_graph_push,
+    summarize_rag_report,
+)
 
 
 class ExternalVerificationLaneTest(unittest.TestCase):
@@ -120,6 +126,69 @@ class ExternalVerificationLaneTest(unittest.TestCase):
 
         self.assertEqual(report["status"], "blocked")
         self.assertIn("ECOCHECK-AGGREGATE-ETO-BLIND-REVIEW", report["required_gate_ids"])
+
+    def test_redact_text_scrubs_structured_secret_lines(self):
+        env = {"TENCENT_LKE_SECRET_KEY": "abcdefghruntoken"}
+        sample = (
+            "Authorization: Bearer abcdefghruntoken trailing-after-r\n"
+            "secret_key=supersecretvalue, next=keep\n"
+            "api-key: rotateThisKey now\n"
+            "value=abcdefghruntoken end"
+        )
+
+        redacted = redact_text(sample, env)
+
+        # The raw env secret must never survive anywhere in the output.
+        self.assertNotIn("abcdefghruntoken", redacted)
+        # Structured-line redaction must consume the whole value, not stop at
+        # the first 'r'/'s' (the old [^\\r\\n] / [^\\s,;}] escaping bug).
+        self.assertNotIn("trailing-after-r", redacted)
+        self.assertNotIn("supersecretvalue", redacted)
+        self.assertNotIn("rotateThisKey", redacted)
+        # Non-secret neighbours after a delimiter must be preserved.
+        self.assertIn("next=keep", redacted)
+
+    def test_ecocheck_gate_blocks_clearly_when_path_not_injected(self):
+        # No machine-specific E:/EcoCheck fallback: an unconfigured environment
+        # must block with an explicit required_input, not silently miss a file.
+        self.assertIsNone(resolve_ecocheck_smoke_report_path({}))
+
+        gate = summarize_ecocheck_graph_push({})
+        self.assertEqual(gate["gate_id"], "ECOCHECK-GRAPH-PUSH-REAL-SMOKE")
+        self.assertEqual(gate["status"], "blocked")
+        self.assertIsNone(gate["report"])
+        self.assertIn("ECOCHECK_ROOT", gate["required_input"])
+
+    def test_ecocheck_path_resolves_from_injected_env(self):
+        explicit = resolve_ecocheck_smoke_report_path(
+            {"ECOCHECK_GRAPH_SMOKE_REPORT": "/tmp/custom-smoke.json"}
+        )
+        self.assertEqual(explicit.as_posix(), "/tmp/custom-smoke.json")
+
+        from_root = resolve_ecocheck_smoke_report_path({"ECOCHECK_ROOT": "/srv/EcoCheck"})
+        self.assertEqual(
+            from_root.as_posix(),
+            "/srv/EcoCheck/docs/validation/graph-synthetic-smoke.latest.json",
+        )
+
+    def test_report_pins_commit_and_marks_credential_binding(self):
+        report = build_report(
+            checked_at="2026-06-23T00:00:00Z",
+            env={},
+            steps=[],
+            rag_report=None,
+            commit={"sha": "deadbeefcafe0001", "short_sha": "deadbeefcafe", "dirty": False},
+        )
+
+        self.assertEqual(report["source_commit"]["short_sha"], "deadbeefcafe")
+        self.assertFalse(report["reproducibility"]["closed_world_independent"])
+        # No credentials in env -> credential binding is surfaced, not hidden.
+        self.assertFalse(report["reproducibility"]["credentials_present"])
+        self.assertIn("TENCENT_LKE_SECRET_ID", report["reproducibility"]["required_credential_env_names"])
+
+    def test_report_source_commit_defaults_when_commit_absent(self):
+        report = build_report(checked_at="2026-06-23T00:00:00Z", env={}, steps=[], rag_report=None)
+        self.assertIsNone(report["source_commit"]["sha"])
 
 
 if __name__ == "__main__":

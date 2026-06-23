@@ -42,6 +42,34 @@ def utc_now() -> str:
     return dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z")
 
 
+def git_commit_info() -> dict[str, Any]:
+    """Best-effort capture of the tree this lane ran against, so the report
+    evidence is pinned to a commit instead of an unverifiable point in time."""
+    git = shutil.which("git") or "git"
+    try:
+        head = subprocess.run([git, "rev-parse", "HEAD"], cwd=ROOT, text=True, capture_output=True, timeout=10)
+        if head.returncode != 0:
+            return {"sha": None, "short_sha": None, "dirty": None}
+        sha = head.stdout.strip()
+        status = subprocess.run([git, "status", "--porcelain"], cwd=ROOT, text=True, capture_output=True, timeout=10)
+        dirty = bool(status.stdout.strip()) if status.returncode == 0 else None
+        return {"sha": sha or None, "short_sha": sha[:12] if sha else None, "dirty": dirty}
+    except (subprocess.SubprocessError, OSError):
+        return {"sha": None, "short_sha": None, "dirty": None}
+
+
+def resolve_ecocheck_smoke_report_path(env: dict[str, str]) -> Path | None:
+    """Resolve the EcoCheck graph smoke report from explicit injection only.
+    No machine-specific path is assumed, so this lane is portable to CI/Linux."""
+    explicit = (env.get("ECOCHECK_GRAPH_SMOKE_REPORT") or "").strip()
+    if explicit:
+        return Path(explicit)
+    root = (env.get("ECOCHECK_ROOT") or "").strip()
+    if root:
+        return Path(root) / "docs" / "validation" / "graph-synthetic-smoke.latest.json"
+    return None
+
+
 def rel(path: Path) -> str:
     return path.resolve().relative_to(ROOT).as_posix()
 
@@ -103,9 +131,9 @@ def redact_text(text: str, env: dict[str, str]) -> str:
         if configured(value) and len(value) >= 6:
             redacted = redacted.replace(value, "<redacted>")
     redacted = re.sub(r"Bearer\s+[A-Za-z0-9._~+/=-]+", "Bearer <redacted>", redacted)
-    redacted = re.sub(r"Authorization:\s*[^\\r\\n]+", "Authorization: <redacted>", redacted, flags=re.IGNORECASE)
-    redacted = re.sub(r"(secret[_-]?key[\"'=:\s]+)[^\\s,;}]+", r"\1<redacted>", redacted, flags=re.IGNORECASE)
-    redacted = re.sub(r"(api[_-]?key[\"'=:\s]+)[^\\s,;}]+", r"\1<redacted>", redacted, flags=re.IGNORECASE)
+    redacted = re.sub(r"Authorization:\s*[^\r\n]+", "Authorization: <redacted>", redacted, flags=re.IGNORECASE)
+    redacted = re.sub(r"(secret[_-]?key[\"'=:\s]+)[^\s,;}]+", r"\1<redacted>", redacted, flags=re.IGNORECASE)
+    redacted = re.sub(r"(api[_-]?key[\"'=:\s]+)[^\s,;}]+", r"\1<redacted>", redacted, flags=re.IGNORECASE)
     return redacted
 
 
@@ -214,13 +242,17 @@ def read_optional_json(path: Path) -> dict[str, Any] | None:
 
 
 def summarize_ecocheck_graph_push(env: dict[str, str]) -> dict[str, Any]:
-    report_path = Path(
-        env.get("ECOCHECK_GRAPH_SMOKE_REPORT")
-        or Path(env.get("ECOCHECK_ROOT") or "E:/EcoCheck")
-        / "docs"
-        / "validation"
-        / "graph-synthetic-smoke.latest.json"
-    )
+    report_path = resolve_ecocheck_smoke_report_path(env)
+    if report_path is None:
+        return {
+            "gate_id": "ECOCHECK-GRAPH-PUSH-REAL-SMOKE",
+            "status": "blocked",
+            "report": None,
+            "reason": "EcoCheck graph smoke report location is not configured.",
+            "required_input": "Set ECOCHECK_ROOT=<path to EcoCheck repo> or "
+            "ECOCHECK_GRAPH_SMOKE_REPORT=<path to graph-synthetic-smoke.latest.json>. "
+            "This lane no longer assumes a machine-specific path.",
+        }
     report = read_optional_json(report_path)
     if report is None:
         return {
@@ -348,6 +380,7 @@ def build_report(
     env: dict[str, str],
     steps: list[dict[str, Any]],
     rag_report: dict[str, Any] | None,
+    commit: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     preflight = build_preflight(env)
     rag = summarize_rag_report(rag_report)
@@ -367,12 +400,24 @@ def build_report(
         "GOVERNMENT-LINEAGE-REAL-IMPORT": summarize_government_lineage(),
     }
     status = lane_status(required_gate_ids, gates)
+    credentials_present = preflight["status"] == "pass"
     return {
         "lane_id": "GRAPH-EXTERNAL-VERIFICATION",
         "mode": "external",
         "status": status,
         "checked_at": checked_at,
         "checked_at_utc": checked_at,
+        "source_commit": commit or {"sha": None, "short_sha": None, "dirty": None},
+        "reproducibility": {
+            "closed_world_independent": False,
+            "default_gate_requires_credentials": True,
+            "required_credential_env_names": [*REQUIRED_ENV, "tokenhub_deepseek_api_key"],
+            "credentials_present": credentials_present,
+            "note": "The default GRAPH-RAG-REAL-SMOKE gate runs the Tencent RAG real "
+            "smoke. Without configured credentials it is reported as blocked (not "
+            "failed); any pass evidence is environment-bound and not reproducible "
+            "by a reviewer who lacks Tencent access.",
+        },
         "report_only_source": "External gates remain outside default verify:all unless explicitly required by this lane.",
         "required_gate_ids": required_gate_ids,
         "gates": [gates[gate_id] for gate_id in ALL_GATE_IDS],
@@ -397,6 +442,9 @@ def write_markdown(report: dict[str, Any]) -> None:
         f"- mode: `{report['mode']}`",
         f"- status: `{report['status']}`",
         f"- checked_at_utc: `{report['checked_at_utc']}`",
+        f"- source_commit: `{report['source_commit'].get('short_sha') or 'unknown'}`"
+        + (" (dirty)" if report['source_commit'].get('dirty') else ""),
+        f"- credentials_present: `{str(report['reproducibility']['credentials_present']).lower()}`",
         f"- required_gate_ids: `{', '.join(report['required_gate_ids'])}`",
         f"- rag_real_smoke: `{report['rag_summary'].get('rag_real_smoke')}`",
         f"- tokenhub_probe: `{report['rag_summary'].get('tokenhub_probe')}`",
@@ -455,7 +503,9 @@ def run_lane() -> int:
         else:
             steps.append({"name": "rag-real-gate", "command": "pnpm rag:real:gate", "status": "skipped", "exit_code": None})
 
-    report = build_report(checked_at=utc_now(), env=env, steps=steps, rag_report=rag_report)
+    report = build_report(
+        checked_at=utc_now(), env=env, steps=steps, rag_report=rag_report, commit=git_commit_info()
+    )
     write_json(REPORT_JSON, report)
     write_markdown(report)
     print(
@@ -463,6 +513,7 @@ def run_lane() -> int:
             {
                 "status": report["status"],
                 "lane_id": report["lane_id"],
+                "source_commit": report["source_commit"].get("short_sha"),
                 "report": rel(REPORT_JSON),
                 "rag_report": report["rag_summary"].get("report"),
                 "promotion_decision": report["promotion_decision"]["decision"],
@@ -470,6 +521,19 @@ def run_lane() -> int:
             ensure_ascii=False,
         )
     )
+    if report["status"] != "pass":
+        blocked = [
+            gate["gate_id"]
+            for gate in report["gates"]
+            if gate["gate_id"] in report["required_gate_ids"] and gate["status"] != "pass"
+        ]
+        print(f"verify:external {report['status']} on required gate(s): {', '.join(blocked)}", file=sys.stderr)
+        if not report["reproducibility"]["credentials_present"]:
+            print(
+                "Hint: external credentials are not configured, so the default gate is "
+                "blocked (config gap), not a code regression.",
+                file=sys.stderr,
+            )
     return 0 if report["status"] == "pass" else 1
 
 
