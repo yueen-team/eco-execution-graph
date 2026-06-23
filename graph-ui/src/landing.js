@@ -1,11 +1,13 @@
 import "./landing.css";
-import cytoscape from "cytoscape";
-import { NODE_TYPE_META, EDGE_TYPE_COLOR } from "./state.js";
+import { mountHeroScene } from "./heroScene.js";
 
 // 着陆页原则与主应用一致:不编造任何数字、不放概念假图。
-// 首屏背景 = 真实 P1 图谱切片生长回放;数字带 = 共有导出包实时计数。
+// 首屏背景 = 真实图谱切片"当面织成"的电影感场景;数字带 = 共有导出包实时计数。
 
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+// 标记 JS 已就绪:入场动画的"前置隐藏态"只在有此标记时生效,
+// JS 失效 / 无脚本环境下文案保持默认可见(揭幕只增强,不遮挡内容)。
+document.documentElement.classList.add("js");
 const APP_BASE = import.meta.env.BASE_URL || "/";
 function appPath(path) {
   return `${APP_BASE.replace(/\/$/, "")}/${path.replace(/^\//, "")}`;
@@ -17,131 +19,63 @@ async function fetchJson(path) {
   return res.json();
 }
 
-/* ---- 首屏真实图谱生长 ---- */
+/* ---- 首屏开场电影:数字驱动细胞生长 → 退为背景 → 居中文案浮现 ---- */
 
-const HERO_NODE_CAP = 130;
-
-function heroElements(graph) {
-  const nodes = graph.nodes.slice(0, HERO_NODE_CAP);
-  const ids = new Set(nodes.map((n) => n.node_id));
-  const edges = graph.edges.filter((e) => ids.has(e.from) && ids.has(e.to));
-  return [
-    ...nodes.map((node) => ({
-      data: {
-        id: node.node_id,
-        color: NODE_TYPE_META[node.node_type]?.color || "#8fae9e",
-        size: node.node_type === "issue_type" || node.node_type === "law_article" ? 16 : 9,
-      },
-    })),
-    ...edges.map((edge) => ({
-      data: {
-        id: edge.edge_id,
-        source: edge.from,
-        target: edge.to,
-        color: EDGE_TYPE_COLOR[edge.edge_type] || "#5b7282",
-      },
-    })),
-  ];
-}
-
-async function bootHeroGraph() {
-  const container = document.getElementById("heroGraph");
-  let graph;
-  try {
-    graph = await fetchJson(appPath("/demo-data/graph.json"));
-  } catch {
-    return; // 数据不可达时保持纯色背景,不放假图
+function setCounters(targets, p) {
+  for (const id of Object.keys(targets)) {
+    const el = document.getElementById(id);
+    if (el) el.textContent = String(Math.round(targets[id] * p));
   }
-  const cy = cytoscape({
-    container,
-    elements: heroElements(graph),
-    style: [
-      {
-        selector: "node",
-        style: {
-          width: "data(size)",
-          height: "data(size)",
-          "background-color": "data(color)",
-          "background-opacity": 0.85,
-          label: "",
-          "border-width": 0,
-        },
-      },
-      {
-        selector: "edge",
-        style: {
-          width: 1,
-          "line-color": "data(color)",
-          "line-opacity": 0.34,
-          "curve-style": "haystack",
-        },
-      },
-    ],
-    layout: { name: "cose", animate: false, nodeRepulsion: 9000, idealEdgeLength: 60, padding: 60 },
-    userZoomingEnabled: false,
-    userPanningEnabled: false,
-    boxSelectionEnabled: false,
-    autoungrabify: true,
-    pixelRatio: 1,
-  });
-  cy.fit(undefined, 40);
-
-  if (reduceMotion) return;
-
-  // 生长回放:全体先隐藏,按波次浮现;之后缓慢呼吸式缩放漂移
-  const els = cy.elements();
-  els.style("opacity", 0);
-  els.forEach((el, index) => {
-    setTimeout(() => el.animate({ style: { opacity: el.isNode() ? 1 : 0.6 } }, { duration: 600 }), 250 + index * 14);
-  });
-  const drift = () => {
-    cy.animate(
-      { zoom: cy.zoom() * 1.06, center: { eles: els } },
-      {
-        duration: 14000,
-        easing: "ease-in-out-sine",
-        complete: () => {
-          cy.animate(
-            { zoom: cy.zoom() / 1.06, center: { eles: els } },
-            { duration: 14000, easing: "ease-in-out-sine", complete: drift },
-          );
-        },
-      },
-    );
-  };
-  setTimeout(drift, els.length * 14 + 1200);
 }
 
-/* ---- 真实数字带 ---- */
+let heroCopyRevealed = false;
 
-function animateCounter(id, target) {
-  const el = document.getElementById(id);
-  if (!el) return;
-  if (reduceMotion) { el.textContent = String(target); return; }
-  const t0 = performance.now();
-  const dur = 1400;
-  const tick = (t) => {
-    const p = Math.min((t - t0) / dur, 1);
-    el.textContent = String(Math.round(target * (1 - Math.pow(1 - p, 3))));
-    if (p < 1) requestAnimationFrame(tick);
-  };
-  requestAnimationFrame(tick);
+function revealHeroCopy(targets = null) {
+  if (heroCopyRevealed) return;
+  heroCopyRevealed = true;
+  if (targets) setCounters(targets, 1); // 落定显示精确真实数(左下角常驻,不隐去)
+  document.querySelector(".hero-copy")?.classList.add("in");
+  // 「会生长」三字长成后解除裁剪,开启呼吸辉光
+  if (!reduceMotion) {
+    setTimeout(() => document.querySelector(".grow-word")?.classList.add("grown"), 1750);
+  } else {
+    document.querySelector(".grow-word")?.classList.add("grown");
+  }
 }
 
-async function bootStats() {
+async function bootHero() {
+  const container = document.getElementById("heroGraph");
+  let graph, cards;
   try {
-    const [graph, cards] = await Promise.all([
+    [graph, cards] = await Promise.all([
       fetchJson(appPath("/demo-data/full-shared-graph.json")),
       fetchJson(appPath("/demo-data/full-shared-cards.json")),
     ]);
-    animateCounter("statNodes", graph.nodes.length);
-    animateCounter("statEdges", graph.edges.length);
-    animateCounter("statCards", Array.isArray(cards) ? cards.length : (cards.cards?.length ?? 0));
-    animateCounter("statIssues", graph.nodes.filter((n) => n.node_type === "issue_type").length);
   } catch {
-    document.querySelector(".stats-note").textContent = "共有导出包未装载,数字带已隐藏 —— 本页不显示任何静态宣传数。";
-    document.querySelectorAll(".stat").forEach((el) => { el.hidden = true; });
+    // 数据不可达:保持纯色背景,直接呈现文案,不放假图、不显示宣传数
+    revealHeroCopy();
+    return;
   }
+  const targets = {
+    statNodes: graph.nodes.length,
+    statEdges: graph.edges.length,
+    statCards: Array.isArray(cards) ? cards.length : (cards.cards?.length ?? 0),
+    statIssues: graph.nodes.filter((n) => n.node_type === "issue_type").length,
+  };
+  if (!container || !graph?.nodes?.length) { revealHeroCopy(targets); return; }
+
+  const revealFallback = window.setTimeout(
+    () => revealHeroCopy(targets),
+    reduceMotion ? 0 : 11500,
+  );
+  mountHeroScene(container, graph, {
+    reduceMotion,
+    onGrowth: (p) => setCounters(targets, p), // 数字随细胞生长跳动
+    onReveal: () => {
+      window.clearTimeout(revealFallback);
+      revealHeroCopy(targets);
+    },  // 织成 → 退为背景 → 文案浮现
+  });
 }
 
 /* ---- 滚动浮现 ---- */
@@ -173,6 +107,5 @@ function bootReveal() {
   window.addEventListener("hashchange", () => setTimeout(revealVisible, 80));
 }
 
-bootHeroGraph();
-bootStats();
+bootHero();
 bootReveal();

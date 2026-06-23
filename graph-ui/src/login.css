@@ -20,20 +20,10 @@
   text-align: center;
 }
 
-.brand-mark {
-  display: inline-block;
-  width: 40px; height: 40px;
-  margin-bottom: 18px;
-  border-radius: 11px;
-  background: linear-gradient(135deg, #43f0b4, #19c98c);
-  position: relative;
-}
-.brand-mark::after {
-  content: "";
-  position: absolute; inset: 11px;
-  border: 2.5px solid #04130c;
-  border-radius: 4px;
-  transform: rotate(45deg);
+.brand-logo {
+  display: block;
+  width: 48px; height: 48px;
+  margin: 0 auto 18px;
 }
 
 .login-card h1 {

@@ -5,78 +5,57 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="color-scheme" content="dark" />
     <meta name="description" content="环保现场执行图谱:法条、技术规范与现场排查经验互相赋能的执法知识图谱。每条关联都有来源、置信度与整改验证回写。" />
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230d9468'/%3E%3Crect x='9' y='9' width='14' height='14' rx='3' fill='none' stroke='%23060f0b' stroke-width='3' transform='rotate(45 16 16)'/%3E%3C/svg%3E" />
-    <title>环保现场执行图谱 · 法条 × 规范 × 现场经验</title>
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+    <title>悦恩环保管家现场执行图谱 · 法条 × 规范 × 现场经验</title>
   </head>
   <body class="landing">
     <header class="lp-topbar">
       <a class="lp-brand" href="#top">
-        <span class="brand-mark" aria-hidden="true"></span>
-        <span>环保现场执行图谱</span>
+        <svg class="brand-logo" viewBox="11 11 65 67" aria-hidden="true">
+          <path d="M51 14 L44 23 L38 34 L40 35 L49 20 L51 19 L55 23 L66 40 L70 50 L70 59 L67 65 L62 70 L56 73 L47 73 L46 75 L56 75 L63 72 L70 65 L72 60 L71 46 L66 36 Z" fill="#0d9468"/>
+          <path d="M16 32 L15 33 L15 48 L18 55 L25 62 L35 65 L39 70 L38 64 L35 57 L31 51 L23 43 L25 42 L31 46 L38 53 L43 61 L44 59 L44 48 L43 46 L35 38 Z" fill="#2ee6a8"/>
+          <path d="M65 53 L63 53 L61 60 L54 66 L55 67 L59 66 L62 63 L65 58 Z" fill="#7cf0be"/>
+        </svg>
+        <span class="lp-brand-text">
+          <span class="lp-brand-name">悦恩环保管家现场执行图谱</span>
+          <span class="lp-brand-en">PRESENTED BY YUNNAN YUE'EN ENVIRONMENTAL TECH CO., LTD.</span>
+        </span>
       </a>
       <nav class="lp-nav" aria-label="页面导航">
-        <a href="#paths">怎么用</a>
         <a href="#loop">闭环</a>
         <a href="#audience">能为谁所用</a>
         <a href="#boundary">授权红线</a>
-        <a class="lp-nav-login" href="./login.html">内部入口</a>
       </nav>
-      <a class="btn-primary lp-cta-top" href="./app.html?director=1">观看图谱演示</a>
+      <div class="lp-cta-group">
+        <a class="btn-primary lp-cta-top lp-cta-login" href="./login.html">内部入口</a>
+        <a class="btn-primary lp-cta-top" href="./app.html?director=1">观看图谱演示</a>
+      </div>
     </header>
 
     <main id="top">
-      <!-- 首屏:真实图谱在背后生长 -->
+      <!-- 首屏:数字驱动细胞生长铺满 → 退为运动背景 → 居中文案浮现 -->
       <section class="hero" aria-label="首屏">
         <div id="heroGraph" class="hero-graph" aria-hidden="true"></div>
         <div class="hero-veil" aria-hidden="true"></div>
+
+        <!-- 落定:居中主文案 -->
         <div class="hero-copy">
-          <p class="hero-kicker">环保现场执行图谱 · 云南危废切片已运行</p>
-          <h1>把法条、规范与现场排查经验<br>织成一张<em>会生长</em>的执行图谱</h1>
+          <h1>
+            <span class="ht">把法条、规范与现场排查经验</span>
+            <span class="ht">织成一张<em class="grow-word" aria-label="会生长"><i>会</i><i>生</i><i>长</i></em>的执行图谱</span>
+          </h1>
           <p class="hero-sub">
-            背后这张图不是概念动画,是真实运行中的图谱切片。每一条关联都带来源、置信度与授权层级;
+            这张图不是概念动画,是真实运行中的图谱切片。每一条关联都带来源、置信度与授权层级;
             每一次现场排查、每一次整改验收,都在让它更接近真实。
           </p>
-          <div class="hero-actions">
-            <a class="btn-primary" href="./app.html?director=1">观看图谱演示</a>
-            <a class="btn-ghost" href="#contact">预约闭门演示</a>
-            <a class="hero-login-link" href="./login.html">内部审核员? 登录进入审核台 →</a>
-          </div>
         </div>
-        <div class="hero-stats" aria-label="图谱真实规模">
-          <div class="stat"><b id="statNodes" class="tabular">—</b><span>可共有节点</span></div>
-          <div class="stat"><b id="statEdges" class="tabular">—</b><span>关联边</span></div>
-          <div class="stat"><b id="statCards" class="tabular">—</b><span>执行卡</span></div>
-          <div class="stat"><b id="statIssues" class="tabular">—</b><span>标准化问题类型</span></div>
-          <p class="stats-note">数字来自最新构建的共有导出包,每次发布自动重算,不做静态宣传数。</p>
-        </div>
-      </section>
 
-      <!-- 流程地图:两条路径,按身份分流 -->
-      <section id="paths" class="lp-section lp-paths">
-        <p class="sec-kicker">选择你的入口</p>
-        <h2>两种身份,<em>两条路径</em></h2>
-        <p class="sec-sub">对外了解能力,图谱演示<strong>不需要登录</strong>;对内做入图审核,登录后<strong>直达 ETO 审核台</strong>。两条路各走各的,谁都不用迁就谁。</p>
-        <div class="path-tracks">
-          <article class="track track-visitor" data-reveal>
-            <p class="track-tag">对外 · 了解与评估</p>
-            <h3>访客 / 决策者</h3>
-            <ol class="track-steps">
-              <li><b>1</b><div><h4>进入首页</h4><p>看真实运行中的图谱切片,不是概念演示片。</p></div></li>
-              <li><b>2</b><div><h4>观看图谱演示</h4><p>5 张已审核执行卡 → 缺口报告 → 授权边界,全程免登录。</p></div></li>
-              <li><b>3</b><div><h4>预约闭门演示</h4><p>想看更深,约一场带真实场景的闭门演示。</p></div></li>
-            </ol>
-            <a class="btn-primary track-cta" href="./app.html?director=1">观看图谱演示</a>
-          </article>
-          <article class="track track-internal" data-reveal>
-            <p class="track-tag track-tag-blue">对内 · 入图审核</p>
-            <h3>环保技术官 / ETO</h3>
-            <ol class="track-steps">
-              <li><b>1</b><div><h4>内部登录</h4><p>企业微信扫码或内部令牌,仅限本企业成员。</p></div></li>
-              <li><b>2</b><div><h4>进入审核台</h4><p>登录后直接落到「现场经验入图审核台」。</p></div></li>
-              <li><b>3</b><div><h4>裁决入图</h4><p>逐条裁决:通过 / 合并 / 退回 / 仅内部 / 不入图。</p></div></li>
-            </ol>
-            <a class="btn-ghost track-cta track-cta-blue" href="./login.html">内部登录 →</a>
-          </article>
+        <!-- 左下角常驻动态规模:随网状生长跳动计数 -->
+        <div class="hero-figures" id="heroFigures" aria-label="图谱实时规模">
+          <div class="fig"><b id="statNodes" class="tabular">0</b><span>可共有节点</span></div>
+          <div class="fig"><b id="statEdges" class="tabular">0</b><span>关联边</span></div>
+          <div class="fig"><b id="statCards" class="tabular">0</b><span>执行卡</span></div>
+          <div class="fig"><b id="statIssues" class="tabular">0</b><span>问题类型</span></div>
         </div>
       </section>
 
