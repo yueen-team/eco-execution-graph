@@ -1,0 +1,11 @@
+# BDD feature sources and the generated behavior contract must stay LF so
+# `bdd:export` (gherkin-v39) is deterministic across OS. This repo uses
+# core.autocrlf=true, which would otherwise check out *.feature as CRLF on
+# Windows and make the regenerated NDJSON drift from the committed LF version,
+# blocking the pre-commit bdd:export freshness gate.
+*.feature text eol=lf
+bdd/behavior-contracts.ndjson text eol=lf
+
+# husky v9 runs hooks through `sh -e`; they must stay LF or a CRLF checkout
+# reintroduces the shell syntax error this commit fixes.
+.husky/* text eol=lf

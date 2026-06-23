@@ -1,20 +1,3 @@
-#!/usr/bin/env node
-import('node:child_process')
-  .then(({ spawnSync }) => {
-    const result = spawnSync(process.execPath, ["scripts/git-workflow/commit-msg.mjs", ...process.argv.slice(2)], {
-      cwd: process.cwd(),
-      env: process.env,
-      stdio: 'inherit',
-    });
-
-    if (result.error) {
-      console.error(`[git-workflow-hooks] Failed to run commit-msg: ${result.error.message}`);
-      process.exit(1);
-    }
-
-    process.exit(result.status ?? 1);
-  })
-  .catch((error) => {
-    console.error(`[git-workflow-hooks] Failed to bootstrap commit-msg: ${error.message}`);
-    process.exit(1);
-  });
+# husky v9 runs this hook via `sh -e`, so it must be POSIX sh, not a Node
+# script. Delegate to the git-workflow commit-msg runner through node.
+node scripts/git-workflow/commit-msg.mjs "$@"
