@@ -218,6 +218,8 @@ function createHandler({
         publication,
         nodeId: url.searchParams.get("node_id") || "",
         query: url.searchParams.get("q") || "",
+        industry: url.searchParams.get("industry") || "",
+        dimension: url.searchParams.get("dimension") || "",
         depth: url.searchParams.get("depth") || 2,
         limit: url.searchParams.get("limit") || 80,
       }));

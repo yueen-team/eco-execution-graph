@@ -68,8 +68,31 @@ function safeAttrs(node) {
     "inspection_type",
     "score_item",
     "applicable_when",
+    "industry",
+    "dimension",
+    "show_if_keys",
   ];
   return Object.fromEntries(allowed.filter((key) => attrs[key] !== undefined).map((key) => [key, attrs[key]]));
+}
+
+/** 维度精确过滤: 节点 attrs.dimension 与 EcoCheck 24 维键 1:1 对应(含复合维度如 solid_waste_hazardous_waste)。 */
+function dimensionMatches(node, dim) {
+  if (!dim) return true;
+  const d = normalizeText(node.attrs?.dimension);
+  if (d && (d === dim || d.includes(dim) || dim.includes(d))) return true;
+  const showIf = normalizeText(node.attrs?.show_if_keys);
+  if (showIf && showIf.includes(dim)) return true;
+  const applicable = normalizeText(node.attrs?.applicable_when);
+  return Boolean(applicable && applicable.includes(dim));
+}
+
+/** 行业过滤: 匹配 attrs.industry(中文类目)或 applicable_when(含"行业代码5265"形式)。 */
+function industryMatches(node, ind) {
+  if (!ind) return true;
+  const industry = normalizeText(node.attrs?.industry);
+  if (industry && industry.includes(ind)) return true;
+  const applicable = normalizeText(node.attrs?.applicable_when);
+  return Boolean(applicable && applicable.includes(ind));
 }
 
 function slimNode(node) {
@@ -239,6 +262,8 @@ export function buildGraphContextResponse({
   publication = { items: [] },
   nodeId = "",
   query = "",
+  industry = "",
+  dimension = "",
   depth = 2,
   limit = 80,
 } = {}) {
@@ -256,15 +281,27 @@ export function buildGraphContextResponse({
     && nodesById.has(edge.to)
   ));
 
+  const normalizedQuery = normalizeText(query);
+  const normalizedIndustry = normalizeText(industry);
+  const normalizedDimension = normalizeText(dimension);
+
   let rootNodes = [];
   if (nodeId) {
     const root = nodesById.get(nodeId);
     if (root) rootNodes = [root];
-  } else if (query) {
-    const normalized = normalizeText(query);
-    rootNodes = [...nodesById.values()].filter((node) => nodeSearchText(node).includes(normalized)).slice(0, 5);
+  } else if (normalizedQuery || normalizedIndustry || normalizedDimension) {
+    // industry/dimension 为精确过滤(按图谱节点 attrs 标注),q 为全文模糊; 三者按 AND 组合。
+    const maxRoots = (normalizedIndustry || normalizedDimension) ? 12 : 5;
+    rootNodes = [...nodesById.values()]
+      .filter((node) => {
+        if (normalizedQuery && !nodeSearchText(node).includes(normalizedQuery)) return false;
+        if (!dimensionMatches(node, normalizedDimension)) return false;
+        if (!industryMatches(node, normalizedIndustry)) return false;
+        return true;
+      })
+      .slice(0, maxRoots);
   } else {
-    throw new Error("必须提供 node_id 或 q");
+    throw new Error("必须提供 node_id 或 q 或 industry/dimension");
   }
 
   const selectedNodeIds = new Set(rootNodes.map((node) => node.node_id));
@@ -341,6 +378,8 @@ export function buildGraphContextResponse({
     query: {
       node_id: nodeId || null,
       q: query || null,
+      industry: industry || null,
+      dimension: dimension || null,
       depth: maxDepth,
       limit: maxNodes,
     },
