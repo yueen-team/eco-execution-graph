@@ -54,6 +54,9 @@ Current real smoke boundary:
 - A passing external lane marks `GRAPH-RAG-REAL-SMOKE` as an
   environment-scoped blocking candidate after repeat evidence and an ADR
   cutover. It does not promote the default ontology or graph gates by itself.
+- ADR-0012 accepts the owner-repo cutover boundary: `pnpm verify:external` may
+  be blocking only in a credentialed external CI lane, while default
+  `pnpm verify:all` remains independent from Tencent availability.
 
 Previously verified smoke:
 

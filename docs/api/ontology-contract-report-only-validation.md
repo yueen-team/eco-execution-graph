@@ -114,7 +114,9 @@ environment is configured. A real external pass or fail must be reported
 honestly, and default `pnpm verify:all` does not depend on Tencent
 SecretId/network availability. A pass makes `GRAPH-RAG-REAL-SMOKE` only an
 environment-scoped blocking candidate until repeat runtime evidence and a later
-ADR explicitly promote it.
+ADR explicitly promote it. ADR-0012 now defines that promotion boundary as a
+credentialed external lane only; it does not make ontology or default graph
+verification depend on Tencent availability.
 
 Graph consumes KB through `ECO_KB_PACKAGE_MANIFEST` or the default
 `manifests/graph_kb_package_manifest_v1_0.json` package manifest. New KB build
