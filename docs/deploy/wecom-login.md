@@ -29,6 +29,7 @@
 | `ECO_GRAPH_WECOM_CORP_SECRET` | 自建应用 Secret(密钥只走环境变量) |
 | `ECO_GRAPH_WECOM_REDIRECT_URI` | `https://<域名>/container-eco-execution-graph/auth/wecom/callback` |
 | `ECO_GRAPH_APP_BASE_URL` | 扫码成功后的内部图谱前端入口,本环境为 `https://www.yueen.cc/eco-execution-graph-internal/` |
+| `ECO_GRAPH_REVIEW_APP_BASE_URL` | 可选;单独指定审核员/admin 的 internal 审核壳。未设置时,若 `ECO_GRAPH_APP_BASE_URL` 仍是 `/eco-execution-graph/`,后端会自动推断 `/eco-execution-graph-internal/` 给审核员/admin |
 | `ECO_GRAPH_WECOM_ALLOWED_USERS` | 公司成员登录白名单;留空=放行全企业成员 |
 | `ECO_GRAPH_WECOM_REVIEW_USERS` | ETO/admin 审核台白名单;逗号分隔企业微信 userid |
 | `ECO_GRAPH_SESSION_SECRET` | 32+ 随机字符,会话签名密钥 |

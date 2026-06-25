@@ -20,6 +20,7 @@ export function wecomConfigFromEnv(env = process.env) {
       .split(",").map((item) => item.trim()).filter(Boolean),
     sessionSecret: env.ECO_GRAPH_SESSION_SECRET || "",
     appBaseUrl: env.ECO_GRAPH_APP_BASE_URL || env.ECO_GRAPH_UI_BASE || "",
+    reviewAppBaseUrl: env.ECO_GRAPH_REVIEW_APP_BASE_URL || env.ECO_GRAPH_INTERNAL_APP_BASE_URL || "",
   };
 }
 
@@ -39,9 +40,16 @@ export function buildWecomLoginUrl(config, state = "eco-graph") {
 }
 
 export function buildWecomAppRedirectUrl(config, { canReview = false } = {}) {
-  if (!config.appBaseUrl) return canReview ? "/?workspace=review" : "/";
-  const base = config.appBaseUrl.endsWith("/") ? config.appBaseUrl : `${config.appBaseUrl}/`;
+  const appBaseUrl = canReview ? (config.reviewAppBaseUrl || inferInternalReviewBaseUrl(config.appBaseUrl)) : config.appBaseUrl;
+  if (!appBaseUrl) return canReview ? "/?workspace=review" : "/";
+  const base = appBaseUrl.endsWith("/") ? appBaseUrl : `${appBaseUrl}/`;
   return `${base}app.html${canReview ? "?workspace=review" : ""}`;
+}
+
+function inferInternalReviewBaseUrl(appBaseUrl = "") {
+  if (!appBaseUrl) return "";
+  const normalized = appBaseUrl.endsWith("/") ? appBaseUrl : `${appBaseUrl}/`;
+  return normalized.replace(/\/eco-execution-graph\/$/, "/eco-execution-graph-internal/");
 }
 
 // code → userid。fetchImpl 可注入,测试不出网。
