@@ -8,7 +8,7 @@ import { createReviewStorage } from "./storage.js";
 import { buildGraphContextResponse, contextPathsFromRoot, loadGraphContextInputs } from "./graph-context.js";
 import {
   wecomConfigFromEnv, isWecomConfigured, buildWecomLoginUrl, exchangeWecomCode,
-  isUserAllowed, isReviewUser, issueSession, verifySession, parseCookies, sessionCookie,
+  buildWecomAppRedirectUrl, isUserAllowed, isReviewUser, issueSession, verifySession, parseCookies, sessionCookie,
 } from "./auth.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -170,8 +170,9 @@ function createHandler({
         return;
       }
       const token = issueSession(userid, wecom.sessionSecret);
+      const canReview = isReviewUser(userid, wecom);
       res.writeHead(302, {
-        location: isReviewUser(userid, wecom) ? "/?workspace=review" : "/",
+        location: buildWecomAppRedirectUrl(wecom, { canReview }),
         "set-cookie": sessionCookie(token, { secure: req.headers["x-forwarded-proto"] === "https" }),
         "cache-control": "no-store",
       });

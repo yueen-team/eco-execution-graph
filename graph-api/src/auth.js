@@ -19,6 +19,7 @@ export function wecomConfigFromEnv(env = process.env) {
     reviewUsers: (env.ECO_GRAPH_WECOM_REVIEW_USERS || env.ECO_GRAPH_WECOM_ALLOWED_REVIEW_USERS || "")
       .split(",").map((item) => item.trim()).filter(Boolean),
     sessionSecret: env.ECO_GRAPH_SESSION_SECRET || "",
+    appBaseUrl: env.ECO_GRAPH_APP_BASE_URL || env.ECO_GRAPH_UI_BASE || "",
   };
 }
 
@@ -35,6 +36,12 @@ export function buildWecomLoginUrl(config, state = "eco-graph") {
     state,
   });
   return `https://login.work.weixin.qq.com/wwlogin/sso/login?${params.toString()}`;
+}
+
+export function buildWecomAppRedirectUrl(config, { canReview = false } = {}) {
+  if (!config.appBaseUrl) return canReview ? "/?workspace=review" : "/";
+  const base = config.appBaseUrl.endsWith("/") ? config.appBaseUrl : `${config.appBaseUrl}/`;
+  return `${base}app.html${canReview ? "?workspace=review" : ""}`;
 }
 
 // code → userid。fetchImpl 可注入,测试不出网。
