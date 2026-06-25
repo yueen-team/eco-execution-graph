@@ -5,7 +5,7 @@ param(
   [string]$Source = ".tmp/cloudbase-graph-api-deploy",
   [int]$Port = 8787,
   [string]$EnvFile = ".env.local",
-  [string]$TimeSourceUrl = "https://www.yueen.cc/eco-execution-graph/",
+  [string]$TimeSourceUrl = "https://tcb.tencentcloudapi.com/",
   [int]$DeployWaitSeconds = 600,
   [switch]$SkipChecks,
   [switch]$SkipSmoke
@@ -57,15 +57,6 @@ function Get-FirstEnv {
 }
 
 function Resolve-CloudBaseCredential {
-  $cloudbaseApiKey = Get-FirstEnv @("CLOUDBASE_API_KEY", "TCB_CLOUDBASE_API_KEY")
-  if ($cloudbaseApiKey) {
-    return [pscustomobject]@{
-      Kind = "cloudbase-api-key"
-      Source = $cloudbaseApiKey.Name
-      ApiKey = $cloudbaseApiKey.Value
-    }
-  }
-
   $pairs = @(
     @("TENCENT_SECRET_ID", "TENCENT_SECRET_KEY", "standard Tencent Cloud secret"),
     @("TENCENTCLOUD_SECRET_ID", "TENCENTCLOUD_SECRET_KEY", "Tencent Cloud SDK secret"),
@@ -86,39 +77,59 @@ function Resolve-CloudBaseCredential {
     }
   }
 
+  $cloudbaseApiKey = Get-FirstEnv @("CLOUDBASE_API_KEY", "TCB_CLOUDBASE_API_KEY")
+  if ($cloudbaseApiKey) {
+    return [pscustomobject]@{
+      Kind = "cloudbase-api-key"
+      Source = $cloudbaseApiKey.Name
+      ApiKey = $cloudbaseApiKey.Value
+    }
+  }
+
   throw @"
 No CloudBase deploy credential found.
 Set one of these in process env or .env.local:
-- CLOUDBASE_API_KEY
 - TENCENT_SECRET_ID + TENCENT_SECRET_KEY
 - TENCENTCLOUD_SECRET_ID + TENCENTCLOUD_SECRET_KEY
 - TCB_SECRET_ID + TCB_SECRET_KEY
+- CLOUDBASE_API_KEY
 "@
 }
 
 function Get-CloudTimeOffsetSeconds {
   param([string]$Url)
 
-  try {
-    $response = Invoke-WebRequest -Method Head -Uri $Url -UseBasicParsing -TimeoutSec 20
-    $dateHeader = $response.Headers["Date"]
-    if ($dateHeader -is [array]) {
-      $dateHeader = $dateHeader[0]
+  $urls = [System.Collections.Generic.List[string]]::new()
+  foreach ($candidate in @($Url, "https://tcb.tencentcloudapi.com/", "https://cloud.tencent.com/")) {
+    if ($candidate -and -not $urls.Contains($candidate)) {
+      $urls.Add($candidate)
     }
-    if (-not $dateHeader) {
-      return 0
-    }
-    $serverTime = [DateTimeOffset]::Parse(
-      $dateHeader,
-      [System.Globalization.CultureInfo]::InvariantCulture,
-      [System.Globalization.DateTimeStyles]::AssumeUniversal
-    ).ToUniversalTime()
-    $localTime = [DateTimeOffset]::Now.ToUniversalTime()
-    return [int][Math]::Round(($serverTime - $localTime).TotalSeconds)
-  } catch {
-    Write-Warning "Could not calculate CloudBase time offset from ${Url}: $($_.Exception.Message)"
-    return 0
   }
+
+  foreach ($sourceUrl in $urls) {
+    try {
+      $response = Invoke-WebRequest -Method Head -Uri $sourceUrl -UseBasicParsing -TimeoutSec 20
+      $dateHeader = $response.Headers["Date"]
+      if ($dateHeader -is [array]) {
+        $dateHeader = $dateHeader[0]
+      }
+      if (-not $dateHeader) {
+        continue
+      }
+      $serverTime = [DateTimeOffset]::Parse(
+        $dateHeader,
+        [System.Globalization.CultureInfo]::InvariantCulture,
+        [System.Globalization.DateTimeStyles]::AssumeUniversal
+      ).ToUniversalTime()
+      $localTime = [DateTimeOffset]::Now.ToUniversalTime()
+      Write-Host "time source: $sourceUrl"
+      return [int][Math]::Round(($serverTime - $localTime).TotalSeconds)
+    } catch {
+      Write-Warning "Could not calculate CloudBase time offset from ${sourceUrl}: $($_.Exception.Message)"
+    }
+  }
+
+  return 0
 }
 
 function Format-SafeCloudBaseArgs {
@@ -262,6 +273,38 @@ function Invoke-CloudBaseListOutput {
   }
 }
 
+function Invoke-CloudBaseWithFreshTimeRetry {
+  param(
+    [string[]]$Arguments,
+    [string]$TimeSourceUrl,
+    [int]$InitialTimeOffsetSeconds,
+    [string]$InputText = "",
+    [int]$MaxAttempts = 3
+  )
+
+  $timeOffsetSeconds = $InitialTimeOffsetSeconds
+  for ($attempt = 1; $attempt -le $MaxAttempts; $attempt++) {
+    if ($attempt -gt 1) {
+      Write-Host "refresh CloudBase CLI time offset before retry"
+      $timeOffsetSeconds = Get-CloudTimeOffsetSeconds $TimeSourceUrl
+      Write-Host "retry time offset seconds: $timeOffsetSeconds"
+    }
+
+    try {
+      Invoke-CloudBase -Arguments $Arguments -TimeOffsetSeconds $timeOffsetSeconds -InputText $InputText
+      return $timeOffsetSeconds
+    } catch {
+      if ($attempt -ge $MaxAttempts) {
+        throw
+      }
+      Write-Warning "cloudbase $(Format-SafeCloudBaseArgs $Arguments) failed on attempt $attempt/$MaxAttempts; retrying after refreshing time offset."
+      Start-Sleep -Seconds 5
+    }
+  }
+
+  throw "cloudbase $(Format-SafeCloudBaseArgs $Arguments) failed after $MaxAttempts attempts"
+}
+
 function Remove-Ansi {
   param([string]$Text)
 
@@ -381,9 +424,9 @@ Write-Host "time offset seconds: $timeOffsetSeconds"
 
 Write-Step "cloudbase non-interactive login"
 if ($credential.Kind -eq "cloudbase-api-key") {
-  Invoke-CloudBase -Arguments @("login", "--cloudbase-api-key", $credential.ApiKey, "-e", $EnvId, "--json") -TimeOffsetSeconds $timeOffsetSeconds
+  $timeOffsetSeconds = Invoke-CloudBaseWithFreshTimeRetry -Arguments @("login", "--cloudbase-api-key", $credential.ApiKey, "-e", $EnvId, "--json") -TimeSourceUrl $TimeSourceUrl -InitialTimeOffsetSeconds $timeOffsetSeconds
 } else {
-  Invoke-CloudBase -Arguments @("login", "--apiKeyId", $credential.SecretId, "--apiKey", $credential.SecretKey, "--json") -TimeOffsetSeconds $timeOffsetSeconds
+  $timeOffsetSeconds = Invoke-CloudBaseWithFreshTimeRetry -Arguments @("login", "--apiKeyId", $credential.SecretId, "--apiKey", $credential.SecretKey, "--json") -TimeSourceUrl $TimeSourceUrl -InitialTimeOffsetSeconds $timeOffsetSeconds
 }
 
 Write-Step "cloudbase control-plane check"

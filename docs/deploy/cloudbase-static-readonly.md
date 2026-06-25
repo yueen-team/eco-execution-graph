@@ -82,19 +82,19 @@ Signature expired. Please use local time and enable NTP service for time synchro
 3. 本机没有可用 CloudBase 凭据时,交付记录必须把阻塞项写成“CloudBase CLI 凭据/时间漂移处理未就绪”,并记录已完成的本地打包、命令、失败原文和回滚风险。
 4. 不得在仓库、报告或终端回显 `TENCENT_SECRET_KEY`、`CLOUDBASE_API_KEY`、MySQL 密码、企业微信 secret 等密钥。
 
-本仓库固定使用部署包装脚本处理本机时间漂移。脚本会从 CloudBase HTTP `Date` 响应头计算偏移,通过 `NODE_OPTIONS=--require scripts/cloudbase-time-offset-shim.cjs` 只影响本次 CloudBase CLI 子进程,不会修改系统时间。
+本仓库固定使用部署包装脚本处理本机时间漂移。脚本会优先从腾讯云 API 侧 HTTP `Date` 响应头计算偏移,通过 `NODE_OPTIONS=--require scripts/cloudbase-time-offset-shim.cjs` 只影响本次 CloudBase CLI 子进程,不会修改系统时间。不得把静态站点/CDN 的 `Date` 头作为唯一时间源,因为缓存层可能产生分钟级偏差并导致 TC3 签名校验偶发失败。
 
 CloudBase CLI 凭据从进程环境变量或 `.env.local` 读取,只记录变量来源,不得输出变量值。支持的变量:
 
 ```powershell
-CLOUDBASE_API_KEY
 TENCENT_SECRET_ID / TENCENT_SECRET_KEY
 TENCENTCLOUD_SECRET_ID / TENCENTCLOUD_SECRET_KEY
 TCB_SECRET_ID / TCB_SECRET_KEY
+CLOUDBASE_API_KEY
 TENCENT_LKE_SECRET_ID / TENCENT_LKE_SECRET_KEY
 ```
 
-其中 `TENCENT_LKE_SECRET_*` 仅作为本机历史变量名兼容;新配置优先写 `CLOUDBASE_API_KEY` 或 `TENCENT_SECRET_*`。
+部署脚本优先使用标准腾讯云永久密钥(`TENCENT_SECRET_ID` / `TENCENT_SECRET_KEY`),再回退到 CloudBase API Key。`CLOUDBASE_API_KEY` 在部分 CLI 版本中可能出现“验证成功但无有效身份”的登录态问题,不得优先于标准密钥。`TENCENT_LKE_SECRET_*` 仅作为本机历史变量名兼容。
 
 验证 URL:
 
