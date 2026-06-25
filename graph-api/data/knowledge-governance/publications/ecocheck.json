@@ -2,7 +2,7 @@
   "bundle_id": "kg-publication:ecocheck:v1",
   "audience": "ecocheck",
   "version": "v1",
-  "generated_at": "2026-06-23",
+  "generated_at": "2026-06-25",
   "approval_basis": "ETO_APPROVED_IN_GRAPH",
   "human_review_required": false,
   "machine_gate_status": "partial",
@@ -4773,6 +4773,6 @@
       }
     }
   ],
-  "hash": "5797eb44644311ccf6390376993a86647bfcb8d18f02229c79aae14be83c7675",
+  "hash": "2e2e50e97e86af32f4e7c85930bd18178c0032f6613f4b6f27f70f0574c977c4",
   "redline_scan_status": "pass"
 }
