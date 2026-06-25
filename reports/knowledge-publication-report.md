@@ -1,6 +1,6 @@
 # Knowledge Publication Report
 
-- generated_at: 2026-06-23
+- generated_at: 2026-06-25
 - bundle_count: 4
 - offline_boundary: v1 writes local bundles only; it does not call Tencent RAG document-management APIs or EcoCheck production databases.
 

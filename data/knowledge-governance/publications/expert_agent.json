@@ -2,7 +2,7 @@
   "bundle_id": "kg-publication:expert_agent:v1",
   "audience": "expert_agent",
   "version": "v1",
-  "generated_at": "2026-06-23",
+  "generated_at": "2026-06-25",
   "approval_basis": "ETO_APPROVED_IN_GRAPH",
   "human_review_required": false,
   "machine_gate_status": "partial",
@@ -4773,6 +4773,6 @@
       }
     }
   ],
-  "hash": "57ac3d0be47058f5b4be26938504f6fa72d191762eabcb3e5b57da0e42f38644",
+  "hash": "40cd8d3a8c00ae5095fa06a6f188a994386660402563df9ac2cd47e46ce88624",
   "redline_scan_status": "pass"
 }

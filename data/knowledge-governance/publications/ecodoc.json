@@ -2,7 +2,7 @@
   "bundle_id": "kg-publication:ecodoc:v1",
   "audience": "ecodoc",
   "version": "v1",
-  "generated_at": "2026-06-23",
+  "generated_at": "2026-06-25",
   "approval_basis": "ETO_APPROVED_IN_GRAPH",
   "human_review_required": false,
   "machine_gate_status": "partial",
@@ -4773,6 +4773,6 @@
       }
     }
   ],
-  "hash": "01d60385e92d2fe577b3fabbc4f99f29dd0716527e3a843283ae9cd946599f8b",
+  "hash": "cfba3e81562d11b3fea837633907677c05b6873c4def042c43f7cc1a1ea6a615",
   "redline_scan_status": "pass"
 }
