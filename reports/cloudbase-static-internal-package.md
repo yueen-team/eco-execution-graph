@@ -18,7 +18,7 @@
 
 ## Code Warnings
 - graph-ui/dist-cloudbase-static-internal/app.html: code bundle still contains internal vocabulary labels; data package is checked separately
-- graph-ui/dist-cloudbase-static-internal/assets/app-CwrCjxYP.js: code bundle still contains internal vocabulary labels; data package is checked separately
+- graph-ui/dist-cloudbase-static-internal/assets/app-HyIJ0LFW.js: code bundle still contains internal vocabulary labels; data package is checked separately
 
 ## Deploy Command
 - Upload directory: graph-ui/dist-cloudbase-static-internal
