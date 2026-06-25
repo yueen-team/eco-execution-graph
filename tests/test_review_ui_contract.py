@@ -35,6 +35,35 @@ class ReviewUiContractTest(unittest.TestCase):
         self.assertIn("submitReviewDecision", review_js)
         self.assertIn("演示模式", review_js)
 
+    def test_review_workspace_uses_graph_api_base_and_requires_internal_session_when_packaged(self):
+        review_js = (ROOT / "graph-ui/src/review.js").read_text(encoding="utf-8")
+        main_js = (ROOT / "graph-ui/src/main.js").read_text(encoding="utf-8")
+
+        self.assertIn("VITE_GRAPH_API_BASE", review_js)
+        self.assertIn("https://www.yueen.cc/container-eco-execution-graph", review_js)
+        self.assertIn("normalizeApiBase", review_js)
+        self.assertIn('apiPath("/auth/session")', review_js)
+        self.assertIn("requireReviewSession && !session", review_js)
+        self.assertIn("allowReviewWorkspace", main_js)
+        self.assertIn("review_workspace", main_js)
+        self.assertIn("review_requires_session", main_js)
+        self.assertIn("review_api_base", main_js)
+
+    def test_internal_static_package_keeps_shared_data_and_enables_review_shell_only(self):
+        script = (ROOT / "scripts/prepare_cloudbase_static_internal.ps1").read_text(encoding="utf-8")
+        docs = (ROOT / "docs/deploy/cloudbase-static-readonly.md").read_text(encoding="utf-8")
+
+        self.assertIn("dist-cloudbase-static-internal", script)
+        self.assertIn("/eco-execution-graph-internal/", script)
+        self.assertIn("review_workspace = $true", script)
+        self.assertIn("review_requires_session = $true", script)
+        self.assertIn("readonly_shared = $true", script)
+        self.assertIn("Remove-Item $reviewData", script)
+        self.assertIn("shared_product_v1/graph.json", script)
+        self.assertIn("shared_product_v1/cards.shared.json", script)
+        self.assertIn("private graph marker in JSON data", script)
+        self.assertIn("ECO_GRAPH_APP_BASE_URL=https://www.yueen.cc/eco-execution-graph-internal/", docs)
+
     def test_review_ui_uses_two_step_submit_with_inline_feedback(self):
         review_js = (ROOT / "graph-ui/src/review.js").read_text(encoding="utf-8")
 

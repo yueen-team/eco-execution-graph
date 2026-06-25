@@ -4,7 +4,7 @@
 
 第一版云端演示只部署前端静态站,目标是给主任团队看 shared 口径、审核后的 5 张执行卡、缺口报告和授权边界。
 
-`现场经验入图审核台` 不进入本静态 shared 包。审核台属于 graph 内部工作区,真实接收与审核接口走 `graph-api/` CloudBase 云托管;静态 shared 包只保留只读演示数据。
+`现场经验入图审核台` 不进入本静态 shared 包。审核台属于 graph 内部工作区,真实接收与审核接口走 `graph-api/` CloudBase 云托管;静态 shared 包只保留只读演示数据。需要审核台时,部署单独的 internal 静态壳,不要在 public shared 包里强行打开按钮。
 
 不要直接上传 `graph-ui/dist`。普通构建产物包含内部全量演示数据文件名,只允许上传脚本生成的只读包:
 
@@ -57,6 +57,7 @@ dist-cloudbase-static-readonly
 - Vite 构建 base 必须是 `/eco-execution-graph/`;
 - CloudBase 上传目标必须是 `dist-cloudbase-static-readonly`,不得上传到静态托管根目录;
 - 不需要在静态托管根目录创建 `eco-execution-graph/` key。
+- `/eco-execution-graph` 和 `/eco-execution-graph/` 都必须进入图谱应用;默认入口不得使用会把无尾斜杠路径解析到根目录的 `./landing.html` 相对跳转。
 
 CLI 部署命令:
 
@@ -64,6 +65,50 @@ CLI 部署命令:
 pwsh -ExecutionPolicy Bypass -File scripts/prepare_cloudbase_static_readonly.ps1
 cloudbase hosting deploy -e yueen-huanbao-1gqfjr5s41e61180 graph-ui/dist-cloudbase-static-readonly dist-cloudbase-static-readonly
 ```
+
+## CloudBase 内部审核壳
+
+内部审核壳是独立静态包,建议路径:
+
+```text
+https://www.yueen.cc/eco-execution-graph-internal/
+```
+
+它只打包 shared 图谱壳,不打包 private graph、`review-data/` 或真实企业数据;审核队列必须在企业微信会话通过后从 `graph-api` 拉取。该包的 `deploy-policy.json` 会保持 `readonly_shared=true`,同时显式设置:
+
+```json
+{
+  "review_workspace": true,
+  "review_requires_session": true,
+  "review_api_base": "https://www.yueen.cc/container-eco-execution-graph"
+}
+```
+
+生成命令:
+
+```powershell
+pwsh -ExecutionPolicy Bypass -File scripts/prepare_cloudbase_static_internal.ps1
+```
+
+生成目录:
+
+```text
+graph-ui/dist-cloudbase-static-internal/
+```
+
+部署命令示例:
+
+```powershell
+cloudbase hosting deploy -e yueen-huanbao-1gqfjr5s41e61180 graph-ui/dist-cloudbase-static-internal dist-cloudbase-static-internal
+```
+
+同时需要在 CloudBase 自定义域名路由里把 `/eco-execution-graph-internal` 指到 `dist-cloudbase-static-internal/`,并把 `graph-api` 的环境变量改为:
+
+```text
+ECO_GRAPH_APP_BASE_URL=https://www.yueen.cc/eco-execution-graph-internal/
+```
+
+不要把 internal 包部署到 `dist-cloudbase-static-readonly`,也不要把 public shared 包的 `deploy-policy.json` 改成开放审核台。
 
 ### 本机时间漂移硬规则
 
@@ -104,7 +149,7 @@ https://www.yueen.cc/eco-execution-graph/?director=1
 
 必须确认:
 
-1. 页面 HTML 返回 200;
+1. `/eco-execution-graph` 和 `/eco-execution-graph/` 都返回图谱入口并跳转到 `/eco-execution-graph/landing.html`;
 2. `assets/*.js` / `assets/*.css` 通过 `/eco-execution-graph/assets/` 返回正确 MIME;
 3. `demo-data/*.json` 通过 `/eco-execution-graph/demo-data/` 返回 `application/json`;
 4. 首屏为审核后的 5 张卡主线,不是云南踩雷地图或月报对比。
@@ -112,6 +157,23 @@ https://www.yueen.cc/eco-execution-graph/?director=1
 ## graph-api 云托管前置条件
 
 `现场经验入图审核台` 不属于 shared 静态演示包。真实审核必须走 `graph-api/` 云托管或同源内部代理。
+
+### 后端部署时间漂移配置
+
+candy 的本机系统时间、时区和 Windows Time/NTP 服务不得作为部署前置条件,部署人员不得要求人工修改。后端云托管必须通过项目脚本自行处理时间漂移:
+
+```powershell
+pnpm deploy:cloudbase:graph-api
+```
+
+该命令调用 `scripts/deploy_cloudbase_graph_api.ps1`,默认 `TimeSourceUrl` 固定为腾讯云 API 侧 `https://tcb.tencentcloudapi.com/`。脚本会读取该端点的 HTTP `Date` 响应头计算本机与腾讯云控制面的偏移,再通过 `NODE_OPTIONS=--require scripts/cloudbase-time-offset-shim.cjs` 注入本次 CloudBase CLI 子进程。
+
+硬规则:
+
+1. 不修改系统时间、不修改时区、不启停 Windows Time/NTP。
+2. 不把 `https://www.yueen.cc/eco-execution-graph/` 等静态站点/CDN 的 `Date` 头作为唯一时间源。
+3. CloudBase 登录或部署遇到 `Signature expired`、`腾讯云密钥验证失败`、`Timestamp` 偏差等疑似时间类错误时,必须重新计算腾讯云 API 时间偏移并重试;脚本已内置登录阶段刷新偏移重试。
+4. 交付报告必须记录使用的命令、环境、服务、端口、smoke 结果和回滚风险;不得把结论写成“请 candy 先校准本机时间”。
 
 部署 `graph-api/` 前必须满足:
 

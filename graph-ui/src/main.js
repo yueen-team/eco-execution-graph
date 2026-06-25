@@ -251,6 +251,9 @@ async function boot() {
   try {
     const deployPolicy = await fetchJson(appPath("/demo-data/deploy-policy.json"), true);
     const readonlyShared = deployPolicy?.readonly_shared === true;
+    const allowReviewWorkspace = deployPolicy?.review_workspace === true || !readonlyShared;
+    const requireReviewSession = deployPolicy?.review_requires_session === true;
+    const reviewApiBase = deployPolicy?.review_api_base || deployPolicy?.graph_api_base || "";
     const [fullGraph, fullCards, fullSharedGraph, fullSharedCards, p1Graph, p1Cards, gap, monthly, upstream] =
       await Promise.all([
         fetchJson(appPath("/demo-data/full-graph.json")),
@@ -280,7 +283,13 @@ async function boot() {
     bindControls();
     bindSearch();
     initDemo({ syncControls, updateMetrics, setStatus });
-    await initReviewWorkspace({ readonlyShared: state.deployPolicy.readonlyShared, setStatus });
+    await initReviewWorkspace({
+      readonlyShared: state.deployPolicy.readonlyShared,
+      allowReviewWorkspace,
+      requireReviewSession,
+      apiBase: reviewApiBase,
+      setStatus,
+    });
 
     updateMetrics();
     renderEdgeFilters();

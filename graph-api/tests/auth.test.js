@@ -49,9 +49,9 @@ test("审核台名单只放行 ETO/admin,普通成员只能进知识库", () => 
 });
 
 test("企业微信回调跳回图谱前端路径,避免落到同域名企业官网", () => {
-  const deployed = { ...WECOM, appBaseUrl: "/eco-execution-graph/" };
-  assert.equal(buildWecomAppRedirectUrl(deployed, { canReview: true }), "/eco-execution-graph/app.html?workspace=review");
-  assert.equal(buildWecomAppRedirectUrl(deployed, { canReview: false }), "/eco-execution-graph/app.html");
+  const deployed = { ...WECOM, appBaseUrl: "/eco-execution-graph-internal/" };
+  assert.equal(buildWecomAppRedirectUrl(deployed, { canReview: true }), "/eco-execution-graph-internal/app.html?workspace=review");
+  assert.equal(buildWecomAppRedirectUrl(deployed, { canReview: false }), "/eco-execution-graph-internal/app.html");
   assert.equal(buildWecomAppRedirectUrl(WECOM, { canReview: true }), "/?workspace=review");
 });
 
@@ -61,7 +61,7 @@ test("企业微信回调签发审核员会话,可直接访问审核接口", asyn
   const server = createServer({
     stagingPath: path.join(temp, "field-events.jsonl"),
     apiToken: "bearer-only-secret",
-    wecom: { ...WECOM, appBaseUrl: "/eco-execution-graph/" },
+    wecom: { ...WECOM, appBaseUrl: "/eco-execution-graph-internal/" },
     exchangeCode: async (code) => {
       assert.equal(code, "good-code");
       return "eto-candy";
@@ -76,7 +76,7 @@ test("企业微信回调签发审核员会话,可直接访问审核接口", asyn
 
     const callback = await fetch(`${base}/auth/wecom/callback?code=good-code`, { redirect: "manual" });
     assert.equal(callback.status, 302);
-    assert.equal(callback.headers.get("location"), "/eco-execution-graph/app.html?workspace=review");
+    assert.equal(callback.headers.get("location"), "/eco-execution-graph-internal/app.html?workspace=review");
     const cookie = callback.headers.get("set-cookie");
     assert.match(cookie, /eco_graph_session=/);
     assert.match(cookie, /HttpOnly/);
@@ -111,7 +111,7 @@ test("普通企业微信成员可登录但不能访问审核台 API", async () =
     apiToken: "bearer-only-secret",
     contextGraphPath: graphPath,
     contextPublicationPath: publicationPath,
-    wecom: { ...WECOM, appBaseUrl: "/eco-execution-graph/" },
+    wecom: { ...WECOM, appBaseUrl: "/eco-execution-graph-internal/" },
     exchangeCode: async () => "regular-staff",
   });
   await new Promise((resolve) => server.listen(0, "127.0.0.1", resolve));
@@ -120,7 +120,7 @@ test("普通企业微信成员可登录但不能访问审核台 API", async () =
   try {
     const callback = await fetch(`${base}/auth/wecom/callback?code=member-code`, { redirect: "manual" });
     assert.equal(callback.status, 302);
-    assert.equal(callback.headers.get("location"), "/eco-execution-graph/app.html");
+    assert.equal(callback.headers.get("location"), "/eco-execution-graph-internal/app.html");
     const sessionValue = callback.headers.get("set-cookie").split(";")[0];
 
     const session = await fetch(`${base}/auth/session`, { headers: { cookie: sessionValue } });

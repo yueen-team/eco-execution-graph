@@ -2,8 +2,17 @@ import { state } from "./state.js";
 
 const STATUS_TABS = ["待审核", "已通过(待聚合)", "已进入聚合候选", "退回补充", "仅保留内部案例", "不入图", "样本不足"];
 const APP_BASE = import.meta.env.BASE_URL || "/";
+const GRAPH_API_BASE = (import.meta.env.VITE_GRAPH_API_BASE || "https://www.yueen.cc/container-eco-execution-graph").replace(/\/$/, "");
 function appPath(path) {
   return `${APP_BASE.replace(/\/$/, "")}/${path.replace(/^\//, "")}`;
+}
+
+function normalizeApiBase(value = "") {
+  return String(value || GRAPH_API_BASE).replace(/\/$/, "");
+}
+
+function apiPath(path) {
+  return `${reviewState.apiBase}/${path.replace(/^\//, "")}`;
 }
 
 // 两步制:先选结论,再提交。kind 驱动语义配色,hint 告诉 ETO 这个结论的去向。
@@ -484,24 +493,33 @@ function renderReviewWorkspace() {
   window.__refreshIcons?.();
 }
 
-export async function initReviewWorkspace({ readonlyShared, setStatus }) {
+export async function initReviewWorkspace({
+  readonlyShared,
+  allowReviewWorkspace = !readonlyShared,
+  requireReviewSession = false,
+  apiBase = "",
+  setStatus,
+}) {
   const button = document.getElementById("reviewButton");
   const graphWorkspace = document.querySelector(".workspace");
   const reviewWorkspace = document.getElementById("reviewWorkspace");
-  if (readonlyShared) {
+  if (!allowReviewWorkspace) {
     button.hidden = true;
+    return;
+  }
+  const params = new URLSearchParams(window.location.search);
+  reviewState.authToken = sessionStorage.getItem("ecoGraphReviewToken") || "";
+  reviewState.apiBase = normalizeApiBase(apiBase || window.ECO_GRAPH_API_BASE);
+  const session = reviewState.authToken ? { can_review: true } : await fetchJson(apiPath("/auth/session"), true);
+  if (session?.can_review === false || (requireReviewSession && !session && !reviewState.authToken)) {
+    button.hidden = true;
+    if (params.get("workspace") === "review") {
+      setStatus?.("审核台需要企业微信授权,请从内部入口重新登录。");
+    }
     return;
   }
   button.hidden = false;
-  const params = new URLSearchParams(window.location.search);
-  reviewState.authToken = sessionStorage.getItem("ecoGraphReviewToken") || "";
-  reviewState.apiBase = window.ECO_GRAPH_API_BASE || "";
-  const session = reviewState.authToken ? null : await fetchJson(`${reviewState.apiBase}/auth/session`, true);
-  if (session && session.can_review === false) {
-    button.hidden = true;
-    return;
-  }
-  const apiData = await fetchJson(`${reviewState.apiBase}/api/review/field-events`, true);
+  const apiData = await fetchJson(apiPath("/api/review/field-events"), true);
   const demoData = await fetchJson(appPath("/review-data/field-event-review-demo.json"), true);
   reviewState.source = apiData?.items?.length ? "api" : "demo";
   reviewState.items = reviewState.source === "api" ? apiData.items : demoData?.items || [];

@@ -1,0 +1,67 @@
+{
+  "status": "pass",
+  "target": "local static server with /eco-execution-graph-internal/ and /eco-execution-graph/ route prefixes",
+  "evidence_type": "Chrome screenshots via Playwright using installed Chrome",
+  "checks": {
+    "internal_authorized_desktop": {
+      "reviewButtonHidden": false,
+      "reviewWorkspaceHidden": false,
+      "pendingHint": "当前有 1 条候选待你审核 · 共 6 条在库",
+      "firstCard": "危废标签内容不完整"
+    },
+    "internal_authorized_mobile": {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "reviewButtonHidden": false,
+      "reviewWorkspaceHidden": false,
+      "firstCard": "危废标签内容不完整"
+    },
+    "internal_unauthorized": {
+      "reviewButtonHidden": true,
+      "reviewWorkspaceHidden": true
+    },
+    "readonly_shared": {
+      "reviewButtonHidden": true,
+      "reviewWorkspaceHidden": true,
+      "deployPolicy": {
+        "readonly_shared": true,
+        "allowed_dataset": "shared_product_v1",
+        "private_runtime": "not packaged"
+      }
+    }
+  },
+  "expected_browser_logs": [
+    "401 on /auth/session in the unauthorized scenario",
+    "404 favicon from the minimal local proof server"
+  ],
+  "requestFailures": [],
+  "screenshots": [
+    {
+      "path": "reports/render-proof-internal-review/internal-authorized-review.png",
+      "exists": true,
+      "bytes": 268059,
+      "sha256": "c9031bd0f98e656eee2a23f3c7e849c60899459f1d378461925b5388abdfa7b0"
+    },
+    {
+      "path": "reports/render-proof-internal-review/internal-authorized-review-mobile.png",
+      "exists": true,
+      "bytes": 444570,
+      "sha256": "27174094b40578f5ddf1c82a5b96b0cc1e8a40a5ee9c9887f53f1c393a2339c9"
+    },
+    {
+      "path": "reports/render-proof-internal-review/internal-unauthorized-hidden.png",
+      "exists": true,
+      "bytes": 322369,
+      "sha256": "2fef28f15b60d552fd2f1ea478ca0ae717e6614cb8f6c40254de6ee1782d3c76"
+    },
+    {
+      "path": "reports/render-proof-internal-review/readonly-shared-review-hidden.png",
+      "exists": true,
+      "bytes": 322369,
+      "sha256": "2fef28f15b60d552fd2f1ea478ca0ae717e6614cb8f6c40254de6ee1782d3c76"
+    }
+  ],
+  "generated_at": "2026-06-25T11:58:00-04:00"
+}

@@ -56,6 +56,8 @@
     "delivery:p2p3": "python pipeline/final_delivery_p2p3.py",
     "ui:dev": "pnpm --dir graph-ui dev",
     "ui:build": "pnpm --dir graph-ui build",
+    "ui:pack:cloudbase:static-readonly": "pwsh -ExecutionPolicy Bypass -File scripts/prepare_cloudbase_static_readonly.ps1",
+    "ui:pack:cloudbase:static-internal": "pwsh -ExecutionPolicy Bypass -File scripts/prepare_cloudbase_static_internal.ps1",
     "bdd:export": "gherkin-v39 --predictable-ids \"specs/features/*.feature\" > bdd/behavior-contracts.ndjson",
     "skills:index": "echo skills-index: not applicable in this project",
     "verify:check": "pwsh -ExecutionPolicy Bypass -File verify/verify.ps1 check",

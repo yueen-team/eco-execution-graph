@@ -1,0 +1,62 @@
+{
+  "status": "pass",
+  "package_dir": "graph-ui/dist-cloudbase-static-internal",
+  "deploy_target": "CloudBase static hosting",
+  "access_policy": "internal review shell; shared graph only; review data fetched from graph-api after WeCom session",
+  "public_base": "/eco-execution-graph-internal/",
+  "review_api_base": "https://www.yueen.cc/container-eco-execution-graph",
+  "source_dist": "graph-ui/dist",
+  "shared_graph": "data/exports/shared_product_v1/graph.json",
+  "shared_cards": "data/exports/shared_product_v1/cards.shared.json",
+  "removed": [
+    "demo-data/monthly-comparison.json",
+    "review-data/"
+  ],
+  "overwritten_with_shared": [
+    "demo-data/full-graph.json",
+    "demo-data/full-cards.json",
+    "demo-data/graph.json",
+    "demo-data/cards.json",
+    "demo-data/deploy-policy.json"
+  ],
+  "file_count": 21,
+  "findings": [],
+  "code_warnings": [
+    {
+      "file": "graph-ui/dist-cloudbase-static-internal/app.html",
+      "reason": "code bundle still contains internal vocabulary labels; data package is checked separately"
+    },
+    {
+      "file": "graph-ui/dist-cloudbase-static-internal/assets/app-CwrCjxYP.js",
+      "reason": "code bundle still contains internal vocabulary labels; data package is checked separately"
+    }
+  ],
+  "hashes": [
+    {
+      "path": "index.html",
+      "sha256": "e72d1a0035f17d884cb8d5e46e4f58eebd2d6c03a00e47bdcd809dd7d0ea4699",
+      "bytes": 1264
+    },
+    {
+      "path": "app.html",
+      "sha256": "9880b0588cff5fa71f239ad1875d5d9204509d955803cce9b940011bccd8c97d",
+      "bytes": 9194
+    },
+    {
+      "path": "demo-data/full-graph.json",
+      "sha256": "550144c3275c4a4c0b3f05ee8fbf942e47f2f15fe471045a2175c48679dd5254",
+      "bytes": 1554053
+    },
+    {
+      "path": "demo-data/full-cards.json",
+      "sha256": "2168c773e7635bc245ae30e4e6643aaead64c6c9bcea030534642055f11af44d",
+      "bytes": 251066
+    },
+    {
+      "path": "demo-data/deploy-policy.json",
+      "sha256": "b90e5218eb1b406de27041ffab79bb65f891c2737338dc86b9bfa030d57b9765",
+      "bytes": 342
+    }
+  ],
+  "generated_at": "2026-06-25T11:57:49"
+}

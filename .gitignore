@@ -1,6 +1,7 @@
 node_modules/
 dist/
 graph-ui/dist-cloudbase-static-readonly/
+graph-ui/dist-cloudbase-static-internal/
 __pycache__/
 *.pyc
 .venv/
@@ -25,6 +26,8 @@ data/private-staging/*
 
 reports/render-proof-review-polish/*.png
 reports/render-proof-review-polish/*.mp4
+reports/render-proof-internal-review/*.png
+reports/render-proof-internal-review/*.mp4
 .playwright-cli/
 .codex-graph-ui-dev-*.pid
 .tmp-render-proof-chrome/
