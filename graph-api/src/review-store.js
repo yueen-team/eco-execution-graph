@@ -61,6 +61,15 @@ const FORBIDDEN_VALUE_PATTERNS = [
   /本法全文|全文如下|第一条.{20,}第二条/s,
 ];
 
+const NON_RUNTIME_REVIEW_PATTERNS = [
+  /not_for_runtime_import/i,
+  /synthetic[_-]smoke/i,
+  /synthetic[_-]/i,
+  /\bsynthetic\b/i,
+  /Synthetic graph smoke issue/i,
+  /Synthetic problem summary only/i,
+];
+
 function hash(value) {
   return crypto.createHash("sha256").update(String(value)).digest("hex").slice(0, 16);
 }
@@ -172,6 +181,32 @@ function scanForbidden(value, path = "$", violations = []) {
     }
   }
   return violations;
+}
+
+function reviewText(value) {
+  if (value === null || value === undefined) return "";
+  if (typeof value === "string" || typeof value === "number" || typeof value === "boolean") return String(value);
+  if (Array.isArray(value)) return value.map(reviewText).join(" ");
+  if (typeof value === "object") return Object.values(value).map(reviewText).join(" ");
+  return "";
+}
+
+export function isRuntimeReviewCandidate(item) {
+  const textValue = reviewText(item);
+  return !NON_RUNTIME_REVIEW_PATTERNS.some((pattern) => pattern.test(textValue));
+}
+
+export function filterReviewItemsForRuntime(rows, { includeNonRuntime = false, status = "" } = {}) {
+  const all = Array.isArray(rows) ? rows : [];
+  const runtimeItems = includeNonRuntime ? all : all.filter(isRuntimeReviewCandidate);
+  const statusItems = status ? runtimeItems.filter((row) => row["当前审核状态"] === status) : runtimeItems;
+  return {
+    items: statusItems,
+    filtered: {
+      non_runtime: includeNonRuntime ? 0 : all.length - runtimeItems.length,
+      total: all.length,
+    },
+  };
 }
 
 export function assertAcceptableFieldEvent(payload) {

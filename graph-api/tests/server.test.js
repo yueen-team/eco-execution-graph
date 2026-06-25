@@ -122,6 +122,55 @@ test("历史回档字段 POST 后进入待审核中文记录", async () => {
   }
 });
 
+test("审核列表默认隐藏系统测试和非运行库记录", async () => {
+  const temp = path.join(os.tmpdir(), `eco-graph-review-runtime-filter-${Date.now()}`);
+  await mkdir(temp, { recursive: true });
+  const stagingPath = path.join(temp, "field-events.jsonl");
+  const server = createServer({ stagingPath, apiToken: "secret-for-test" });
+  await new Promise((resolve) => server.listen(0, "127.0.0.1", resolve));
+  const base = `http://127.0.0.1:${server.address().port}`;
+  const headers = {
+    "content-type": "application/json",
+    authorization: "Bearer secret-for-test",
+  };
+  const runtimePayload = structuredClone(fixture);
+  runtimePayload.field_issue_uid = "runtime-issue-001";
+  runtimePayload.business_key = "runtime-inspection-001";
+  runtimePayload.source_context.company_id = "internal-demo-company-001";
+  const smokePayload = structuredClone(fixture);
+  smokePayload.field_issue_uid = "synthetic-smoke-001";
+  smokePayload.business_key = "synthetic-smoke-001";
+  smokePayload.source_tags = ["synthetic_smoke", "not_for_runtime_import"];
+
+  try {
+    for (const payload of [runtimePayload, smokePayload]) {
+      const create = await fetch(`${base}/api/ecocheck/field-events`, {
+        method: "POST",
+        headers,
+        body: JSON.stringify(payload),
+      });
+      assert.equal(create.status, 201);
+    }
+
+    const queue = await fetch(`${base}/api/review/field-events`, { headers });
+    assert.equal(queue.status, 200);
+    const body = await queue.json();
+    assert.equal(body.items.length, 1);
+    assert.equal(body.items[0]["业务幂等键"], "runtime-inspection-001");
+    assert.equal(body.filtered.non_runtime, 1);
+    assert.equal(body.filtered.total, 2);
+
+    const debugQueue = await fetch(`${base}/api/review/field-events?include_non_runtime=1`, { headers });
+    assert.equal(debugQueue.status, 200);
+    const debugBody = await debugQueue.json();
+    assert.equal(debugBody.items.length, 2);
+    assert.equal(debugBody.filtered.non_runtime, 0);
+  } finally {
+    await new Promise((resolve) => server.close(resolve));
+    await rm(temp, { recursive: true, force: true });
+  }
+});
+
 test("profile-gap 事件 POST 后作为非聚合治理记录保存", async () => {
   const temp = path.join(os.tmpdir(), `eco-graph-profile-gap-${Date.now()}`);
   await mkdir(temp, { recursive: true });

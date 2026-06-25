@@ -70,12 +70,20 @@ async function main() {
     const reviewAllowed = await fetch(`${base}/api/review/field-events`, { headers: reviewCookie });
     assert.equal(reviewAllowed.status, 200);
     const reviewBody = await reviewAllowed.json();
-    assert.equal(reviewBody.items.length, 2);
+    assert.equal(reviewBody.items.length, 0);
+    assert.equal(reviewBody.filtered.non_runtime, 2);
+
+    const reviewDebug = await fetch(`${base}/api/review/field-events?include_non_runtime=1`, { headers: reviewCookie });
+    assert.equal(reviewDebug.status, 200);
+    const reviewDebugBody = await reviewDebug.json();
+    assert.equal(reviewDebugBody.items.length, 2);
 
     console.log(JSON.stringify({
       status: "pass",
       semantic_event: "pass",
       profile_gap_confirmed: "pass",
+      synthetic_default_hidden: "pass",
+      include_non_runtime_debug: "pass",
       member_review_access: "denied",
       cleanup: temp,
     }, null, 2));

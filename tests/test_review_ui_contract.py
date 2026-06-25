@@ -17,7 +17,7 @@ class ReviewUiContractTest(unittest.TestCase):
             self.assertIn(text, visible_surface)
         for status in ["待审核", "已通过(待聚合)", "已进入聚合候选", "退回补充", "不入图", "样本不足"]:
             self.assertIn(status, visible_surface)
-        for column in ["历史原始信源", "机器补填建议", "ETO 审核决定"]:
+        for column in ["1. 核对原始信源", "2. 判断系统归类", "3. 提交 ETO 结论"]:
             self.assertIn(column, visible_surface)
 
     def test_review_visible_surface_does_not_show_technical_field_names(self):
@@ -76,6 +76,24 @@ class ReviewUiContractTest(unittest.TestCase):
         self.assertNotIn("window.alert", review_js)
         self.assertIn("review-notice", review_js)
         self.assertIn("review-three-column", review_js)
+
+    def test_review_workspace_hides_non_runtime_smoke_records_and_guides_eto(self):
+        review_js = (ROOT / "graph-ui/src/review.js").read_text(encoding="utf-8")
+        app_html = (ROOT / "graph-ui/app.html").read_text(encoding="utf-8")
+        surface = review_js + "\n" + app_html
+
+        for marker in ["filterRuntimeItems", "isNonRuntimeReviewItem", "已隐藏", "系统测试/非运行库记录"]:
+            self.assertIn(marker, surface)
+        for label in ["核对信源", "判断归类", "提交结论", "从「待审核」开始处理"]:
+            self.assertIn(label, surface)
+        for raw, label in [
+            ("not_for_runtime_import", "不进入运行库"),
+            ("synthetic_smoke", "系统联通测试"),
+            ("Synthetic graph smoke issue", "系统联通测试问题"),
+            ("YELLOW", "黄色预警"),
+        ]:
+            self.assertIn(raw, review_js)
+            self.assertIn(label, review_js)
 
     def test_graph_surface_maps_english_enums_to_chinese(self):
         state_js = (ROOT / "graph-ui/src/state.js").read_text(encoding="utf-8")

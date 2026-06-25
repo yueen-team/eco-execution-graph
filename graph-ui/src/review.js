@@ -30,11 +30,37 @@ let reviewState = {
   selectedId: null,
   items: [],
   source: "demo",
+  filtered: { nonRuntime: 0, total: 0 },
   apiBase: "",
   authToken: "",
   submitting: false,
   notice: null,
 };
+
+const VALUE_LABELS = new Map([
+  ["not_for_runtime_import", "不进入运行库"],
+  ["synthetic_smoke", "系统联通测试"],
+  ["synthetic-region", "合成区域"],
+  ["synthetic-industry", "合成行业"],
+  ["synthetic-permit", "合成许可"],
+  ["synthetic observation", "系统测试观察"],
+  ["Synthetic graph smoke issue", "系统联通测试问题"],
+  ["Synthetic problem summary only.", "系统联通测试摘要。"],
+  ["historical_archive", "历史回档"],
+  ["VERIFIED", "已验收通过"],
+  ["REJECTED", "验收驳回"],
+  ["OPEN", "处理中"],
+  ["YELLOW", "黄色预警"],
+]);
+
+const NON_RUNTIME_PATTERNS = [
+  /not_for_runtime_import/i,
+  /synthetic[_-]smoke/i,
+  /synthetic[_-]/i,
+  /\bsynthetic\b/i,
+  /Synthetic graph smoke issue/i,
+  /Synthetic problem summary only/i,
+];
 
 function esc(value) {
   return String(value ?? "").replace(/[&<>"']/g, (char) => ({
@@ -44,6 +70,47 @@ function esc(value) {
     "\"": "&quot;",
     "'": "&#39;",
   }[char]));
+}
+
+function readableText(value) {
+  const text = String(value ?? "");
+  if (!text) return text;
+  if (VALUE_LABELS.has(text)) return VALUE_LABELS.get(text);
+  return text.replace(/\bS(\d{2})\b/g, "风险域 S$1");
+}
+
+function humanize(value) {
+  if (Array.isArray(value)) return value.map(humanize);
+  if (value && typeof value === "object") {
+    return Object.fromEntries(Object.entries(value).map(([key, item]) => [key, humanize(item)]));
+  }
+  return readableText(value);
+}
+
+function itemText(item) {
+  if (item === null || item === undefined) return "";
+  if (typeof item === "string" || typeof item === "number" || typeof item === "boolean") return String(item);
+  if (Array.isArray(item)) return item.map(itemText).join(" ");
+  if (typeof item === "object") return Object.values(item).map(itemText).join(" ");
+  return "";
+}
+
+function isNonRuntimeReviewItem(item) {
+  const text = itemText(item);
+  return NON_RUNTIME_PATTERNS.some((pattern) => pattern.test(text));
+}
+
+function filterRuntimeItems(items = [], apiFiltered = {}) {
+  const list = Array.isArray(items) ? items : [];
+  const runtimeItems = list.filter((item) => !isNonRuntimeReviewItem(item));
+  const clientHidden = list.length - runtimeItems.length;
+  return {
+    items: runtimeItems,
+    filtered: {
+      nonRuntime: Number(apiFiltered.non_runtime ?? clientHidden ?? 0),
+      total: Number(apiFiltered.total ?? list.length ?? 0),
+    },
+  };
 }
 
 function authHeaders(extra = {}) {
@@ -111,17 +178,18 @@ function renderStatusTabs() {
 
 function card(item) {
   const active = item["审核编号"] === reviewState.selectedId;
-  const signals = (item["现场表现"] || []).slice(0, 2).map((signal) => `<span>${esc(signal)}</span>`).join("");
-  const tags = (item["信源标签"] || []).map((tag) => `<span>${esc(tag)}</span>`).join("");
+  const source = humanize(item);
+  const signals = (source["现场表现"] || []).slice(0, 2).map((signal) => `<span>${esc(signal)}</span>`).join("");
+  const tags = (source["信源标签"] || []).map((tag) => `<span>${esc(tag)}</span>`).join("");
   return `
     <button class="review-card ${active ? "is-active" : ""}" data-review-id="${esc(item["审核编号"])}">
-      <span class="review-card-status">${esc(item["当前审核状态"])}</span>
-      <strong>${esc(item["建议问题类型"])}</strong>
-      <p>${esc(item["现场问题摘要"])}</p>
+      <span class="review-card-status">${esc(source["当前审核状态"])}</span>
+      <strong>${esc(source["建议问题类型"])}</strong>
+      <p>${esc(source["现场问题摘要"])}</p>
       <div class="review-card-meta">
-        <span>${esc(item["环保维度"])}</span>
-        <span>${esc(item["区域"])}</span>
-        <span>${esc(item["行业"])}</span>
+        <span>${esc(source["环保维度"])}</span>
+        <span>${esc(source["区域"])}</span>
+        <span>${esc(source["行业"])}</span>
       </div>
       ${tags ? `<div class="review-card-tags">${tags}</div>` : ""}
       <div class="review-card-signals">${signals || "<span>现场表现待补充</span>"}</div>
@@ -153,7 +221,7 @@ function field(label, value) {
 
 function chips(values) {
   const list = values?.length ? values : ["待补充"];
-  return `<div class="review-chip-row">${list.map((item) => `<span>${esc(item)}</span>`).join("")}</div>`;
+  return `<div class="review-chip-row">${list.map((item) => `<span>${esc(displayValue(item))}</span>`).join("")}</div>`;
 }
 
 function section(title, body) {
@@ -172,15 +240,15 @@ function displayValue(value) {
     if ("名称" in value) return displayValue(value["名称"]);
     return Object.entries(value).map(([key, item]) => `${key}:${displayValue(item)}`).join("；");
   }
-  return String(value);
+  return readableText(value);
 }
 
 function completionRows(rows) {
   const list = rows?.length ? rows : [{ "字段": "待补充", "状态": "待核对", "值": "未提供" }];
   return list.map((row) => `
     <div class="review-completion-row">
-      <strong>${esc(row["字段"] || "待核对字段")}</strong>
-      <span>${esc(row["状态"] || "待核对")}</span>
+      <strong>${esc(displayValue(row["字段"] || "待核对字段"))}</strong>
+      <span>${esc(displayValue(row["状态"] || "待核对"))}</span>
       <small>${esc(displayValue(row["值"] || row["原因"] || row["补充动作"]))}</small>
     </div>
   `).join("");
@@ -210,8 +278,8 @@ function machineFillPanel(rows = []) {
   const list = rows.length ? rows : [{ "字段": "机器补填", "方法": "暂无补填说明", "置信度": null }];
   return `<div class="review-fill-list">${list.map((row) => `
     <div class="review-fill-row">
-      <strong>${esc(row["字段"])}</strong>
-      <span>${esc(row["方法"])}</span>
+      <strong>${esc(displayValue(row["字段"]))}</strong>
+      <span>${esc(displayValue(row["方法"]))}</span>
       <small>${row["置信度"] === null || row["置信度"] === undefined ? "置信度待核对" : `置信度 ${esc(row["置信度"])}`}</small>
     </div>
   `).join("")}</div>`;
@@ -225,9 +293,9 @@ function historyPanel(history = {}) {
       ${field("整改轮次", history["最新轮次"] || history["总记录数"])}
       ${field("驳回次数", history["驳回次数"])}
     </div>
-    <p class="review-summary">${esc(history["整改要求摘要"] || "整改要求待补充")}</p>
-    <p class="review-summary">${esc(history["整改提交摘要"] || "整改提交摘要待补充")}</p>
-    <p class="review-summary">${esc(history["ETO审核意见摘要"] || "ETO审核意见待补充")}</p>
+    <p class="review-summary">${esc(displayValue(history["整改要求摘要"] || "整改要求待补充"))}</p>
+    <p class="review-summary">${esc(displayValue(history["整改提交摘要"] || "整改提交摘要待补充"))}</p>
+    <p class="review-summary">${esc(displayValue(history["ETO审核意见摘要"] || "ETO审核意见待补充"))}</p>
   `;
 }
 
@@ -252,13 +320,39 @@ function setNotice(kind, text) {
   document.getElementById("reviewSubmitRow")?.insertAdjacentHTML("afterend", noticeHtml());
 }
 
+function reviewSteps(item) {
+  const hasSource = Boolean(item["来源时间"] || item["检查日期"] || item["证据摘要"]?.["证据数量"]);
+  const hasSuggestion = Boolean(item["建议问题类型"] || item["字段补齐状态"]);
+  return `
+    <div class="review-step-rail" aria-label="审核步骤">
+      <div class="review-step ${hasSource ? "is-ready" : ""}">
+        <b>1</b>
+        <span>核对信源</span>
+        <small>检查月份、区域、行业、证据数量</small>
+      </div>
+      <div class="review-step ${hasSuggestion ? "is-ready" : ""}">
+        <b>2</b>
+        <span>判断归类</span>
+        <small>问题类型、字段补齐、法条候选</small>
+      </div>
+      <div class="review-step is-current">
+        <b>3</b>
+        <span>提交结论</span>
+        <small>通过、合并、退回、保留或不入图</small>
+      </div>
+    </div>
+  `;
+}
+
 function renderDetail() {
   const detail = document.getElementById("reviewDetail");
   const item = selectedItem();
   if (!item) {
-    detail.innerHTML = `<div class="review-empty"><strong>暂无审核记录</strong><p>等待 EcoCheck 推送候选现场经验。</p></div>`;
+    const hidden = reviewState.filtered.nonRuntime || 0;
+    detail.innerHTML = `<div class="review-empty"><strong>暂无可审核记录</strong><p>等待 EcoCheck 推送新的运行候选现场经验。${hidden ? `已隐藏 ${hidden} 条系统测试或非运行库记录。` : ""}</p></div>`;
     return;
   }
+  const view = humanize(item);
   const evidence = item["证据摘要"] || {};
   const laws = item["法条规范候选"] || [];
   const sourceTags = item["信源标签"] || [];
@@ -271,13 +365,14 @@ function renderDetail() {
   detail.innerHTML = `
     ${isDemo ? "<div class=\"review-mode-banner\">演示模式:审核决定只在本浏览器临时生效,不会落库。</div>" : ""}
     <div class="review-detail-head">
-      <span class="review-card-status">${esc(item["当前审核状态"])}</span>
-      <h2>${esc(item["建议问题类型"])}</h2>
-      <p>${esc(item["来源阶段"])} · ${esc(item["来源时间"])}</p>
+      <span class="review-card-status">${esc(view["当前审核状态"])}</span>
+      <h2>${esc(view["建议问题类型"])}</h2>
+      <p>${esc(view["来源阶段"])} · ${esc(view["来源时间"])}</p>
       ${sourceTags.length ? chips(sourceTags) : ""}
     </div>
+    ${reviewSteps(item)}
     <div class="review-three-column">
-      ${column("历史原始信源", `
+      ${column("1. 核对原始信源", `
         ${section("历史检查信息", `
           <div class="review-field-grid">
             ${field("检查月份", item["检查月份"])}
@@ -287,7 +382,7 @@ function renderDetail() {
             ${field("许可类型", item["排污许可类型"])}
             ${field("环保维度", item["环保维度"])}
           </div>
-          <p class="review-summary">${esc(item["现场问题摘要"])}</p>
+          <p class="review-summary">${esc(displayValue(item["现场问题摘要"]))}</p>
           ${chips(item["现场表现"])}
         `)}
         ${section("回档批次", `
@@ -301,7 +396,7 @@ function renderDetail() {
         `)}
         ${section("整改历史摘要", historyPanel(history))}
       `)}
-      ${column("机器补填建议", `
+      ${column("2. 判断系统归类", `
         ${section("系统建议归类", `
           <div class="review-field-grid">
             ${field("建议问题类型", item["建议问题类型"])}
@@ -314,10 +409,10 @@ function renderDetail() {
         ${section("字段补齐状态", completionPanel(completion))}
         ${section("机器补填说明", machineFillPanel(machineFill))}
         ${section("法条规范候选", laws.length ? laws.map((law) => `
-          <div class="review-law"><strong>${esc(law["名称"])}</strong><span>候选引用</span></div>
+          <div class="review-law"><strong>${esc(displayValue(law["名称"]))}</strong><span>候选引用</span></div>
         `).join("") : "<p class=\"review-summary\">暂无候选引用,不得对外写成法律依据。</p>")}
       `)}
-      ${column("ETO 审核决定", `
+      ${column("3. 提交 ETO 结论", `
         ${section("聚合准入判断", `
           <div class="review-field-grid">
             ${field("是否允许进入聚合", item["是否允许进入聚合"] ? "是" : "否")}
@@ -326,6 +421,7 @@ function renderDetail() {
           <p class="review-summary">通过后只进入聚合候选池;同一组合满 5 家企业才可生成聚合统计。</p>
         `)}
         ${section("审核结论", `
+          <p class="review-summary">先选择一个结论,再提交保存。退回、不入图、仅内部保留都需要在意见里写清楚判断原因。</p>
           <div class="review-action-grid" role="group" aria-label="审核结论">
             ${ACTIONS.map((action) => `
               <button class="review-action" data-kind="${action.kind}" data-review-action="${esc(action.label)}"
@@ -337,7 +433,7 @@ function renderDetail() {
             <input id="mergeTargetIssue" class="review-merge-input" list="issueTypeOptions"
                    value="${esc(item["合并目标问题类型"] || "")}" placeholder="输入或选择目标问题类型编号">
             <datalist id="issueTypeOptions">
-              ${options.map((option) => `<option value="${esc(option.ref)}">${esc(option.name)}</option>`).join("")}
+              ${options.map((option) => `<option value="${esc(option.ref)}">${esc(displayValue(option.name))}</option>`).join("")}
             </datalist>
           </div>
           <textarea id="reviewComment" class="review-comment" placeholder="审核意见:说明通过、退回或不入图的原因">${esc(item["审核意见"] || "")}</textarea>
@@ -477,12 +573,14 @@ function renderPendingHint() {
   if (!el) return;
   const pending = statusCounts()["待审核"] || 0;
   const total = reviewState.items.length;
+  const hidden = reviewState.filtered.nonRuntime || 0;
+  const hiddenText = hidden ? ` · 已隐藏 <b>${hidden}</b> 条系统测试/非运行库记录` : "";
   el.hidden = false;
   el.innerHTML = total === 0
-    ? "候选队列为空 —— EcoCheck 暂未推送新的现场经验。"
+    ? `候选队列为空 —— EcoCheck 暂未推送新的运行候选现场经验${hiddenText}。`
     : pending > 0
-      ? `当前有 <b>${pending}</b> 条候选待你审核 · 共 ${total} 条在库`
-      : `待审核队列已清空 · 共 ${total} 条已处理`;
+      ? `当前有 <b>${pending}</b> 条候选待你审核 · 共 ${total} 条可处理${hiddenText}`
+      : `待审核队列已清空 · 共 ${total} 条可处理${hiddenText}`;
 }
 
 function renderReviewWorkspace() {
@@ -521,8 +619,16 @@ export async function initReviewWorkspace({
   button.hidden = false;
   const apiData = await fetchJson(apiPath("/api/review/field-events"), true);
   const demoData = await fetchJson(appPath("/review-data/field-event-review-demo.json"), true);
-  reviewState.source = apiData?.items?.length ? "api" : "demo";
-  reviewState.items = reviewState.source === "api" ? apiData.items : demoData?.items || [];
+  if (apiData) {
+    const runtime = filterRuntimeItems(apiData.items, apiData.filtered);
+    reviewState.source = "api";
+    reviewState.items = runtime.items;
+    reviewState.filtered = runtime.filtered;
+  } else {
+    reviewState.source = "demo";
+    reviewState.items = demoData?.items || [];
+    reviewState.filtered = { nonRuntime: 0, total: reviewState.items.length };
+  }
   reviewState.selectedId = visibleItems()[0]?.["审核编号"] || reviewState.items[0]?.["审核编号"] || null;
   renderReviewWorkspace();
 

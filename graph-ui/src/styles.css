@@ -1521,6 +1521,60 @@ strong[data-counter], .metric strong {
   margin-top: 10px;
 }
 
+.review-step-rail {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  padding: 14px 0 2px;
+}
+
+.review-step {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr);
+  column-gap: 9px;
+  row-gap: 2px;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid var(--line-1);
+  border-radius: var(--r-sm);
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.review-step b {
+  grid-row: 1 / span 2;
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: var(--text-0);
+  background: rgba(143, 174, 158, 0.13);
+  font-variant-numeric: tabular-nums;
+}
+
+.review-step span {
+  color: var(--text-0);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.review-step small {
+  color: var(--text-3);
+  font-size: 11.5px;
+  line-height: 1.35;
+}
+
+.review-step.is-ready b {
+  color: #082217;
+  background: rgba(46, 230, 168, 0.86);
+}
+
+.review-step.is-current {
+  border-color: var(--eco-line);
+  background: var(--eco-soft);
+}
+
 .review-three-column {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -1832,6 +1886,7 @@ strong[data-counter], .metric strong {
   .metric { min-width: 70px; padding: 7px 12px 6px; }
   .brand-sub { display: none; }
   .review-workspace { grid-template-columns: 232px minmax(280px, 0.8fr) minmax(560px, 1.5fr); }
+  .review-step-rail { grid-template-columns: 1fr; }
   .review-three-column { grid-template-columns: 1fr 1fr; }
   .review-three-column .review-column:last-child { grid-column: 1 / -1; }
 }
@@ -1925,6 +1980,7 @@ strong[data-counter], .metric strong {
   .review-list-panel,
   .review-detail-panel { padding: 16px; }
   .review-three-column { grid-template-columns: 1fr; }
+  .review-step-rail { grid-template-columns: 1fr; }
   .review-three-column .review-column:last-child { grid-column: auto; }
   .review-tabs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .review-field-grid,

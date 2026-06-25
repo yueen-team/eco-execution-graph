@@ -18,6 +18,28 @@
       "reviewWorkspaceHidden": false,
       "firstCard": "危废标签内容不完整"
     },
+    "review_local_desktop_v2": {
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "reviewWorkspaceVisible": true,
+      "stepVisible": true,
+      "actionVisible": true,
+      "syntheticSmokeVisible": false,
+      "consoleErrors": []
+    },
+    "review_local_mobile_v2": {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "reviewWorkspaceVisible": true,
+      "stepVisible": true,
+      "actionVisible": true,
+      "syntheticSmokeVisible": false,
+      "consoleErrors": []
+    },
     "internal_unauthorized": {
       "reviewButtonHidden": true,
       "reviewWorkspaceHidden": true
@@ -51,6 +73,18 @@
       "sha256": "27174094b40578f5ddf1c82a5b96b0cc1e8a40a5ee9c9887f53f1c393a2339c9"
     },
     {
+      "path": "reports/render-proof-internal-review/review-local-desktop.png",
+      "exists": true,
+      "bytes": 341376,
+      "sha256": "1487d3e83b238415a91dbd06f441c007f0e22502c413922c81de829a338ce2b0"
+    },
+    {
+      "path": "reports/render-proof-internal-review/review-local-mobile.png",
+      "exists": true,
+      "bytes": 493471,
+      "sha256": "2fc871027c44e45f6b0160c686a94750a74c340d6670d8c416e8e9f06981aa82"
+    },
+    {
       "path": "reports/render-proof-internal-review/internal-unauthorized-hidden.png",
       "exists": true,
       "bytes": 322369,
@@ -63,5 +97,5 @@
       "sha256": "2fef28f15b60d552fd2f1ea478ca0ae717e6614cb8f6c40254de6ee1782d3c76"
     }
   ],
-  "generated_at": "2026-06-25T11:58:00-04:00"
+  "generated_at": "2026-06-25T12:50:22-04:00"
 }

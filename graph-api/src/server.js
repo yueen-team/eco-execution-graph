@@ -3,7 +3,7 @@ import crypto from "node:crypto";
 import { URL } from "node:url";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { applyReviewDecision, buildPitfallBatch, normalizeEcoCheckPayload } from "./review-store.js";
+import { applyReviewDecision, buildPitfallBatch, filterReviewItemsForRuntime, normalizeEcoCheckPayload } from "./review-store.js";
 import { createReviewStorage } from "./storage.js";
 import { buildGraphContextResponse, contextPathsFromRoot, loadGraphContextInputs } from "./graph-context.js";
 import {
@@ -206,7 +206,9 @@ function createHandler({
       const store = await getStorage();
       const rows = await store.readAll();
       const status = url.searchParams.get("status");
-      send(res, 200, { status: "pass", items: status ? rows.filter((row) => row["当前审核状态"] === status) : rows });
+      const includeNonRuntime = ["1", "true", "yes"].includes(String(url.searchParams.get("include_non_runtime") || "").toLowerCase());
+      const queue = filterReviewItemsForRuntime(rows, { includeNonRuntime, status });
+      send(res, 200, { status: "pass", ...queue });
       return;
     }
     if (req.method === "GET" && url.pathname === "/api/graph/context") {

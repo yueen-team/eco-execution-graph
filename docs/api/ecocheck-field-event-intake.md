@@ -127,6 +127,10 @@ graph 必须生成一条中文审核记录:
 
 ## 审核结论
 
+`GET /api/review/field-events`
+
+默认只返回 ETO 可处理的运行候选记录。带有 `not_for_runtime_import`、`synthetic_smoke` 或明显 synthetic/smoke 标记的系统测试记录会留在 private staging,但不进入默认审核列表;响应中的 `filtered.non_runtime` 会给出隐藏数量。内部排查时可追加 `?include_non_runtime=1` 查看完整 staging 队列。
+
 `POST /api/review/field-events/:id/decision`
 
 允许的审核结论:
