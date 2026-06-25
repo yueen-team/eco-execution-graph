@@ -7,6 +7,12 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class LandingLoginContractTest(unittest.TestCase):
+    def test_default_entry_uses_vite_base_url(self):
+        index_html = (ROOT / "graph-ui/index.html").read_text(encoding="utf-8")
+        self.assertIn("%BASE_URL%", index_html)
+        self.assertNotIn("window.location.replace(`./${target}", index_html)
+        self.assertIn("window.location.replace(`${appBase}${target}", index_html)
+
     def test_landing_has_no_hardcoded_metrics_or_partner_names(self):
         landing_html = (ROOT / "graph-ui/landing.html").read_text(encoding="utf-8")
         landing_js = (ROOT / "graph-ui/src/landing.js").read_text(encoding="utf-8")

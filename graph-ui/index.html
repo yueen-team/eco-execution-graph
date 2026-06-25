@@ -15,12 +15,14 @@
           params.has("workspace") ||
           params.has("view");
         const target = shouldOpenApp ? "app.html" : "landing.html";
-        window.location.replace(`./${target}${window.location.search}${window.location.hash}`);
+        const base = "%BASE_URL%";
+        const appBase = base.endsWith("/") ? base : `${base}/`;
+        window.location.replace(`${appBase}${target}${window.location.search}${window.location.hash}`);
       })();
     </script>
   </head>
   <body>
     <p>正在进入环保现场执行图谱...</p>
-    <p><a href="./landing.html">进入展示首页</a> · <a href="./app.html">进入图谱驾驶舱</a></p>
+    <p><a href="%BASE_URL%landing.html">进入展示首页</a> · <a href="%BASE_URL%app.html">进入图谱驾驶舱</a></p>
   </body>
 </html>
