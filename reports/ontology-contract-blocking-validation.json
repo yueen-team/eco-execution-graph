@@ -37,7 +37,7 @@
     "failed": false
   },
   "consumer_repo": "eco-execution-graph",
-  "checked_at": "2026-06-23T05:58:25.826204+00:00",
+  "checked_at": "2026-06-25T11:06:12.529054+00:00",
   "eco_kb_root": "E:\\eco-semantic-knowledge-base",
   "eco_kb_package_manifest": "E:\\eco-semantic-knowledge-base\\manifests\\graph_kb_package_manifest_v1_0.json",
   "summary": {

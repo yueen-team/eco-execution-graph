@@ -439,6 +439,95 @@ strong[data-counter], .metric strong {
   transform: scale(0.992);
 }
 
+/* 报告/支撑幕:整块说明面板是主角,图谱退到背景,避免节点透到文字上(堆叠不可读) */
+.demo-active.demo-report #cy {
+  filter: brightness(0.3) saturate(0.65) blur(2px);
+  pointer-events: none;
+}
+.demo-active.demo-report .act-overlay {
+  background:
+    radial-gradient(ellipse 95% 85% at 50% 46%, rgba(6, 15, 11, 0.84), rgba(6, 15, 11, 0.97) 78%);
+  /* 底部固定讲解卡约 150px,给面板预留净空,避免内容被压(堆叠) */
+  padding: 24px 28px 168px;
+}
+.demo-active.demo-report .report-panel {
+  background: rgba(9, 20, 15, 0.86);
+  border: 1px solid var(--line-1);
+  border-radius: var(--r-lg);
+  padding: 24px 30px;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(6px);
+  /* 面板高于可视区时内部滚动,绝不被底部讲解卡或视口截断 */
+  max-height: calc(100vh - 264px);
+  overflow-y: auto;
+}
+
+/* ============ 演示序章:真实图谱星座 → 俯冲 ============ */
+.ov-layer {
+  position: absolute; inset: 0; z-index: 30;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse 70% 60% at 60% 42%, rgba(46, 230, 168, 0.07), transparent 62%),
+    var(--ink-0);
+  opacity: 0;
+  transition: opacity 0.6s var(--ease-out);
+}
+.ov-layer.is-in { opacity: 1; }
+.ov-canvas { position: absolute; inset: 0; }
+.ov-canvas-el { display: block; }
+/* 仅底部一条极淡渐隐,给电影字幕垫底,其余画面全交给星座 */
+.ov-layer::after {
+  content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background: linear-gradient(0deg, rgba(6, 15, 11, 0.74), transparent 22%);
+  transition: opacity 0.5s var(--ease-out);
+}
+
+/* 电影字幕:底部居中,逐字打字流出 */
+.ov-subtitle {
+  position: absolute; z-index: 2;
+  left: 50%; bottom: clamp(22px, 4.5vh, 52px); transform: translateX(-50%);
+  width: min(880px, 86vw); margin: 0;
+  text-align: center;
+  font-size: clamp(12.5px, 1.15vw, 15px); line-height: 1.7; letter-spacing: 0.02em;
+  font-weight: 300;
+  color: var(--text-2);
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.9);
+  pointer-events: none; min-height: 1.7em;
+}
+.ov-subtitle.is-typing::after {
+  content: "▍"; margin-left: 1px; color: var(--eco);
+  animation: ovCaret 1s steps(1) infinite;
+}
+@keyframes ovCaret { 50% { opacity: 0; } }
+
+/* 顶栏 CTA:复用 btn-primary,加一圈呼吸光环引导点击 */
+.ov-dive-nav { animation: ovNavPulse 2.4s ease-in-out infinite; }
+@keyframes ovNavPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(46, 230, 168, 0); }
+  50% { box-shadow: 0 0 0 4px rgba(46, 230, 168, 0.2); }
+}
+
+.ov-layer.is-diving::after { opacity: 0; }
+.ov-layer.is-diving .ov-subtitle { opacity: 0; transition: opacity 0.35s var(--ease-out); }
+
+/* 收尾回照:全景星座 + 重看/退出 */
+.ov-finale-cta {
+  position: absolute; z-index: 3;
+  left: 50%; bottom: clamp(70px, 13vh, 132px); transform: translateX(-50%);
+  display: flex; gap: 14px; pointer-events: auto;
+  opacity: 0; animation: ovRiseFade 0.7s var(--ease-out) 1.2s forwards;
+}
+@keyframes ovRiseFade { from { opacity: 0; transform: translate(-50%, 10px); } to { opacity: 1; transform: translate(-50%, 0); } }
+
+/* 常驻环境层:#cy 背后垫纵深(粒子/辉光),不抢视线、不挡交互 */
+.ambient-canvas { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+.stage > #cy { position: relative; z-index: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+  .ov-layer, .ov-subtitle { transition: none; }
+  .ov-subtitle.is-typing::after, .ov-dive-nav { animation: none; }
+}
+
 .cy-tooltip {
   position: absolute;
   z-index: 40;
@@ -939,6 +1028,36 @@ strong[data-counter], .metric strong {
   gap: 12px;
   margin: 18px 0;
 }
+.upstream-governance {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin: 0 0 14px;
+}
+.upstream-governance article {
+  border: 1px solid rgba(136, 255, 207, 0.15);
+  background: rgba(4, 20, 14, 0.7);
+  border-radius: 8px;
+  padding: 13px 14px;
+}
+.upstream-governance span {
+  display: block;
+  font-size: 12px;
+  color: var(--text-3);
+  margin-bottom: 5px;
+}
+.upstream-governance strong {
+  display: block;
+  color: var(--eco);
+  font-size: 16px;
+  font-weight: 700;
+}
+.upstream-governance p {
+  margin-top: 7px;
+  color: var(--text-2);
+  font-size: 12.5px;
+  line-height: 1.7;
+}
 .upstream-columns {
   display: grid;
   grid-template-columns: 1.1fr 1fr 1fr;
@@ -991,20 +1110,6 @@ strong[data-counter], .metric strong {
   background: linear-gradient(90deg, var(--eco), var(--blue));
 }
 .mini-bar strong { text-align: right; font-family: var(--font-mono); }
-.upstream-lock {
-  display: grid;
-  grid-template-columns: auto 1fr auto auto;
-  gap: 10px;
-  align-items: center;
-  margin-top: 14px;
-  padding: 10px 12px;
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.05);
-  color: var(--text-2);
-  font-size: 12px;
-}
-.upstream-lock strong { color: var(--text); }
-.upstream-lock code { color: var(--eco); }
 .gap-cell {
   padding: 18px 16px 14px;
   border: 1px solid var(--line-1);
@@ -1806,10 +1911,6 @@ strong[data-counter], .metric strong {
   .upstream-metrics,
   .upstream-columns {
     grid-template-columns: 1fr;
-  }
-  .upstream-lock {
-    grid-template-columns: 1fr;
-    gap: 6px;
   }
   .asset-row {
     display: block;

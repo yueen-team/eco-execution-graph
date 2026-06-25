@@ -25,35 +25,31 @@
       "reason": "code bundle still contains internal vocabulary labels; data package is checked separately"
     },
     {
-      "file": "graph-ui/dist-cloudbase-static-readonly/assets/app-jyayy3JP.js",
-      "reason": "code bundle still contains internal vocabulary labels; data package is checked separately"
-    },
-    {
-      "file": "graph-ui/dist-cloudbase-static-readonly/assets/cytoscape.esm-D7nAx_r2.js",
+      "file": "graph-ui/dist-cloudbase-static-readonly/assets/app-DLchr58f.js",
       "reason": "code bundle still contains internal vocabulary labels; data package is checked separately"
     }
   ],
   "hashes": [
     {
       "path": "index.html",
-      "sha256": "4e8b7e8bd4ffd5435fe1c2413369025c90ed718714d069f3fa2140d3463ee160",
-      "bytes": 1328
+      "sha256": "399e6a891f722f7d424e2eff99134278acb0fd5aba36992cc3433c362b8abe66",
+      "bytes": 1081
     },
     {
       "path": "demo-data/full-graph.json",
-      "sha256": "b2a99cee91a4f3a65c4fcd73296249e61fc5f74c31fa1ae8f1e2076921224e05",
-      "bytes": 1553835
+      "sha256": "550144c3275c4a4c0b3f05ee8fbf942e47f2f15fe471045a2175c48679dd5254",
+      "bytes": 1554053
     },
     {
       "path": "demo-data/full-cards.json",
-      "sha256": "1fd0856841140903baaf1bbafd595e0004a8f73f6c7f0e8a17daab8f9798c913",
-      "bytes": 253226
+      "sha256": "2168c773e7635bc245ae30e4e6643aaead64c6c9bcea030534642055f11af44d",
+      "bytes": 251066
     },
     {
       "path": "demo-data/gap-report.json",
-      "sha256": "212cecf13d5907e286944533f448cc4ed434ce7fb9f9635f2afee0706ca336b9",
-      "bytes": 195
+      "sha256": "9642e4a1cc2a68b19f110fdf56b72315eb6cf7961954d813aa3c726150732a8d",
+      "bytes": 193
     }
   ],
-  "generated_at": "2026-06-22T09:01:53"
+  "generated_at": "2026-06-25T07:04:07"
 }

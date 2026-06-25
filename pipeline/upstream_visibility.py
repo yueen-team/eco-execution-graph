@@ -10,6 +10,7 @@ from common import REPORTS_DIR, ROOT, write_json, write_text
 
 
 UPSTREAM_REPO = "coco830/eco-semantic-knowledge-base"
+PUBLIC_GOVERNANCE_SOURCE = "eco-ontology"
 DEFAULT_IMPORT_PATH = ROOT / "data" / "upstream" / "eco-kb-import.json"
 DEFAULT_UTILIZATION_PATH = ROOT / "reports" / "upstream-utilization-report.json"
 OUT_PUBLIC = ROOT / "graph-ui" / "public" / "demo-data" / "upstream-visibility.json"
@@ -49,6 +50,10 @@ FORBIDDEN_MARKERS = (
     "pitfall_instance",
     "本法全文",
     "全文如下",
+    "锁定仓库",
+    "锁定提交",
+    "主任演示",
+    "公开标准给骨架",
 )
 
 
@@ -125,17 +130,15 @@ def build_visibility_summary(
     node_counts = Counter(str(node.get("node_type", "unknown")) for node in nodes)
     edge_counts = Counter(str(edge.get("edge_type", "unknown")) for edge in edges)
     repo_name = first_value(sources, "origin_repo") or UPSTREAM_REPO
-    commit = first_value(sources + assets, "origin_commit", "source_commit")
 
     summary = {
         "status": "pass" if imported.get("graph") and utilization.get("status") == "pass" else "blocked",
-        "title": "上游公共语义骨架接入可见化",
-        "plain_summary": "eco-semantic-knowledge-base 已作为已审核公共基线接入图谱底座:它提供场景、污染物、技术规范、检查项和标准映射;现场经验、ETO 审核、整改闭环和授权边界仍留在现场执行图谱治理。",
+        "title": "三仓统一口径接入可见化",
+        "plain_summary": "现场执行图谱、语义知识库与画像实验室统一消费 eco-ontology;公共素材、现场编排与画像契约按仓库职责分层治理。公开演示只呈现中文业务结论,不展示仓库路径、提交哈希和内部文件名。",
         "repo": {
-            "名称": repo_name,
-            "提交": commit,
-            "状态": "已接入" if commit else "待确认",
-            "口径": "现场经验为内容，公开标准为骨架",
+            "名称": PUBLIC_GOVERNANCE_SOURCE,
+            "状态": "三仓消费中" if imported.get("graph") else "待确认",
+            "口径": "三仓统一消费本体、字段与审核口径",
         },
         "visible_metrics": [
             {"label": "上游骨架节点", "value": len(nodes), "unit": "个"},
@@ -154,12 +157,12 @@ def build_visibility_summary(
             "P1样本角色": "兼容样例" if utilization.get("p1_seed_role") else "",
         },
         "role_boundary": [
-            "eco-kb 负责公开语义骨架，不是现场执行图谱的私有能力层。",
-            "P1 危废样例只保留为兼容样例和危废精品切片保底，不作为全量产品主数据源。",
-            "法规或标准全文、真实企业数据、证据判断标准、整改模板和报告表达模板不进入共有可见包。",
+            "eco-ontology 负责统一本体、字段含义和审核口径。",
+            "语义知识库负责公共知识素材，现场执行图谱负责编排现场证据与演示路径。",
+            "真实企业数据、证据判断标准、整改模板和报告表达模板不进入公开可见包。",
             "待审核关系只作内部治理提示，不对外表达为法律认定。",
         ],
-        "demo_line": "主任演示时可以这样讲:公开标准给骨架，现场经验给血肉；我们不是重做知识库，而是把已审核公共基线变成可执行的现场图谱。",
+        "demo_line": "三仓共用同一套本体口径，公开演示只展示可共有的业务骨架。",
     }
     assert_static_demo_safe(summary)
     return summary
@@ -174,11 +177,12 @@ def write_visibility_outputs(
     write_json(report_json_path, summary)
     write_json(output_path, summary)
     lines = [
-        "# 上游骨架可见化报告",
+        "# 三仓统一口径可见化报告",
         "",
         f"- status: `{summary['status']}`",
-        f"- 上游仓库: `{summary['repo']['名称']}`",
-        f"- 锁定提交: `{summary['repo']['提交']}`",
+        f"- 统一口径源: `{summary['repo']['名称']}`",
+        f"- 治理状态: `{summary['repo']['状态']}`",
+        f"- 口径: {summary['repo']['口径']}",
         f"- 说明: {summary['plain_summary']}",
         "",
         "## 可见指标",

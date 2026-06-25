@@ -85,8 +85,11 @@ class UpstreamVisibilitySummaryTest(unittest.TestCase):
 
             self.assertTrue(output_path.exists())
             self.assertEqual(summary["status"], "pass")
-            self.assertEqual(summary["repo"]["提交"], "a" * 40)
+            self.assertEqual(summary["repo"]["名称"], "eco-ontology")
+            self.assertEqual(summary["repo"]["状态"], "三仓消费中")
+            self.assertNotIn("提交", summary["repo"])
             self.assertEqual({item["label"]: item["value"] for item in summary["visible_metrics"]}["上游骨架节点"], 2)
+            self.assertIn("eco-ontology 负责统一本体", " ".join(summary["role_boundary"]))
             self.assertIn("不对外表达为法律认定", " ".join(summary["role_boundary"]))
             self.assertNotIn("SecretId", text)
             self.assertNotIn("本法全文", text)
@@ -94,6 +97,10 @@ class UpstreamVisibilitySummaryTest(unittest.TestCase):
             self.assertNotIn("E:/synthetic", text)
             self.assertNotIn("P1 seed", text)
             self.assertNotIn("CANDIDATE", text)
+            self.assertNotIn("锁定仓库", text)
+            self.assertNotIn("锁定提交", text)
+            self.assertNotIn("主任演示", text)
+            self.assertNotIn("公开标准给骨架", text)
 
 
 if __name__ == "__main__":

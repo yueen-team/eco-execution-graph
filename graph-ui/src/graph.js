@@ -21,6 +21,9 @@ const LAYOUT = {
   animationEasing: "ease-out",
 };
 
+const MIN_ZOOM = 0.3;
+const MAX_ZOOM = 2.4;
+
 let selectHandler = null;
 export function onNodeSelect(fn) { selectHandler = fn; }
 
@@ -230,6 +233,106 @@ export function hideTooltip() {
   if (tip) tip.hidden = true;
 }
 
+// 舞台适配几何:演示态预留左侧"演示目录"栏与底部讲解卡的净空区,避免节点被浮层遮挡或溢出右缘
+function fitGeometry(padding) {
+  const cy = state.cy;
+  if (!cy || cy.elements().length === 0) return null;
+  const inDemo = document.body.classList.contains("demo-active");
+  const reserveLeft = inDemo ? 340 : 0;
+  const reserveBottom = inDemo ? 150 : 0;
+  const bb = cy.elements().boundingBox();
+  if (!bb.w || !bb.h) return null;
+  const availW = Math.max(160, cy.width() - reserveLeft - padding * 2);
+  const availH = Math.max(160, cy.height() - reserveBottom - padding * 2);
+  return { bb, reserveLeft, padding, availW, availH };
+}
+function zoomFor(g) {
+  return Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, Math.min(g.availW / g.bb.w, g.availH / g.bb.h)));
+}
+function panFor(g, zoom) {
+  return {
+    x: g.reserveLeft + g.padding + (g.availW - g.bb.w * zoom) / 2 - g.bb.x1 * zoom,
+    y: g.padding + (g.availH - g.bb.h * zoom) / 2 - g.bb.y1 * zoom,
+  };
+}
+function fitStage(padding = 44, animate = false) {
+  const g = fitGeometry(padding);
+  if (!g) return;
+  const zoom = zoomFor(g);
+  const pan = panFor(g, zoom);
+  if (animate) state.cy.animate({ zoom, pan }, { duration: 300, easing: "ease-out" });
+  else { state.cy.zoom(zoom); state.cy.pan(pan); }
+}
+
+// ① 每幕电影镜头:从"略拉远 + 轻微方向偏移"的起手,推拉/平移落到精确 fit。
+// 关键安全性:终态永远是 fitStage 同款 zoom/pan —— 无论起手怎么偏,落点必在视口,绝不跑飞/消失。
+let camSeq = 0;
+function cinematicFit(padding = 44) {
+  const g = fitGeometry(padding);
+  if (!g) return false;
+  const cy = state.cy;
+  const zoom = zoomFor(g);
+  const pan = panFor(g, zoom);            // 终态:精确 fit(与即时 fit 完全一致)
+  const startZoom = Math.max(MIN_ZOOM, zoom * 0.82);
+  const sp = panFor(g, startZoom);
+  // 每张卡换一个轻微的入场方向,营造"镜头沿讲解路径平移"的差异感
+  const dir = camSeq++ % 4;
+  const dx = (dir === 0 ? -1 : dir === 1 ? 1 : 0) * g.availW * 0.07;
+  const dy = (dir === 2 ? -1 : dir === 3 ? 1 : 0) * g.availH * 0.07;
+  cy.viewport({ zoom: startZoom, pan: { x: sp.x + dx, y: sp.y + dy } });
+  // 放慢镜头:1300ms 缓推,避免"一闪而过";终态仍是精确 fit
+  cy.animate({ zoom, pan }, { duration: 1300, easing: "ease-in-out" });
+  return true;
+}
+
+// ④ 卡片切片入场:节点按波次"长出来"(只动 opacity,安全) + 中心 bloom。
+// 不改 width/height —— 改尺寸若被快速翻卡打断会留下隐身节点(上次"切片全不在了"的根因)。
+// 双保险:入场总时长后强制清掉内联 opacity,任何中断都不会留下隐身节点/边。
+function cardEntrance(centerId) {
+  const cy = state.cy;
+  if (!cy) return;
+  const all = cy.nodes().toArray();
+  const center = all.find((n) => n.id() === centerId);
+  const rest = all.filter((n) => n.id() !== centerId);
+  const list = center ? [center, ...rest] : rest;
+
+  cy.nodes().style("opacity", 0);
+  cy.edges().style("line-opacity", 0);
+  const step = Math.max(20, Math.min(48, 1000 / Math.max(1, list.length)));
+  list.forEach((node, i) => {
+    setTimeout(() => {
+      node.stop().animate({ style: { opacity: 1 } }, { duration: 260, easing: "ease-out" });
+      node.connectedEdges().forEach((edge) => {
+        if (Number(edge.source().style("opacity")) > 0.4 && Number(edge.target().style("opacity")) > 0.4) {
+          edge.animate({ style: { "line-opacity": 0.85 } }, { duration: 240 });
+        }
+      });
+    }, i * step);
+  });
+  clearTimeout(cy._entranceTimer);
+  cy._entranceTimer = setTimeout(() => {
+    cy.nodes().removeStyle("opacity");      // 恢复 CY_STYLE 默认(全显)
+    cy.edges().removeStyle("line-opacity"); // 恢复 mapData(confidence) 映射
+  }, list.length * step + 420);
+
+  // 中心 bloom:只动 underlay,绝不改尺寸/透明度
+  if (center) {
+    center.stop().style({ "underlay-opacity": 0.46, "underlay-padding": 22 });
+    center.animate({ style: { "underlay-opacity": 0.2, "underlay-padding": 9 } }, {
+      duration: 900, easing: "ease-out",
+      complete: () => center.removeStyle("underlay-opacity underlay-padding"),
+    });
+  }
+}
+
+let fitResizeRaf = null;
+function bindStageResize() {
+  window.addEventListener("resize", () => {
+    if (fitResizeRaf) cancelAnimationFrame(fitResizeRaf);
+    fitResizeRaf = requestAnimationFrame(() => fitStage());
+  });
+}
+
 export function initOrUpdateGraph(opts = {}) {
   const { centerId, elements } = buildElements(opts);
   state.centerId = centerId;
@@ -238,20 +341,35 @@ export function initOrUpdateGraph(opts = {}) {
     state.cy = cytoscape({
       container: document.getElementById("cy"),
       elements,
-      minZoom: 0.3,
-      maxZoom: 2.4,
+      minZoom: MIN_ZOOM,
+      maxZoom: MAX_ZOOM,
       wheelSensitivity: 0.3,
       style: CY_STYLE,
       layout: { ...LAYOUT, animate: false },
     });
     bindGraphEvents();
+    bindStageResize();
+    markCenter(centerId);
+    fitStage();
   } else {
     state.cy.elements().remove();
     state.cy.add(elements);
-    state.cy.layout({ ...LAYOUT, animate: !opts.skipAnimation }).run();
+    markCenter(centerId, false); // 相机交给 fit/cinematicFit 统一处理,避免双重镜头动画打架
+    // 仅"演示卡片态"(非报告幕、非 skipAnimation)走电影推镜 + 节点入场
+    const demoCard = document.body.classList.contains("demo-active")
+      && !document.body.classList.contains("demo-report") && !opts.skipAnimation;
+    // fit 必须等布局结束后再算:dagre animate 是异步的,按旧坐标的包围盒缩放会让节点溢出右缘
+    const layout = state.cy.layout({ ...LAYOUT, animate: !opts.skipAnimation });
+    layout.one("layoutstop", () => {
+      if (demoCard) {
+        if (!cinematicFit()) fitStage(); // ① 镜头推拉,落点始终是精确 fit(绝不跑飞)
+        cardEntrance(centerId);          // ④ 节点逐个长出 + 中心 bloom
+      } else {
+        fitStage(); // 报告幕/初始:即时 fit,稳定
+      }
+    });
+    layout.run();
   }
-  markCenter(centerId);
-  state.cy.fit(undefined, 44);
   return { centerId, elementCount: elements.length };
 }
 
@@ -427,5 +545,18 @@ export function relayout() {
 }
 
 export function fitGraph() {
-  state.cy?.animate({ fit: { padding: 44 } }, { duration: 300, easing: "ease-out" });
+  fitStage(44, true);
+}
+
+// ③ 收尾回照:把最后一幕的图谱镜头向后拉远(以视口中心为锚,绝不跑飞),
+// 配合 finale 星座淡入,读出"从一条现场问题拉回整张图谱"的首尾呼应。
+export function pullBackCamera() {
+  const cy = state.cy;
+  if (!cy || cy.elements().length === 0) return;
+  const g = fitGeometry(44);
+  const base = g ? zoomFor(g) : cy.zoom();
+  cy.stop().animate(
+    { zoom: { level: Math.max(MIN_ZOOM, base * 0.42), renderedPosition: { x: cy.width() / 2, y: cy.height() / 2 } } },
+    { duration: 1000, easing: "ease-in-out" },
+  );
 }

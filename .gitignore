@@ -26,3 +26,5 @@ data/private-staging/*
 reports/render-proof-review-polish/*.png
 reports/render-proof-review-polish/*.mp4
 .playwright-cli/
+.codex-graph-ui-dev-*.pid
+.tmp-render-proof-chrome/

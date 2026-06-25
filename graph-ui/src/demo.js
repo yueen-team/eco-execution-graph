@@ -2,9 +2,11 @@
 import { state, applyDataset, ENTRY_CENTERS, reviewStatusLabel, LEGAL_BASIS_LABEL } from "./state.js";
 import {
   initOrUpdateGraph, privateExitAnimation, spotlightEdges,
-  clearSpotlight, setDemoNodeFilter, hideTooltip,
+  clearSpotlight, setDemoNodeFilter, hideTooltip, pullBackCamera,
 } from "./graph.js";
 import { renderPanel } from "./panel.js";
+import { mountCockpitOverture } from "./cockpitOverture.js";
+import { mountAmbientField } from "./ambientField.js";
 
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 
@@ -17,9 +19,16 @@ const overlay = () => document.getElementById("actOverlay");
 function clearStage() {
   overlay().hidden = true;
   overlay().innerHTML = "";
+  document.body.classList.remove("demo-report");
   setDemoNodeFilter(null);
   clearSpotlight();
   hideTooltip();
+}
+
+// 报告/支撑幕:整块说明面板是主角,图谱退到背景(压暗+模糊),给面板一块可读底板
+function showReportOverlay() {
+  overlay().hidden = false;
+  document.body.classList.add("demo-report");
 }
 
 function setView(view, product = "full") {
@@ -95,6 +104,22 @@ function hazardousSliceCards() {
   return cards
     .filter((card) => card.hazardous_slice_scope === "危废全量切片" || /危废|危险废物|hazwaste|HAZWASTE/.test(`${card.title || ""} ${card.root_issue_type || ""}`))
     .sort((a, b) => (Number(a.hazardous_slice_order) || 9999) - (Number(b.hazardous_slice_order) || 9999));
+}
+
+function publicSliceRole(role) {
+  return ({
+    主任开场精品: "精品开场",
+    主任追问展开卡: "扩展讲解",
+    合并采纳子项: "合并展示",
+    内部场景模板: "专题目录",
+  })[role] || role || "未分组切片";
+}
+
+function publicSlicePolicy(policy) {
+  return ({
+    主任追问时展开讲: "展开讲解",
+    首轮单独讲: "重点讲解",
+  })[policy] || policy || "目录展示";
 }
 
 function buildCardActs() {
@@ -207,7 +232,7 @@ function renderHazardousSliceCatalog() {
   overlay().innerHTML = `
     <div class="report-panel hazard-catalog-panel">
       <h3>危废全量切片目录</h3>
-      <p class="rp-sub">目录来自 full-cards 图谱切片字段,不是手工页面。合并展示卡只证明覆盖,不单独包装成主任主线。</p>
+      <p class="rp-sub">目录来自 full-cards 图谱切片字段,不是手工页面。合并展示卡只证明覆盖,不单独包装成对外主线。</p>
       <div class="slice-summary-grid">
         <div class="gap-cell"><b>${cards.length}</b><span>危废相关<br>执行卡切片</span></div>
         <div class="gap-cell"><b>${roleCounts["主任开场精品"] || 0}</b><span>阶段一<br>精品开场</span></div>
@@ -219,16 +244,13 @@ function renderHazardousSliceCatalog() {
             <span class="slice-no">${esc(card.hazardous_slice_order || "")}</span>
             <span class="slice-main">
               <strong>${esc(cleanCardTitle(card))}</strong>
-              <small>${esc(card.hazardous_slice_role || "未分组切片")} · ${esc(card.hazardous_slice_display_policy || "目录展示")}</small>
+              <small>${esc(publicSliceRole(card.hazardous_slice_role))} · ${esc(publicSlicePolicy(card.hazardous_slice_display_policy))}</small>
             </span>
             <span class="slice-score">${esc((card.quality_score?.confidence ?? 0).toFixed(2))}</span>
           </button>`).join("")}
       </div>
-      <div class="honest-note"><i data-lucide="shield-check"></i><span>
-        这一幕可以说明“危废已经不是 5 张孤立卡”,但仍坚持 shared 视图:不展示企业实例、附件路径、证据判定标准、整改模板、报告表达模板和法条全文。
-      </span></div>
     </div>`;
-  overlay().hidden = false;
+  showReportOverlay();
   overlay().querySelectorAll("[data-card-id]").forEach((button) => {
     button.addEventListener("click", () => focusDirectorCard(button.dataset.cardId));
   });
@@ -244,25 +266,38 @@ export function renderUpstreamPanel() {
   const upstream = state.reports.upstream;
   if (!upstream) {
     overlay().innerHTML = `<div class="report-panel"><h3>上游骨架</h3><p class="rp-sub">上游骨架摘要未装载(demo-data/upstream-visibility.json)。请先运行 pnpm upstream:visibility。</p></div>`;
-    overlay().hidden = false;
+    showReportOverlay();
     return;
   }
   const metrics = upstream.visible_metrics || [];
   const nodeCounts = upstream.node_counts || [];
   const edgeCounts = upstream.edge_counts || [];
   const assets = (upstream.asset_rows || []).slice(0, 6);
+  const governanceCards = [
+    ["统一口径源", "eco-ontology", "三仓共用同一套本体、字段和审核口径。"],
+    ["知识基线", "公共素材", "负责法规、标准、检查项等可共有知识素材。"],
+    ["现场图谱", "执行编排", "负责现场问题、证据链、整改闭环和授权展示。"],
+  ];
   overlay().innerHTML = `
     <div class="report-panel upstream-panel">
-      <p class="rp-kicker">上游骨架 · 已接入</p>
-      <h3>${esc(upstream.title || "上游公共语义骨架接入可见化")}</h3>
-      <p class="rp-sub">${esc(upstream.plain_summary || "")}</p>
+      <p class="rp-kicker">三仓治理 · 统一口径</p>
+      <h3>统一消费 eco-ontology 本体口径</h3>
+      <p class="rp-sub">现场执行图谱、语义知识库与画像实验室共用同一套本体和治理口径;公开演示只呈现中文业务结论,不展示仓库路径、提交哈希和内部文件名。</p>
       <div class="upstream-metrics">
         ${metrics.map((item) => `
           <div class="gap-cell"><b>${esc(item.value)}</b><span>${esc(item.label)}<br>${esc(item.unit || "")}</span></div>`).join("")}
       </div>
+      <div class="upstream-governance">
+        ${governanceCards.map(([label, value, desc]) => `
+          <article>
+            <span>${esc(label)}</span>
+            <strong>${esc(value)}</strong>
+            <p>${esc(desc)}</p>
+          </article>`).join("")}
+      </div>
       <div class="upstream-columns">
         <section>
-          <h4><i data-lucide="database"></i>导入资产</h4>
+          <h4><i data-lucide="database"></i>已接入的公共素材</h4>
           <div class="upstream-assets">
             ${assets.map((item) => `
               <div class="asset-row">
@@ -284,16 +319,9 @@ export function renderUpstreamPanel() {
           </div>
         </section>
       </div>
-      <div class="upstream-lock">
-        <span>锁定仓库</span><strong>${esc(upstream.repo?.["名称"])}</strong>
-        <span>锁定提交</span><code>${esc((upstream.repo?.["提交"] || "").slice(0, 12))}</code>
-      </div>
-      <div class="honest-note"><i data-lucide="shield-check"></i><span>
-        ${esc(upstream.demo_line || "公开标准给骨架,现场经验给血肉。")} ${esc((upstream.role_boundary || []).join(" "))}
-      </span></div>
     </div>`;
-  overlay().hidden = false;
-  hooks?.setStatus("共有视图:正在展示 eco-kb 上游公共语义骨架接入情况。");
+  showReportOverlay();
+  hooks?.setStatus("共有视图:正在展示三仓统一本体口径与公共素材接入情况。");
   window.__refreshIcons?.();
 }
 
@@ -308,7 +336,7 @@ function renderGapPanel() {
   const gap = state.reports.gap;
   if (!gap) {
     overlay().innerHTML = `<div class="report-panel"><h3>缺口报告</h3><p class="rp-sub">缺口报告未装载(reports/gap-report-full.json)。</p></div>`;
-    overlay().hidden = false;
+    showReportOverlay();
     return;
   }
   const lawGaps = gap.law_obligation_without_issue?.length ?? 0;
@@ -323,11 +351,8 @@ function renderGapPanel() {
         <div class="gap-cell"><b>${issueGaps}</b><span>现场问题<br>无法条依据</span></div>
         <div class="gap-cell"><b>${ragUnresolved}</b><span>法条引用<br>RAG 未解析</span></div>
       </div>
-      <div class="honest-note"><i data-lucide="info"></i><span>
-        缺口报告只暴露治理盲区,不替代人工审核。范围扩大后,无法条依据的问题归入「管理建议」,候选或存疑依据不得对外引用,绝不写成违法认定。
-      </span></div>
     </div>`;
-  overlay().hidden = false;
+  showReportOverlay();
   window.__refreshIcons?.();
 }
 
@@ -368,11 +393,8 @@ function renderBoundaryPanel() {
           <p>证据判断标准、整改模板、报告表达、ETO 审核笔记和企业实例留在内部层,共有视图只显示数量占位。</p>
         </div>
       </div>
-      <div class="honest-note"><i data-lucide="shield-check"></i><span>
-        本次图谱演示收束在 5 张精品开场、危废全量目录、缺口报告和授权边界。不演示云南踩雷地图,不演示月报对比,不把“建议核查/建议完善/存在管理风险”升级成违法认定。
-      </span></div>
     </div>`;
-  overlay().hidden = false;
+  showReportOverlay();
   window.__refreshIcons?.();
 }
 
@@ -399,15 +421,20 @@ function renderDemoBar() {
   window.__refreshIcons?.();
 }
 
+let lastNavAt = 0;
 export function gotoAct(index) {
+  if (document.body.classList.contains("demo-overture") || document.body.classList.contains("demo-finale")) return; // 序章/收尾接管时不接受翻幕
   if (demoTransitioning || index < 0) return;
+  // 防误触/双触发跳幕(点击 + 空格、快速连点会一次跳两张):320ms 内的重复导航直接吞掉
+  const now = Date.now();
+  if (now - lastNavAt < 320) return;
+  lastNavAt = now;
   const acts = demoActs();
   const directorCount = directorCards().length;
   if (index >= acts.length) {
-    // 对外只读演示:收幕不回退到内部工作区,而是落到「下一步」CTA(预约/登录/重看)。
-    // 内部用户(非只读)收幕仍回到自己的图谱工作区。
+    // 对外只读演示:落到「下一步」CTA(预约/登录/重看);内部演示:收尾回照全景星座,首尾呼应。
     if (state.deployPolicy?.readonlyShared) renderClosingCta();
-    else exitDemo();
+    else playFinale();
     return;
   }
   const previousAct = state.demo.act;
@@ -459,22 +486,165 @@ function renderClosingCta() {
         <a class="demo-closing-back" href="./landing.html">← 返回首页</a>
       </div>
     </div>`;
-  overlay().hidden = false;
+  showReportOverlay();
   document.getElementById("demoReplay")?.addEventListener("click", enterDemo);
   window.__refreshIcons?.();
 }
 
+let ambient = null;
 export function enterDemo() {
   state.demo.active = true;
   document.body.classList.add("demo-active");
-  gotoAct(0);
+  // 常驻环境层:#cy 背后垫一层极淡粒子/辉光,整套演示都有纵深
+  if (!ambient) ambient = mountAmbientField(document.querySelector(".stage"), { reduceMotion: prefersReducedMotion() });
+  playOverture();
+}
+
+/* ---------- 序章:真实 483 节点知识图谱星座 → 俯冲进危废切片 ---------- */
+
+let overture = null;
+let overtureTimer = null;   // 序章停留 ~5s 后自动俯冲
+let overtureEnding = false; // 防手动点击 / 键盘 / 自动定时器重复触发俯冲
+const prefersReducedMotion = () => !!window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+
+function playOverture() {
+  setView("internal", "full");
+  document.getElementById("demoBar").hidden = true;
+  clearStage();
+  document.body.classList.add("demo-overture");
+
+  document.getElementById("overtureLayer")?.remove();
+  const stage = document.querySelector(".stage");
+  const layer = document.createElement("div");
+  layer.id = "overtureLayer";
+  layer.className = "ov-layer";
+
+  const host = document.createElement("div");
+  host.className = "ov-canvas";
+  layer.appendChild(host);
+
+  // 屏幕上只留一条电影字幕,从底部打字流出
+  const caption = document.createElement("p");
+  caption.className = "ov-subtitle";
+  layer.appendChild(caption);
+  stage.appendChild(layer);
+
+  const reduceMotion = prefersReducedMotion();
+  overture = mountCockpitOverture(host, state.graph, { reduceMotion, targetId: ENTRY_CENTERS.full.issue });
+
+  injectDiveNav();
+  typeCaption(caption, "这张星座，是平台里真实在跑的知识图谱 —— 法条 × 技术规范 × 现场排查经验，逐点点亮、彼此关联。", reduceMotion);
+  requestAnimationFrame(() => layer.classList.add("is-in"));
+
+  // 停留 ~5s 让观众看清星座与字幕,随后自动俯冲进危废切片(顶栏按钮 / →/空格 仍可提前触发)
+  overtureEnding = false;
+  clearTimeout(overtureTimer);
+  overtureTimer = setTimeout(endOverture, 5000);
+}
+
+// 「俯冲进危废切片」挪到顶部导航栏
+function injectDiveNav() {
+  document.getElementById("ovDiveNav")?.remove();
+  const actions = document.querySelector(".topbar-actions");
+  if (!actions) return;
+  const btn = document.createElement("button");
+  btn.id = "ovDiveNav";
+  btn.className = "btn-primary ov-dive-nav";
+  btn.innerHTML = `<i data-lucide="move-down"></i><span>俯冲进危废切片</span>`;
+  actions.insertBefore(btn, actions.firstChild);
+  btn.addEventListener("click", endOverture, { once: true });
+  window.__refreshIcons?.();
+}
+
+// 电影字幕:逐字打字,标点处停顿
+function typeCaption(el, text, instant) {
+  clearTimeout(el._t);
+  if (instant) { el.textContent = text; return; }
+  el.textContent = "";
+  el.classList.add("is-typing");
+  let i = 0;
+  const tick = () => {
+    if (!document.body.classList.contains("demo-overture") && !document.body.classList.contains("demo-finale")) return;
+    el.textContent = text.slice(0, ++i);
+    if (i < text.length) {
+      const prev = text[i - 1];
+      el._t = setTimeout(tick, 52 + (prev === "，" || prev === "。" || prev === "—" ? 240 : 0));
+    } else { el.classList.remove("is-typing"); }
+  };
+  el._t = setTimeout(tick, 800);
+}
+
+function endOverture() {
+  if (overtureEnding) return; // 已在俯冲中:吞掉手动/键盘/自动定时器的重复触发
+  overtureEnding = true;
+  clearTimeout(overtureTimer);
+  document.getElementById("ovDiveNav")?.remove();
+  const layer = document.getElementById("overtureLayer");
+  if (!layer) { gotoAct(0); return; }
+  layer.classList.add("is-diving");
+  const finish = () => {
+    overture?.destroy(); overture = null;
+    document.getElementById("overtureLayer")?.remove();
+    document.body.classList.remove("demo-overture");
+    gotoAct(0);
+  };
+  if (overture) overture.diveIn(finish); else finish();
+}
+
+function cleanupOverture() {
+  clearTimeout(overtureTimer);
+  overtureEnding = false;
+  overture?.destroy(); overture = null;
+  document.getElementById("overtureLayer")?.remove();
+  document.getElementById("ovDiveNav")?.remove();
+  document.body.classList.remove("demo-overture", "demo-finale");
+}
+
+// 收尾回照:镜头拉回全景星座,首尾呼应;给重看/退出
+function playFinale() {
+  document.getElementById("demoBar").hidden = true;
+  clearStage();
+  // ③ 先把最后一幕的图谱镜头向后拉远,再让全景星座在其上淡入 —— 形成"拉回全景"的首尾呼应
+  pullBackCamera();
+  document.body.classList.add("demo-finale");
+  document.getElementById("overtureLayer")?.remove();
+
+  const stage = document.querySelector(".stage");
+  const layer = document.createElement("div");
+  layer.id = "overtureLayer";
+  layer.className = "ov-layer ov-finale";
+  const host = document.createElement("div");
+  host.className = "ov-canvas";
+  layer.appendChild(host);
+  const caption = document.createElement("p");
+  caption.className = "ov-subtitle";
+  layer.appendChild(caption);
+  const cta = document.createElement("div");
+  cta.className = "ov-finale-cta";
+  cta.innerHTML = `<button id="ovReplay" class="btn-ghost">↻ 重看演示</button><button id="ovExit" class="btn-primary">完成 · 退出演示</button>`;
+  layer.appendChild(cta);
+  stage.appendChild(layer);
+
+  const reduceMotion = prefersReducedMotion();
+  overture = mountCockpitOverture(host, state.graph, { reduceMotion, targetId: ENTRY_CENTERS.full.issue });
+  typeCaption(caption, "看得见的能力，带不走的判断 —— 从一条现场问题，回到这整张会生长的执行图谱。", reduceMotion);
+  requestAnimationFrame(() => layer.classList.add("is-in"));
+
+  document.getElementById("ovReplay").addEventListener("click", () => { cleanupOverture(); enterDemo(); }, { once: true });
+  document.getElementById("ovExit").addEventListener("click", () => { cleanupOverture(); exitDemo(); }, { once: true });
 }
 
 export function exitDemo() {
   demoTransitioning = false;
   state.demo.active = false;
   state.demo.act = 0;
-  document.body.classList.remove("demo-active", "demo-transitioning");
+  clearTimeout(overtureTimer);
+  overtureEnding = false;
+  overture?.destroy(); overture = null;
+  ambient?.destroy(); ambient = null;
+  document.getElementById("overtureLayer")?.remove();
+  document.getElementById("ovDiveNav")?.remove();
+  document.body.classList.remove("demo-active", "demo-transitioning", "demo-overture", "demo-finale");
   document.getElementById("demoBar").hidden = true;
   clearStage();
   setView("internal", "full");
@@ -490,6 +660,15 @@ function bindDemoControls() {
   document.getElementById("demoExit").addEventListener("click", exitDemo);
   document.addEventListener("keydown", (e) => {
     if (!state.demo.active) return;
+    if (document.body.classList.contains("demo-overture")) {
+      if (e.key === "ArrowRight" || e.key === " " || e.key === "Enter") { e.preventDefault(); endOverture(); }
+      if (e.key === "Escape") exitDemo();
+      return;
+    }
+    if (document.body.classList.contains("demo-finale")) {
+      if (e.key === "Escape") exitDemo();
+      return;
+    }
     if (e.key === "ArrowRight" || e.key === " ") { e.preventDefault(); gotoAct(state.demo.act + 1); }
     if (e.key === "ArrowLeft") { e.preventDefault(); gotoAct(state.demo.act - 1); }
     if (e.key === "Escape") exitDemo();

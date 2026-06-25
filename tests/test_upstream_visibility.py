@@ -15,8 +15,9 @@ class UpstreamVisibilityTest(unittest.TestCase):
         data = read_json("graph-ui/public/demo-data/upstream-visibility.json")
 
         self.assertEqual(data["status"], "pass")
-        self.assertEqual(data["repo"]["名称"], "coco830/eco-semantic-knowledge-base")
-        self.assertRegex(data["repo"]["提交"], r"^[0-9a-f]{40}$")
+        self.assertEqual(data["repo"]["名称"], "eco-ontology")
+        self.assertEqual(data["repo"]["状态"], "三仓消费中")
+        self.assertNotIn("提交", data["repo"])
         metrics = {item["label"]: item["value"] for item in data["visible_metrics"]}
         self.assertGreaterEqual(metrics["上游骨架节点"], 400)
         self.assertGreaterEqual(metrics["上游骨架关联"], 900)
@@ -45,6 +46,11 @@ class UpstreamVisibilityTest(unittest.TestCase):
             "P1 seed",
             "approved baseline",
             "CANDIDATE",
+            "锁定仓库",
+            "锁定提交",
+            "主任演示",
+            "公开标准给骨架",
+            "eco-semantic-knowledge-base 已作为",
         ]
         for item in forbidden:
             self.assertNotIn(item, text)
@@ -58,7 +64,10 @@ class UpstreamVisibilityTest(unittest.TestCase):
         self.assertIn("upstream-visibility.json", main_js)
         self.assertIn('params.get("upstream") === "1"', main_js)
         self.assertIn("renderUpstreamPanel", demo_js)
-        self.assertIn("公开标准给骨架", demo_js)
+        self.assertIn("统一消费 eco-ontology", demo_js)
+        self.assertIn("三仓治理", demo_js)
+        self.assertNotIn("公开标准给骨架", demo_js)
+        self.assertNotIn("主任演示", demo_js)
 
 
 if __name__ == "__main__":

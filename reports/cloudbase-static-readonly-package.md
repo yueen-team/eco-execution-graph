@@ -17,8 +17,7 @@
 
 ## Code Warnings
 - graph-ui/dist-cloudbase-static-readonly/app.html: code bundle still contains internal vocabulary labels; data package is checked separately
-- graph-ui/dist-cloudbase-static-readonly/assets/app-jyayy3JP.js: code bundle still contains internal vocabulary labels; data package is checked separately
-- graph-ui/dist-cloudbase-static-readonly/assets/cytoscape.esm-D7nAx_r2.js: code bundle still contains internal vocabulary labels; data package is checked separately
+- graph-ui/dist-cloudbase-static-readonly/assets/app-DLchr58f.js: code bundle still contains internal vocabulary labels; data package is checked separately
 
 ## Deploy Command
 - Upload directory: graph-ui/dist-cloudbase-static-readonly
