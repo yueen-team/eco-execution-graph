@@ -171,6 +171,8 @@ function renderStatusTabs() {
       reviewState.notice = null;
       const items = visibleItems();
       reviewState.selectedId = items[0]?.["审核编号"] || reviewState.items[0]?.["审核编号"] || null;
+      // 移动端:切换状态时回到列表视图,避免停留在上一条详情
+      document.getElementById("reviewWorkspace")?.classList.remove("is-detail-view");
       renderReviewWorkspace();
     });
   });
@@ -179,20 +181,25 @@ function renderStatusTabs() {
 function card(item) {
   const active = item["审核编号"] === reviewState.selectedId;
   const source = humanize(item);
-  const signals = (source["现场表现"] || []).slice(0, 2).map((signal) => `<span>${esc(signal)}</span>`).join("");
-  const tags = (source["信源标签"] || []).map((tag) => `<span>${esc(tag)}</span>`).join("");
+  const sigs = reviewSignals(item);
+  const attention = sigs.filter((s) => s.level !== "ok").length;
+  const dots = sigs.map((s) => `<i class="rv-dot" data-level="${s.level}" title="${esc(s.title)}:${LEVEL_TEXT[s.level]}"></i>`).join("");
+  const readyLabel = attention ? `${attention} 项待核` : "信号良好";
+  const readyLevel = sigs.some((s) => s.level === "bad") ? "bad" : attention ? "warn" : "ok";
   return `
     <button class="review-card ${active ? "is-active" : ""}" data-review-id="${esc(item["审核编号"])}">
       <span class="review-card-status">${esc(source["当前审核状态"])}</span>
       <strong>${esc(source["建议问题类型"])}</strong>
       <p>${esc(source["现场问题摘要"])}</p>
       <div class="review-card-meta">
-        <span>${esc(source["环保维度"])}</span>
         <span>${esc(source["区域"])}</span>
         <span>${esc(source["行业"])}</span>
+        <span>证据 ${esc(item["证据摘要"]?.["证据数量"] ?? 0)} 条</span>
       </div>
-      ${tags ? `<div class="review-card-tags">${tags}</div>` : ""}
-      <div class="review-card-signals">${signals || "<span>现场表现待补充</span>"}</div>
+      <div class="review-card-readiness" data-level="${readyLevel}">
+        <span class="rv-dots">${dots}</span>
+        <span class="rv-ready-label">${esc(readyLabel)}</span>
+      </div>
     </button>
   `;
 }
@@ -210,7 +217,10 @@ function renderList() {
     button.addEventListener("click", () => {
       reviewState.selectedId = button.dataset.reviewId;
       reviewState.notice = null;
+      // 移动端:点候选卡 → 进入详情视图(桌面端 CSS 不响应此 class,三栏始终并列)
+      document.getElementById("reviewWorkspace")?.classList.add("is-detail-view");
       renderReviewWorkspace();
+      document.getElementById("reviewDetail")?.scrollIntoView({ block: "start" });
     });
   });
 }
@@ -226,10 +236,6 @@ function chips(values) {
 
 function section(title, body) {
   return `<section class="review-detail-section"><h3>${esc(title)}</h3>${body}</section>`;
-}
-
-function column(title, body) {
-  return `<div class="review-column"><h3>${esc(title)}</h3>${body}</div>`;
 }
 
 function displayValue(value) {
@@ -320,26 +326,120 @@ function setNotice(kind, text) {
   document.getElementById("reviewSubmitRow")?.insertAdjacentHTML("afterend", noticeHtml());
 }
 
-function reviewSteps(item) {
-  const hasSource = Boolean(item["来源时间"] || item["检查日期"] || item["证据摘要"]?.["证据数量"]);
-  const hasSuggestion = Boolean(item["建议问题类型"] || item["字段补齐状态"]);
+// ============ 判断信号:从真实字段透明推导,绝不凭空造结论 ============
+// 是否已归一到图谱问题类型。注意 graph-api 对未归一项回填哨兵值 "issue:pending"(真值),
+// 不能只判 Boolean,否则真实数据会误显示「已匹配」。
+function isMatchedIssue(item) {
+  const ref = item["问题类型引用"];
+  return Boolean(ref) && !/pending|待归一/i.test(ref);
+}
+
+// 整改闭环:VERIFIED / 已通过 = 闭环;未形成闭环 / 被驳回 / 有驳回 = 未闭环
+function closureState(item) {
+  const taskStatus = item["整改历史摘要"]?.["任务状态"] || "";
+  const result = item["整改结果"] || "";
+  const rejects = Number(item["整改历史摘要"]?.["驳回次数"] || 0);
+  if (/未形成闭环|被驳回|驳回|REJECTED/i.test(result) || rejects > 0) return { ok: false, label: "整改未闭环" };
+  if (/VERIFIED|已通过|已闭环/i.test(taskStatus) || /已通过/.test(result)) return { ok: true, label: "整改已闭环" };
+  return { ok: null, label: "整改状态待确认" };
+}
+
+// 三个判断维度 → 每个给出 level(ok/warn/bad)、一句话结论、证据行、以及「要核对什么」
+function reviewSignals(item) {
+  const signals = [];
+
+  // 1. 信源可信:证据数量 + 整改闭环
+  const n = Number(item["证据摘要"]?.["证据数量"] ?? 0);
+  const types = (item["证据摘要"]?.["证据类型"] || []).join("、");
+  const closure = closureState(item);
+  let srcLevel = n >= 2 ? "ok" : n === 1 ? "warn" : "bad";
+  if (closure.ok === false) srcLevel = "bad";
+  signals.push({
+    key: "source", icon: "shield-check", title: "信源可信",
+    level: srcLevel,
+    head: srcLevel === "ok" ? "信源充分" : (closure.ok === false ? "整改未闭环" : n === 0 ? "证据缺失" : "信源偏弱"),
+    sub: `证据 ${n} 条${types ? ` · ${types}` : ""} · ${closure.label}`,
+    look: srcLevel === "ok" ? "" : (closure.ok === false
+      ? "整改未形成闭环 —— 核对是否应退回补充"
+      : "证据偏少 —— 核对现场照片 / 台账是否足以支撑入图"),
+  });
+
+  // 2. 归类就绪:是否归一到图谱问题类型 + 法条候选
+  const matched = isMatchedIssue(item);
+  const lawN = (item["法条规范候选"] || []).length;
+  signals.push({
+    key: "class", icon: "git-merge", title: "归类就绪",
+    level: matched ? (lawN ? "ok" : "warn") : "warn",
+    head: matched ? "已匹配问题类型" : "待归一",
+    sub: `${item["建议问题类型"] || "—"} · ${lawN ? `${lawN} 条法条候选` : "无法条候选"}`,
+    look: matched
+      ? (lawN ? "" : "无法条候选 —— 通过后只能作管理经验,不可写成法律依据")
+      : "尚未归一到图谱问题类型 —— 确认归类或选择合并目标",
+  });
+
+  // 3. 字段就绪:必补字段补齐与确认情况
+  const must = item["字段补齐状态"]?.["必补字段"] || [];
+  if (must.length) {
+    const confirmed = must.filter((r) => /已确认|已补齐|已核对/.test(r["状态"] || "")).length;
+    const pending = must.length - confirmed;
+    signals.push({
+      key: "field", icon: "list-checks", title: "字段就绪",
+      level: pending ? "warn" : "ok",
+      head: pending ? `${pending} 项必补待确认` : "必补字段已补齐",
+      sub: `共 ${must.length} 项必补 · 机器补填待 ETO 确认`,
+      look: pending ? "逐项确认或修改机器补填值,再决定是否通过" : "",
+    });
+  } else {
+    signals.push({
+      key: "field", icon: "list-checks", title: "字段就绪",
+      level: "warn", head: "字段补齐未提供", sub: "无机器补填明细",
+      look: "缺字段补齐状态 —— 核对信息是否完整",
+    });
+  }
+
+  return signals;
+}
+
+// 建议方向:仅在规则足够明确时给,否则不硬给(ETO 才是裁决者)
+function recommendedKind(item) {
+  const closure = closureState(item);
+  if (closure.ok === false) return "return";
+  if (/个案|过窄|样本不足|不适合(进入)?聚合|作为?内部/.test(item["现场问题摘要"] || "")) return "internal";
+  const matched = isMatchedIssue(item);
+  const n = Number(item["证据摘要"]?.["证据数量"] ?? 0);
+  if (matched && n >= 2 && closure.ok === true && (item["法条规范候选"] || []).length) return "approve";
+  return null;
+}
+
+const LEVEL_TEXT = { ok: "良好", warn: "待确认", bad: "需核对" };
+
+function signalCard(sig) {
   return `
-    <div class="review-step-rail" aria-label="审核步骤">
-      <div class="review-step ${hasSource ? "is-ready" : ""}">
-        <b>1</b>
-        <span>核对信源</span>
-        <small>检查月份、区域、行业、证据数量</small>
+    <div class="rv-signal" data-level="${sig.level}">
+      <span class="rv-signal-ico"><i data-lucide="${sig.icon}"></i></span>
+      <div class="rv-signal-main">
+        <div class="rv-signal-top"><span class="rv-signal-title">${esc(sig.title)}</span><span class="rv-signal-pill">${LEVEL_TEXT[sig.level]}</span></div>
+        <strong class="rv-signal-head">${esc(sig.head)}</strong>
+        <span class="rv-signal-sub">${esc(sig.sub)}</span>
+        ${sig.look ? `<span class="rv-signal-look"><i data-lucide="arrow-right"></i>${esc(sig.look)}</span>` : ""}
       </div>
-      <div class="review-step ${hasSuggestion ? "is-ready" : ""}">
-        <b>2</b>
-        <span>判断归类</span>
-        <small>问题类型、字段补齐、法条候选</small>
+    </div>
+  `;
+}
+
+function readinessBanner(signals, recKind) {
+  const bad = signals.filter((s) => s.level === "bad").length;
+  const warn = signals.filter((s) => s.level === "warn").length;
+  const level = bad ? "bad" : warn ? "warn" : "ok";
+  const title = bad ? `${bad} 项需重点核对` : warn ? `${warn} 项待你确认` : "三项信号良好,可直接判断";
+  const rec = recKind ? ACTIONS.find((a) => a.kind === recKind) : null;
+  return `
+    <div class="rv-readiness" data-level="${level}">
+      <div class="rv-readiness-main">
+        <span class="rv-readiness-kicker">就绪度评估</span>
+        <strong class="rv-readiness-title">${esc(title)}</strong>
       </div>
-      <div class="review-step is-current">
-        <b>3</b>
-        <span>提交结论</span>
-        <small>通过、合并、退回、保留或不入图</small>
-      </div>
+      ${rec ? `<div class="rv-readiness-rec"><span>建议方向</span><b>${esc(rec.label)}</b></div>` : ""}
     </div>
   `;
 }
@@ -362,96 +462,96 @@ function renderDetail() {
   const batch = item["回档批次"] || {};
   const isDemo = reviewState.source !== "api";
   const options = issueTypeOptions();
+  const signals = reviewSignals(item);
+  const recKind = recommendedKind(item);
   detail.innerHTML = `
+    <button type="button" id="reviewBackToList" class="review-back">
+      <span class="review-back-arrow" aria-hidden="true">←</span><span>返回候选列表</span>
+    </button>
     ${isDemo ? "<div class=\"review-mode-banner\">演示模式:审核决定只在本浏览器临时生效,不会落库。</div>" : ""}
-    <div class="review-detail-head">
+    <div class="rv-head">
       <span class="review-card-status">${esc(view["当前审核状态"])}</span>
       <h2>${esc(view["建议问题类型"])}</h2>
-      <p>${esc(view["来源阶段"])} · ${esc(view["来源时间"])}</p>
+      <p class="rv-head-meta">${esc(view["来源阶段"])} · ${esc(view["来源时间"])} · ${esc(view["区域"])} · ${esc(view["行业"])}</p>
+      <p class="rv-head-summary">${esc(displayValue(item["现场问题摘要"]))}</p>
       ${sourceTags.length ? chips(sourceTags) : ""}
     </div>
-    ${reviewSteps(item)}
-    <div class="review-three-column">
-      ${column("1. 核对原始信源", `
-        ${section("历史检查信息", `
-          <div class="review-field-grid">
+
+    ${readinessBanner(signals, recKind)}
+
+    <div class="rv-signals" aria-label="判断信号">
+      ${signals.map(signalCard).join("")}
+    </div>
+
+    <section class="rv-decision">
+      <h3><i data-lucide="gavel"></i>提交 ETO 结论</h3>
+      <p class="rv-decision-hint">读完上方信号后选择一个结论再提交。退回 / 不入图 / 仅内部保留请在意见里写清原因。通过后只进入聚合候选池,同一组合满 5 家企业才生成聚合统计。</p>
+      <div class="review-action-grid" role="group" aria-label="审核结论">
+        ${ACTIONS.map((action) => `
+          <button class="review-action" data-kind="${action.kind}" data-review-action="${esc(action.label)}"
+                  aria-pressed="false"${action.kind === recKind ? " data-recommended=\"true\"" : ""}>
+            <span>${esc(action.label)}</span>${action.kind === recKind ? "<em class=\"rv-rec-tag\">建议</em>" : ""}
+          </button>
+        `).join("")}
+      </div>
+      <div id="mergeTargetWrap" class="review-merge-wrap" hidden>
+        <label for="mergeTargetIssue">合并目标问题类型(从图谱已有问题类型中选择)</label>
+        <input id="mergeTargetIssue" class="review-merge-input" list="issueTypeOptions"
+               value="${esc(item["合并目标问题类型"] || "")}" placeholder="输入或选择目标问题类型编号">
+        <datalist id="issueTypeOptions">
+          ${options.map((option) => `<option value="${esc(option.ref)}">${esc(displayValue(option.name))}</option>`).join("")}
+        </datalist>
+      </div>
+      <textarea id="reviewComment" class="review-comment" placeholder="审核意见:说明通过、退回或不入图的原因">${esc(item["审核意见"] || "")}</textarea>
+      <div id="reviewSubmitRow" class="review-submit-row">
+        <button id="reviewSubmit" class="btn-primary review-submit" disabled>提交审核结论</button>
+        <span id="reviewSubmitHint" class="review-submit-hint">先选择上方的审核结论。</span>
+      </div>
+      ${noticeHtml()}
+    </section>
+
+    <details class="rv-raw">
+      <summary><i data-lucide="folder-open"></i>完整资料<span>检查信息 · 回档批次 · 字段补齐 · 整改历史 · 法条候选 · 追溯</span></summary>
+      <div class="rv-raw-body">
+        ${section("现场表现", chips(item["现场表现"]))}
+        ${section("历史检查信息", `<div class="review-field-grid">
             ${field("检查月份", item["检查月份"])}
             ${field("检查日期", item["检查日期"])}
             ${field("区域", item["区域"])}
             ${field("行业", item["行业"])}
             ${field("许可类型", item["排污许可类型"])}
             ${field("环保维度", item["环保维度"])}
-          </div>
-          <p class="review-summary">${esc(displayValue(item["现场问题摘要"]))}</p>
-          ${chips(item["现场表现"])}
-        `)}
-        ${section("回档批次", `
-          <div class="review-field-grid">
+          </div>`)}
+        ${section("回档批次", `<div class="review-field-grid">
             ${field("批次编号", batch["批次编号"])}
             ${field("来源期间", batch["来源期间"])}
             ${field("来源类型", batch["来源类型"])}
             ${field("证据数量", evidence["证据数量"])}
-          </div>
-          ${chips(evidence["证据类型"])}
-        `)}
-        ${section("整改历史摘要", historyPanel(history))}
-      `)}
-      ${column("2. 判断系统归类", `
-        ${section("系统建议归类", `
-          <div class="review-field-grid">
+          </div>${chips(evidence["证据类型"])}`)}
+        ${section("系统建议归类", `<div class="review-field-grid">
             ${field("建议问题类型", item["建议问题类型"])}
-            ${field("归一状态", item["问题类型引用"] ? "已匹配问题类型" : "待归一")}
+            ${field("归一状态", isMatchedIssue(item) ? "已匹配问题类型" : "待归一")}
             ${field("整改结果", item["整改结果"])}
             ${field("整改要求", item["整改要求"])}
-          </div>
-          ${chips(item["复查要点"])}
-        `)}
+          </div>${chips(item["复查要点"])}`)}
         ${section("字段补齐状态", completionPanel(completion))}
         ${section("机器补填说明", machineFillPanel(machineFill))}
+        ${section("整改历史摘要", historyPanel(history))}
         ${section("法条规范候选", laws.length ? laws.map((law) => `
           <div class="review-law"><strong>${esc(displayValue(law["名称"]))}</strong><span>候选引用</span></div>
         `).join("") : "<p class=\"review-summary\">暂无候选引用,不得对外写成法律依据。</p>")}
-      `)}
-      ${column("3. 提交 ETO 结论", `
-        ${section("聚合准入判断", `
-          <div class="review-field-grid">
-            ${field("是否允许进入聚合", item["是否允许进入聚合"] ? "是" : "否")}
-            ${field("当前审核状态", item["当前审核状态"])}
-          </div>
-          <p class="review-summary">通过后只进入聚合候选池;同一组合满 5 家企业才可生成聚合统计。</p>
-        `)}
-        ${section("审核结论", `
-          <p class="review-summary">先选择一个结论,再提交保存。退回、不入图、仅内部保留都需要在意见里写清楚判断原因。</p>
-          <div class="review-action-grid" role="group" aria-label="审核结论">
-            ${ACTIONS.map((action) => `
-              <button class="review-action" data-kind="${action.kind}" data-review-action="${esc(action.label)}"
-                      aria-pressed="false">${esc(action.label)}</button>
-            `).join("")}
-          </div>
-          <div id="mergeTargetWrap" class="review-merge-wrap" hidden>
-            <label for="mergeTargetIssue">合并目标问题类型(从图谱已有问题类型中选择)</label>
-            <input id="mergeTargetIssue" class="review-merge-input" list="issueTypeOptions"
-                   value="${esc(item["合并目标问题类型"] || "")}" placeholder="输入或选择目标问题类型编号">
-            <datalist id="issueTypeOptions">
-              ${options.map((option) => `<option value="${esc(option.ref)}">${esc(displayValue(option.name))}</option>`).join("")}
-            </datalist>
-          </div>
-          <textarea id="reviewComment" class="review-comment" placeholder="审核意见:说明通过、退回或不入图的原因">${esc(item["审核意见"] || "")}</textarea>
-          <div id="reviewSubmitRow" class="review-submit-row">
-            <button id="reviewSubmit" class="btn-primary review-submit" disabled>提交审核结论</button>
-            <span id="reviewSubmitHint" class="review-submit-hint">先选择上方的审核结论。</span>
-          </div>
-          ${noticeHtml()}
-        `)}
-      `)}
-    </div>
-    <details class="review-trace">
-      <summary>追溯信息</summary>
-      <div class="review-field-grid">
-        ${Object.entries(item["技术追溯"] || {}).map(([label, value]) => field(label, value)).join("")}
+        ${section("追溯信息", `<div class="review-field-grid">
+          ${Object.entries(item["技术追溯"] || {}).map(([label, value]) => field(label, value)).join("")}
+        </div>`)}
       </div>
     </details>
   `;
+
+  // 移动端:从详情返回候选列表(桌面端此按钮被 CSS 隐藏)
+  detail.querySelector("#reviewBackToList")?.addEventListener("click", () => {
+    document.getElementById("reviewWorkspace")?.classList.remove("is-detail-view");
+    document.getElementById("reviewWorkspace")?.scrollIntoView({ block: "start" });
+  });
 
   // 选结论 → 提交:状态切换全部就地更新,不重渲染,避免丢失已输入的审核意见
   let pending = null;

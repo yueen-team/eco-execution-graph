@@ -1317,7 +1317,7 @@ strong[data-counter], .metric strong {
 .review-workspace {
   min-height: calc(100vh - 92px);
   display: grid;
-  grid-template-columns: 260px minmax(320px, 0.9fr) minmax(460px, 1.25fr);
+  grid-template-columns: 244px minmax(300px, 0.82fr) minmax(540px, 1.55fr);
   gap: 1px;
   border-top: 1px solid var(--line-1);
   background: rgba(143, 174, 158, 0.12);
@@ -1477,7 +1477,7 @@ strong[data-counter], .metric strong {
 }
 
 .review-card-tags span,
-.review-detail-head .review-chip-row span {
+.rv-head .review-chip-row span {
   border-color: rgba(45, 212, 191, 0.38);
   color: var(--eco);
   background: rgba(45, 212, 191, 0.09);
@@ -1487,6 +1487,22 @@ strong[data-counter], .metric strong {
   padding: 22px;
   overflow: auto;
 }
+
+/* 返回按钮:仅移动端详情视图可见,桌面三栏并列时无意义 */
+.review-back {
+  display: none;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 14px;
+  padding: 8px 13px;
+  border: 1px solid var(--line-1);
+  border-radius: 999px;
+  color: var(--text-1);
+  background: rgba(255, 255, 255, 0.04);
+  font-size: 13px;
+}
+.review-back-arrow { font-size: 15px; line-height: 1; }
+.review-back:active { background: rgba(255, 255, 255, 0.08); }
 
 .review-mode-banner {
   margin-bottom: 14px;
@@ -1499,102 +1515,165 @@ strong[data-counter], .metric strong {
   line-height: 1.5;
 }
 
-.review-detail-head {
-  padding-bottom: 16px;
-  border-bottom: 1px solid var(--line-1);
-}
+/* 审核台激活时,隐藏图谱视图的浮动「执行卡」开关(它属于图谱详情,不属于审核) */
+#reviewWorkspace:not([hidden]) ~ .detail-toggle { display: none !important; }
 
-.review-detail-head h2 {
-  margin: 0 0 7px;
+/* ============ 审核驾驶舱:信号先行,资料下沉 ============ */
+/* 语义色 = 注意力:绿=就绪 / 琥珀=待确认 / 玫红=需核对。只在信号与就绪度上使用,其余保持安静 */
+#reviewDetail [data-level="ok"],
+#reviewList [data-level="ok"] { --lv: #2ee6a8; --lv-soft: rgba(46, 230, 168, 0.10); --lv-line: rgba(46, 230, 168, 0.42); }
+#reviewDetail [data-level="warn"],
+#reviewList [data-level="warn"] { --lv: #f5b84d; --lv-soft: rgba(245, 184, 77, 0.11); --lv-line: rgba(245, 184, 77, 0.46); }
+#reviewDetail [data-level="bad"],
+#reviewList [data-level="bad"] { --lv: #fb7185; --lv-soft: rgba(251, 113, 133, 0.11); --lv-line: rgba(251, 113, 133, 0.48); }
+
+/* — 判断头 — */
+.rv-head { padding-bottom: 18px; border-bottom: 1px solid var(--line-1); }
+.rv-head .review-card-status { margin-bottom: 10px; }
+.rv-head h2 {
+  margin: 4px 0 8px;
   color: var(--text-0);
-  font-size: 22px;
-  line-height: 1.35;
-  letter-spacing: 0;
+  font-size: 25px;
+  line-height: 1.28;
+  letter-spacing: -0.01em;
 }
+.rv-head-meta { margin: 0; color: var(--text-3); font-size: 12.5px; }
+.rv-head-summary { margin: 10px 0 0; color: var(--text-1); font-size: 14.5px; line-height: 1.6; }
+.rv-head .review-chip-row { margin-top: 12px; }
 
-.review-detail-head p {
-  margin: 0;
-  color: var(--text-2);
-}
-
-.review-detail-head .review-chip-row {
-  margin-top: 10px;
-}
-
-.review-step-rail {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 10px;
-  padding: 14px 0 2px;
-}
-
-.review-step {
-  min-width: 0;
-  display: grid;
-  grid-template-columns: 28px minmax(0, 1fr);
-  column-gap: 9px;
-  row-gap: 2px;
+/* — 就绪度横幅(Zone 1):一眼看清「还差几项」+ 建议方向 — */
+.rv-readiness {
+  display: flex;
   align-items: center;
-  padding: 10px;
-  border: 1px solid var(--line-1);
-  border-radius: var(--r-sm);
-  background: rgba(255, 255, 255, 0.025);
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 18px;
+  padding: 13px 16px;
+  border: 1px solid var(--lv-line);
+  border-left: 4px solid var(--lv);
+  border-radius: var(--r-md);
+  background: var(--lv-soft);
+}
+.rv-readiness-kicker {
+  display: block;
+  margin-bottom: 3px;
+  color: var(--lv);
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+}
+.rv-readiness-title { color: var(--text-0); font-size: 17px; font-weight: 700; line-height: 1.3; }
+.rv-readiness-rec { flex: none; text-align: right; }
+.rv-readiness-rec span { display: block; margin-bottom: 4px; color: var(--text-3); font-size: 11px; }
+.rv-readiness-rec b {
+  display: inline-block;
+  padding: 4px 11px;
+  border: 1px solid var(--lv-line);
+  border-radius: 999px;
+  color: var(--text-0);
+  background: rgba(0, 0, 0, 0.2);
+  font-size: 12.5px;
 }
 
-.review-step b {
-  grid-row: 1 / span 2;
-  width: 28px;
-  height: 28px;
+/* — 判断信号(Zone 2, HERO):三个维度,非绿即「要核对的地方」 — */
+/* auto-fit:宽屏 3 列、中屏 2 列、窄屏 1 列,无需断点硬切 */
+.rv-signals { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px; margin-top: 14px; }
+.rv-signal {
+  display: flex;
+  gap: 11px;
+  padding: 14px;
+  border: 1px solid var(--line-1);
+  border-left: 3px solid var(--lv);
+  border-radius: var(--r-md);
+  background: var(--lv-soft);
+}
+.rv-signal-ico {
+  flex: none;
+  width: 30px;
+  height: 30px;
   display: grid;
   place-items: center;
-  border-radius: 50%;
-  color: var(--text-0);
-  background: rgba(143, 174, 158, 0.13);
-  font-variant-numeric: tabular-nums;
+  border-radius: 9px;
+  color: var(--lv);
+  background: rgba(0, 0, 0, 0.22);
 }
+.rv-signal-ico i { width: 16px; height: 16px; }
+.rv-signal-main { min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+.rv-signal-top { display: flex; align-items: center; gap: 8px; }
+.rv-signal-title { color: var(--text-3); font-size: 12px; }
+.rv-signal-pill {
+  margin-left: auto;
+  padding: 1px 8px;
+  border-radius: 999px;
+  color: var(--lv);
+  background: rgba(0, 0, 0, 0.24);
+  font-size: 10.5px;
+}
+.rv-signal-head { color: var(--text-0); font-size: 15px; line-height: 1.3; word-break: break-word; }
+.rv-signal-sub { color: var(--text-2); font-size: 12px; line-height: 1.45; word-break: break-word; }
+.rv-signal-look {
+  display: flex;
+  gap: 5px;
+  margin-top: 5px;
+  color: var(--lv);
+  font-size: 12px;
+  line-height: 1.45;
+}
+.rv-signal-look i { flex: none; width: 13px; height: 13px; margin-top: 2px; }
 
-.review-step span {
-  color: var(--text-0);
-  font-size: 13px;
+/* — 决策区(Zone 3):紧跟信号,easy case 不用下滑即可裁决 — */
+.rv-decision {
+  margin-top: 18px;
+  padding: 18px;
+  border: 1px solid var(--eco-line);
+  border-radius: var(--r-lg);
+  background: linear-gradient(180deg, rgba(46, 230, 168, 0.05), rgba(255, 255, 255, 0.012));
+}
+.rv-decision > h3 { display: flex; align-items: center; gap: 8px; margin: 0 0 6px; color: var(--text-0); font-size: 16px; }
+.rv-decision > h3 i { width: 17px; height: 17px; color: var(--eco); }
+.rv-decision-hint { margin: 0 0 14px; color: var(--text-2); font-size: 12.5px; line-height: 1.6; }
+.review-action[data-recommended="true"] { border-color: var(--eco-line); box-shadow: inset 0 0 0 1px var(--eco-line); }
+.rv-rec-tag {
+  margin-left: 7px;
+  padding: 1px 6px;
+  border-radius: 999px;
+  color: #08231a;
+  background: var(--eco);
+  font-size: 10px;
+  font-style: normal;
   font-weight: 700;
 }
 
-.review-step small {
-  color: var(--text-3);
-  font-size: 11.5px;
-  line-height: 1.35;
+/* — 完整资料(Zone 4):折叠,验证时再展开 — */
+.rv-raw {
+  margin-top: 16px;
+  border: 1px solid var(--line-1);
+  border-radius: var(--r-md);
+  background: rgba(255, 255, 255, 0.014);
+  overflow: hidden;
 }
+.rv-raw > summary {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 14px 16px;
+  cursor: pointer;
+  color: var(--text-1);
+  font-size: 13.5px;
+  font-weight: 700;
+  list-style: none;
+}
+.rv-raw > summary::-webkit-details-marker { display: none; }
+.rv-raw > summary > i { flex: none; width: 16px; height: 16px; color: var(--text-3); }
+.rv-raw > summary > span { margin-left: auto; color: var(--text-3); font-size: 11.5px; font-weight: 400; }
+.rv-raw[open] > summary { border-bottom: 1px solid var(--line-1); }
+.rv-raw-body { padding: 2px 16px 10px; }
+.rv-raw-body .review-detail-section:last-child { border-bottom: 0; padding-bottom: 4px; }
 
-.review-step.is-ready b {
-  color: #082217;
-  background: rgba(46, 230, 168, 0.86);
-}
-
-.review-step.is-current {
-  border-color: var(--eco-line);
-  background: var(--eco-soft);
-}
-
-.review-three-column {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 14px;
-  align-items: start;
-  padding-top: 16px;
-}
-
-.review-column {
-  min-width: 0;
-}
-
-.review-column > h3 {
-  margin: 0 0 10px;
-  padding: 0 0 9px;
-  border-bottom: 1px solid var(--line-1);
-  color: var(--eco);
-  font-size: 14px;
-  letter-spacing: 0;
-}
+/* — 列表卡的就绪信号点:从队列就能分诊 — */
+.review-card-readiness { display: flex; align-items: center; gap: 8px; margin-top: 10px; }
+.rv-dots { display: inline-flex; gap: 5px; }
+.rv-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--lv); }
+.rv-ready-label { color: var(--lv); font-size: 11.5px; }
 
 .review-detail-section {
   padding: 16px 0;
@@ -1727,6 +1806,9 @@ strong[data-counter], .metric strong {
 
 .review-action {
   min-height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: 9px 10px;
   border: 1px solid var(--line-1);
   border-radius: var(--r-sm);
@@ -1822,10 +1904,6 @@ strong[data-counter], .metric strong {
   line-height: 1.5;
 }
 
-.review-column:last-child .review-action-grid {
-  grid-template-columns: 1fr;
-}
-
 .review-notice {
   margin-top: 12px;
   padding: 10px 12px;
@@ -1886,9 +1964,6 @@ strong[data-counter], .metric strong {
   .metric { min-width: 70px; padding: 7px 12px 6px; }
   .brand-sub { display: none; }
   .review-workspace { grid-template-columns: 232px minmax(280px, 0.8fr) minmax(560px, 1.5fr); }
-  .review-step-rail { grid-template-columns: 1fr; }
-  .review-three-column { grid-template-columns: 1fr 1fr; }
-  .review-three-column .review-column:last-child { grid-column: 1 / -1; }
 }
 
 @media (max-width: 1100px) {
@@ -1975,18 +2050,85 @@ strong[data-counter], .metric strong {
     margin-top: 4px;
     white-space: normal;
   }
-  .review-workspace { grid-template-columns: 1fr; }
+  /* ---- 移动端审核台:列表 ⇄ 详情 两段式导航,不再把一切堆进无限长单列 ---- */
+  .review-workspace {
+    grid-template-columns: 1fr;
+    gap: 0;
+    min-height: 0;
+  }
   .review-queue,
   .review-list-panel,
   .review-detail-panel { padding: 16px; }
-  .review-three-column { grid-template-columns: 1fr; }
-  .review-step-rail { grid-template-columns: 1fr; }
-  .review-three-column .review-column:last-child { grid-column: auto; }
-  .review-tabs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .review-field-grid,
-  .review-action-grid,
+
+  /* 列表视图:队列(标题+状态)与候选列表同屏;详情隐藏 */
+  .review-workspace:not(.is-detail-view) .review-detail-panel { display: none; }
+  /* 详情视图:点开某条候选后,隐藏队列与列表,只看这一条 */
+  .review-workspace.is-detail-view .review-queue,
+  .review-workspace.is-detail-view .review-list-panel { display: none; }
+
+  .review-back { display: inline-flex; }
+
+  /* 收紧队列头部,把空间让给状态切换 */
+  .review-queue { gap: 12px; }
+  .review-title .eyebrow,
+  .review-title > p:not(.review-pending) { display: none; }
+  .review-title h2,
+  .review-panel-head h2 { font-size: 18px; }
+
+  /* 状态标签:横向滚动胶囊条,7 个状态一行内可划,而非 4 行大按钮 */
+  .review-tabs {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    gap: 8px;
+    margin: 0 -16px;
+    padding: 2px 16px 8px;
+    scrollbar-width: none;
+  }
+  .review-tabs::-webkit-scrollbar { display: none; }
+  .review-tab {
+    width: auto;
+    flex: 0 0 auto;
+    min-height: 36px;
+    padding: 7px 12px;
+    border-radius: 999px;
+  }
+
+  /* 判断头:标题略收,摘要照常 */
+  .rv-head h2 { font-size: 21px; }
+
+  /* 就绪度横幅:窄屏纵向堆叠,建议方向移到左下 */
+  .rv-readiness { flex-direction: column; align-items: stretch; gap: 12px; }
+  .rv-readiness-rec { text-align: left; }
+  .rv-readiness-rec b { display: inline-block; }
+
+  /* 判断信号:三张卡纵向堆叠,非绿卡靠颜色直接抓眼 */
+  .rv-signals { grid-template-columns: 1fr; gap: 10px; }
+
+  /* 决策区:动作单列、提交按钮加大,easy case 一屏内裁决 */
+  .rv-decision { padding: 16px; }
+  .review-action-grid { grid-template-columns: 1fr; }
+  .review-submit { flex: 1 1 auto; min-height: 44px; }
+
+  /* 完整资料里的字段:从「一格一个深色盒」改成「规格表行」—— 标签左、值右、细分隔线 */
+  .review-field-grid { grid-template-columns: 1fr; gap: 0; }
+  .review-field {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 9px 0;
+    border: 0;
+    border-bottom: 1px solid var(--line-1);
+    border-radius: 0;
+    background: none;
+  }
+  .review-field-grid .review-field:last-child { border-bottom: 0; }
+  .review-field span { margin: 0; flex: 0 0 auto; }
+  .review-field strong { text-align: right; }
+
   .review-completion-row,
-  .review-fill-row { grid-template-columns: 1fr; }
+  .review-fill-row { grid-template-columns: 1fr; gap: 4px; }
 }
 
 @media (max-width: 480px) {

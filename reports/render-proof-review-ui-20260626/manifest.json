@@ -1,0 +1,34 @@
+{
+  "visible_promise": "内部审核台从资料堆叠改为就绪度评估、三类判断信号、紧跟 ETO 结论和折叠完整资料; 移动端列表/详情两段式导航",
+  "route": "http://127.0.0.1:5198/app.html?workspace=review",
+  "desktop_viewport": "1440x900",
+  "mobile_viewport": "390x844",
+  "desktop": {
+    "hasReview": true,
+    "hasDecision": true,
+    "signalCount": 3,
+    "actionCount": 5,
+    "signals": [
+      "信源可信良好\n        信源充分\n        证据 2 条 · 现场照片、台账记录 · 整改已闭环",
+      "归类就绪良好\n        已匹配问题类型\n        危废标签内容不完整 · 1 条法条候选",
+      "字段就绪待确认\n        5 项必补待确认\n        共 5 项必补 · 机器补填待 ETO 确认\n        逐项确认或修改机器补填值,再决定是否通过"
+    ]
+  },
+  "mobile_before_click": {
+    "listVisible": true,
+    "detailVisible": false,
+    "cardCount": 1
+  },
+  "mobile_after_click": {
+    "listVisible": false,
+    "detailVisible": true,
+    "hasBack": true,
+    "hasReadiness": true,
+    "hasRaw": true,
+    "selectedId": "review:demo-001"
+  },
+  "screenshots": [
+    "reports/render-proof-review-ui-20260626/review-desktop.png",
+    "reports/render-proof-review-ui-20260626/review-mobile-detail.png"
+  ]
+}

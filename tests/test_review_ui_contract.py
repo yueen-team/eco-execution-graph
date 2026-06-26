@@ -17,8 +17,8 @@ class ReviewUiContractTest(unittest.TestCase):
             self.assertIn(text, visible_surface)
         for status in ["待审核", "已通过(待聚合)", "已进入聚合候选", "退回补充", "不入图", "样本不足"]:
             self.assertIn(status, visible_surface)
-        for column in ["1. 核对原始信源", "2. 判断系统归类", "3. 提交 ETO 结论"]:
-            self.assertIn(column, visible_surface)
+        for zone in ["就绪度评估", "信源可信", "归类就绪", "字段就绪", "提交 ETO 结论", "完整资料"]:
+            self.assertIn(zone, visible_surface)
 
     def test_review_visible_surface_does_not_show_technical_field_names(self):
         review_js = (ROOT / "graph-ui/src/review.js").read_text(encoding="utf-8")
@@ -75,7 +75,10 @@ class ReviewUiContractTest(unittest.TestCase):
         # 错误与结果用内联通知呈现,禁止阻塞式 alert
         self.assertNotIn("window.alert", review_js)
         self.assertIn("review-notice", review_js)
-        self.assertIn("review-three-column", review_js)
+        self.assertIn("rv-decision", review_js)
+        self.assertIn("rv-signals", review_js)
+        self.assertIn("rv-raw", review_js)
+        self.assertNotIn("review-three-column", review_js)
 
     def test_review_workspace_hides_non_runtime_smoke_records_and_guides_eto(self):
         review_js = (ROOT / "graph-ui/src/review.js").read_text(encoding="utf-8")
@@ -84,7 +87,7 @@ class ReviewUiContractTest(unittest.TestCase):
 
         for marker in ["filterRuntimeItems", "isNonRuntimeReviewItem", "已隐藏", "系统测试/非运行库记录"]:
             self.assertIn(marker, surface)
-        for label in ["核对信源", "判断归类", "提交结论", "从「待审核」开始处理"]:
+        for label in ["信源可信", "归类就绪", "字段就绪", "提交 ETO 结论", "从「待审核」开始处理"]:
             self.assertIn(label, surface)
         for raw, label in [
             ("not_for_runtime_import", "不进入运行库"),
