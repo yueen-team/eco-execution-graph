@@ -336,6 +336,27 @@ function Get-CloudRunServiceSnapshot {
   return $null
 }
 
+function Get-CloudRunServiceSnapshotWithRetry {
+  param(
+    [int]$TimeOffsetSeconds,
+    [int]$MaxAttempts = 3
+  )
+
+  for ($attempt = 1; $attempt -le $MaxAttempts; $attempt++) {
+    try {
+      return Get-CloudRunServiceSnapshot $TimeOffsetSeconds
+    } catch {
+      if ($attempt -ge $MaxAttempts) {
+        throw
+      }
+      Write-Warning "cloudbase cloudrun list snapshot failed on attempt $attempt/$MaxAttempts; retrying."
+      Start-Sleep -Seconds 5
+    }
+  }
+
+  return $null
+}
+
 function Wait-CloudRunDeployment {
   param(
     [string]$BeforeUpdatedAt,
@@ -346,7 +367,12 @@ function Wait-CloudRunDeployment {
   $deadline = (Get-Date).AddSeconds($TimeoutSeconds)
   do {
     Start-Sleep -Seconds 20
-    $snapshot = Get-CloudRunServiceSnapshot $TimeOffsetSeconds
+    try {
+      $snapshot = Get-CloudRunServiceSnapshotWithRetry $TimeOffsetSeconds
+    } catch {
+      Write-Warning "cloudrun status poll failed: $($_.Exception.Message)"
+      continue
+    }
     if ($snapshot) {
       Write-Host "cloudrun $($snapshot.Service) updated_at=$($snapshot.UpdatedAt) status=$($snapshot.Status)"
       if ($snapshot.UpdatedAt -and $snapshot.UpdatedAt -ne $BeforeUpdatedAt -and $snapshot.Status -eq "normal") {
@@ -430,8 +456,8 @@ if ($credential.Kind -eq "cloudbase-api-key") {
 }
 
 Write-Step "cloudbase control-plane check"
-Invoke-CloudBase -Arguments @("cloudrun", "list", "-e", $EnvId, "--json") -TimeOffsetSeconds $timeOffsetSeconds
-$beforeSnapshot = Get-CloudRunServiceSnapshot $timeOffsetSeconds
+$timeOffsetSeconds = Invoke-CloudBaseWithFreshTimeRetry -Arguments @("cloudrun", "list", "-e", $EnvId, "--json") -TimeSourceUrl $TimeSourceUrl -InitialTimeOffsetSeconds $timeOffsetSeconds
+$beforeSnapshot = Get-CloudRunServiceSnapshotWithRetry $timeOffsetSeconds
 $beforeUpdatedAt = if ($beforeSnapshot) { $beforeSnapshot.UpdatedAt } else { "" }
 Write-Host "previous $ServiceName updated_at=$beforeUpdatedAt"
 
@@ -439,7 +465,7 @@ Write-Step "prepare graph-api deploy source"
 $deploySource = Prepare-CloudBaseDeploySource $Source
 
 Write-Step "deploy graph-api cloudrun"
-Invoke-CloudBase -Arguments @(
+$timeOffsetSeconds = Invoke-CloudBaseWithFreshTimeRetry -Arguments @(
   "cloudrun", "deploy",
   "-e", $EnvId,
   "-s", $ServiceName,
@@ -447,7 +473,7 @@ Invoke-CloudBase -Arguments @(
   "--port", [string]$Port,
   "--force",
   "--json"
-) -TimeOffsetSeconds $timeOffsetSeconds -InputText "n`n"
+) -TimeSourceUrl $TimeSourceUrl -InitialTimeOffsetSeconds $timeOffsetSeconds -InputText "n`n" -MaxAttempts 4
 
 Write-Step "wait for CloudBase deployment"
 $afterSnapshot = Wait-CloudRunDeployment $beforeUpdatedAt $timeOffsetSeconds $DeployWaitSeconds
