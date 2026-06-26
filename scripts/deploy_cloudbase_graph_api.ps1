@@ -291,7 +291,7 @@ function Invoke-CloudBaseWithFreshTimeRetry {
     }
 
     try {
-      Invoke-CloudBase -Arguments $Arguments -TimeOffsetSeconds $timeOffsetSeconds -InputText $InputText
+      Invoke-CloudBase -Arguments $Arguments -TimeOffsetSeconds $timeOffsetSeconds -InputText $InputText | Out-Host
       return $timeOffsetSeconds
     } catch {
       if ($attempt -ge $MaxAttempts) {
