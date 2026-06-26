@@ -317,6 +317,27 @@ function Get-CloudRunServiceSnapshot {
 
   $output = Invoke-CloudBaseListOutput $TimeOffsetSeconds
   $plain = Remove-Ansi $output
+  $jsonStart = $plain.IndexOf("{")
+  if ($jsonStart -ge 0) {
+    try {
+      $payload = $plain.Substring($jsonStart) | ConvertFrom-Json
+      $servers = @($payload.data.ServerList)
+      $server = $servers | Where-Object { $_.ServerName -eq $ServiceName } | Select-Object -First 1
+      if ($server) {
+        return [pscustomobject]@{
+          Service = $server.ServerName
+          Type = $server.ServerType
+          UpdatedAt = $server.UpdateTime
+          Status = $server.Status
+          PublicAccess = (@($server.AccessTypes) -join ",")
+          Raw = ($server | ConvertTo-Json -Depth 6 -Compress)
+        }
+      }
+    } catch {
+      Write-Warning "Could not parse cloudrun list JSON output: $($_.Exception.Message)"
+    }
+  }
+
   foreach ($line in ($plain -split "`n")) {
     if ($line -notmatch $ServiceName) {
       continue
