@@ -3,9 +3,10 @@ import crypto from "node:crypto";
 import { URL } from "node:url";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { applyReviewDecision, buildPitfallBatch, filterReviewItemsForRuntime, normalizeEcoCheckPayload } from "./review-store.js";
+import { applyReviewDecision, buildPitfallBatch, filterReviewItemsForRuntime, groupKey, normalizeEcoCheckPayload } from "./review-store.js";
 import { createReviewStorage } from "./storage.js";
 import { buildGraphContextResponse, contextPathsFromRoot, loadGraphContextInputs } from "./graph-context.js";
+import { buildCopilotBackbone } from "./review-copilot.js";
 import {
   wecomConfigFromEnv, isWecomConfigured, buildWecomLoginUrl, exchangeWecomCode,
   buildWecomAppRedirectUrl, isUserAllowed, isReviewUser, issueSession, verifySession, parseCookies, sessionCookie,
@@ -61,6 +62,51 @@ async function readBody(req, maxBodyBytes = DEFAULT_MAX_BODY_BYTES) {
   }
   if (!chunks.length) return {};
   return JSON.parse(Buffer.concat(chunks).toString("utf8"));
+}
+
+/** 副驾上下文不可用时的退回态:绝不 500、绝不中断详情,把裁决交还人工。 */
+function degradedCopilot() {
+  return {
+    "上下文门禁": "blocked",
+    "降级说明": "图谱上下文暂不可用,已退回人工判断",
+    "整体研判": { "就绪度": "warn", "建议方向": null, "一句话": "副驾上下文不可用" },
+    "异议": [],
+    "补足": {},
+  };
+}
+
+/**
+ * §8.2 P0:详情接口附「副驾研判」(确定性 backbone,离线常开)。
+ * 只读现算 —— 图上下文 + 跨企业分布 + 同组判例喂给 buildCopilotBackbone,结果只挂响应,绝不 upsert 回存。
+ * 图上下文 / backbone 任何异常 → 退回降级态,绝不 500。
+ */
+async function computeReviewCopilot({ item, rows, contextGraphPath, contextPublicationPath, now = new Date().toISOString() }) {
+  try {
+    const { graph, publication } = await loadGraphContextInputs({
+      graphPath: contextGraphPath,
+      publicationPath: contextPublicationPath,
+    });
+    const ref = item["问题类型引用"];
+    const matched = Boolean(ref) && !/pending|待归一/i.test(ref);
+    const graphContext = buildGraphContextResponse({
+      graph,
+      publication,
+      nodeId: matched ? ref : "",
+      query: matched ? "" : (item["建议问题类型"] || ""),
+      depth: 2,
+    });
+    const pitfall = buildPitfallBatch(rows);
+    const pitfallRows = { rows: pitfall.rows, sample_limited: pitfall.sample_limited };
+    const key = groupKey(item);
+    // 同组 peers:rows 里已裁决(有审核时间)的同组其它条目,投影成 {审核编号,结论,时间};
+    // buildSupplement 会再按 §7 白名单收紧,私有判断字段不随判例透传。
+    const peers = rows
+      .filter((row) => row["审核编号"] !== item["审核编号"] && row["审核时间"] && groupKey(row) === key)
+      .map((row) => ({ "审核编号": row["审核编号"], "结论": row["当前审核状态"], "时间": row["审核时间"] }));
+    return buildCopilotBackbone({ item, graphContext, pitfallRows, peers, now });
+  } catch (error) {
+    return degradedCopilot();
+  }
 }
 
 export function isAuthorized(headers, token = API_TOKEN, sessionSecret = "") {
@@ -233,8 +279,12 @@ function createHandler({
       const store = await getStorage();
       const rows = await store.readAll();
       const item = rows.find((row) => row["审核编号"] === decodeURIComponent(detail[1]));
-      if (!item) send(res, 404, { status: "fail", reason: "未找到审核记录" });
-      else send(res, 200, { status: "pass", item });
+      if (!item) {
+        send(res, 404, { status: "fail", reason: "未找到审核记录" });
+        return;
+      }
+      const copilot = await computeReviewCopilot({ item, rows, contextGraphPath, contextPublicationPath });
+      send(res, 200, { status: "pass", item: { ...item, "副驾研判": copilot } });
       return;
     }
     const decision = url.pathname.match(/^\/api\/review\/field-events\/([^/]+)\/decision$/);

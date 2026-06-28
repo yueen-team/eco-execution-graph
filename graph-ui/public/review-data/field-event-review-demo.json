@@ -62,6 +62,25 @@
         "复查要点摘要": "复核标签字段,抽查台账与实物一致性。"
       },
       "法条规范候选": [{ "引用编号": "law:swl:art77", "名称": "固体废物污染环境防治法 第七十七条" }],
+      "副驾研判": {
+        "副驾版本": "copilot.v1",
+        "生成时间": "2026-06-28T10:00:00+08:00",
+        "合成标识": "synthetic-copilot-demo",
+        "上下文门禁": "pass",
+        "整体研判": { "就绪度": "ok", "建议方向": "approve", "一句话": "归类、法条、证据三者就位,证据可支撑,可直接判断。", "副驾自评置信": 0.86 },
+        "补足": {
+          "命中问题类型": { "node_id": "issue:hw:label-incomplete", "name": "危废标签内容不完整" },
+          "法条现状": [{ "node_id": "law:swl:art77", "article_no": "固废法 第七十七条", "effective_status": "in_force", "沿革警示": null }],
+          "证据应有项": ["标签照片", "台账记录"],
+          "跨企业分布": { "样本企业数": 7, "复发率": 1.3, "是否够聚合": true },
+          "踩雷点关联": [{ "node_id": "pitfall:hw:label-misread", "kind": "pitfall_class", "name": "危废标签字段误读" }],
+          "判例": [{ "审核编号": "review:demo-002", "结论": "已进入聚合候选", "时间": "2026-06-12" }]
+        },
+        "异议": [],
+        "降级说明": null,
+        "trace": { "node_ids": ["issue:hw:label-incomplete", "law:swl:art77"], "edge_ids": ["regulated_by:issue:hw:label-incomplete->law:swl:art77"], "source_refs": ["synthetic-src:label-incomplete"] },
+        "_redline_clean": true
+      },
       "当前审核状态": "待审核",
       "审核人": null,
       "审核时间": null,
@@ -91,6 +110,48 @@
       "复查要点": ["抽查包装容器", "核对台账编号"],
       "整改结果": "已通过",
       "法条规范候选": [{ "引用编号": "law:swl:art77", "名称": "固体废物污染环境防治法 第七十七条" }],
+      "副驾研判": {
+        "副驾版本": "copilot.v1",
+        "生成时间": "2026-06-28T10:00:00+08:00",
+        "合成标识": "synthetic-copilot-demo",
+        "上下文门禁": "pass",
+        "整体研判": { "就绪度": "warn", "建议方向": "merge", "一句话": "与已有「危废标签内容不完整」高度同义,建议合并而非新建;摘要侧重台账编号需复核归类。", "副驾自评置信": 0.71 },
+        "补足": {
+          "命中问题类型": { "node_id": "issue:hw:label-incomplete", "name": "危废标签内容不完整" },
+          "法条现状": [{ "node_id": "law:swl:art77", "article_no": "固废法 第七十七条", "effective_status": "in_force", "沿革警示": null }],
+          "证据应有项": ["标签照片", "台账记录"],
+          "跨企业分布": { "样本企业数": 6, "复发率": 1.2, "是否够聚合": true },
+          "踩雷点关联": [],
+          "判例": [{ "审核编号": "review:demo-001", "结论": "待审核(同类高频)", "时间": "2026-06-12" }]
+        },
+        "异议": [
+          {
+            "错配码": "duplicate_mergeable",
+            "严重度": "info",
+            "判断维度": "归类",
+            "一句话": "本候选与「危废标签内容不完整」语义重复,新建会稀释聚合口径。",
+            "检出方式": "llm",
+            "证据": "问题类型引用与近期已通过项一致:issue:hw:label-incomplete",
+            "建议修正": "改判为合并到已有问题类型,而非新建条目。",
+            "trace": { "node_ids": ["issue:hw:label-incomplete"], "edge_ids": [], "source_refs": ["synthetic-src:dup-label"] },
+            "采纳状态": "未决"
+          },
+          {
+            "错配码": "issue_type_mismatch",
+            "严重度": "warning",
+            "判断维度": "归类",
+            "一句话": "摘要主要在讲台账编号未对应,与「标签」归类存在偏差。",
+            "检出方式": "llm",
+            "证据": "现场问题摘要含「台账编号」,建议问题类型为标签类",
+            "建议修正": "确认归类是标签还是台账,必要时改归台账类问题。",
+            "trace": { "node_ids": ["issue:hw:label-incomplete", "issue:hw:ledger-incomplete"], "edge_ids": [], "source_refs": ["synthetic-src:mismatch-002"] },
+            "采纳状态": "未决"
+          }
+        ],
+        "降级说明": null,
+        "trace": { "node_ids": ["issue:hw:label-incomplete"], "edge_ids": [], "source_refs": ["synthetic-src:002"] },
+        "_redline_clean": true
+      },
       "当前审核状态": "已进入聚合候选",
       "审核人": "ETO",
       "审核时间": "2026-06-12T10:10:00+08:00",
@@ -120,6 +181,48 @@
       "复查要点": ["核对月度汇总", "核对转移联单回填"],
       "整改结果": "未形成闭环",
       "法条规范候选": [{ "引用编号": "spec:gb18597", "名称": "危险废物贮存污染控制标准" }],
+      "副驾研判": {
+        "副驾版本": "copilot.v1",
+        "生成时间": "2026-06-28T10:00:00+08:00",
+        "合成标识": "synthetic-copilot-demo",
+        "上下文门禁": "pass",
+        "整体研判": { "就绪度": "bad", "建议方向": "return", "一句话": "整改未闭环且证据仅 1 条,先退回补充再判断入图。", "副驾自评置信": 0.80 },
+        "补足": {
+          "命中问题类型": { "node_id": "issue:hw:ledger-incomplete", "name": "危废台账记录不完整" },
+          "法条现状": [{ "node_id": "spec:gb18597", "article_no": "GB 18597 贮存污染控制标准", "effective_status": "in_force", "沿革警示": null }],
+          "证据应有项": ["台账记录", "月度汇总表", "转移联单"],
+          "跨企业分布": { "样本企业数": 4, "复发率": 1.0, "是否够聚合": false },
+          "踩雷点关联": [],
+          "判例": [{ "审核编号": "review:demo-006", "结论": "样本不足", "时间": "2026-06-12" }]
+        },
+        "异议": [
+          {
+            "错配码": "evidence_insufficient",
+            "严重度": "warning",
+            "判断维度": "证据",
+            "一句话": "称台账记录不完整,但证据仅 1 条且缺月度汇总与转移联单。",
+            "检出方式": "rule+llm",
+            "证据": "证据数量=1,evidence_field_requirement 期望含月度汇总/转移联单",
+            "建议修正": "退回补充月度汇总与出入库去向证据后再评估。",
+            "trace": { "node_ids": ["issue:hw:ledger-incomplete"], "edge_ids": [], "source_refs": ["synthetic-src:ev-003"] },
+            "采纳状态": "未决"
+          },
+          {
+            "错配码": "confidence_stale",
+            "严重度": "info",
+            "判断维度": "置信",
+            "一句话": "整改已被驳回但置信仍偏高,最近验证时间偏旧。",
+            "检出方式": "rule",
+            "证据": "整改结果=未形成闭环,last_verified_at 早于本季度",
+            "建议修正": "下调置信或要求重新验证后再纳入。",
+            "trace": { "node_ids": ["issue:hw:ledger-incomplete"], "edge_ids": [], "source_refs": ["synthetic-src:stale-003"] },
+            "采纳状态": "未决"
+          }
+        ],
+        "降级说明": null,
+        "trace": { "node_ids": ["issue:hw:ledger-incomplete", "spec:gb18597"], "edge_ids": [], "source_refs": ["synthetic-src:003"] },
+        "_redline_clean": true
+      },
       "当前审核状态": "退回补充",
       "审核人": "ETO",
       "审核时间": "2026-06-12T10:20:00+08:00",
@@ -149,6 +252,48 @@
       "复查要点": ["核对分区标识"],
       "整改结果": "被驳回",
       "法条规范候选": [],
+      "副驾研判": {
+        "副驾版本": "copilot.v1",
+        "生成时间": "2026-06-28T10:00:00+08:00",
+        "合成标识": "synthetic-copilot-demo",
+        "上下文门禁": "pass",
+        "整体研判": { "就绪度": "bad", "建议方向": "internal", "一句话": "无法条依据且个案过窄,如要保留只能作内部管理建议,不得写成违法。", "副驾自评置信": 0.83 },
+        "补足": {
+          "命中问题类型": { "node_id": "issue:hw:storage-zone-unclear", "name": "危废暂存分区不清" },
+          "法条现状": [],
+          "证据应有项": ["分区标识照片", "暂存间布局图"],
+          "跨企业分布": { "样本企业数": 2, "复发率": 0.5, "是否够聚合": false },
+          "踩雷点关联": [],
+          "判例": [{ "审核编号": "review:demo-005", "结论": "仅保留内部案例", "时间": "2026-06-12" }]
+        },
+        "异议": [
+          {
+            "错配码": "management_advice_miscast_as_law",
+            "严重度": "blocking",
+            "判断维度": "法律",
+            "一句话": "法条规范候选为空,该现场建议不得写成「违反 XX 法」。",
+            "检出方式": "rule+llm",
+            "证据": "法条规范候选=[],legal_basis_status=no_legal_basis",
+            "建议修正": "改写为管理建议;或补法条候选并经审核后再升级表达。",
+            "trace": { "node_ids": ["issue:hw:storage-zone-unclear"], "edge_ids": [], "source_refs": ["synthetic-src:miscast-004"] },
+            "采纳状态": "未决"
+          },
+          {
+            "错配码": "no_law_basis_advisory",
+            "严重度": "info",
+            "判断维度": "法律",
+            "一句话": "本条暂无任何法条依据,仅可作为管理经验沉淀。",
+            "检出方式": "rule",
+            "证据": "无 regulated_by 出边,无候选法条",
+            "建议修正": "若保留,标注为管理建议而非法律义务。",
+            "trace": { "node_ids": ["issue:hw:storage-zone-unclear"], "edge_ids": [], "source_refs": ["synthetic-src:nolaw-004"] },
+            "采纳状态": "未决"
+          }
+        ],
+        "降级说明": null,
+        "trace": { "node_ids": ["issue:hw:storage-zone-unclear"], "edge_ids": [], "source_refs": ["synthetic-src:004"] },
+        "_redline_clean": true
+      },
       "当前审核状态": "不入图",
       "审核人": "ETO",
       "审核时间": "2026-06-12T10:30:00+08:00",
@@ -170,7 +315,7 @@
       "排污许可类型": "排污登记",
       "环保维度": "危险废物管理",
       "建议问题类型": "现场证据判断细节",
-      "问题类型引用": "issue:private:evidence-judgment",
+      "问题类型引用": "issue:hw:evidence-judgment",
       "现场问题摘要": "该记录适合作为内部审核经验,不适合进入聚合统计。",
       "现场表现": ["证据判断依赖 ETO 经验"],
       "证据摘要": { "证据数量": 4, "证据类型": ["现场照片", "台账记录"] },
@@ -178,6 +323,70 @@
       "复查要点": ["内部复核"],
       "整改结果": "已通过",
       "法条规范候选": [],
+      "副驾研判": {
+        "副驾版本": "copilot.v1",
+        "生成时间": "2026-06-28T10:00:00+08:00",
+        "合成标识": "synthetic-copilot-demo",
+        "上下文门禁": "partial",
+        "整体研判": { "就绪度": "warn", "建议方向": "internal", "一句话": "RAG 法条取文超时,法律维度判断退回人工复核;此条更适合留作内部经验。", "副驾自评置信": 0.58 },
+        "补足": {
+          "命中问题类型": { "node_id": "issue:hw:evidence-judgment", "name": "现场证据判断细节" },
+          "法条现状": [{ "node_id": "law:swl:art77", "article_no": "固废法 第七十七条", "effective_status": "unconfirmed", "沿革警示": null }],
+          "证据应有项": ["现场照片", "台账记录"],
+          "跨企业分布": { "样本企业数": 3, "复发率": 0.7, "是否够聚合": false },
+          "踩雷点关联": [],
+          "判例": [{ "审核编号": "review:demo-004", "结论": "不入图", "时间": "2026-06-12" }]
+        },
+        "异议": [
+          {
+            "错配码": "basis_requires_official_confirmation",
+            "严重度": "warning",
+            "判断维度": "法律",
+            "一句话": "当前依据仅为内部口径,未经官方确认,不得对外作为合规依据。",
+            "检出方式": "rule",
+            "证据": "legal_basis_status=internal_reviewed,未达 official_confirmed",
+            "建议修正": "对外引用前补官方确认,否则仅限内部使用。",
+            "trace": { "node_ids": ["issue:hw:evidence-judgment"], "edge_ids": [], "source_refs": ["synthetic-src:basis-005"] },
+            "采纳状态": "未决"
+          },
+          {
+            "错配码": "candidate_or_disputed_basis",
+            "严重度": "warning",
+            "判断维度": "法律",
+            "一句话": "候选法条口径存在争议,需人工裁定后再使用。",
+            "检出方式": "rule",
+            "证据": "legal_basis_status ∈ {candidate, disputed}",
+            "建议修正": "人工复核口径,确认或剔除该候选。",
+            "trace": { "node_ids": ["law:swl:art77"], "edge_ids": [], "source_refs": ["synthetic-src:disputed-005"] },
+            "采纳状态": "未决"
+          },
+          {
+            "错配码": "law_not_applicable",
+            "严重度": "warning",
+            "判断维度": "法律",
+            "一句话": "候选法条在本证据判断场景可能不适用,需读原文确认。",
+            "检出方式": "llm",
+            "证据": "场景为内部证据判断,候选条款指向标签管理,适用性存疑",
+            "建议修正": "RAG 恢复后比对原文适用范围,再决定保留与否。",
+            "trace": { "node_ids": ["law:swl:art77"], "edge_ids": [], "source_refs": ["synthetic-src:napplic-005"] },
+            "采纳状态": "未决"
+          },
+          {
+            "错配码": "missing_law_locator",
+            "严重度": "warning",
+            "判断维度": "法律",
+            "一句话": "候选法条缺条款定位,无 rag_doc_ref,命中受限引用。",
+            "检出方式": "rule",
+            "证据": "blocked_refs 非空,缺 rag_doc_ref",
+            "建议修正": "补全条款号与引文定位后再引用。",
+            "trace": { "node_ids": ["law:swl:art77"], "edge_ids": [], "source_refs": ["synthetic-src:locator-005"] },
+            "采纳状态": "未决"
+          }
+        ],
+        "降级说明": "RAG 取文超时(门禁=partial):以下法律维度异议仅作内部提示,未作确定依据,需人工复核法条。",
+        "trace": { "node_ids": ["issue:hw:evidence-judgment"], "edge_ids": [], "source_refs": ["synthetic-src:005"] },
+        "_redline_clean": true
+      },
       "当前审核状态": "仅保留内部案例",
       "审核人": "ETO",
       "审核时间": "2026-06-12T10:40:00+08:00",
@@ -207,6 +416,59 @@
       "复查要点": ["核对联单编号"],
       "整改结果": "已通过",
       "法条规范候选": [{ "引用编号": "law:swl:art77", "名称": "固体废物污染环境防治法 第七十七条" }],
+      "副驾研判": {
+        "副驾版本": "copilot.v1",
+        "生成时间": "2026-06-28T10:00:00+08:00",
+        "合成标识": "synthetic-copilot-demo",
+        "上下文门禁": "pass",
+        "整体研判": { "就绪度": "warn", "建议方向": null, "一句话": "样本不足且候选条款已废止,聚合与法条均需先处理,副驾暂不表态。", "副驾自评置信": 0.69 },
+        "补足": {
+          "命中问题类型": { "node_id": "issue:hw:transfer-record-mismatch", "name": "危废转移记录不一致" },
+          "法条现状": [{ "node_id": "law:swl:art57-2016", "article_no": "固废法(2016) 第五十七条", "effective_status": "deprecated", "沿革警示": "被《固废法》2020 修订 第七十八条 替代" }],
+          "证据应有项": ["转移联单", "台账记录", "平台转移记录"],
+          "跨企业分布": { "样本企业数": 3, "复发率": 1.8, "是否够聚合": false },
+          "踩雷点关联": [{ "node_id": "pitfall:hw:transfer-gap", "kind": "pitfall_class", "name": "转移联单与台账脱节" }],
+          "判例": [{ "审核编号": "review:demo-003", "结论": "退回补充", "时间": "2026-06-12" }]
+        },
+        "异议": [
+          {
+            "错配码": "aggregation_risk",
+            "严重度": "warning",
+            "判断维度": "聚合",
+            "一句话": "仅 3 家样本,未达 5 家口径,现在进聚合会扭曲区域统计。",
+            "检出方式": "rule",
+            "证据": "跨企业分布样本企业数=3 < 5",
+            "建议修正": "保持样本不足状态,满 5 家不同企业再参与聚合。",
+            "trace": { "node_ids": ["issue:hw:transfer-record-mismatch"], "edge_ids": [], "source_refs": ["synthetic-src:agg-006"] },
+            "采纳状态": "未决"
+          },
+          {
+            "错配码": "law_status_risk",
+            "严重度": "blocking",
+            "判断维度": "法律",
+            "一句话": "候选绑定指向 2016 版已废止条款,必须改绑现行第七十八条。",
+            "检出方式": "rule",
+            "证据": "effective_status=deprecated,lineage 指向 第七十八条",
+            "建议修正": "改绑《固废法》2020 修订 第七十八条 后再判断表达强度。",
+            "trace": { "node_ids": ["law:swl:art57-2016", "law:swl:art78"], "edge_ids": ["superseded_by:law:swl:art57-2016->law:swl:art78"], "source_refs": ["synthetic-src:lawrisk-006"] },
+            "采纳状态": "未决"
+          },
+          {
+            "错配码": "pitfall_candidate",
+            "严重度": "info",
+            "判断维度": "聚合",
+            "一句话": "同类「转移联单与台账脱节」跨多家出现,建议升级为踩雷点而非一次性个案。",
+            "检出方式": "rule",
+            "证据": "pitfall_class=transfer-gap,跨企业复发率=1.8",
+            "建议修正": "升级为 pitfall_class 纳入培训弹药。",
+            "trace": { "node_ids": ["pitfall:hw:transfer-gap"], "edge_ids": [], "source_refs": ["synthetic-src:pitfall-006"] },
+            "采纳状态": "未决"
+          }
+        ],
+        "降级说明": null,
+        "trace": { "node_ids": ["issue:hw:transfer-record-mismatch", "law:swl:art57-2016"], "edge_ids": [], "source_refs": ["synthetic-src:006"] },
+        "_redline_clean": true
+      },
       "当前审核状态": "样本不足",
       "审核人": "系统",
       "审核时间": "2026-06-12T10:50:00+08:00",

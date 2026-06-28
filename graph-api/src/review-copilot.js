@@ -2,8 +2,11 @@
 //
 // 纯函数,零网络、零 LLM、零腾讯云依赖,可进 verify:all 离线 lane。
 // 它在 ETO 下结论前:
-//   1. 补足(buildSupplement):铺齐超出单人记忆的上下文(法条现状/跨企业分布/证据应有项/踩雷点/判例)。
-//   2. 纠正(detectMismatches):产出 7 个确定性错配码(蓝图 §4 中可规则离线检出的部分)。
+//   1. 补足(buildSupplement):铺齐超出单人记忆的上下文(法条现状[含真实取代关系]/跨企业分布/证据应有项/踩雷点/判例)。
+//   2. 纠正(detectMismatches):产出确定性错配码(蓝图 §4 中可规则离线检出的部分;
+//      法律维度含 management_advice_miscast_as_law / no_law_basis_advisory / law_status_risk /
+//      missing_law_locator / basis_requires_official_confirmation / candidate_or_disputed_basis 等子规则,
+//      均归并在「十律」骨架下,不扩成第十一律)。
 // 四条铁律(docs/api/eto-review-copilot.md §3 / §11):
 //   - 副驾不裁决只提异议:整体研判.建议方向 可为 null,绝不写审核状态。
 //   - 开口必带 trace:每条异议 trace.node_ids/edge_ids 必须落在本次 graphContext 内,否则丢弃。
@@ -24,6 +27,30 @@ const COPILOT_VERSION = "copilot.v1";
 // 但副驾只有 official_confirmed 才允许在「建议修正」里写硬法表达(违反/依据/根据)。
 const STRONG_LEGAL_STATUS = "official_confirmed";
 const HARD_LAW_RE = /违反|违法|不符合.{0,6}法|依据|根据/;
+// basis_requires_official_confirmation 专用:与 Python 种子 regulatory_consistency_check.py 同口径
+// (`re.search(r"依据|根据|违反|违法", text)`),只看四个硬法动词,不含 HARD_LAW_RE 的「不符合.{0,6}法」。
+const OFFICIAL_CONFIRM_RE = /依据|根据|违反|违法/;
+// confidence_stale「时间陈旧」阈值(candy 口径):法条 last_verified_at / 审核时间 / 来源时间
+// 早于 now 减 STALENESS_DAYS 即提示置信随时间衰减、需复核现状。定为常量,口径单点可调。
+const STALENESS_DAYS = 180;
+const MS_PER_DAY = 24 * 60 * 60 * 1000;
+// 法条沿革(取代关系)边类型:from=旧条款 被 to=新条款 取代 / 替代 / 修订。
+const LINEAGE_EDGE_TYPES = new Set(["replaced_by", "amended_by", "superseded_by"]);
+const LINEAGE_EDGE_LABEL = { replaced_by: "取代", superseded_by: "替代", amended_by: "修订" };
+// 守门人降级文案按 legal_basis_status 分路由(与 regulatory_consistency_check.py 降级表对齐):
+//   no_legal_basis     → 管理建议(建议核查 / 建议完善),不写 违反/违法/依据/根据;
+//   internal_reviewed  → 参考相关要求 / 建议结合监管口径确认,不写 依据/根据/违反/违法;
+//   candidate/disputed → 进入人工审核,对外只保留「建议核查 / 需结合监管口径确认」;
+//   official_confirmed → 唯一允许保留硬法表达,但仍不得过度承诺(在 downgradeGuidance 单独放行)。
+const DEFAULT_DOWNGRADE_FALLBACK = "改写为管理建议,不要使用硬法措辞;补 official_confirmed 法条候选后再升级表达。";
+// 注意:降级文案自身必须不含硬法动词(违反/违法/依据/根据),否则等于把硬法措辞又写了回去
+// (守门人输出守自己的红线)。故这里只描述「怎么改」,不复述被禁的词。
+const STATUS_DOWNGRADE_FALLBACK = {
+  no_legal_basis: "改写为管理建议(建议核查 / 建议完善),通过后仅作管理留存,不使用硬法措辞。",
+  internal_reviewed: "参考相关要求,建议结合监管口径确认现状后再定表达强度,暂不作硬法认定。",
+  candidate: "进入人工审核;对外只保留「建议核查」或「需结合监管口径确认」。",
+  disputed: "进入人工审核;对外只保留「建议核查」或「需结合监管口径确认」。",
+};
 // 表现为个案 / 不宜聚合的自然语言信号(与 review.js recommendedKind 同义)。
 const NARROW_CASE_RE = /个案|过窄|样本不足|不适合(进入)?聚合/;
 // graph-context blocked_refs 里属于「定位缺失」类、应升级为 missing_law_locator 异议的 reason。
@@ -147,10 +174,12 @@ function newFinding(partial) {
  */
 export function downgradeGuidance(legalBasisStatus, { guidance = "", soft } = {}) {
   const status = normalizeText(legalBasisStatus);
-  const fallback = soft || "改写为管理建议,不要使用硬法措辞;补 official_confirmed 法条候选后再升级表达。";
+  // official_confirmed:唯一允许保留硬法表达(违反/依据/根据)的状态,但仍不得过度承诺。
   if (status === STRONG_LEGAL_STATUS) return guidance;
-  if (HARD_LAW_RE.test(guidance)) return fallback;
-  return guidance;
+  // 无硬法措辞的纯管理建议候选:原样保留,不画蛇添足。
+  if (!HARD_LAW_RE.test(guidance)) return guidance;
+  // 命中硬法措辞且非 official_confirmed:按状态分路由降级文案,candidate/disputed 走人工审核而非管理建议。
+  return soft || STATUS_DOWNGRADE_FALLBACK[status] || DEFAULT_DOWNGRADE_FALLBACK;
 }
 
 /**
@@ -206,7 +235,7 @@ function matchPitfall(item, pitfallRows) {
   return { key, row, limited, sampleSize };
 }
 
-// ---- 7 个确定性错配检测器(蓝图 §4 中可规则离线检出的部分) ----
+// ---- 确定性错配检测器(蓝图 §4 中可规则离线检出的部分;法律维度多码为同一律的子规则) ----
 
 function detectManagementAdviceMiscast(item, graphContext, issueRef) {
   const lawCandidates = item?.["法条规范候选"] || [];
@@ -228,18 +257,30 @@ function detectManagementAdviceMiscast(item, graphContext, issueRef) {
   const trace = nodeInContext(graphContext, issueRef)
     ? issueTrace(issueRef)
     : { node_ids: [], edge_ids: [], source_refs: [candidateSourceRef(item)].filter(Boolean) };
+  const evidence = noLawCandidate ? "法条规范候选为空" : "本次图谱匹配法律边 legal_basis_status=no_legal_basis";
+  // 去误标:只有「无法条依据 + 候选文本含硬法表达」才是真正的「管理经验被法律化」(blocking)。
+  if (hardLaw) {
+    return [newFinding({
+      "错配码": "management_advice_miscast_as_law",
+      "严重度": "blocking",
+      "判断维度": "归类",
+      "一句话": "该问题无法条依据,通过后只能写管理建议,不得写成「违反 / 依据 XX 法」。",
+      "证据": evidence,
+      "建议修正": downgradeGuidance(noLegalBasisEdge ? "no_legal_basis" : "", {
+        guidance: "改写为管理建议;或补 official_confirmed 法条候选后再升级表达。",
+        soft: "改写为管理建议;或补 official_confirmed 法条候选后再升级表达。",
+      }),
+      "trace": trace,
+    })];
+  }
+  // 无硬法表达的纯管理建议候选:不是「管理经验被法律化」,只作 info 提示「无法条依据(通过后仅作管理建议)」。
   return [newFinding({
-    "错配码": "management_advice_miscast_as_law",
-    "严重度": hardLaw ? "blocking" : "info",
+    "错配码": "no_law_basis_advisory",
+    "严重度": "info",
     "判断维度": "归类",
-    "一句话": hardLaw
-      ? "该问题无法条依据,通过后只能写管理建议,不得写成「违反 / 依据 XX 法」。"
-      : "无法条依据,通过后只能作管理建议,不得对外写违反 / 依据。",
-    "证据": noLawCandidate ? "法条规范候选为空" : "本次图谱匹配法律边 legal_basis_status=no_legal_basis",
-    "建议修正": downgradeGuidance(noLegalBasisEdge ? "no_legal_basis" : "", {
-      guidance: "改写为管理建议;或补 official_confirmed 法条候选后再升级表达。",
-      soft: "改写为管理建议;或补 official_confirmed 法条候选后再升级表达。",
-    }),
+    "一句话": "无法条依据(通过后仅作管理建议)。",
+    "证据": evidence,
+    "建议修正": "通过后作管理建议留存即可;若要升级为法律口径,需先补 official_confirmed 法条候选。",
     "trace": trace,
   })];
 }
@@ -249,8 +290,12 @@ function detectLawStatusRisk(graphContext) {
   const edges = edgesOf(graphContext);
   for (const node of nodesOf(graphContext)) {
     if (node.node_type !== "law_article") continue;
-    const statusCode = normalizeEffectiveStatus(node.attrs?.effective_status);
-    const severity = lawStatusSeverity(statusCode);
+    const rawStatus = node.attrs?.effective_status;
+    const statusCode = normalizeEffectiveStatus(rawStatus);
+    // 下限对齐:effective_status 非空但未建模(已失效 / 暂停适用 / 部分废止 等 → 归一 unknown)
+    // 也必须 warning,不得比下游 regulatory_consistency_check 检查更宽松(它对任何非「现行有效」都告警)。
+    const unrecognized = Boolean(normalizeText(rawStatus)) && statusCode === "unknown";
+    const severity = lawStatusSeverity(statusCode) || (unrecognized ? "warning" : null);
     if (!severity) continue;
     const relatedEdges = edges.filter((edge) => edge.from === node.node_id || edge.to === node.node_id);
     const sourceRefs = [...new Set(relatedEdges.map((edge) => edge.source_ref).filter(Boolean))];
@@ -261,8 +306,10 @@ function detectLawStatusRisk(graphContext) {
       "判断维度": "法律",
       "一句话": severity === "blocking"
         ? `候选绑定法条「${node.name}」当前为${label},不得作为现行依据。`
-        : `候选绑定法条「${node.name}」当前为${label},需人工复核现状与沿革取代关系。`,
-      "证据": `effective_status=${node.attrs?.effective_status ?? "未标注"}(归一=${statusCode})`,
+        : unrecognized
+          ? `候选绑定法条「${node.name}」状态未识别(${rawStatus}),需人工复核现状。`
+          : `候选绑定法条「${node.name}」当前为${label},需人工复核现状与沿革取代关系。`,
+      "证据": `effective_status=${rawStatus ?? "未标注"}(归一=${statusCode})`,
       "建议修正": severity === "blocking"
         ? "改绑现行有效法条,或在补足里标注沿革后降级为管理建议。"
         : "人工复核该法条现状与 replaced_by / amended_by 取代关系后再定表达强度。",
@@ -287,6 +334,60 @@ function detectMissingLawLocator(graphContext) {
       "一句话": `法条「${ref.title}」缺少条款号 / 定位或 RAG 文档引用,暂不能作为确定依据。`,
       "证据": `blocked_refs.reason=${ref.reason}`,
       "建议修正": "补齐条款号 / 标准号与 rag_doc_ref 后再升级为依据,否则按管理建议处理。",
+      "trace": trace,
+    }));
+  }
+  return findings;
+}
+
+// §4 法律维度子规则:internal_reviewed 口径 + 候选文本写了硬法动词 → 要求官方确认后才可定调。
+// 与 graph 门禁无关:即便 machine_gate=pass,只要绑定法条边是 internal_reviewed 且候选文本含
+// 依据/根据/违反/违法,就产 warning(守门人比消费者保守,对齐 regulatory_consistency_check.py)。
+function detectBasisRequiresOfficialConfirmation(item, graphContext, issueRef) {
+  const text = `${item?.["现场问题摘要"] || ""} ${item?.["整改要求"] || ""}`;
+  if (!OFFICIAL_CONFIRM_RE.test(text)) return [];
+  const lawCandidates = item?.["法条规范候选"] || [];
+  const relevantNodeIds = new Set(
+    [issueRef, ...lawCandidates.map((candidate) => candidate?.["引用编号"] || candidate?.["node_id"])].filter(Boolean),
+  );
+  const internalEdges = edgesOf(graphContext).filter((edge) => (
+    normalizeText(edge.legal_basis_status) === "internal_reviewed"
+    && (relevantNodeIds.has(edge.from) || relevantNodeIds.has(edge.to))
+  ));
+  if (!internalEdges.length) return [];
+  const edgeIds = internalEdges.map((edge) => edge.edge_id).filter(Boolean);
+  const nodeIds = [...new Set(internalEdges.flatMap((edge) => [edge.from, edge.to]))]
+    .filter((id) => nodeInContext(graphContext, id));
+  const sourceRefs = [...new Set(internalEdges.map((edge) => edge.source_ref).filter(Boolean))];
+  return [newFinding({
+    "错配码": "basis_requires_official_confirmation",
+    "严重度": "warning",
+    "判断维度": "法律",
+    "一句话": "内部审核口径还不是官方确认口径,对外不能写成确定法律依据或违法认定。",
+    "证据": "候选文本含「依据/根据/违反/违法」,但绑定法条边 legal_basis_status=internal_reviewed",
+    "建议修正": downgradeGuidance("internal_reviewed", { guidance: "应依据该法条认定违法并整改" }),
+    "trace": { node_ids: nodeIds, edge_ids: edgeIds, source_refs: sourceRefs },
+  })];
+}
+
+// §4 法律维度子规则:消费 graph context blocked_refs 中 legal_basis_status=candidate|disputed 的瘦条款,
+// 建议「进入人工审核」(不是降为管理建议),对外只保留「建议核查 / 需结合监管口径确认」。
+function detectCandidateOrDisputedBasis(graphContext) {
+  const nodeIds = new Set(nodesOf(graphContext).map((node) => node.node_id));
+  const findings = [];
+  for (const ref of graphContext?.blocked_refs || []) {
+    const reason = String(ref.reason || "");
+    if (!/^legal_basis_status=(candidate|disputed)\b/.test(reason)) continue;
+    const trace = ref.trace && ((ref.trace.node_ids || []).length || (ref.trace.edge_ids || []).length)
+      ? ref.trace
+      : { node_ids: nodeIds.has(ref.node_id) ? [ref.node_id] : [], edge_ids: [], source_refs: [] };
+    findings.push(newFinding({
+      "错配码": "candidate_or_disputed_basis",
+      "严重度": "warning",
+      "判断维度": "法律",
+      "一句话": `法条「${ref.title}」的法律依据仍是候选 / 争议口径,不能对外写成依据、根据、违反或违法。`,
+      "证据": `blocked_refs.reason=${reason}`,
+      "建议修正": "进入人工审核;对外只保留「建议核查」或「需结合监管口径确认」,不可直接当作管理建议放行。",
       "trace": trace,
     }));
   }
@@ -339,18 +440,55 @@ function detectAggregationRisk(item, pitfallRows, issueRef) {
   })];
 }
 
-function detectConfidenceStale(item, issueRef) {
+function parseDate(value) {
+  if (!value) return null;
+  const ms = Date.parse(value);
+  return Number.isFinite(ms) ? ms : null;
+}
+
+function detectConfidenceStale(item, graphContext, issueRef, now) {
+  const findings = [];
+  // 分支一(现有):整改未闭环 / 已被驳回 → 置信不应维持高位。
   const closure = closureState(item);
-  if (closure.ok !== false) return [];
-  return [newFinding({
-    "错配码": "confidence_stale",
-    "严重度": "info",
-    "判断维度": "置信",
-    "一句话": "整改未闭环 / 已被驳回,本条置信不应维持在高位。",
-    "证据": `整改结果=${item?.["整改结果"] || "未提供"};驳回次数=${Number(item?.["整改历史摘要"]?.["驳回次数"] || 0)}`,
-    "建议修正": "确认整改是否应退回补充;闭环后再评估置信。",
-    "trace": issueTrace(issueRef),
-  })];
+  if (closure.ok === false) {
+    findings.push(newFinding({
+      "错配码": "confidence_stale",
+      "严重度": "info",
+      "判断维度": "置信",
+      "一句话": "整改未闭环 / 已被驳回,本条置信不应维持在高位。",
+      "证据": `整改结果=${item?.["整改结果"] || "未提供"};驳回次数=${Number(item?.["整改历史摘要"]?.["驳回次数"] || 0)}`,
+      "建议修正": "确认整改是否应退回补充;闭环后再评估置信。",
+      "trace": issueTrace(issueRef),
+    }));
+  }
+  // 分支二(新增「时间陈旧」):法条节点 last_verified_at 或 item 审核时间 / 来源时间
+  // 早于 now 减 STALENESS_DAYS(180 天)→ 置信随时间衰减,证据写明该日期。
+  const nowMs = parseDate(now) ?? Date.now();
+  const threshold = nowMs - STALENESS_DAYS * MS_PER_DAY;
+  const staleDates = [];
+  for (const node of nodesOf(graphContext)) {
+    if (node.node_type !== "law_article") continue;
+    const verified = parseDate(node.attrs?.last_verified_at);
+    if (verified !== null && verified < threshold) {
+      staleDates.push(`法条「${node.name}」last_verified_at=${node.attrs.last_verified_at}`);
+    }
+  }
+  for (const key of ["审核时间", "来源时间"]) {
+    const ts = parseDate(item?.[key]);
+    if (ts !== null && ts < threshold) staleDates.push(`${key}=${item[key]}`);
+  }
+  if (staleDates.length) {
+    findings.push(newFinding({
+      "错配码": "confidence_stale",
+      "严重度": "info",
+      "判断维度": "置信",
+      "一句话": `核验 / 来源时间已超过 ${STALENESS_DAYS} 天未更新,置信应随时间衰减,建议复核现状。`,
+      "证据": staleDates.join(";"),
+      "建议修正": "复核法条现状与整改时效后再评估置信,必要时重新核验。",
+      "trace": issueTrace(issueRef),
+    }));
+  }
+  return findings;
 }
 
 function detectPitfallCandidate(item, graphContext, pitfallRows, peers, issueRef) {
@@ -382,17 +520,19 @@ function detectPitfallCandidate(item, graphContext, pitfallRows, peers, issueRef
   })];
 }
 
-/** 全部 7 个确定性错配码,返回未过 trace 闸的原始异议数组。 */
-export function detectMismatches({ item, graphContext, pitfallRows = null, peers = [], issueRef } = {}) {
+/** 确定性错配码全集(十律 §4 中可规则离线检出者),返回未过 trace 闸的原始异议数组。 */
+export function detectMismatches({ item, graphContext, pitfallRows = null, peers = [], issueRef, now = new Date().toISOString() } = {}) {
   const ctx = graphContext || { graph_context: { nodes: [], edges: [] } };
   const ref = issueRef || resolveIssueRef(item, ctx);
   return [
     ...detectManagementAdviceMiscast(item, ctx, ref),
     ...detectLawStatusRisk(ctx),
     ...detectMissingLawLocator(ctx),
+    ...detectBasisRequiresOfficialConfirmation(item, ctx, ref),
+    ...detectCandidateOrDisputedBasis(ctx),
     ...detectEvidenceInsufficient(item, ctx, ref),
     ...detectAggregationRisk(item, pitfallRows, ref),
-    ...detectConfidenceStale(item, ref),
+    ...detectConfidenceStale(item, ctx, ref, now),
     ...detectPitfallCandidate(item, ctx, pitfallRows, peers, ref),
   ];
 }
@@ -456,6 +596,23 @@ export function readinessFrom(item, mismatches) {
   };
 }
 
+/**
+ * 解析某法条节点的真实取代关系:读 graph context 内 replaced_by/amended_by/superseded_by 边
+ * (旧条款 from → 新条款 to),回落到法条节点 attrs.lineage_ref。返回 [{edge_type,node_id,name}]。
+ */
+function lawLineageFor(graphContext, lawNode) {
+  const nodes = nodesOf(graphContext);
+  const out = [];
+  for (const edge of edgesOf(graphContext)) {
+    if (!LINEAGE_EDGE_TYPES.has(edge.edge_type)) continue;
+    if (edge.from !== lawNode.node_id && edge.to !== lawNode.node_id) continue;
+    const otherId = edge.from === lawNode.node_id ? edge.to : edge.from;
+    const other = nodes.find((node) => node.node_id === otherId);
+    out.push({ edge_type: edge.edge_type, node_id: otherId, name: other?.name || otherId });
+  }
+  return out;
+}
+
 /** 补足上下文(全部确定性检索,零 LLM)。 */
 export function buildSupplement({ item, graphContext, pitfallRows = null, peers = [], issueRef } = {}) {
   const ctx = graphContext || { graph_context: { nodes: [], edges: [] } };
@@ -465,12 +622,28 @@ export function buildSupplement({ item, graphContext, pitfallRows = null, peers 
   const lawStatus = nodesOf(ctx)
     .filter((node) => node.node_type === "law_article")
     .map((node) => {
-      const statusCode = normalizeEffectiveStatus(node.attrs?.effective_status);
+      const rawStatus = node.attrs?.effective_status;
+      const statusCode = normalizeEffectiveStatus(rawStatus);
+      const atRisk = Boolean(lawStatusSeverity(statusCode)) || (Boolean(normalizeText(rawStatus)) && statusCode === "unknown");
+      let lineageWarn = null;
+      if (atRisk) {
+        const label = EFFECTIVE_STATUS_LABEL[statusCode] || rawStatus || statusCode;
+        const lineage = lawLineageFor(ctx, node);
+        if (lineage.length) {
+          // 解析到真实取代关系:填具体取代条款 node_id / 名称。
+          lineageWarn = `${label},已由 ${lineage.map((l) => `${l.name}(${l.node_id})${LINEAGE_EDGE_LABEL[l.edge_type] || "取代"}`).join("、")}`;
+        } else if (node.attrs?.lineage_ref) {
+          lineageWarn = `${label},取代关系参见 ${node.attrs.lineage_ref}`;
+        } else {
+          // 无沿革数据时回落通用提示。
+          lineageWarn = `${label},请核对取代关系`;
+        }
+      }
       return {
         "node_id": node.node_id,
         "article_no": node.attrs?.article_no || "",
         "effective_status": statusCode,
-        "沿革警示": lawStatusSeverity(statusCode) ? `${EFFECTIVE_STATUS_LABEL[statusCode] || statusCode},请核对取代关系` : null,
+        "沿革警示": lineageWarn,
       };
     });
 
@@ -534,7 +707,7 @@ function mergeTrace(findings, graphContext, issueRef) {
 export function buildCopilotBackbone({ item, graphContext, pitfallRows = null, peers = [], now = new Date().toISOString() } = {}) {
   const ctx = graphContext || { graph_context: { nodes: [], edges: [] } };
   const issueRef = resolveIssueRef(item, ctx);
-  const rawFindings = detectMismatches({ item, graphContext: ctx, pitfallRows, peers, issueRef });
+  const rawFindings = detectMismatches({ item, graphContext: ctx, pitfallRows, peers, issueRef, now });
   const findings = dropTracelessFindings(rawFindings, ctx);
   const supplement = buildSupplement({ item, graphContext: ctx, pitfallRows, peers, issueRef });
   const readiness = readinessFrom(item, findings);

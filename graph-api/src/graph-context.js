@@ -78,6 +78,10 @@ function safeAttrs(node) {
     "industry",
     "dimension",
     "show_if_keys",
+    // 副驾「十律」补足消费(加性,非私有):lineage_ref 供法条沿革取代关系定位;
+    // last_verified_at 供 confidence_stale「时间陈旧」分支判断核验时效。二者均为元数据,不是法条全文。
+    "lineage_ref",
+    "last_verified_at",
   ];
   return Object.fromEntries(allowed.filter((key) => attrs[key] !== undefined).map((key) => [key, attrs[key]]));
 }

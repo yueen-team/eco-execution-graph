@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { mkdir, rm, writeFile } from "node:fs/promises";
+import { mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import fixture from "../../data/fixtures/ecocheck-field-event-fixture.json" with { type: "json" };
@@ -719,4 +719,84 @@ test("图谱上下文不返回 private source_ref", () => {
   const text = JSON.stringify(body);
   assert.equal(body.law_refs.length, 0);
   assert.equal(text.includes("src:private"), false);
+});
+
+test("详情接口附确定性副驾研判且只读现算不落库", async () => {
+  const temp = path.join(os.tmpdir(), `eco-graph-copilot-detail-${Date.now()}`);
+  await mkdir(temp, { recursive: true });
+  const stagingPath = path.join(temp, "field-events.jsonl");
+  const graphPath = path.join(temp, "graph.json");
+  const publicationPath = path.join(temp, "ecocheck.json");
+  // 图谱含 fixture 的问题类型(issue:hw:label-incomplete)+ 现行有效法条 + 证据应有项节点,
+  // 让 buildGraphContextResponse 命中真实邻域,backbone 走「现算」而非降级态。
+  await writeFile(graphPath, JSON.stringify({
+    nodes: [
+      { node_id: "issue:hw:label-incomplete", node_type: "issue_type", name: "危废标签内容不完整", tier: "shared", review_status: "APPROVED_BASELINE" },
+      { node_id: "obl:hw:label", node_type: "law_obligation", name: "危废标签管理义务", tier: "shared", review_status: "APPROVED_BASELINE" },
+      {
+        node_id: "law:swl:art77",
+        node_type: "law_article",
+        name: "固体废物污染环境防治法 第七十七条",
+        tier: "shared",
+        review_status: "APPROVED_BASELINE",
+        attrs: { law_name: "固体废物污染环境防治法", article_no: "第七十七条", rag_doc_ref: "tencent-lke://law/swl/art77", effective_status: "现行有效" },
+      },
+      { node_id: "evidence:label-photo", node_type: "evidence_field_requirement", name: "标签照片", tier: "shared", review_status: "APPROVED_BASELINE" },
+    ],
+    edges: [
+      { edge_id: "edge:regulated:label", from: "issue:hw:label-incomplete", to: "obl:hw:label", edge_type: "regulated_by", tier: "shared", review_status: "APPROVED_BASELINE", source_ref: "src:test", legal_basis_status: "internal_reviewed", confidence: 0.8, confidence_reason: ["MANUAL_REVIEWED"] },
+      { edge_id: "edge:obligation:art77", from: "obl:hw:label", to: "law:swl:art77", edge_type: "obligation_of", tier: "shared", review_status: "APPROVED_BASELINE", source_ref: "src:test", legal_basis_status: "internal_reviewed", confidence: 0.8, confidence_reason: ["MANUAL_REVIEWED"] },
+      { edge_id: "edge:evidenced:label", from: "issue:hw:label-incomplete", to: "evidence:label-photo", edge_type: "evidenced_by", tier: "shared", review_status: "APPROVED_BASELINE", source_ref: "src:test", legal_basis_status: "internal_reviewed", confidence: 0.8, confidence_reason: ["MANUAL_REVIEWED"] },
+    ],
+  }), "utf8");
+  await writeFile(publicationPath, JSON.stringify({
+    items: [{
+      rag_doc_ref: "tencent-lke://law/swl/art77",
+      review_status: "approved",
+      legal_basis_status: "internal_reviewed",
+      citation_locator: "第七十七条",
+      cache_policy: "metadata_only",
+      raw_cached: false,
+    }],
+  }), "utf8");
+
+  const server = createServer({ stagingPath, apiToken: "secret-for-test", contextGraphPath: graphPath, contextPublicationPath: publicationPath });
+  await new Promise((resolve) => server.listen(0, "127.0.0.1", resolve));
+  const base = `http://127.0.0.1:${server.address().port}`;
+  const headers = { "content-type": "application/json", authorization: "Bearer secret-for-test" };
+
+  try {
+    const create = await fetch(`${base}/api/ecocheck/field-events`, { method: "POST", headers, body: JSON.stringify(fixture) });
+    assert.equal(create.status, 201);
+    const id = (await create.json()).item["审核编号"];
+
+    const detail = await fetch(`${base}/api/review/field-events/${encodeURIComponent(id)}`, { headers });
+    assert.equal(detail.status, 200);
+    const persisted = await detail.json();
+    const copilot = persisted.item["副驾研判"];
+    assert.ok(copilot, "详情应附副驾研判");
+    // 走真实 backbone(非降级态):带 copilot.v1 版本号 + 完整三段结构。
+    assert.equal(copilot["副驾版本"], "copilot.v1");
+    assert.equal(typeof copilot["整体研判"], "object");
+    assert.ok("补足" in copilot);
+    assert.ok(Array.isArray(copilot["异议"]));
+    assert.ok("上下文门禁" in copilot);
+    // advisory-only:副驾绝不写最终审核状态。
+    assert.equal(copilot["整体研判"]["建议方向"] === undefined, false);
+    // 命中真实问题类型节点。
+    assert.equal(copilot["补足"]["命中问题类型"]?.node_id, "issue:hw:label-incomplete");
+
+    // 只读现算不落库:store 二次 readAll(经 list 接口 include_non_runtime)不含「副驾研判」,
+    // 直接读 staging 文件再确认未持久化。
+    const queue = await fetch(`${base}/api/review/field-events?include_non_runtime=1`, { headers });
+    assert.equal(queue.status, 200);
+    const stored = (await queue.json()).items.find((row) => row["审核编号"] === id);
+    assert.ok(stored, "list 应能取回该记录");
+    assert.equal("副驾研判" in stored, false, "副驾研判不得落库");
+    const raw = await readFile(stagingPath, "utf8");
+    assert.equal(raw.includes("副驾研判"), false, "staging 文件不得含副驾研判");
+  } finally {
+    await new Promise((resolve) => server.close(resolve));
+    await rm(temp, { recursive: true, force: true });
+  }
 });
