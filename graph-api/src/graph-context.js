@@ -6,7 +6,7 @@ const PUBLIC_TIERS = new Set(["shared", "aggregate"]);
 const LEGAL_EDGE_TYPES = new Set(["regulated_by", "manifests_as", "obligation_of", "limited_by"]);
 const CONFIRMED_LEGAL_STATUSES = new Set(["official_confirmed", "internal_reviewed"]);
 const REF_NODE_TYPES = new Set(["law_article", "tech_spec", "standard_limit"]);
-const FORBIDDEN_KEYS = new Set([
+export const FORBIDDEN_KEYS = new Set([
   "content",
   "raw_text",
   "full_text",
@@ -23,6 +23,13 @@ const FORBIDDEN_KEYS = new Set([
   "api_key",
   "token",
   "authorization",
+  // §11.4 private-tier 判断字段:私有判断标准 / 整改模板 / ETO 审核笔记一律不得进 shared 上下文或外部 LLM。
+  // (注:"eto_review_note_summary" 是已脱敏摘要,精确键名不在此列,不受影响。)
+  "evidence_judgment_standard",
+  "rectification_template",
+  "review_note",
+  "eto_note",
+  "eto_review_note",
 ]);
 const FORBIDDEN_VALUE_PATTERNS = [
   /RAG 原文正文/i,
@@ -153,7 +160,7 @@ function traceFor(node, edge) {
   };
 }
 
-function scanForbidden(value, pathLabel = "$", violations = []) {
+export function scanForbidden(value, pathLabel = "$", violations = []) {
   if (Array.isArray(value)) {
     value.forEach((item, index) => scanForbidden(item, `${pathLabel}[${index}]`, violations));
     return violations;
@@ -173,7 +180,7 @@ function scanForbidden(value, pathLabel = "$", violations = []) {
   return violations;
 }
 
-function assertRedlineClean(payload) {
+export function assertRedlineClean(payload) {
   const violations = [...new Set(scanForbidden(payload))];
   if (violations.length) throw new Error(`图谱上下文包含不得输出的字段:${violations.join(",")}`);
 }

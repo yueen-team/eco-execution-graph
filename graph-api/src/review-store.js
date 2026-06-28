@@ -49,6 +49,13 @@ const FORBIDDEN_KEYS = new Set([
   "api_key",
   "token",
   "authorization",
+  // §11.4 private-tier 判断字段:私有判断标准 / 整改模板 / ETO 审核笔记不得进 graph 或外部 LLM payload。
+  // (注:"eto_review_note_summary" 是已脱敏摘要,精确键名不在此列,不受影响。)
+  "evidence_judgment_standard",
+  "rectification_template",
+  "review_note",
+  "eto_note",
+  "eto_review_note",
 ]);
 
 const FORBIDDEN_VALUE_PATTERNS = [
@@ -409,7 +416,7 @@ export function applyReviewDecision(item, decision, now = new Date().toISOString
   return next;
 }
 
-function groupKey(item) {
+export function groupKey(item) {
   const law = item["法条规范候选"]?.[0]?.["引用编号"] || "law-or-spec:pending";
   return [
     item["区域"],
