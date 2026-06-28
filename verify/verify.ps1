@@ -94,6 +94,13 @@ if ($Target -in @("test", "all")) {
         }
         finally { Pop-Location }
     }
+    Invoke-Step "ui-contract" {
+        # 审核台副驾段纯渲染契约测试(node:test,离线、无网络);加性步骤,不改既有步
+        if (Test-Path "$root\graph-ui\package.json") {
+            Invoke-CheckedCommand -Command @("pnpm", "--dir", "graph-ui", "test")
+        }
+        else { Write-Host "  (graph-ui 尚未脚手架 — 跳过 ui-contract)" -ForegroundColor Yellow }
+    }
     Invoke-Step "p2p3-upstream-lock" {
         Push-Location $root
         try { Invoke-CheckedCommand -Command @("pnpm", "upstream:lock") }
