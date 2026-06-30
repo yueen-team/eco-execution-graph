@@ -1460,7 +1460,7 @@
         "standard_no": "STANDARD_NO_PENDING_FROM_TITLE_OR_FRONTMATTER",
         "source_role": "SUPPORTING_REGULATION_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0001",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -1479,7 +1479,7 @@
         "standard_no": "HJ 2055-2018",
         "source_role": "TREATMENT_TECHNICAL_SPEC_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0002",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -1498,7 +1498,7 @@
         "standard_no": "GB 12348-2008",
         "source_role": "EMISSION_STANDARD_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0003",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -1517,7 +1517,7 @@
         "standard_no": "HJ 1301-2023",
         "source_role": "PERMIT_APPLICATION_AND_LEDGER_EVIDENCE_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0004",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -1536,7 +1536,7 @@
         "standard_no": "HJ 2034-2013",
         "source_role": "TREATMENT_TECHNICAL_SPEC_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0005",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -1555,7 +1555,7 @@
         "standard_no": "GB 22337-2008",
         "source_role": "EMISSION_STANDARD_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0006",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -1590,7 +1590,7 @@
         "standard_no": "HJ 2027-2013",
         "source_role": "TREATMENT_TECHNICAL_SPEC_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0007",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -1609,7 +1609,7 @@
         "standard_no": "HJ 1163-2021",
         "source_role": "TREATMENT_TECHNICAL_SPEC_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0008",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -1628,7 +1628,7 @@
         "standard_no": "HJ 2026-2013",
         "source_role": "TREATMENT_TECHNICAL_SPEC_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0009",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -1647,7 +1647,7 @@
         "standard_no": "HJ 1403-2024",
         "source_role": "MONITORING_REQUIREMENT_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0010",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -1666,7 +1666,7 @@
         "standard_no": "HJ 1286-2023",
         "source_role": "MONITORING_REQUIREMENT_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0011",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -1685,7 +1685,7 @@
         "standard_no": "STANDARD_NO_PENDING_FROM_TITLE_OR_FRONTMATTER",
         "source_role": "MONITORING_REQUIREMENT_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0012",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -1704,7 +1704,7 @@
         "standard_no": "STANDARD_NO_PENDING_FROM_TITLE_OR_FRONTMATTER",
         "source_role": "MONITORING_REQUIREMENT_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0013",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -1723,7 +1723,7 @@
         "standard_no": "HJ 2012-2012",
         "source_role": "TREATMENT_TECHNICAL_SPEC_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0014",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -1742,7 +1742,7 @@
         "standard_no": "HJ 2000-2010",
         "source_role": "TREATMENT_TECHNICAL_SPEC_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0015",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -1761,7 +1761,7 @@
         "standard_no": "HJ 462-2021",
         "source_role": "TREATMENT_TECHNICAL_SPEC_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0016",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -1780,7 +1780,7 @@
         "standard_no": "STANDARD_NO_PENDING_FROM_TITLE_OR_FRONTMATTER",
         "source_role": "POLLUTANT_DOMAIN_REFERENCE_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0017",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -1799,7 +1799,7 @@
         "standard_no": "HJ 2001-2018",
         "source_role": "TREATMENT_TECHNICAL_SPEC_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0018",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -1818,7 +1818,7 @@
         "standard_no": "GB 4915-2013",
         "source_role": "EMISSION_STANDARD_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0019",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -1837,7 +1837,7 @@
         "standard_no": "HJ 434-2008",
         "source_role": "TREATMENT_TECHNICAL_SPEC_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0020",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -1856,7 +1856,7 @@
         "standard_no": "HJ 2040-2014",
         "source_role": "TREATMENT_TECHNICAL_SPEC_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0021",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -1875,7 +1875,7 @@
         "standard_no": "HJ 562-2010",
         "source_role": "TREATMENT_TECHNICAL_SPEC_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0022",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -1894,7 +1894,7 @@
         "standard_no": "HJ 563-2010",
         "source_role": "TREATMENT_TECHNICAL_SPEC_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0023",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -1913,7 +1913,7 @@
         "standard_no": "HJ 2046-2014",
         "source_role": "TREATMENT_TECHNICAL_SPEC_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0024",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -1932,7 +1932,7 @@
         "standard_no": "HJ 2039-2014",
         "source_role": "TREATMENT_TECHNICAL_SPEC_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0025",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -1951,7 +1951,7 @@
         "standard_no": "HJ 1280-2023",
         "source_role": "TREATMENT_TECHNICAL_SPEC_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0026",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -1970,7 +1970,7 @@
         "standard_no": "HJ 178-2018",
         "source_role": "TREATMENT_TECHNICAL_SPEC_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0027",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -1989,7 +1989,7 @@
         "standard_no": "HJ 2053-2018",
         "source_role": "TREATMENT_TECHNICAL_SPEC_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0028",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -2008,7 +2008,7 @@
         "standard_no": "HJ 1394-2024",
         "source_role": "MONITORING_REQUIREMENT_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0029",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -2027,7 +2027,7 @@
         "standard_no": "HJ 1281-2023",
         "source_role": "TREATMENT_TECHNICAL_SPEC_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0030",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -2046,7 +2046,7 @@
         "standard_no": "HJ 2028-2013",
         "source_role": "TREATMENT_TECHNICAL_SPEC_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0031",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -2065,7 +2065,7 @@
         "standard_no": "HJ 1094-2020",
         "source_role": "TREATMENT_TECHNICAL_SPEC_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0032",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -2084,7 +2084,7 @@
         "standard_no": "HJ 179-2018",
         "source_role": "TREATMENT_TECHNICAL_SPEC_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0033",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -2103,7 +2103,7 @@
         "standard_no": "HJ 1093-2020",
         "source_role": "TREATMENT_TECHNICAL_SPEC_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0034",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -2122,7 +2122,7 @@
         "standard_no": "HJ 2020-2012",
         "source_role": "TREATMENT_TECHNICAL_SPEC_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0035",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -2141,7 +2141,7 @@
         "standard_no": "HJ 2052-2016",
         "source_role": "TREATMENT_TECHNICAL_SPEC_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0036",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -2160,7 +2160,7 @@
         "standard_no": "HJ 435-2008",
         "source_role": "TREATMENT_TECHNICAL_SPEC_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0037",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -2179,7 +2179,7 @@
         "standard_no": "HJ 2049-2015",
         "source_role": "TREATMENT_TECHNICAL_SPEC_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0038",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -2198,7 +2198,7 @@
         "standard_no": "HJ 2060-2018",
         "source_role": "TREATMENT_TECHNICAL_SPEC_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0039",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -2217,7 +2217,7 @@
         "standard_no": "HJ 2033-2013",
         "source_role": "TREATMENT_TECHNICAL_SPEC_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0040",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -2236,7 +2236,7 @@
         "standard_no": "STANDARD_NO_PENDING_FROM_TITLE_OR_FRONTMATTER",
         "source_role": "TREATMENT_TECHNICAL_SPEC_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0041",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -2255,7 +2255,7 @@
         "standard_no": "HJ 1092-2020",
         "source_role": "TREATMENT_TECHNICAL_SPEC_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0042",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -2290,7 +2290,7 @@
         "standard_no": "STANDARD_NO_PENDING_FROM_TITLE_OR_FRONTMATTER",
         "source_role": "POLLUTANT_DOMAIN_REFERENCE_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0043",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -2309,7 +2309,7 @@
         "standard_no": "GB 27631-2011",
         "source_role": "EMISSION_STANDARD_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0044",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -2328,7 +2328,7 @@
         "standard_no": "GB 15580-2011",
         "source_role": "EMISSION_STANDARD_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0045",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -2347,7 +2347,7 @@
         "standard_no": "GB 13456-2012",
         "source_role": "EMISSION_STANDARD_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0046",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -2366,7 +2366,7 @@
         "standard_no": "STANDARD_NO_PENDING_FROM_TITLE_OR_FRONTMATTER",
         "source_role": "SUPPORTING_REGULATION_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0047",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -2385,7 +2385,7 @@
         "standard_no": "GB 21906-2008",
         "source_role": "EMISSION_STANDARD_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0048",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -2404,7 +2404,7 @@
         "standard_no": "HJ 2005-2010",
         "source_role": "TREATMENT_TECHNICAL_SPEC_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0049",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -2423,7 +2423,7 @@
         "standard_no": "GB 14470.2-2002",
         "source_role": "EMISSION_STANDARD_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0050",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -2442,7 +2442,7 @@
         "standard_no": "GB 14470.1-2002",
         "source_role": "EMISSION_STANDARD_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0051",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -2461,7 +2461,7 @@
         "standard_no": "HJ 2021-2012",
         "source_role": "TREATMENT_TECHNICAL_SPEC_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0052",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -2480,7 +2480,7 @@
         "standard_no": "GB 21523-2024",
         "source_role": "EMISSION_STANDARD_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0053",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -2499,7 +2499,7 @@
         "standard_no": "GB 3544-2008",
         "source_role": "EMISSION_STANDARD_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0054",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -2518,7 +2518,7 @@
         "standard_no": "HJ 2011-2012",
         "source_role": "TREATMENT_TECHNICAL_SPEC_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0055",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -2537,7 +2537,7 @@
         "standard_no": "GB 21909-2008",
         "source_role": "EMISSION_STANDARD_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0056",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -2556,7 +2556,7 @@
         "standard_no": "HJ 2018-2012",
         "source_role": "TREATMENT_TECHNICAL_SPEC_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0057",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -2575,7 +2575,7 @@
         "standard_no": "GB 30486-2013",
         "source_role": "EMISSION_STANDARD_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0058",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -2594,7 +2594,7 @@
         "standard_no": "HJ 2003-2010",
         "source_role": "TREATMENT_TECHNICAL_SPEC_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0059",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -2613,7 +2613,7 @@
         "standard_no": "GB 21904-2008",
         "source_role": "EMISSION_STANDARD_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0060",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -2632,7 +2632,7 @@
         "standard_no": "GB 18466-2005",
         "source_role": "EMISSION_STANDARD_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0061",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -2651,7 +2651,7 @@
         "standard_no": "HJ 2029-2013",
         "source_role": "TREATMENT_TECHNICAL_SPEC_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0062",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -2670,7 +2670,7 @@
         "standard_no": "HJ 2013-2012",
         "source_role": "TREATMENT_TECHNICAL_SPEC_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0063",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -2689,7 +2689,7 @@
         "standard_no": "HJ 2058-2018",
         "source_role": "TREATMENT_TECHNICAL_SPEC_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0064",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -2708,7 +2708,7 @@
         "standard_no": "HJ 576-2010",
         "source_role": "TREATMENT_TECHNICAL_SPEC_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0065",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -2727,7 +2727,7 @@
         "standard_no": "HJ 2023-2012",
         "source_role": "TREATMENT_TECHNICAL_SPEC_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0066",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -2746,7 +2746,7 @@
         "standard_no": "HJ 2044-2014",
         "source_role": "TREATMENT_TECHNICAL_SPEC_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0067",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -2765,7 +2765,7 @@
         "standard_no": "GB 21903-2008",
         "source_role": "EMISSION_STANDARD_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0068",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -2784,7 +2784,7 @@
         "standard_no": "GB 27631-2011",
         "source_role": "EMISSION_STANDARD_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0069",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -2803,7 +2803,7 @@
         "standard_no": "GB 13458-2013",
         "source_role": "EMISSION_STANDARD_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0070",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -2822,7 +2822,7 @@
         "standard_no": "HJ 580-2010",
         "source_role": "TREATMENT_TECHNICAL_SPEC_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0071",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -2841,7 +2841,7 @@
         "standard_no": "HJ 2030-2013",
         "source_role": "TREATMENT_TECHNICAL_SPEC_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0072",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -2860,7 +2860,7 @@
         "standard_no": "HJ 945.2-2018",
         "source_role": "EMISSION_STANDARD_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0073",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -2879,7 +2879,7 @@
         "standard_no": "HJ 1217-2023",
         "source_role": "EMISSION_STANDARD_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0074",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -2898,7 +2898,7 @@
         "standard_no": "HJ 2024-2012",
         "source_role": "TREATMENT_TECHNICAL_SPEC_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0075",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -2917,7 +2917,7 @@
         "standard_no": "HJ 2004-2010",
         "source_role": "TREATMENT_TECHNICAL_SPEC_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0076",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -2936,7 +2936,7 @@
         "standard_no": "HJ 577-2010",
         "source_role": "TREATMENT_TECHNICAL_SPEC_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0077",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -2955,7 +2955,7 @@
         "standard_no": "GB 14470.3-2011",
         "source_role": "EMISSION_STANDARD_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0078",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -2974,7 +2974,7 @@
         "standard_no": "GB 21905-2008",
         "source_role": "EMISSION_STANDARD_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0080",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -2993,7 +2993,7 @@
         "standard_no": "GB 19430-2013",
         "source_role": "EMISSION_STANDARD_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0082",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -3012,7 +3012,7 @@
         "standard_no": "GB 28937-2012",
         "source_role": "EMISSION_STANDARD_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0083",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -3031,7 +3031,7 @@
         "standard_no": "HJ 578-2010",
         "source_role": "TREATMENT_TECHNICAL_SPEC_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0084",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -3050,7 +3050,7 @@
         "standard_no": "HJ 1277-2023",
         "source_role": "TREATMENT_TECHNICAL_SPEC_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0085",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -3069,7 +3069,7 @@
         "standard_no": "STANDARD_NO_PENDING_FROM_TITLE_OR_FRONTMATTER",
         "source_role": "POLLUTANT_DOMAIN_REFERENCE_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0086",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -3088,7 +3088,7 @@
         "standard_no": "HJ 2015-2012",
         "source_role": "TREATMENT_TECHNICAL_SPEC_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0087",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -3107,7 +3107,7 @@
         "standard_no": "HJ 2047-2015",
         "source_role": "TREATMENT_TECHNICAL_SPEC_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0088",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -3126,7 +3126,7 @@
         "standard_no": "HJ 2007-2010",
         "source_role": "TREATMENT_TECHNICAL_SPEC_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0089",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -3145,7 +3145,7 @@
         "standard_no": "HJ 2006-2010",
         "source_role": "TREATMENT_TECHNICAL_SPEC_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0090",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -3164,7 +3164,7 @@
         "standard_no": "HJ 2008-2010",
         "source_role": "TREATMENT_TECHNICAL_SPEC_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0091",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -3183,7 +3183,7 @@
         "standard_no": "GB 26877-2011",
         "source_role": "EMISSION_STANDARD_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0092",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -3202,7 +3202,7 @@
         "standard_no": "GB 25463-2010",
         "source_role": "EMISSION_STANDARD_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0093",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -3221,7 +3221,7 @@
         "standard_no": "GB 25461-2010",
         "source_role": "EMISSION_STANDARD_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0094",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -3240,7 +3240,7 @@
         "standard_no": "HJ 2043-2014",
         "source_role": "TREATMENT_TECHNICAL_SPEC_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0095",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -3259,7 +3259,7 @@
         "standard_no": "GB 21908-2008",
         "source_role": "EMISSION_STANDARD_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0096",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -3278,7 +3278,7 @@
         "standard_no": "HJ 2051-2016",
         "source_role": "TREATMENT_TECHNICAL_SPEC_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0097",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -3297,7 +3297,7 @@
         "standard_no": "HJ 2022-2012",
         "source_role": "TREATMENT_TECHNICAL_SPEC_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0098",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -3316,7 +3316,7 @@
         "standard_no": "HJ 564-2010",
         "source_role": "TREATMENT_TECHNICAL_SPEC_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0099",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -3335,7 +3335,7 @@
         "standard_no": "GB 21907-2008",
         "source_role": "EMISSION_STANDARD_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0100",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -3354,7 +3354,7 @@
         "standard_no": "HJ 2009-2011",
         "source_role": "TREATMENT_TECHNICAL_SPEC_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0101",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -3373,7 +3373,7 @@
         "standard_no": "HJ 2014-2012",
         "source_role": "TREATMENT_TECHNICAL_SPEC_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0102",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -3392,7 +3392,7 @@
         "standard_no": "GB 39731-2020",
         "source_role": "EMISSION_STANDARD_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0103",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -3411,7 +3411,7 @@
         "standard_no": "HJ 1298-2023",
         "source_role": "POLLUTANT_DOMAIN_REFERENCE_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0104",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -3430,7 +3430,7 @@
         "standard_no": "HJ 2002-2010",
         "source_role": "TREATMENT_TECHNICAL_SPEC_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0105",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -3449,7 +3449,7 @@
         "standard_no": "GB 20425-2006",
         "source_role": "EMISSION_STANDARD_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0106",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -3468,7 +3468,7 @@
         "standard_no": "HJ 2045-2014",
         "source_role": "TREATMENT_TECHNICAL_SPEC_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0107",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -3487,7 +3487,7 @@
         "standard_no": "HJ 2054-2018",
         "source_role": "TREATMENT_TECHNICAL_SPEC_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0108",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -3506,7 +3506,7 @@
         "standard_no": "GB 15580-2011",
         "source_role": "EMISSION_STANDARD_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0109",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -3525,7 +3525,7 @@
         "standard_no": "HJ 471-2020",
         "source_role": "TREATMENT_TECHNICAL_SPEC_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0110",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -3544,7 +3544,7 @@
         "standard_no": "GB 4287-2012",
         "source_role": "EMISSION_STANDARD_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0111",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -3563,7 +3563,7 @@
         "standard_no": "GB 28936-2012",
         "source_role": "EMISSION_STANDARD_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0112",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -3582,7 +3582,7 @@
         "standard_no": "GB 21901-2008",
         "source_role": "EMISSION_STANDARD_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0113",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -3601,7 +3601,7 @@
         "standard_no": "GB 13457-92",
         "source_role": "EMISSION_STANDARD_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0114",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -3620,7 +3620,7 @@
         "standard_no": "HJ 579-2010",
         "source_role": "TREATMENT_TECHNICAL_SPEC_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0115",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -3639,7 +3639,7 @@
         "standard_no": "HJ 2010-2011",
         "source_role": "TREATMENT_TECHNICAL_SPEC_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0116",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -3658,7 +3658,7 @@
         "standard_no": "GB 14374-93",
         "source_role": "EMISSION_STANDARD_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0117",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -3677,7 +3677,7 @@
         "standard_no": "GB 3552-2018",
         "source_role": "EMISSION_STANDARD_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0118",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -3696,7 +3696,7 @@
         "standard_no": "HJ 1095-2020",
         "source_role": "TREATMENT_TECHNICAL_SPEC_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0119",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -3715,7 +3715,7 @@
         "standard_no": "GB 25462-2010",
         "source_role": "EMISSION_STANDARD_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0120",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -3734,7 +3734,7 @@
         "standard_no": "HJ 575-2010",
         "source_role": "TREATMENT_TECHNICAL_SPEC_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0121",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -3753,7 +3753,7 @@
         "standard_no": "HJ 1279-2023",
         "source_role": "TREATMENT_TECHNICAL_SPEC_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0122",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -3772,7 +3772,7 @@
         "standard_no": "HJ 2019-2012",
         "source_role": "TREATMENT_TECHNICAL_SPEC_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0123",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -3791,7 +3791,7 @@
         "standard_no": "GB 13456-2012",
         "source_role": "EMISSION_STANDARD_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0124",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -3810,7 +3810,7 @@
         "standard_no": "HJ 2057-2018",
         "source_role": "TREATMENT_TECHNICAL_SPEC_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0125",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -3829,7 +3829,7 @@
         "standard_no": "HJ 2059-2018",
         "source_role": "TREATMENT_TECHNICAL_SPEC_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0126",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -3848,7 +3848,7 @@
         "standard_no": "HJ 2056-2018",
         "source_role": "TREATMENT_TECHNICAL_SPEC_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0127",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -3867,7 +3867,7 @@
         "standard_no": "HJ 1278-2023",
         "source_role": "TREATMENT_TECHNICAL_SPEC_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0128",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -3886,7 +3886,7 @@
         "standard_no": "HJ 2048-2015",
         "source_role": "TREATMENT_TECHNICAL_SPEC_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0129",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -3905,7 +3905,7 @@
         "standard_no": "STANDARD_NO_PENDING_FROM_TITLE_OR_FRONTMATTER",
         "source_role": "SUPPORTING_REGULATION_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0130",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -3924,7 +3924,7 @@
         "standard_no": "GB 28938-2012",
         "source_role": "EMISSION_STANDARD_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0131",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -3959,7 +3959,7 @@
         "standard_no": "GB 18599-2020",
         "source_role": "EMISSION_STANDARD_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0132",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -3978,7 +3978,7 @@
         "standard_no": "STANDARD_NO_PENDING_FROM_TITLE_OR_FRONTMATTER",
         "source_role": "SUPPORTING_REGULATION_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0133",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -4013,7 +4013,7 @@
         "standard_no": "GB 39707-2020",
         "source_role": "HAZARDOUS_WASTE_MANAGEMENT_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0134",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -4032,7 +4032,7 @@
         "standard_no": "HJ 1284-2023",
         "source_role": "HAZARDOUS_WASTE_MANAGEMENT_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0135",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -4051,7 +4051,7 @@
         "standard_no": "GB 19218-2003",
         "source_role": "HAZARDOUS_WASTE_MANAGEMENT_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0136",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -4070,7 +4070,7 @@
         "standard_no": "STANDARD_NO_PENDING_FROM_TITLE_OR_FRONTMATTER",
         "source_role": "HAZARDOUS_WASTE_MANAGEMENT_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0137",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -4089,7 +4089,7 @@
         "standard_no": "STANDARD_NO_PENDING_FROM_TITLE_OR_FRONTMATTER",
         "source_role": "HAZARDOUS_WASTE_MANAGEMENT_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0138",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -4108,7 +4108,7 @@
         "standard_no": "GB 19217-2003",
         "source_role": "HAZARDOUS_WASTE_MANAGEMENT_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0139",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -4127,7 +4127,7 @@
         "standard_no": "HJ 516-2009",
         "source_role": "HAZARDOUS_WASTE_MANAGEMENT_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0140",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -4146,7 +4146,7 @@
         "standard_no": "STANDARD_NO_PENDING_FROM_TITLE_OR_FRONTMATTER",
         "source_role": "SUPPORTING_REGULATION_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0141",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -4165,7 +4165,7 @@
         "standard_no": "STANDARD_NO_PENDING_FROM_TITLE_OR_FRONTMATTER",
         "source_role": "HAZARDOUS_WASTE_MANAGEMENT_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0142",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -4184,7 +4184,7 @@
         "standard_no": "GB 18598-2019",
         "source_role": "HAZARDOUS_WASTE_MANAGEMENT_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0143",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -4203,7 +4203,7 @@
         "standard_no": "HJ 2042-2014",
         "source_role": "HAZARDOUS_WASTE_MANAGEMENT_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0144",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -4222,7 +4222,7 @@
         "standard_no": "HJ 2025-2012",
         "source_role": "HAZARDOUS_WASTE_MANAGEMENT_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0145",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -4241,7 +4241,7 @@
         "standard_no": "GB 18484-2020",
         "source_role": "HAZARDOUS_WASTE_MANAGEMENT_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0146",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -4260,7 +4260,7 @@
         "standard_no": "HJ 1259-2022",
         "source_role": "HAZARDOUS_WASTE_MANAGEMENT_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0147",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -4279,7 +4279,7 @@
         "standard_no": "STANDARD_NO_PENDING_FROM_TITLE_OR_FRONTMATTER",
         "source_role": "HAZARDOUS_WASTE_MANAGEMENT_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0148",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -4298,7 +4298,7 @@
         "standard_no": "HJ 1276-2022",
         "source_role": "HAZARDOUS_WASTE_MANAGEMENT_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0149",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -4317,7 +4317,7 @@
         "standard_no": "GB 18597-2023",
         "source_role": "HAZARDOUS_WASTE_MANAGEMENT_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0151",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -4336,7 +4336,7 @@
         "standard_no": "STANDARD_NO_PENDING_FROM_TITLE_OR_FRONTMATTER",
         "source_role": "HAZARDOUS_WASTE_MANAGEMENT_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0152",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -4355,7 +4355,7 @@
         "standard_no": "STANDARD_NO_PENDING_FROM_TITLE_OR_FRONTMATTER",
         "source_role": "HAZARDOUS_WASTE_MANAGEMENT_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0153",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -4374,7 +4374,7 @@
         "standard_no": "GB 5085.7-2019",
         "source_role": "HAZARDOUS_WASTE_MANAGEMENT_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0154",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -4393,7 +4393,7 @@
         "standard_no": "GB 5085.5-2007",
         "source_role": "HAZARDOUS_WASTE_MANAGEMENT_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0155",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -4412,7 +4412,7 @@
         "standard_no": "GB 5085.2-2007",
         "source_role": "HAZARDOUS_WASTE_MANAGEMENT_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0156",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -4431,7 +4431,7 @@
         "standard_no": "GB 5085.4-2007",
         "source_role": "HAZARDOUS_WASTE_MANAGEMENT_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0157",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -4450,7 +4450,7 @@
         "standard_no": "GB 5085.6-2007",
         "source_role": "HAZARDOUS_WASTE_MANAGEMENT_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0158",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -4469,7 +4469,7 @@
         "standard_no": "GB 5085.3-2007",
         "source_role": "HAZARDOUS_WASTE_MANAGEMENT_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0159",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -4488,7 +4488,7 @@
         "standard_no": "GB 5085.1-2007",
         "source_role": "HAZARDOUS_WASTE_MANAGEMENT_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0160",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -4507,7 +4507,7 @@
         "standard_no": "STANDARD_NO_PENDING_FROM_TITLE_OR_FRONTMATTER",
         "source_role": "HAZARDOUS_WASTE_MANAGEMENT_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0161",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -4526,7 +4526,7 @@
         "standard_no": "HJ 515-2009",
         "source_role": "HAZARDOUS_WASTE_MANAGEMENT_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0162",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -4545,7 +4545,7 @@
         "standard_no": "HJ 2037-2013",
         "source_role": "TREATMENT_TECHNICAL_SPEC_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0163",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -4564,7 +4564,7 @@
         "standard_no": "GB 34330-2017",
         "source_role": "EMISSION_STANDARD_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0164",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -4583,7 +4583,7 @@
         "standard_no": "STANDARD_NO_PENDING_FROM_TITLE_OR_FRONTMATTER",
         "source_role": "HAZARDOUS_WASTE_MANAGEMENT_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0166",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -4602,7 +4602,7 @@
         "standard_no": "HJ 1205-2021",
         "source_role": "MONITORING_REQUIREMENT_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0167",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -4621,7 +4621,7 @@
         "standard_no": "HJ 1250-2022",
         "source_role": "MONITORING_REQUIREMENT_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0168",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -4640,7 +4640,7 @@
         "standard_no": "HJ 1038-2019",
         "source_role": "PERMIT_APPLICATION_AND_LEDGER_EVIDENCE_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0170",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -4659,7 +4659,7 @@
         "standard_no": "HJ 1200-2021",
         "source_role": "PERMIT_APPLICATION_AND_LEDGER_EVIDENCE_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0171",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -4678,7 +4678,7 @@
         "standard_no": "HJ 1033-2019",
         "source_role": "PERMIT_APPLICATION_AND_LEDGER_EVIDENCE_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0172",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -4697,7 +4697,7 @@
         "standard_no": "GB 30485-2013",
         "source_role": "EMISSION_STANDARD_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0173",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -4716,7 +4716,7 @@
         "standard_no": "HJ 1464-2026",
         "source_role": "TREATMENT_TECHNICAL_SPEC_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0174",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -4735,7 +4735,7 @@
         "standard_no": "HJ 1090-2020",
         "source_role": "TREATMENT_TECHNICAL_SPEC_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0175",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -4754,7 +4754,7 @@
         "standard_no": "GB 16487.12-2005",
         "source_role": "EMISSION_STANDARD_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0176",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -4773,7 +4773,7 @@
         "standard_no": "GB 16487.1-2005",
         "source_role": "EMISSION_STANDARD_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0177",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -4792,7 +4792,7 @@
         "standard_no": "HJ 2017-2012",
         "source_role": "TREATMENT_TECHNICAL_SPEC_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0178",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -4811,7 +4811,7 @@
         "standard_no": "STANDARD_NO_PENDING_FROM_TITLE_OR_FRONTMATTER",
         "source_role": "TREATMENT_TECHNICAL_SPEC_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0179",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -4830,7 +4830,7 @@
         "standard_no": "HJ 85-2005",
         "source_role": "TREATMENT_TECHNICAL_SPEC_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0180",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -4865,7 +4865,7 @@
         "standard_no": "HJ 574-2010",
         "source_role": "TREATMENT_TECHNICAL_SPEC_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0181",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -4884,7 +4884,7 @@
         "standard_no": "STANDARD_NO_PENDING_FROM_TITLE_OR_FRONTMATTER",
         "source_role": "TREATMENT_TECHNICAL_SPEC_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0182",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -4903,7 +4903,7 @@
         "standard_no": "HJ 527-2010",
         "source_role": "TREATMENT_TECHNICAL_SPEC_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0183",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -4922,7 +4922,7 @@
         "standard_no": "HJ 607-2011",
         "source_role": "TREATMENT_TECHNICAL_SPEC_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0184",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -4941,7 +4941,7 @@
         "standard_no": "HJ 519-2009",
         "source_role": "TREATMENT_TECHNICAL_SPEC_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0185",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -4960,7 +4960,7 @@
         "standard_no": "HJ 497-2009",
         "source_role": "TREATMENT_TECHNICAL_SPEC_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0186",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -4995,7 +4995,7 @@
         "standard_no": "HJ 2016-2012",
         "source_role": "POLLUTANT_DOMAIN_REFERENCE_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0187",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -5014,7 +5014,7 @@
         "standard_no": "HJ 526-2010",
         "source_role": "TREATMENT_TECHNICAL_SPEC_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0188",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -5049,7 +5049,7 @@
         "standard_no": "HJ 1114-2020",
         "source_role": "RADIATION_SAFETY_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0189",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -5068,7 +5068,7 @@
         "standard_no": "HJ 1148-2020",
         "source_role": "RADIATION_SAFETY_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0190",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -5087,7 +5087,7 @@
         "standard_no": "GB 12711-2018",
         "source_role": "RADIATION_SAFETY_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0191",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -5106,7 +5106,7 @@
         "standard_no": "GB 9132-2018",
         "source_role": "RADIATION_SAFETY_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0192",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -5125,7 +5125,7 @@
         "standard_no": "GB 14569.1-2011",
         "source_role": "RADIATION_SAFETY_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0193",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -5144,7 +5144,7 @@
         "standard_no": "GB 41930-2022",
         "source_role": "RADIATION_SAFETY_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0195",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -5163,7 +5163,7 @@
         "standard_no": "HJ 1384-2024",
         "source_role": "RADIATION_SAFETY_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0196",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -5182,7 +5182,7 @@
         "standard_no": "HJ 1105-2020",
         "source_role": "RADIATION_SAFETY_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0197",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -5201,7 +5201,7 @@
         "standard_no": "GB 13600-2024",
         "source_role": "RADIATION_SAFETY_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0198",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -5220,7 +5220,7 @@
         "standard_no": "STANDARD_NO_PENDING_FROM_TITLE_OR_FRONTMATTER",
         "source_role": "RADIATION_SAFETY_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0199",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -5239,7 +5239,7 @@
         "standard_no": "HJ 1325-2023",
         "source_role": "RADIATION_SAFETY_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0200",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -5258,7 +5258,7 @@
         "standard_no": "HJ 1187-2021",
         "source_role": "RADIATION_SAFETY_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0201",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -5277,7 +5277,7 @@
         "standard_no": "STANDARD_NO_PENDING_FROM_TITLE_OR_FRONTMATTER",
         "source_role": "RADIATION_SAFETY_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0202",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -5296,7 +5296,7 @@
         "standard_no": "GB 6249-2025",
         "source_role": "RADIATION_SAFETY_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0203",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -5315,7 +5315,7 @@
         "standard_no": "HJ 1188-2021",
         "source_role": "RADIATION_SAFETY_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0204",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -5334,7 +5334,7 @@
         "standard_no": "GB 14317-93",
         "source_role": "RADIATION_SAFETY_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0205",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -5353,7 +5353,7 @@
         "standard_no": "STANDARD_NO_PENDING_FROM_TITLE_OR_FRONTMATTER",
         "source_role": "RADIATION_SAFETY_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0206",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -5372,7 +5372,7 @@
         "standard_no": "HJ 8.6-2023",
         "source_role": "RADIATION_SAFETY_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0207",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -5391,7 +5391,7 @@
         "standard_no": "HJ 979-2018",
         "source_role": "RADIATION_SAFETY_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0208",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -5410,7 +5410,7 @@
         "standard_no": "HJ 1155-2020",
         "source_role": "RADIATION_SAFETY_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0209",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -5429,7 +5429,7 @@
         "standard_no": "STANDARD_NO_PENDING_FROM_TITLE_OR_FRONTMATTER",
         "source_role": "RADIATION_SAFETY_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0210",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -5448,7 +5448,7 @@
         "standard_no": "STANDARD_NO_PENDING_FROM_TITLE_OR_FRONTMATTER",
         "source_role": "RADIATION_SAFETY_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0211",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -5467,7 +5467,7 @@
         "standard_no": "STANDARD_NO_PENDING_FROM_TITLE_OR_FRONTMATTER",
         "source_role": "RADIATION_SAFETY_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0212",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -5486,7 +5486,7 @@
         "standard_no": "GB 14585-2024",
         "source_role": "RADIATION_SAFETY_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0213",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -5505,7 +5505,7 @@
         "standard_no": "GB 23727-2020",
         "source_role": "RADIATION_SAFETY_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0214",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -5524,7 +5524,7 @@
         "standard_no": "GB 15848-1995",
         "source_role": "RADIATION_SAFETY_SOURCE",
         "rag_doc_ref": "tencent-lke://eco-kb/PDS-V8_0-0215",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       }
     },
     {
@@ -8393,7 +8393,7 @@
         "obligation_summary": "危险废物识别标志与管理要求摘要",
         "effective_status": "现行有效",
         "rag_doc_ref": "tencent-lke://law/swl/art77",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       },
       "lineage_ref": [],
       "origin_repo": "P1 seed compatibility sample",
@@ -8416,7 +8416,7 @@
         "obligation_summary": "危险废物管理计划和台账要求摘要",
         "effective_status": "现行有效",
         "rag_doc_ref": "tencent-lke://law/swl/art78",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       },
       "lineage_ref": [],
       "origin_repo": "P1 seed compatibility sample",
@@ -8439,7 +8439,7 @@
         "obligation_summary": "危险废物贮存和分类管理要求摘要",
         "effective_status": "现行有效",
         "rag_doc_ref": "tencent-lke://law/swl/art81",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       },
       "lineage_ref": [],
       "origin_repo": "P1 seed compatibility sample",
@@ -8462,7 +8462,7 @@
         "obligation_summary": "危险废物转移管理要求摘要",
         "effective_status": "现行有效",
         "rag_doc_ref": "tencent-lke://law/swl/art82",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       },
       "lineage_ref": [],
       "origin_repo": "P1 seed compatibility sample",
@@ -8482,7 +8482,7 @@
       "attrs": {
         "summary": "危险废物包装标签和贮存管理要求",
         "rag_doc_ref": "tencent-lke://spec/gb18597/label",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       },
       "origin_repo": "P1 seed compatibility sample",
       "origin_commit": "local",
@@ -8501,7 +8501,7 @@
       "attrs": {
         "summary": "危险废物分类贮存和污染控制要求",
         "rag_doc_ref": "tencent-lke://spec/gb18597/storage",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       },
       "origin_repo": "P1 seed compatibility sample",
       "origin_commit": "local",
@@ -8520,7 +8520,7 @@
       "attrs": {
         "summary": "固体废物贮存设施识别和警示标志要求",
         "rag_doc_ref": "tencent-lke://spec/gb15562/sign",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       },
       "origin_repo": "P1 seed compatibility sample",
       "origin_commit": "local",
@@ -8539,7 +8539,7 @@
       "attrs": {
         "summary": "危险废物管理台账记录要求",
         "rag_doc_ref": "tencent-lke://spec/hj1259/ledger",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       },
       "origin_repo": "P1 seed compatibility sample",
       "origin_commit": "local",
@@ -8558,7 +8558,7 @@
       "attrs": {
         "summary": "危险废物转移和台账一致性要求",
         "rag_doc_ref": "tencent-lke://spec/hj1259/transfer",
-        "rag_citation_status": "resolved"
+        "rag_citation_status": "blocked"
       },
       "origin_repo": "P1 seed compatibility sample",
       "origin_commit": "local",

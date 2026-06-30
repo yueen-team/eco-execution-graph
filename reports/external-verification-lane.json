@@ -1,12 +1,12 @@
 {
   "lane_id": "GRAPH-EXTERNAL-VERIFICATION",
   "mode": "external",
-  "status": "pass",
-  "checked_at": "2026-06-23T05:09:25Z",
-  "checked_at_utc": "2026-06-23T05:09:25Z",
+  "status": "failed",
+  "checked_at": "2026-06-30T02:04:30Z",
+  "checked_at_utc": "2026-06-30T02:04:30Z",
   "source_commit": {
-    "sha": "6b6fd57d7f28322f98448f26c8f3596887c95df0",
-    "short_sha": "6b6fd57d7f28",
+    "sha": "3f7c46b893354ee182bebe18375735ed34747fdb",
+    "short_sha": "3f7c46b89335",
     "dirty": true
   },
   "reproducibility": {
@@ -28,11 +28,11 @@
   "gates": [
     {
       "gate_id": "GRAPH-RAG-REAL-SMOKE",
-      "status": "pass",
+      "status": "failed",
       "preflight_status": "pass",
-      "rag_summary_status": "pass",
+      "rag_summary_status": "failed",
       "report": "reports/rag-citation-resolution-report.json",
-      "reason": null
+      "reason": "Tencent RAG real smoke did not pass."
     },
     {
       "gate_id": "ECOCHECK-GRAPH-PUSH-REAL-SMOKE",
@@ -62,6 +62,27 @@
       "record_count": 6,
       "edge_preview_count": 6,
       "reason": "Requires a government_confirmed lineage exchange dataset, not only the contract fixture."
+    },
+    {
+      "gate_id": "ETO-REVIEW-COPILOT-LLM-SMOKE",
+      "status": "blocked",
+      "report": "reports/copilot-llm-smoke.json",
+      "reason": "Copilot LLM smoke report is missing; run the graph-api copilot LLM smoke against TokenHub with only desensitized whitelist payload.",
+      "private_tier_boundary": [
+        "Content",
+        "article_text",
+        "company_name",
+        "content",
+        "enterprise_name",
+        "eto_note",
+        "eto_review_note",
+        "evidence_judgment_standard",
+        "full_text",
+        "raw_text",
+        "rectification_template",
+        "review_note",
+        "企业名称快照"
+      ]
     }
   ],
   "preflight": {
@@ -107,19 +128,20 @@
     {
       "name": "rag-real-gate",
       "command": "pnpm rag:real:gate",
-      "status": "pass",
-      "exit_code": 0
+      "status": "failed",
+      "exit_code": 1,
+      "error_summary": "{\"rag_real_smoke\": \"failed\", \"tokenhub_probe\": \"pass\", \"rag_retrieve_probe\": \"failed\", \"report\": \"E:\\\\eco-execution-graph\\\\reports\\\\rag-citation-resolution-report.json\"}\n[ELIFECYCLE] Command failed with exit code 1.\n$ python pipeline/rag_real_smoke_gate.py"
     }
   ],
   "rag_summary": {
-    "status": "pass",
-    "rag_real_smoke": "pass",
+    "status": "failed",
+    "rag_real_smoke": "failed",
     "tokenhub_probe": "pass",
-    "rag_retrieve_probe": "pass",
+    "rag_retrieve_probe": "failed",
     "embedding_probe": "pass",
     "citation_count": 218,
     "counts": {
-      "resolved": 218
+      "blocked": 218
     },
     "locator_counts": {
       "source_level": 27,
@@ -140,8 +162,8 @@
   "promotion_decision": {
     "blocking_now": false,
     "global_ontology_blocking": "no",
-    "environment_scoped_blocking_candidate": true,
-    "decision": "candidate_after_repeat_evidence",
+    "environment_scoped_blocking_candidate": false,
+    "decision": "remain_report_only",
     "required_gate_ids": [
       "GRAPH-RAG-REAL-SMOKE"
     ],

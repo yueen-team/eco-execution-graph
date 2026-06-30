@@ -1,7 +1,7 @@
 # P2P3 RAG Upstream Full Productization Final
 
 - zhang_director_ready: `conditional`
-- rag_real_smoke: `pass`
+- rag_real_smoke: `failed`
 - upstream_real_import: `pass`
 - private_leak_violations: 0
 - regulatory_findings: 0
@@ -31,6 +31,7 @@
 - local cache
 
 ## Degraded
+- Tencent RAG suite citation retrieval is not verified.
 - Pitfall map full remains external-data pending; EcoCheck-to-graph aggregate transport is verified.
 - Monthly report comparison is deferred until the app flow and ETO blind review samples are ready.
 

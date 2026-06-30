@@ -1,5 +1,5 @@
 import { state } from "./state.js";
-import { copilotSection } from "./copilotView.js";
+import { copilotSection, agreementSparkline } from "./copilotView.js";
 
 const STATUS_TABS = ["待审核", "已通过(待聚合)", "已进入聚合候选", "退回补充", "仅保留内部案例", "不入图", "样本不足"];
 const APP_BASE = import.meta.env.BASE_URL || "/";
@@ -40,6 +40,8 @@ let reviewState = {
   copilot: {},
   // [请十律复核] 进行中的审核编号:防重复触发,失败/完成后清空
   recheckingId: null,
+  // 副驾-ETO 一致率:{ 一致率, 总数, 趋势:[{序号,累计一致率}] };api 源取端点,demo 源用合成趋势
+  agreement: null,
 };
 
 const VALUE_LABELS = new Map([
@@ -805,7 +807,35 @@ function renderPendingHint() {
       : `待审核队列已清空 · 共 ${total} 条可处理${hiddenText}`;
 }
 
+// 副驾-ETO 一致率面板:演示「会学习的专家系统」叙事(§9.x / DESIGN §9.2)。
+// 当前一致率 + 样本数 + agreementSparkline 曲线 + 一句话;就地写入 #copilotAgreement,
+// 不触动 tabs/list/detail 既有渲染。无数据时 series 为空,sparkline 自渲占位文案。
+function renderAgreementPanel() {
+  const host = document.getElementById("copilotAgreement");
+  if (!host) return;
+  const data = reviewState.agreement;
+  const series = Array.isArray(data?.["趋势"]) ? data["趋势"] : [];
+  const total = Number(data?.["总数"] ?? series.length ?? 0);
+  // 当前一致率:优先后端给的 一致率,否则取趋势末点;都没有则不显示数值
+  const rate = data?.["一致率"] != null
+    ? Number(data["一致率"])
+    : (series.length ? Number(series[series.length - 1]["累计一致率"]) : null);
+  const pct = rate == null || Number.isNaN(rate) ? "—" : `${Math.round(rate * 100)}%`;
+  host.hidden = false;
+  host.innerHTML = `
+    <div class="copilot-agreement">
+      <div class="copilot-agreement-head">
+        <span class="copilot-agreement-mark"><i data-lucide="radar"></i>副驾-ETO 一致率</span>
+        <span class="copilot-agreement-figure"><b>${esc(pct)}</b><small>${esc(total)} 次表态</small></span>
+      </div>
+      <div class="copilot-agreement-spark">${agreementSparkline(series)}</div>
+      <p class="copilot-agreement-note">每次副驾表态都计入,曲线随 ETO 认可上升。</p>
+    </div>
+  `;
+}
+
 function renderReviewWorkspace() {
+  renderAgreementPanel();
   renderStatusTabs();
   renderList();
   renderDetail();
@@ -846,10 +876,14 @@ export async function initReviewWorkspace({
     reviewState.source = "api";
     reviewState.items = runtime.items;
     reviewState.filtered = runtime.filtered;
+    // 一致率:api 源取真实端点(authHeaders 已由 fetchJson 带上),取不到则曲线留空积累中
+    reviewState.agreement = await fetchJson(apiPath("/api/review/copilot-agreement"), true);
   } else {
     reviewState.source = "demo";
     reviewState.items = demoData?.items || [];
     reviewState.filtered = { nonRuntime: 0, total: reviewState.items.length };
+    // demo 源:用 demo 数据内联的合成趋势(纯机器数据),讲「会学习」叙事
+    reviewState.agreement = demoData?.["副驾一致率趋势"] || null;
   }
   reviewState.selectedId = visibleItems()[0]?.["审核编号"] || reviewState.items[0]?.["审核编号"] || null;
   renderReviewWorkspace();

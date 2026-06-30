@@ -7,7 +7,7 @@
       "现场照片",
       "台账记录"
     ],
-    "citation_status": "resolved",
+    "citation_status": "blocked_or_manual_upstream_basis",
     "source_trace": {
       "source_refs": [
         "src:demo:aggregation",
@@ -28,7 +28,7 @@
       "现场照片",
       "台账记录"
     ],
-    "citation_status": "resolved",
+    "citation_status": "blocked_or_manual_upstream_basis",
     "source_trace": {
       "source_refs": [
         "src:demo:aggregation",
@@ -49,7 +49,7 @@
       "现场照片",
       "台账记录"
     ],
-    "citation_status": "resolved",
+    "citation_status": "blocked_or_manual_upstream_basis",
     "source_trace": {
       "source_refs": [
         "src:demo:aggregation",
@@ -70,7 +70,7 @@
       "现场照片",
       "台账记录"
     ],
-    "citation_status": "resolved",
+    "citation_status": "blocked_or_manual_upstream_basis",
     "source_trace": {
       "source_refs": [
         "src:demo:aggregation",
@@ -91,7 +91,7 @@
       "现场照片",
       "台账记录"
     ],
-    "citation_status": "resolved",
+    "citation_status": "blocked_or_manual_upstream_basis",
     "source_trace": {
       "source_refs": [
         "src:demo:aggregation",

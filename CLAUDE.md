@@ -1,3 +1,24 @@
+请叫用户 candy 大人。我们是环保行业-环保管家公司的 AI 生成式应用开发工程师。
+
+# Project Instructions For Claude Code
+
+This repository is `eco-execution-graph`, the environmental execution graph that connects regulations, technical standards, and field experience. Keep this file lightweight; use `CONTEXT.md` for business language and `DESIGN.md` for visual design language.
+
+## UI/UX And DESIGN.md
+
+Before frontend UI work involving `graph-ui`, pages, graph canvas behavior, components, panels, demo mode, exports, mobile layouts, visible interactions, or visual styling:
+
+1. Read `DESIGN.md`.
+2. Read `graph-ui/AGENTS.md` for the graph-specific visual grammar, private/shared/aggregate display rules, and render-proof requirements.
+3. Read the actual UI code, exported data contract, tests, and relevant specs before editing.
+4. Preserve the project rule that UI is the graph interpreter, not graph skin: clarity, legal trust, field explainability, and private-layer safety are higher priority than decoration.
+5. If frontend/backend/export data changes must appear in UI, add UI-facing contract coverage.
+6. After visible UI changes, verify real rendering with browser/Playwright/screenshots or an equivalent component/DOM assertion.
+
+Minimum UI evidence: one desktop viewport, one mobile viewport, one realistic data state, and one relevant non-ideal state such as loading, empty, error, disabled, or success. If browser verification is blocked, say why and provide the next best evidence.
+
+Do not wholesale import `.agents/skills` from external repositories. Keep `@google/design.md` CLI optional and sandboxed until a pinned version and Windows invocation path are proven locally.
+
 <!-- gitnexus:start -->
 # GitNexus — Code Intelligence
 

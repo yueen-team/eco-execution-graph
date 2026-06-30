@@ -2,7 +2,7 @@
   "bundle_id": "kg-publication:ecodoc:v1",
   "audience": "ecodoc",
   "version": "v1",
-  "generated_at": "2026-06-25",
+  "generated_at": "2026-06-29",
   "approval_basis": "ETO_APPROVED_IN_GRAPH",
   "human_review_required": false,
   "machine_gate_status": "partial",
@@ -336,7 +336,7 @@
       "review_status": "approved",
       "citation_locator": "GB 15562",
       "locator_level": "spec_or_section",
-      "source_hash": "1274e57926f3ac0f400c05785b235e9804d61019068c5a4406d68c00e5086842",
+      "source_hash": "35897416277734a7c8ad7f85f02e74bbbf3905cbaedc015c8588931826479d94",
       "cache_policy": "metadata_only",
       "raw_cached": false,
       "trace": {
@@ -506,7 +506,7 @@
       "review_status": "approved",
       "citation_locator": "GB 18597",
       "locator_level": "spec_or_section",
-      "source_hash": "b53e8453898718e27c8539a6ead1d0bcbb849dabd3618fcd5cc3ed1f2da26dcf",
+      "source_hash": "e3aef87efba94296d7b6ca3e1f3b2e8ec762a0405cf4bdf61ba9374775b7a041",
       "cache_policy": "metadata_only",
       "raw_cached": false,
       "trace": {
@@ -2046,7 +2046,7 @@
       "review_status": "approved",
       "citation_locator": "HJ 1259",
       "locator_level": "spec_or_section",
-      "source_hash": "2d75957c4ee47a35546d4c2434ee4c156386f54193e0017478133d32d6388dca",
+      "source_hash": "19976faa9993394fcf19ffb4ab7e0d6b268e6642285d674578b7ea38c8ef5469",
       "cache_policy": "metadata_only",
       "raw_cached": false,
       "trace": {
@@ -2094,8 +2094,8 @@
       "source_ref": "tech-spec:eco-kb:PDS-V8_0-0149",
       "legal_basis_status": "internal_reviewed",
       "review_status": "approved",
-      "citation_locator": "HJ 1276-2022；第12-17页",
-      "locator_level": "spec_or_section_page",
+      "citation_locator": "HJ 1276-2022",
+      "locator_level": "spec_or_section",
       "source_hash": "3e32c7e38f08dc2983ad5953b8fa9f994df375d016252bcacdfef55a4da681e8",
       "cache_policy": "metadata_only",
       "raw_cached": false,
@@ -4400,7 +4400,7 @@
       "review_status": "approved",
       "citation_locator": "第七十七条",
       "locator_level": "article",
-      "source_hash": "a508726beb40ce4406a5c5d83217ba9c599a2d9bfa704eef170b820d61f8b6ac",
+      "source_hash": "efefe52c3197d5e0ddaf05dbf6cf6def85db75eda58b2bce2e4e8b8511ad0196",
       "cache_policy": "metadata_only",
       "raw_cached": false,
       "trace": {
@@ -4773,6 +4773,6 @@
       }
     }
   ],
-  "hash": "cfba3e81562d11b3fea837633907677c05b6873c4def042c43f7cc1a1ea6a615",
+  "hash": "b2ee7732bf26581b207006cf0ffe7eb1b8ead78cfd928c0747c0b4e1a3781997",
   "redline_scan_status": "pass"
 }

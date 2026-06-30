@@ -1,5 +1,7 @@
 # graph-ui 子模块指南
 
+> UI 任务先读仓库根目录 `DESIGN.md`;本文件提供 graph-ui 的领域视觉语法和验收细则。若两者冲突,以本文件的私有层安全、图谱解释性和 render-proof 要求为准。
+
 ## 模块边界
 
 Cytoscape.js + Vite 的 ego 视图驾驶舱。**只读消费 `data/exports/` 的包**，不写任何数据。

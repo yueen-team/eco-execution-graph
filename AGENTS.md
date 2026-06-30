@@ -1,6 +1,6 @@
 # AI Agent 开发指南 · eco-execution-graph
 
-> 读文档顺序:本文件 → `CONTEXT.md`(业务口径)→ `ARCHITECTURE.md`(架构)→ `docs/brainstorms/2026-06-10-*.md`(需求)→ 任务相关的 `docs/adr/` 与 `specs/`。
+> 读文档顺序:本文件 → `CONTEXT.md`(业务口径)→ `DESIGN.md`(视觉契约, UI 任务必读)→ `ARCHITECTURE.md`(架构)→ `docs/brainstorms/2026-06-10-*.md`(需求)→ 任务相关的 `docs/adr/` 与 `specs/`。
 
 ## 硬门禁(违反即停)
 
@@ -19,7 +19,7 @@
 |---|---|---|
 | 加节点/边类型 | `schema/node.schema.json` / `edge.schema.json` | 必须定 tier 默认值;更新 ARCHITECTURE §2;大改配 ADR |
 | 写/改管道脚本 | `pipeline/`(子模块 AGENTS.md) | 每条边必须带 source_ref + confidence |
-| 改 UI | `graph-ui/`(子模块 AGENTS.md) | 只读消费 exports;改动走 frontend-render-proof 留证 |
+| 改 UI | `DESIGN.md` + `graph-ui/`(子模块 AGENTS.md) | 先读视觉契约;只读消费 exports;改动走 frontend-render-proof 留证 |
 | 执行卡内容 | `data/candidates/cards/` | 卡片是图切片,不是独立数据;法条引用只存 ID |
 | 缺口报告 | `pipeline/gap_report.py` | 三类缺口定义见 ARCHITECTURE §2.3 |
 | 上下文装配最小验证 | `docs/api/context-assembly-api.md` + `specs/features/context-assembly-minimum.feature` | P0.5 离线验证,不接正式 EcoCheck |
@@ -36,6 +36,11 @@
 - EcoCheck outbox 事件:消费 `ecocheck.semantic_event.v2`(契约见 E:\knowledge-graph 蒸馏 v2 spec);事件 schema 变化时先对齐契约文档。
 
 ## 验证与交付
+
+- UI/UX 改动前必须读 `DESIGN.md` 和最近的前端子模块 `AGENTS.md`;根 `DESIGN.md` 管视觉契约,`CONTEXT.md` 管业务语义。
+- 涉及页面、组件、表单、看板、图谱画布、弹窗、移动端、可见交互或视觉样式时,交付必须有真实呈现证据:桌面视口、移动端视口、一个真实/接近真实数据状态、一个相关非理想状态(loading/empty/error/disabled/success 任选相关者)。
+- 前后端或导出包与 UI 同步变化时,补实际呈现相关的契约测试,证明数据、状态、错误、权限或动作已挂到页面。
+- 不默认吸纳外部 `.agents/skills`;`@google/design.md` CLI 只作为 sandbox 可选工具,不全局安装,不设为默认硬门禁。
 
 - 统一验证入口:`pnpm verify:all`(= schema 校验 + 泄漏契约测试 + pipeline 单测 + UI 构建)。
 - AFK 测试以 `verify/afk-test.config.json` 为入口;缺失基线已设 null 并列入 TODO。
