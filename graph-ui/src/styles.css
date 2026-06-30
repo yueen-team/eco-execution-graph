@@ -1877,6 +1877,51 @@ strong[data-counter], .metric strong {
 .rv-opinion-raw > summary > i { width: 14px; height: 14px; }
 .rv-opinion-raw .rv-raw-body { padding: 4px 11px 9px; }
 
+/* — 副驾-ETO 一致率面板:审核台头部「会学习」证据;克制,复用 eco token,无装饰性渐变 — */
+.copilot-agreement {
+  padding: 13px 14px;
+  border: 1px solid var(--line-1);
+  border-radius: var(--r-md);
+  background: var(--eco-soft);
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+.copilot-agreement-head {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.copilot-agreement-mark {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-2);
+  font-size: 12px;
+  font-weight: 600;
+}
+.copilot-agreement-mark i { flex: none; width: 14px; height: 14px; color: var(--eco); }
+.copilot-agreement-figure { display: flex; align-items: baseline; gap: 8px; }
+.copilot-agreement-figure b {
+  color: var(--eco);
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.copilot-agreement-figure small { color: var(--text-3); font-size: 11px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.copilot-agreement-spark { width: 100%; }
+.copilot-spark { display: block; width: 100%; height: auto; }
+.copilot-spark-val { font-family: var(--font-mono); font-size: 11px; font-weight: 600; }
+.copilot-spark-empty {
+  margin: 0;
+  padding: 12px 0;
+  color: var(--text-3);
+  font-size: 12px;
+  text-align: center;
+}
+.copilot-agreement-note { margin: 0; color: var(--text-3); font-size: 11.5px; line-height: 1.5; }
+
 /* — 列表卡的就绪信号点:从队列就能分诊 — */
 .review-card-readiness { display: flex; align-items: center; gap: 8px; margin-top: 10px; }
 .rv-dots { display: inline-flex; gap: 5px; }

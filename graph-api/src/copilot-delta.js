@@ -174,6 +174,54 @@ export function computeAgreementRate(deltas) {
   return { "总数": 总数, "分歧数": 分歧数, "一致数": 一致数, "一致率": 一致率, "未知": 未知, "按维度": 按维度 };
 }
 
+/**
+ * 累计「副驾-ETO 一致率」时序(政府演示「会学习的专家系统」硬证据 §10 / §14 Q4)。
+ * 与 computeAgreementRate 同去重口径:先按 审核编号 去重(latest-wins)+ 只取 是否分歧 为严格布尔的行;
+ * 再按 生成时间 升序稳定排序(并列保持原相对顺序),逐点累计输出前缀比例。
+ * @returns 累计序列 [{ 序号, 时间, 累计总数, 累计一致数, 累计一致率 }];空输入 → []。
+ */
+export function computeAgreementSeries(deltas) {
+  const rows = Array.isArray(deltas) ? deltas : [];
+  // 与 computeAgreementRate 同口径:审核编号 去重(latest-wins),无编号行各自独立保留。
+  const latest = new Map();
+  const noId = [];
+  for (const row of rows) {
+    const id = row?.["审核编号"];
+    if (id) latest.set(id, row);
+    else noId.push(row);
+  }
+  const deduped = [...latest.values(), ...noId];
+  // 只取 是否分歧 为严格布尔的行(与 computeAgreementRate 同口径:非布尔不静默并入一致)。
+  const valid = deduped.filter((row) => typeof row?.["是否分歧"] === "boolean");
+  // 按 生成时间 升序;并列稳定(保持去重后的原相对顺序),避免演示曲线在相同时间戳处抖动。
+  const sorted = valid
+    .map((row, index) => ({ row, index }))
+    .sort((a, b) => {
+      const ta = String(a.row["生成时间"] ?? "");
+      const tb = String(b.row["生成时间"] ?? "");
+      if (ta < tb) return -1;
+      if (ta > tb) return 1;
+      return a.index - b.index;
+    })
+    .map((entry) => entry.row);
+
+  const series = [];
+  let 累计总数 = 0;
+  let 累计一致数 = 0;
+  for (const row of sorted) {
+    累计总数 += 1;
+    if (row["是否分歧"] === false) 累计一致数 += 1;
+    series.push({
+      "序号": 累计总数,
+      "时间": row["生成时间"] ?? null,
+      "累计总数": 累计总数,
+      "累计一致数": 累计一致数,
+      "累计一致率": Number((累计一致数 / 累计总数).toFixed(4)),
+    });
+  }
+  return series;
+}
+
 /** ai_review_delta 独立 staging 路径(与 field-events.jsonl 同口径,运行时产生,按既有 gitignore 处理)。 */
 export function deltaStagingPath(root, env = process.env) {
   return env.ECO_GRAPH_DELTA_STAGING_PATH || path.join(root, "data", "private-staging", "ai-review-deltas.jsonl");

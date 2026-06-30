@@ -310,5 +310,49 @@ export function copilotSection(item) {
   `;
 }
 
+// ============ 副驾-ETO 一致率 sparkline:纯函数返回 SVG 字符串(零图表库、零 DOM) ============
+// 把 series([{序号,累计一致率}])画成折线:viewBox 内 polyline,y=累计一致率(0..1,顶部=高一致),
+// x=序号均布;末点高亮圆点 + 当前一致率数值标签。DESIGN §9.2 合规:线用 --eco 绿、克制、
+// 无装饰性渐变/光效/滤镜。空 series → 占位文案(不画空轴);1 点 → 画一个点 + 数值(不画线)。
+// opts 只读 width/height —— 任何调用方私有内容都不会被回写进 SVG(守红线:私有不进 bundle)。
+export function agreementSparkline(series, opts = {}) {
+  const points = Array.isArray(series) ? series.filter((p) => p && typeof p === "object") : [];
+  if (!points.length) {
+    return "<p class=\"copilot-spark-empty\">暂无副驾表态记录,一致率曲线待积累</p>";
+  }
+
+  const W = Number(opts.width) || 220;
+  const H = Number(opts.height) || 52;
+  const pad = 6;          // 留白:末点圆 + 基线不出血
+  const labelPad = 30;    // 右侧给当前值数值标签留位
+  const ECO = "#2ee6a8";  // 唯一线色:--eco 绿,克制无渐变
+
+  const clamp01 = (value) => Math.max(0, Math.min(1, Number(value) || 0));
+  const rates = points.map((p) => clamp01(p["累计一致率"]));
+  const last = rates[rates.length - 1];
+  const pct = Math.round(last * 100);
+  const label = `${pct}%`;
+  const aria = `副驾-ETO 一致率趋势 当前 ${pct}%`;
+
+  const n = rates.length;
+  const plotW = W - pad - labelPad;
+  const plotH = H - pad * 2;
+  const xAt = (i) => pad + (n === 1 ? 0 : (plotW * i) / (n - 1));
+  const yAt = (r) => pad + plotH * (1 - r); // 顶部=高一致
+  const lastX = xAt(n - 1);
+  const lastY = yAt(last);
+
+  // 多点画折线;单点只画点 + 数值(不造空轴/虚线)
+  const polyline = n >= 2
+    ? `<polyline class="copilot-spark-line" fill="none" stroke="${ECO}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" points="${rates.map((r, i) => `${xAt(i).toFixed(1)},${yAt(r).toFixed(1)}`).join(" ")}"></polyline>`
+    : "";
+
+  return `<svg class="copilot-spark" role="img" aria-label="${esc(aria)}" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" preserveAspectRatio="xMidYMid meet">`
+    + polyline
+    + `<circle class="copilot-spark-dot" cx="${lastX.toFixed(1)}" cy="${lastY.toFixed(1)}" r="3" fill="${ECO}"></circle>`
+    + `<text class="copilot-spark-val" x="${(lastX + 6).toFixed(1)}" y="${(lastY + 4).toFixed(1)}" fill="${ECO}">${esc(label)}</text>`
+    + "</svg>";
+}
+
 // section 为隔离自带一份(review.js 完整资料折叠用其同名件);本段不直接调用,保持 helper 集齐。
 export { section };

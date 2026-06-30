@@ -8,7 +8,7 @@ import { createReviewStorage } from "./storage.js";
 import { assertRedlineClean, buildGraphContextResponse, contextPathsFromRoot, loadGraphContextInputs } from "./graph-context.js";
 import { buildCopilotBackbone, dropTracelessFindings } from "./review-copilot.js";
 import { llmConfigFromEnv, llmCritique } from "./copilot-llm.js";
-import { appendAiReviewDelta, buildAiReviewDelta, computeAgreementRate, decisionKind, deltaStagingPath, readAllAiReviewDeltas } from "./copilot-delta.js";
+import { appendAiReviewDelta, buildAiReviewDelta, computeAgreementRate, computeAgreementSeries, decisionKind, deltaStagingPath, readAllAiReviewDeltas } from "./copilot-delta.js";
 import {
   wecomConfigFromEnv, isWecomConfigured, buildWecomLoginUrl, exchangeWecomCode,
   buildWecomAppRedirectUrl, isUserAllowed, isReviewUser, issueSession, verifySession, parseCookies, sessionCookie,
@@ -416,7 +416,8 @@ function createHandler({
     if (req.method === "GET" && url.pathname === "/api/review/copilot-agreement") {
       // 「副驾-ETO 一致率」指标(继承审核门禁);读独立 staging 的 ai_review_delta 记录现算。
       const deltas = await readAllAiReviewDeltas(deltaPath);
-      send(res, 200, { status: "pass", ...computeAgreementRate(deltas) });
+      // 趋势:累计一致率时序,体现「副驾-ETO 一致率随时间上升」(§10 / §14 Q4「会学习的专家系统」硬证据)。
+      send(res, 200, { status: "pass", ...computeAgreementRate(deltas), "趋势": computeAgreementSeries(deltas) });
       return;
     }
     if (req.method === "POST" && url.pathname === "/api/aggregate/pitfall-batches") {
