@@ -36,7 +36,7 @@ let reviewState = {
   authToken: "",
   submitting: false,
   notice: null,
-  // 副驾回执:就地采纳/驳回,跨重渲染持久化(不入提交 body 是 P2,本切片只渲染+留痕)
+  // 副驾回执:就地采纳/驳回,跨重渲染持久化;P2 起随 decision 提交(copilotReceipt → body 第 5 键)
   copilot: {},
   // [请十律复核] 进行中的审核编号:防重复触发,失败/完成后清空
   recheckingId: null,
@@ -704,6 +704,17 @@ async function requestCopilotRecheck(detail, item) {
   }
 }
 
+// 副驾回执:把 P0c 就地采纳/驳回的 Set 转数组 + 整体研判.建议方向,随 decision 提交供 delta 飞轮捕获。
+// reviewState.copilot 模块级、跨重渲染持久化;无副驾数据时方向 null、两数组空,不改既有提交行为。
+function copilotReceipt(id, item) {
+  const receipt = reviewState.copilot[id]?.receipt || {};
+  return {
+    "副驾建议方向": item?.["副驾研判"]?.["整体研判"]?.["建议方向"] ?? null,
+    "采纳异议码": receipt["采纳"] ? [...receipt["采纳"]] : [],
+    "驳回异议码": receipt["驳回"] ? [...receipt["驳回"]] : [],
+  };
+}
+
 function applyDecisionToItem(item, action, comment, mergeTarget = "") {
   item["审核人"] = "ETO";
   item["审核时间"] = new Date().toISOString();
@@ -722,6 +733,8 @@ function applyDecisionToItem(item, action, comment, mergeTarget = "") {
   } else if (action === "仅保留内部案例") item["当前审核状态"] = "仅保留内部案例";
   else if (action === "退回补充") item["当前审核状态"] = "退回补充";
   else if (action === "不入图") item["当前审核状态"] = "不入图";
+  // 演示模式同样盖上副驾回执(仅本浏览器生效,与既有 demo 横幅一致)
+  item["副驾回执"] = copilotReceipt(item["审核编号"], item);
   return item;
 }
 
@@ -748,6 +761,7 @@ async function submitReviewDecision(id, action, comment, mergeTarget) {
             "审核人": "ETO",
             "审核意见": comment,
             "合并目标问题类型": mergeTarget,
+            "副驾回执": copilotReceipt(id, item),
           }),
         });
       } catch {

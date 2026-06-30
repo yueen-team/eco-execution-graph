@@ -395,6 +395,9 @@ export function applyReviewDecision(item, decision, now = new Date().toISOString
   next["审核人"] = reviewer;
   next["审核时间"] = now;
   next["审核意见"] = comment;
+  // P2 分歧飞轮:副驾回执随 payload_json 落库(无需改 schema / 迁移列),供详情往返还原与 delta 捕获。
+  // 显式取 decision 优先、回落 item 既有值、再回落 null;既有键全部不变。
+  next["副驾回执"] = decision?.["副驾回执"] || item["副驾回执"] || null;
   next["是否允许进入聚合"] = false;
   next["进入聚合候选时间"] = null;
 

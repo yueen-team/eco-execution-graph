@@ -8,6 +8,7 @@ import { createReviewStorage } from "./storage.js";
 import { assertRedlineClean, buildGraphContextResponse, contextPathsFromRoot, loadGraphContextInputs } from "./graph-context.js";
 import { buildCopilotBackbone, dropTracelessFindings } from "./review-copilot.js";
 import { llmConfigFromEnv, llmCritique } from "./copilot-llm.js";
+import { appendAiReviewDelta, buildAiReviewDelta, computeAgreementRate, decisionKind, deltaStagingPath, readAllAiReviewDeltas } from "./copilot-delta.js";
 import {
   wecomConfigFromEnv, isWecomConfigured, buildWecomLoginUrl, exchangeWecomCode,
   buildWecomAppRedirectUrl, isUserAllowed, isReviewUser, issueSession, verifySession, parseCookies, sessionCookie,
@@ -16,6 +17,7 @@ import {
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..", "..");
 const STAGING_PATH = process.env.ECO_GRAPH_STAGING_PATH || path.join(ROOT, "data", "private-staging", "field-events.jsonl");
+const DELTA_STAGING_PATH = deltaStagingPath(ROOT);
 const PORT = Number(process.env.PORT || 8787);
 const API_TOKEN = process.env.ECO_GRAPH_API_TOKEN || "";
 const DEFAULT_MAX_BODY_BYTES = Number(process.env.ECO_GRAPH_MAX_BODY_BYTES || 1024 * 1024);
@@ -239,6 +241,7 @@ function isReviewAuthorized(headers, token, wecom) {
 
 function createHandler({
   stagingPath = STAGING_PATH,
+  deltaPath = DELTA_STAGING_PATH,
   apiToken = API_TOKEN,
   maxBodyBytes = DEFAULT_MAX_BODY_BYTES,
   contextGraphPath = DEFAULT_CONTEXT_PATHS.graphPath,
@@ -381,9 +384,39 @@ function createHandler({
         send(res, 404, { status: "fail", reason: "未找到审核记录" });
         return;
       }
-      rows[index] = applyReviewDecision(rows[index], await readBody(req, maxBodyBytes));
+      const decisionBody = await readBody(req, maxBodyBytes);
+      rows[index] = applyReviewDecision(rows[index], decisionBody);
       await store.upsert(rows[index]);
+      // P2 分歧飞轮:副驾建议 vs ETO 终判 → ai_review_delta。副驾每一次「表态」(给了建议方向或采纳/驳回异议)
+      // 都落一条:一致(是否分歧=false)与分歧(true)同进 staging,使「副驾-ETO 一致率」分母完整、曲线可随
+      // 时间上升(§10 / §14 Q4 演示硬证据)。分歧记录同时是可晋级的治理候选;一致记录只用于一致率分母。
+      // 旁路 try/catch:delta 写失败绝不阻断既有 decision 流程、绝不 500。
+      try {
+        const 副驾回执 = decisionBody?.["副驾回执"];
+        const tabledStance = Boolean(副驾回执) && (
+          副驾回执["副驾建议方向"] != null
+          || (Array.isArray(副驾回执["采纳异议码"]) && 副驾回执["采纳异议码"].length > 0)
+          || (Array.isArray(副驾回执["驳回异议码"]) && 副驾回执["驳回异议码"].length > 0)
+        );
+        if (tabledStance) {
+          const delta = buildAiReviewDelta({
+            item: rows[index],
+            副驾回执,
+            终判: decisionKind(decisionBody?.["审核结论"] || decisionBody?.decision),
+          });
+          await appendAiReviewDelta(deltaPath, delta);
+        }
+      } catch (deltaError) {
+        // 分歧捕获是旁路资产,失败只记日志,不影响裁决落库。
+        console.warn(`ai_review_delta 落库失败(不影响裁决):${deltaError.message}`);
+      }
       send(res, 200, { status: "pass", item: rows[index] });
+      return;
+    }
+    if (req.method === "GET" && url.pathname === "/api/review/copilot-agreement") {
+      // 「副驾-ETO 一致率」指标(继承审核门禁);读独立 staging 的 ai_review_delta 记录现算。
+      const deltas = await readAllAiReviewDeltas(deltaPath);
+      send(res, 200, { status: "pass", ...computeAgreementRate(deltas) });
       return;
     }
     if (req.method === "POST" && url.pathname === "/api/aggregate/pitfall-batches") {
