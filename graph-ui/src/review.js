@@ -821,15 +821,27 @@ function renderAgreementPanel() {
     ? Number(data["一致率"])
     : (series.length ? Number(series[series.length - 1]["累计一致率"]) : null);
   const pct = rate == null || Number.isNaN(rate) ? "—" : `${Math.round(rate * 100)}%`;
+  // 攀升幅度:末点 vs 首点(百分点),讲「会学习」叙事;不足 2 点或无数据不显示
+  const firstRate = series.length ? Number(series[0]["累计一致率"]) : null;
+  const delta = (rate != null && firstRate != null && series.length >= 2 && !Number.isNaN(rate) && !Number.isNaN(firstRate))
+    ? Math.round((rate - firstRate) * 100) : null;
+  // 演示模式启用飞轮动效与 hero 排版;live 审核台保持克制(静态)
+  const isDemo = reviewState.source === "demo";
   host.hidden = false;
   host.innerHTML = `
-    <div class="copilot-agreement">
+    <div class="copilot-agreement${isDemo ? " copilot-agreement--demo" : ""}">
       <div class="copilot-agreement-head">
-        <span class="copilot-agreement-mark"><i data-lucide="radar"></i>副驾-ETO 一致率</span>
-        <span class="copilot-agreement-figure"><b>${esc(pct)}</b><small>${esc(total)} 次表态</small></span>
+        <span class="copilot-agreement-mark"><i data-lucide="radar"></i>副驾-ETO 一致率<em>副驾建议 × ETO 终判</em></span>
+        <span class="copilot-agreement-figure">
+          <b>${esc(pct)}</b>
+          ${delta != null && delta > 0 ? `<span class="copilot-agreement-delta"><i data-lucide="trending-up"></i>较起步 +${esc(delta)}pt</span>` : ""}
+          <small>${esc(total)} 次表态</small>
+        </span>
       </div>
       <div class="copilot-agreement-spark">${agreementSparkline(series)}</div>
-      <p class="copilot-agreement-note">每次副驾表态都计入,曲线随 ETO 认可上升。</p>
+      <p class="copilot-agreement-note">${isDemo
+        ? "每次副驾表态都计入。分歧被捕获、被 ETO 校正,副驾越用越准 —— 而每一次裁决,始终由 ETO 拍板。"
+        : "每次副驾表态都计入,曲线随 ETO 认可上升。"}</p>
     </div>
   `;
 }

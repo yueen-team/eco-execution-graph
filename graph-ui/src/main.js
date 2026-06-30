@@ -6,7 +6,7 @@ import {
   BookOpen, Wrench, FilePen, FileText, FileLock, CheckCircle, Info, FlaskConical,
   PanelRightOpen, Ruler, ClipboardCheck, Workflow, Flame, Droplets, ListChecks,
   BarChart3, Zap, Radar, Circle, BarChart, Share2, Spline, MoveDown,
-  GitMerge, ArrowRight, Gavel, FolderOpen,
+  GitMerge, ArrowRight, Gavel, FolderOpen, TrendingUp,
 } from "lucide";
 import "./styles.css";
 import {
@@ -23,7 +23,7 @@ const ICONS = {
   Gauge, Stamp, ChevronLeft, ChevronRight, X, Check, Database, BookOpen, Wrench, FilePen,
   FileText, FileLock, CheckCircle, Info, FlaskConical, PanelRightOpen, Ruler, ClipboardCheck,
   Workflow, Flame, Droplets, ListChecks, BarChart3, Zap, Radar, Circle, BarChart, Share2,
-  Spline, MoveDown, GitMerge, ArrowRight, Gavel, FolderOpen,
+  Spline, MoveDown, GitMerge, ArrowRight, Gavel, FolderOpen, TrendingUp,
 };
 window.__refreshIcons = () => createIcons({ icons: ICONS });
 window.__refreshIcons();

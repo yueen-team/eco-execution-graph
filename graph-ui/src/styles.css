@@ -1877,7 +1877,9 @@ strong[data-counter], .metric strong {
 .rv-opinion-raw > summary > i { width: 14px; height: 14px; }
 .rv-opinion-raw .rv-raw-body { padding: 4px 11px 9px; }
 
-/* — 副驾-ETO 一致率面板:审核台头部「会学习」证据;克制,复用 eco token,无装饰性渐变 — */
+/* — 副驾-ETO 一致率「飞轮」面板:审核台头部「会学习」证据。live 克制(静态);
+     演示模式启用 draw-on 描线 + 末点脉冲(只 transform/opacity,服务「随复核爬升」的理解),
+     不加装饰性渐变/光晕(守 DESIGN §9.2)。 — */
 .copilot-agreement {
   padding: 13px 14px;
   border: 1px solid var(--line-1);
@@ -1887,11 +1889,7 @@ strong[data-counter], .metric strong {
   flex-direction: column;
   gap: 9px;
 }
-.copilot-agreement-head {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
+.copilot-agreement-head { display: flex; flex-direction: column; gap: 6px; }
 .copilot-agreement-mark {
   display: inline-flex;
   align-items: center;
@@ -1901,7 +1899,11 @@ strong[data-counter], .metric strong {
   font-weight: 600;
 }
 .copilot-agreement-mark i { flex: none; width: 14px; height: 14px; color: var(--eco); }
-.copilot-agreement-figure { display: flex; align-items: baseline; gap: 8px; }
+.copilot-agreement-mark em {
+  margin-left: 4px; padding-left: 8px; border-left: 1px solid var(--line-1);
+  font-style: normal; font-weight: 500; color: var(--text-3); font-size: 11px;
+}
+.copilot-agreement-figure { display: flex; align-items: baseline; flex-wrap: wrap; gap: 8px; }
 .copilot-agreement-figure b {
   color: var(--eco);
   font-size: 22px;
@@ -1910,9 +1912,15 @@ strong[data-counter], .metric strong {
   font-variant-numeric: tabular-nums;
 }
 .copilot-agreement-figure small { color: var(--text-3); font-size: 11px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.copilot-agreement-delta {
+  display: inline-flex; align-items: center; gap: 3px;
+  color: var(--eco); font-size: 11px; font-weight: 600; font-variant-numeric: tabular-nums;
+  padding: 1px 7px; border-radius: 999px; background: rgba(46, 230, 168, 0.12);
+}
+.copilot-agreement-delta i { width: 12px; height: 12px; }
 .copilot-agreement-spark { width: 100%; }
 .copilot-spark { display: block; width: 100%; height: auto; }
-.copilot-spark-val { font-family: var(--font-mono); font-size: 11px; font-weight: 600; }
+.copilot-spark-val { font-family: var(--font-mono); font-size: 12px; font-weight: 700; }
 .copilot-spark-empty {
   margin: 0;
   padding: 12px 0;
@@ -1921,6 +1929,39 @@ strong[data-counter], .metric strong {
   text-align: center;
 }
 .copilot-agreement-note { margin: 0; color: var(--text-3); font-size: 11.5px; line-height: 1.5; }
+
+/* 演示模式飞轮:hero 排版 + draw-on 描线 + 末点脉冲 + 面积/步点淡入。 */
+.copilot-agreement--demo { padding: 16px; border-color: rgba(46, 230, 168, 0.32); }
+.copilot-agreement--demo .copilot-agreement-figure b { font-size: 30px; }
+@keyframes copilot-spark-draw { from { stroke-dashoffset: 100; } to { stroke-dashoffset: 0; } }
+@keyframes copilot-spark-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes copilot-spark-pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.45); opacity: 0.6; }
+}
+.copilot-agreement--demo .copilot-spark-line {
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  animation: copilot-spark-draw 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+.copilot-agreement--demo .copilot-spark-area { opacity: 0; animation: copilot-spark-fade 1.6s ease forwards; }
+.copilot-agreement--demo .copilot-spark-step { opacity: 0; animation: copilot-spark-fade 0.5s ease 1.2s forwards; }
+.copilot-agreement--demo .copilot-spark-val { opacity: 0; animation: copilot-spark-fade 0.5s ease 1.3s forwards; }
+.copilot-agreement--demo .copilot-spark-dot {
+  transform-box: fill-box; transform-origin: center;
+  animation: copilot-spark-pulse 2s ease-in-out 1.5s infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .copilot-agreement--demo .copilot-spark-line,
+  .copilot-agreement--demo .copilot-spark-area,
+  .copilot-agreement--demo .copilot-spark-step,
+  .copilot-agreement--demo .copilot-spark-val,
+  .copilot-agreement--demo .copilot-spark-dot {
+    animation: none;
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+}
 
 /* — 列表卡的就绪信号点:从队列就能分诊 — */
 .review-card-readiness { display: flex; align-items: center; gap: 8px; margin-top: 10px; }

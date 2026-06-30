@@ -292,3 +292,16 @@ test("(n) agreementSparkline 纯合成数值,opts 私有内容不回写进 SVG",
   // opts.width 被采纳(viewBox 反映),但任何非几何 opts 字段被丢弃
   assert.ok(svg.includes("viewBox=\"0 0 240"), "opts.width 应作用于 viewBox");
 });
+
+test("(o) agreementSparkline 飞轮元素:扁平面积 polygon + 逐点步点 + pathLength;动效/渐变全不在 SVG 串(留给 CSS)", () => {
+  const svg = agreementSparkline(AGREEMENT_SERIES);
+  assert.ok(svg.includes("<polygon class=\"copilot-spark-area\""), "多点应有扁平面积填充 polygon");
+  assert.ok(svg.includes("fill-opacity=\"0.12\""), "面积用扁平 fill-opacity(非渐变)");
+  assert.ok(svg.includes("class=\"copilot-spark-step\""), "应有逐点步进小点");
+  assert.ok(svg.includes("pathLength=\"100\""), "折线带 pathLength=100 供 CSS draw-on");
+  // 步点数 = 点数 - 1(末点用高亮脉冲点,不重复画步点)
+  const stepCount = (svg.match(/copilot-spark-step/g) || []).length;
+  assert.equal(stepCount, AGREEMENT_SERIES.length - 1, "步点数应为点数-1");
+  // 动效 / 渐变 / 滤镜 / dashoffset 绝不进 SVG 串(全由 styles.css 的类驱动)——再次钉死 §9.2
+  assert.equal(/gradient|filter|feGaussian|glow|animate|@keyframes|stroke-dashoffset/i.test(svg), false, "SVG 串内不得有动效/渐变/滤镜/dashoffset");
+});

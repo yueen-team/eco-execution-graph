@@ -310,22 +310,24 @@ export function copilotSection(item) {
   `;
 }
 
-// ============ 副驾-ETO 一致率 sparkline:纯函数返回 SVG 字符串(零图表库、零 DOM) ============
-// 把 series([{序号,累计一致率}])画成折线:viewBox 内 polyline,y=累计一致率(0..1,顶部=高一致),
-// x=序号均布;末点高亮圆点 + 当前一致率数值标签。DESIGN §9.2 合规:线用 --eco 绿、克制、
-// 无装饰性渐变/光效/滤镜。空 series → 占位文案(不画空轴);1 点 → 画一个点 + 数值(不画线)。
-// opts 只读 width/height —— 任何调用方私有内容都不会被回写进 SVG(守红线:私有不进 bundle)。
+// ============ 副驾-ETO 一致率「飞轮」曲线:纯函数返回 SVG 字符串(零图表库、零 DOM) ============
+// series([{序号,累计一致率}]) → 折线 + 扁平面积 + 逐点步进 + 末点高亮 + 当前值。
+// 飞轮叙事:副驾建议 vs ETO 终判 一致率随复核累积爬升(副驾越用越准、ETO 始终掌舵)。
+// DESIGN §9.2 合规:线/面积只用 --eco 绿且【扁平非渐变】;【所有动效都在 CSS(draw-on/脉冲),
+// 绝不写进 SVG 串】—— 故 SVG 内无 gradient/filter/glow/animate(契约测试 k 钉住);demo 模式
+// 由祖先 CSS 类启用动效,live 审核台保持克制(静态)。空 series → 占位文案(不画空轴);
+// 1 点 → 点 + 数值(不画线/面积)。opts 只读 width/height —— 私有内容绝不回写进 SVG(守红线)。
 export function agreementSparkline(series, opts = {}) {
   const points = Array.isArray(series) ? series.filter((p) => p && typeof p === "object") : [];
   if (!points.length) {
     return "<p class=\"copilot-spark-empty\">暂无副驾表态记录,一致率曲线待积累</p>";
   }
 
-  const W = Number(opts.width) || 220;
-  const H = Number(opts.height) || 52;
-  const pad = 6;          // 留白:末点圆 + 基线不出血
-  const labelPad = 30;    // 右侧给当前值数值标签留位
-  const ECO = "#2ee6a8";  // 唯一线色:--eco 绿,克制无渐变
+  const W = Number(opts.width) || 280;
+  const H = Number(opts.height) || 96;
+  const pad = 9;
+  const labelPad = 38;    // 右侧给当前值数值标签留位
+  const ECO = "#2ee6a8";  // 唯一色:--eco 绿,扁平无渐变
 
   const clamp01 = (value) => Math.max(0, Math.min(1, Number(value) || 0));
   const rates = points.map((p) => clamp01(p["累计一致率"]));
@@ -337,21 +339,29 @@ export function agreementSparkline(series, opts = {}) {
   const n = rates.length;
   const plotW = W - pad - labelPad;
   const plotH = H - pad * 2;
+  const baseY = pad + plotH;
   const xAt = (i) => pad + (n === 1 ? 0 : (plotW * i) / (n - 1));
   const yAt = (r) => pad + plotH * (1 - r); // 顶部=高一致
   const lastX = xAt(n - 1);
   const lastY = yAt(last);
+  const linePts = rates.map((r, i) => `${xAt(i).toFixed(1)},${yAt(r).toFixed(1)}`).join(" ");
 
-  // 多点画折线;单点只画点 + 数值(不造空轴/虚线)
-  const polyline = n >= 2
-    ? `<polyline class="copilot-spark-line" fill="none" stroke="${ECO}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" points="${rates.map((r, i) => `${xAt(i).toFixed(1)},${yAt(r).toFixed(1)}`).join(" ")}"></polyline>`
-    : "";
+  let body = "";
+  if (n >= 2) {
+    // 扁平面积填充(非渐变):折线闭合到基线,给曲线体量(动效在 CSS)
+    body += `<polygon class="copilot-spark-area" fill="${ECO}" fill-opacity="0.12" points="${xAt(0).toFixed(1)},${baseY.toFixed(1)} ${linePts} ${lastX.toFixed(1)},${baseY.toFixed(1)}"></polygon>`;
+    // 主折线:pathLength=100 供 CSS draw-on(stroke-dashoffset,动效在样式表)
+    body += `<polyline class="copilot-spark-line" fill="none" stroke="${ECO}" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" pathLength="100" points="${linePts}"></polyline>`;
+    // 逐点步进小点(末点除外,末点用高亮脉冲点)
+    body += rates.slice(0, -1)
+      .map((r, i) => `<circle class="copilot-spark-step" cx="${xAt(i).toFixed(1)}" cy="${yAt(r).toFixed(1)}" r="2" fill="${ECO}" fill-opacity="0.55"></circle>`)
+      .join("");
+  }
+  // 末点高亮(CSS 脉冲)+ 当前值数值标签
+  body += `<circle class="copilot-spark-dot" cx="${lastX.toFixed(1)}" cy="${lastY.toFixed(1)}" r="4" fill="${ECO}"></circle>`;
+  body += `<text class="copilot-spark-val" x="${(lastX + 7).toFixed(1)}" y="${(lastY + 4).toFixed(1)}" fill="${ECO}">${esc(label)}</text>`;
 
-  return `<svg class="copilot-spark" role="img" aria-label="${esc(aria)}" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" preserveAspectRatio="xMidYMid meet">`
-    + polyline
-    + `<circle class="copilot-spark-dot" cx="${lastX.toFixed(1)}" cy="${lastY.toFixed(1)}" r="3" fill="${ECO}"></circle>`
-    + `<text class="copilot-spark-val" x="${(lastX + 6).toFixed(1)}" y="${(lastY + 4).toFixed(1)}" fill="${ECO}">${esc(label)}</text>`
-    + "</svg>";
+  return `<svg class="copilot-spark" role="img" aria-label="${esc(aria)}" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" preserveAspectRatio="xMidYMid meet">${body}</svg>`;
 }
 
 // section 为隔离自带一份(review.js 完整资料折叠用其同名件);本段不直接调用,保持 helper 集齐。
