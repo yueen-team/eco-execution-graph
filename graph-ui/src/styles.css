@@ -1724,6 +1724,35 @@ strong[data-counter], .metric strong {
 .rv-copilot-readiness,
 .rv-copilot-nodissent { margin-top: 12px; }
 
+/* [请十律复核]:手动触发 LLM 语义层。蓝调描边呼应副驾标识色,不抢严重度语义色;非装饰性 */
+.rv-copilot-recheck-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 14px;
+}
+.rv-copilot-recheck {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 38px;
+  padding: 0 16px;
+  border: 1px solid rgba(96, 165, 250, 0.5);
+  border-radius: var(--r-sm);
+  color: var(--text-0);
+  background: rgba(96, 165, 250, 0.12);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.12s ease, background 0.12s ease, color 0.12s ease;
+}
+.rv-copilot-recheck:hover { background: rgba(96, 165, 250, 0.2); border-color: var(--blue); }
+.rv-copilot-recheck:focus-visible { outline: 2px solid var(--eco); outline-offset: 2px; }
+.rv-copilot-recheck:disabled { opacity: 0.6; cursor: progress; }
+.rv-copilot-recheck i { flex: none; width: 15px; height: 15px; color: var(--blue); }
+.rv-copilot-recheck-state { color: var(--text-3); font-size: 12px; line-height: 1.5; }
+
 /* 补足面板:确定性检索,安静呈现 */
 .rv-copilot-supplement {
   display: flex;
@@ -2293,6 +2322,8 @@ strong[data-counter], .metric strong {
   .rv-copilot { padding: 14px; }
   .rv-opinion-actions { gap: 10px; }
   .rv-opinion-act { flex: 1 1 0; min-height: 44px; }
+  /* [请十律复核]:整行 ≥44px 触控、居中 */
+  .rv-copilot-recheck { flex: 1 1 100%; justify-content: center; min-height: 44px; }
 
   /* 完整资料里的字段:从「一格一个深色盒」改成「规格表行」—— 标签左、值右、细分隔线 */
   .review-field-grid { grid-template-columns: 1fr; gap: 0; }

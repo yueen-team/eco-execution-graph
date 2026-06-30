@@ -21,6 +21,7 @@ RAG_REPORT = REPORTS_DIR / "rag-citation-resolution-report.json"
 AGGREGATE_REPORT = REPORTS_DIR / "ecocheck-aggregate-pitfall-candidates.json"
 LINEAGE_REPORT = REPORTS_DIR / "lineage-contract-readiness.json"
 MONTHLY_COMPARISON_REPORT = REPORTS_DIR / "monthly-report-comparison-full.json"
+COPILOT_LLM_REPORT = REPORTS_DIR / "copilot-llm-smoke.json"
 
 REQUIRED_ENV = (
     "TENCENT_LKE_SECRET_ID",
@@ -28,12 +29,31 @@ REQUIRED_ENV = (
     "TENCENT_LKE_KNOWLEDGE_BASE_IDS",
 )
 TOKENHUB_ENV = ("TENCENT_TOKENHUB_API_KEY", "TENCENT_LKEAP_API_KEY")
-FORBIDDEN_PAYLOAD_KEYS = {"Content", "content", "full_text", "raw_text", "article_text"}
+# 脱敏边界:与 graph-api copilot-llm.js / graph-context.js / review-store.js 的红线键同源。
+# 报告与外发 payload 都不得含法条原文、企业数据(企业名称快照)或私有判断笔记(证据判断标准/整改模板/ETO 笔记)。
+FORBIDDEN_PAYLOAD_KEYS = {
+    "Content",
+    "content",
+    "full_text",
+    "raw_text",
+    "article_text",
+    "enterprise_name",
+    "company_name",
+    "企业名称快照",
+    "evidence_judgment_standard",
+    "rectification_template",
+    "review_note",
+    "eto_note",
+    "eto_review_note",
+}
 ALL_GATE_IDS = (
     "GRAPH-RAG-REAL-SMOKE",
     "ECOCHECK-GRAPH-PUSH-REAL-SMOKE",
     "ECOCHECK-AGGREGATE-ETO-BLIND-REVIEW",
     "GOVERNMENT-LINEAGE-REAL-IMPORT",
+    # P1 十律 LLM critic 烟测:opt-in（GRAPH_EXTERNAL_REQUIRED_GATES）才阻塞 external lane;
+    # 缺凭证报 blocked 非 failed（fail-closed),绝不进 DEFAULT_REQUIRED_GATE_IDS、绝不触碰 verify:all。
+    "ETO-REVIEW-COPILOT-LLM-SMOKE",
 )
 DEFAULT_REQUIRED_GATE_IDS = ("GRAPH-RAG-REAL-SMOKE",)
 
@@ -349,6 +369,58 @@ def summarize_government_lineage() -> dict[str, Any]:
     }
 
 
+def summarize_copilot_llm_smoke(env: dict[str, str]) -> dict[str, Any]:
+    """十律 LLM critic 烟测门(opt-in、fail-closed)。
+
+    缺 TokenHub 凭证或缺报告时报 blocked(配置缺口),不是 failed(代码回归)。
+    报告必须不含法条原文 / 企业数据 / copilot 私有笔记(复用 FORBIDDEN_PAYLOAD_KEYS 脱敏边界)。
+    """
+    private_tier_boundary = sorted(FORBIDDEN_PAYLOAD_KEYS)
+    tokenhub_configured = any(configured(env.get(name)) for name in TOKENHUB_ENV)
+    if not tokenhub_configured:
+        return {
+            "gate_id": "ETO-REVIEW-COPILOT-LLM-SMOKE",
+            "status": "blocked",
+            "report": display_path(COPILOT_LLM_REPORT),
+            "reason": "TokenHub DeepSeek credentials are not configured; copilot LLM smoke is opt-in and "
+            "fail-closed (blocked, not failed). No private judgement standard or enterprise data is ever sent.",
+            "private_tier_boundary": private_tier_boundary,
+        }
+    report = read_optional_json(COPILOT_LLM_REPORT)
+    if report is None:
+        return {
+            "gate_id": "ETO-REVIEW-COPILOT-LLM-SMOKE",
+            "status": "blocked",
+            "report": display_path(COPILOT_LLM_REPORT),
+            "reason": "Copilot LLM smoke report is missing; run the graph-api copilot LLM smoke against TokenHub "
+            "with only desensitized whitelist payload.",
+            "private_tier_boundary": private_tier_boundary,
+        }
+    forbidden = find_forbidden_payload_keys(report)
+    smoke_status = report.get("status")
+    if forbidden:
+        status = "failed"
+    elif smoke_status == "pass":
+        status = "pass"
+    elif smoke_status == "failed":
+        status = "failed"
+    else:
+        status = "blocked"
+    return {
+        "gate_id": "ETO-REVIEW-COPILOT-LLM-SMOKE",
+        "status": status,
+        "report": display_path(COPILOT_LLM_REPORT),
+        "smoke_status": smoke_status,
+        "forbidden_payload_key_count": len(forbidden),
+        "forbidden_payload_key_examples": forbidden[:10],
+        "advisory_only": report.get("advisory_only", True),
+        "reason": None
+        if status == "pass"
+        else "Copilot LLM smoke must pass with no forbidden (raw law text / enterprise / private note) payload keys.",
+        "private_tier_boundary": private_tier_boundary,
+    }
+
+
 def lane_status(required_gate_ids: list[str], gates: dict[str, dict[str, Any]]) -> str:
     required = [gates[gate_id] for gate_id in required_gate_ids]
     if any(gate["status"] == "failed" for gate in required):
@@ -398,6 +470,7 @@ def build_report(
         "ECOCHECK-GRAPH-PUSH-REAL-SMOKE": summarize_ecocheck_graph_push(env),
         "ECOCHECK-AGGREGATE-ETO-BLIND-REVIEW": summarize_aggregate_and_blind_review(),
         "GOVERNMENT-LINEAGE-REAL-IMPORT": summarize_government_lineage(),
+        "ETO-REVIEW-COPILOT-LLM-SMOKE": summarize_copilot_llm_smoke(env),
     }
     status = lane_status(required_gate_ids, gates)
     credentials_present = preflight["status"] == "pass"

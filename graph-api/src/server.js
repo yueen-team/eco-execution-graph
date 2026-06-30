@@ -5,8 +5,9 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { applyReviewDecision, buildPitfallBatch, filterReviewItemsForRuntime, groupKey, normalizeEcoCheckPayload } from "./review-store.js";
 import { createReviewStorage } from "./storage.js";
-import { buildGraphContextResponse, contextPathsFromRoot, loadGraphContextInputs } from "./graph-context.js";
-import { buildCopilotBackbone } from "./review-copilot.js";
+import { assertRedlineClean, buildGraphContextResponse, contextPathsFromRoot, loadGraphContextInputs } from "./graph-context.js";
+import { buildCopilotBackbone, dropTracelessFindings } from "./review-copilot.js";
+import { llmConfigFromEnv, llmCritique } from "./copilot-llm.js";
 import {
   wecomConfigFromEnv, isWecomConfigured, buildWecomLoginUrl, exchangeWecomCode,
   buildWecomAppRedirectUrl, isUserAllowed, isReviewUser, issueSession, verifySession, parseCookies, sessionCookie,
@@ -76,36 +77,106 @@ function degradedCopilot() {
 }
 
 /**
+ * 副驾输入装配(确定性,只读现算):图上下文 + 跨企业分布 + 同组判例。
+ * GET 详情(backbone)与 POST /copilot(backbone + LLM)共用同一道装配,避免二次加载图谱。
+ */
+async function loadCopilotInputs({ item, rows, contextGraphPath, contextPublicationPath }) {
+  const { graph, publication } = await loadGraphContextInputs({
+    graphPath: contextGraphPath,
+    publicationPath: contextPublicationPath,
+  });
+  const ref = item["问题类型引用"];
+  const matched = Boolean(ref) && !/pending|待归一/i.test(ref);
+  const graphContext = buildGraphContextResponse({
+    graph,
+    publication,
+    nodeId: matched ? ref : "",
+    query: matched ? "" : (item["建议问题类型"] || ""),
+    depth: 2,
+  });
+  const pitfall = buildPitfallBatch(rows);
+  const pitfallRows = { rows: pitfall.rows, sample_limited: pitfall.sample_limited };
+  const key = groupKey(item);
+  // 同组 peers:rows 里已裁决(有审核时间)的同组其它条目,投影成 {审核编号,结论,时间};
+  // buildSupplement 会再按 §7 白名单收紧,私有判断字段不随判例透传。
+  const peers = rows
+    .filter((row) => row["审核编号"] !== item["审核编号"] && row["审核时间"] && groupKey(row) === key)
+    .map((row) => ({ "审核编号": row["审核编号"], "结论": row["当前审核状态"], "时间": row["审核时间"] }));
+  return { graphContext, pitfallRows, peers };
+}
+
+/**
  * §8.2 P0:详情接口附「副驾研判」(确定性 backbone,离线常开)。
- * 只读现算 —— 图上下文 + 跨企业分布 + 同组判例喂给 buildCopilotBackbone,结果只挂响应,绝不 upsert 回存。
- * 图上下文 / backbone 任何异常 → 退回降级态,绝不 500。
+ * 只读现算 —— 结果只挂响应,绝不 upsert 回存。图上下文 / backbone 任何异常 → 退回降级态,绝不 500。
  */
 async function computeReviewCopilot({ item, rows, contextGraphPath, contextPublicationPath, now = new Date().toISOString() }) {
   try {
-    const { graph, publication } = await loadGraphContextInputs({
-      graphPath: contextGraphPath,
-      publicationPath: contextPublicationPath,
-    });
-    const ref = item["问题类型引用"];
-    const matched = Boolean(ref) && !/pending|待归一/i.test(ref);
-    const graphContext = buildGraphContextResponse({
-      graph,
-      publication,
-      nodeId: matched ? ref : "",
-      query: matched ? "" : (item["建议问题类型"] || ""),
-      depth: 2,
-    });
-    const pitfall = buildPitfallBatch(rows);
-    const pitfallRows = { rows: pitfall.rows, sample_limited: pitfall.sample_limited };
-    const key = groupKey(item);
-    // 同组 peers:rows 里已裁决(有审核时间)的同组其它条目,投影成 {审核编号,结论,时间};
-    // buildSupplement 会再按 §7 白名单收紧,私有判断字段不随判例透传。
-    const peers = rows
-      .filter((row) => row["审核编号"] !== item["审核编号"] && row["审核时间"] && groupKey(row) === key)
-      .map((row) => ({ "审核编号": row["审核编号"], "结论": row["当前审核状态"], "时间": row["审核时间"] }));
+    const { graphContext, pitfallRows, peers } = await loadCopilotInputs({ item, rows, contextGraphPath, contextPublicationPath });
     return buildCopilotBackbone({ item, graphContext, pitfallRows, peers, now });
   } catch (error) {
     return degradedCopilot();
+  }
+}
+
+/** 合并 LLM 异议进 backbone:标检出方式(llm / rule+llm)、过 trace 闸与红线闸、按 RAG 降级门禁。 */
+function mergeLlmIntoBackbone(backbone, llmResult, graphContext) {
+  const ruleFindings = backbone["异议"] || [];
+  const ruleCodes = new Set(ruleFindings.map((finding) => finding["错配码"]));
+  const llmTagged = (llmResult.findings || []).map((finding) => ({
+    ...finding,
+    "检出方式": ruleCodes.has(finding["错配码"]) ? "rule+llm" : "llm",
+  }));
+  const merged = dropTracelessFindings([...ruleFindings, ...llmTagged], graphContext);
+
+  // RAG 不可用 → 门禁降级 partial(仅自 pass 下降,blocked 保持 blocked,不上调)。
+  const baseGate = backbone["上下文门禁"];
+  const gate = llmResult.rag_available === false && baseGate === "pass" ? "partial" : baseGate;
+  const degradeParts = [backbone["降级说明"], llmResult.degraded_note].filter(Boolean);
+
+  // trace 并集:backbone 已含规则 trace,这里并入(已校验的)LLM finding trace。
+  const traceNodes = new Set(backbone["trace"]?.node_ids || []);
+  const traceEdges = new Set(backbone["trace"]?.edge_ids || []);
+  const traceSrcs = new Set(backbone["trace"]?.source_refs || []);
+  for (const finding of merged) {
+    (finding.trace?.node_ids || []).forEach((id) => traceNodes.add(id));
+    (finding.trace?.edge_ids || []).forEach((id) => traceEdges.add(id));
+    (finding.trace?.source_refs || []).forEach((id) => traceSrcs.add(id));
+  }
+
+  const output = {
+    ...backbone,
+    "上下文门禁": gate,
+    "异议": merged,
+    "降级说明": degradeParts.length ? degradeParts.join(" ") : null,
+    "trace": { node_ids: [...traceNodes], edge_ids: [...traceEdges], source_refs: [...traceSrcs] },
+  };
+  assertRedlineClean(output); // 合并后再过红线闸,确保 LLM 文本未带入私有泄漏。
+  return output;
+}
+
+/**
+ * §8.2 P1:POST /copilot 完整副驾意见(backbone + LLM 异议,fail-closed)。
+ * env 守卫(llmConfigFromEnv().configured)通过且 copilotLlm 注入/可解析时才烧 LLM;
+ * 任何 LLM 异常/超时/无 key → 退回纯 backbone,绝不 500、绝不 upsert。
+ */
+async function computeReviewCopilotWithLlm({ item, rows, contextGraphPath, contextPublicationPath, copilotLlm = null, now = new Date().toISOString() }) {
+  let inputs;
+  let backbone;
+  try {
+    inputs = await loadCopilotInputs({ item, rows, contextGraphPath, contextPublicationPath });
+    backbone = buildCopilotBackbone({ item, graphContext: inputs.graphContext, pitfallRows: inputs.pitfallRows, peers: inputs.peers, now });
+  } catch (error) {
+    return degradedCopilot();
+  }
+  // env 守卫:无密钥(本地/CI)→ 只走 backbone,本就无 LLM 段,门禁不降级。
+  if (!llmConfigFromEnv().configured) return backbone;
+  const critique = copilotLlm?.llmCritique || llmCritique;
+  try {
+    const result = await critique({ item, graphContext: inputs.graphContext });
+    if (!result || result.available === false) return backbone;
+    return mergeLlmIntoBackbone(backbone, result, inputs.graphContext);
+  } catch (error) {
+    return backbone; // LLM 超时/报错/私有红线命中 → 退纯 backbone,绝不 500。
   }
 }
 
@@ -176,6 +247,7 @@ function createHandler({
   storageOptions,
   wecom = wecomConfigFromEnv(),
   exchangeCode = exchangeWecomCode,
+  copilotLlm = null,
 } = {}) {
   validateRuntimeConfig({ apiToken });
   let storagePromise = storage ? Promise.resolve(storage) : null;
@@ -285,6 +357,19 @@ function createHandler({
       }
       const copilot = await computeReviewCopilot({ item, rows, contextGraphPath, contextPublicationPath });
       send(res, 200, { status: "pass", item: { ...item, "副驾研判": copilot } });
+      return;
+    }
+    const copilot = url.pathname.match(/^\/api\/review\/field-events\/([^/]+)\/copilot$/);
+    if (copilot && req.method === "POST") {
+      const store = await getStorage();
+      const rows = await store.readAll();
+      const item = rows.find((row) => row["审核编号"] === decodeURIComponent(copilot[1]));
+      if (!item) {
+        send(res, 404, { status: "fail", reason: "未找到审核记录" });
+        return;
+      }
+      const copilotOpinion = await computeReviewCopilotWithLlm({ item, rows, contextGraphPath, contextPublicationPath, copilotLlm });
+      send(res, 200, { status: "pass", item: { ...item, "副驾研判": copilotOpinion } });
       return;
     }
     const decision = url.pathname.match(/^\/api\/review\/field-events\/([^/]+)\/decision$/);

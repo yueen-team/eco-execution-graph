@@ -269,6 +269,20 @@ function copilotOpinionCard(opinion = {}, { degraded = false } = {}) {
   `;
 }
 
+// [请十律复核] 按钮:P1 手动触发 LLM 语义层(归类/法条/证据/重复),省 token + 避免自动化偏见。
+// markup 进 copilotView 便于契约测试;api 模式点击发 POST /copilot,演示模式点击提示需 graph-api。
+// data-copilot-recheck = review.js 绑定锚点;label/state span 供加载/失败/演示三态就地改写。
+function copilotRecheckRow() {
+  return `
+    <div class="rv-copilot-recheck-row">
+      <button type="button" class="rv-copilot-recheck" data-copilot-recheck>
+        <i data-lucide="radar"></i><span data-recheck-label>请十律复核</span>
+      </button>
+      <span class="rv-copilot-recheck-state" data-copilot-recheck-state role="status"></span>
+    </div>
+  `;
+}
+
 // 副驾研判段:P0 进页即渲染(读 item["副驾研判"],无 fetch);无副驾数据则不渲染
 export function copilotSection(item) {
   const copilot = item?.["副驾研判"];
@@ -288,6 +302,7 @@ export function copilotSection(item) {
       ${degraded ? `<div class="rv-copilot-degraded" data-gate="${esc(gate)}"><i data-lucide="triangle-alert"></i><span>${esc(displayValue(degradeNote || "上下文门禁降级:部分语义判断退回人工复核。"))}</span></div>` : ""}
       ${copilotOverallBanner(overall)}
       ${copilotSupplement(supplement)}
+      ${copilotRecheckRow()}
       <div class="rv-copilot-opinions" aria-label="副驾异议">
         ${opinions.length ? opinions.map((opinion) => copilotOpinionCard(opinion, { degraded })).join("") : copilotNoDissent()}
       </div>

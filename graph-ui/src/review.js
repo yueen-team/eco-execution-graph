@@ -38,6 +38,8 @@ let reviewState = {
   notice: null,
   // 副驾回执:就地采纳/驳回,跨重渲染持久化(不入提交 body 是 P2,本切片只渲染+留痕)
   copilot: {},
+  // [请十律复核] 进行中的审核编号:防重复触发,失败/完成后清空
+  recheckingId: null,
 };
 
 const VALUE_LABELS = new Map([
@@ -580,7 +582,33 @@ function renderDetail() {
     });
   });
 
-  // 副驾异议回执:采纳/驳回就地切换(不重渲染,保住已输入审核意见);跨重渲染从 reviewState.copilot 复原
+  // 副驾段交互(采纳/驳回回执 + [请十律复核]):抽成函数,复核成功就地重渲 .rv-copilot 后可再绑
+  bindCopilotSection(detail, item);
+
+  submitButton.addEventListener("click", () => {
+    if (!pending || reviewState.submitting) return;
+    const comment = detail.querySelector("#reviewComment")?.value || "";
+    const mergeTarget = pending.kind === "merge" ? (detail.querySelector("#mergeTargetIssue")?.value || "").trim() : "";
+    if (pending.kind === "merge") {
+      if (!mergeTarget) {
+        setNotice("err", "合并到已有问题类型时,必须先填写合并目标问题类型。");
+        detail.querySelector("#mergeTargetIssue")?.focus();
+        return;
+      }
+      const known = issueTypeOptions().some((option) => option.ref === mergeTarget);
+      if (!known) {
+        setNotice("err", `「${mergeTarget}」不在图谱已有问题类型中,请从下拉候选中选择。`);
+        detail.querySelector("#mergeTargetIssue")?.focus();
+        return;
+      }
+    }
+    submitReviewDecision(item["审核编号"], pending.label, comment, mergeTarget);
+  });
+}
+
+// 副驾段交互绑定:① 采纳/驳回回执(就地切换,不重渲染,跨重渲染从 reviewState.copilot 复原)
+// ② [请十律复核] 按钮。复核成功后 .rv-copilot outerHTML 就地替换,需对新 markup 重新调用本函数。
+function bindCopilotSection(detail, item) {
   const receiptButtons = [...detail.querySelectorAll("[data-receipt]")];
   if (receiptButtons.length) {
     const bucket = (reviewState.copilot[item["审核编号"]] ||= { receipt: { "采纳": new Set(), "驳回": new Set() } });
@@ -606,26 +634,74 @@ function renderDetail() {
       });
     });
   }
+  bindCopilotRecheck(detail, item);
+}
 
-  submitButton.addEventListener("click", () => {
-    if (!pending || reviewState.submitting) return;
-    const comment = detail.querySelector("#reviewComment")?.value || "";
-    const mergeTarget = pending.kind === "merge" ? (detail.querySelector("#mergeTargetIssue")?.value || "").trim() : "";
-    if (pending.kind === "merge") {
-      if (!mergeTarget) {
-        setNotice("err", "合并到已有问题类型时,必须先填写合并目标问题类型。");
-        detail.querySelector("#mergeTargetIssue")?.focus();
-        return;
-      }
-      const known = issueTypeOptions().some((option) => option.ref === mergeTarget);
-      if (!known) {
-        setNotice("err", `「${mergeTarget}」不在图谱已有问题类型中,请从下拉候选中选择。`);
-        detail.querySelector("#mergeTargetIssue")?.focus();
-        return;
-      }
+function setRecheckState(detail, text) {
+  const stateEl = detail.querySelector("[data-copilot-recheck-state]");
+  if (stateEl) stateEl.textContent = text || "";
+}
+
+// [请十律复核]:仅 api 源发请求;演示模式提示需 graph-api(不发请求)。
+function bindCopilotRecheck(detail, item) {
+  const button = detail.querySelector("[data-copilot-recheck]");
+  if (!button) return;
+  button.addEventListener("click", () => {
+    if (reviewState.source !== "api") {
+      setRecheckState(detail, "演示模式无后端,十律复核需 graph-api。");
+      return;
     }
-    submitReviewDecision(item["审核编号"], pending.label, comment, mergeTarget);
+    if (reviewState.recheckingId) return; // 进行中防重复触发
+    requestCopilotRecheck(detail, item);
   });
+}
+
+// POST /copilot → 拿回 {item}(含更新后的副驾研判)→ 用 copilotSection 就地重渲 .rv-copilot(pattern B,
+// 绝不 renderReviewWorkspace,保住已输入审核意见)。三态:加载(按钮 disabled + 「十律复核中…」)/
+// 失败(setNotice err,保留确定性 backbone,副驾不沉默)/降级(门禁 partial/blocked 时 copilotSection 自渲降级横幅)。
+async function requestCopilotRecheck(detail, item) {
+  const id = item["审核编号"];
+  const button = detail.querySelector("[data-copilot-recheck]");
+  const label = button?.querySelector("[data-recheck-label]");
+  reviewState.recheckingId = id;
+  if (button) button.disabled = true;
+  if (label) label.textContent = "十律复核中…";
+  setRecheckState(detail, "");
+  try {
+    let res;
+    try {
+      res = await fetch(`${reviewState.apiBase}/api/review/field-events/${encodeURIComponent(id)}/copilot`, {
+        method: "POST",
+        cache: "no-store",
+        headers: authHeaders({ "content-type": "application/json" }),
+        body: JSON.stringify({}),
+      });
+    } catch {
+      setNotice("err", "无法连接 graph 副驾服务,十律复核未完成,既有确定性研判仍然有效。");
+      return;
+    }
+    if (!res.ok) {
+      const error = await res.json().catch(() => ({ reason: "复核失败" }));
+      setNotice("err", `十律复核未完成:${error.reason || res.status};既有确定性研判仍然有效。`);
+      return;
+    }
+    const data = await res.json();
+    const updated = data.item || item;
+    replaceItem(updated); // 持久化新副驾研判到 state(但不整页重渲染,保住已输入审核意见)
+    const copilotEl = detail.querySelector(".rv-copilot");
+    if (copilotEl) {
+      copilotEl.outerHTML = copilotSection(updated); // 就地重渲;门禁≠pass 时自带降级横幅
+      window.__refreshIcons?.();                     // 新注入的 <i data-lucide> 重新成图标
+      bindCopilotSection(detail, updated);           // 对新 markup 重绑回执 + 复核按钮
+    }
+  } finally {
+    reviewState.recheckingId = null;
+    // 失败态(未替换 outerHTML)恢复按钮;成功态此处选到的是新按钮,置回亦无副作用
+    const b = detail.querySelector("[data-copilot-recheck]");
+    const l = b?.querySelector("[data-recheck-label]");
+    if (b) b.disabled = false;
+    if (l) l.textContent = "请十律复核";
+  }
 }
 
 function applyDecisionToItem(item, action, comment, mergeTarget = "") {

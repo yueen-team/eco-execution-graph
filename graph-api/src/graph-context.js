@@ -30,6 +30,14 @@ export const FORBIDDEN_KEYS = new Set([
   "review_note",
   "eto_note",
   "eto_review_note",
+  // P1 私有脱敏纵深:企业名称快照是 private-tier 业务数据,绝不进副驾意见 / 外部 LLM payload。
+  // (副驾 backbone 与 LLM 投影本就只取脱敏白名单,这里把红线闸也补上,双保险。)
+  "企业名称快照",
+  // 输出闸与 copilot-llm.js PRIVATE_TIER_KEYS 对称:私有判断字段的中文键变体也一并拦,
+  // 让「送 LLM 前的 prompt 闸」与「副驾意见输出闸」用同一套私有键口径(纵深对称)。
+  "证据判断标准",
+  "整改模板",
+  "eto审核笔记",
 ]);
 const FORBIDDEN_VALUE_PATTERNS = [
   /RAG 原文正文/i,

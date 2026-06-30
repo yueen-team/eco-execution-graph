@@ -56,6 +56,9 @@ const FORBIDDEN_KEYS = new Set([
   "review_note",
   "eto_note",
   "eto_review_note",
+  // P1 私有脱敏纵深:企业名称快照不得进入外部 LLM payload 或副驾共享产物(入图 item 自身保留该快照,
+  // 仅用于本地确定性层;此键禁止出现在 copilot/LLM 投影与红线扫描的输出里)。
+  "企业名称快照",
 ]);
 
 const FORBIDDEN_VALUE_PATTERNS = [
