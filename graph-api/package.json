@@ -10,7 +10,7 @@
     "smoke:intake": "node scripts/synthetic-intake-smoke.js",
     "smoke:copilot-llm": "node scripts/copilot-llm-smoke.mjs",
     "test": "node --test tests/*.test.js",
-    "check": "node --check src/server.js && node --check src/graph-context.js && node --check src/review-store.js && node --check src/review-copilot.js && node --check src/copilot-llm.js && node --check src/copilot-delta.js && node --check src/storage.js && node --check src/mysql-storage.js && node --check scripts/db-init.js && node --check scripts/db-admin.js && node --check scripts/synthetic-intake-smoke.js && node --check scripts/copilot-llm-smoke.mjs"
+    "check": "node --check src/server.js && node --check src/graph-context.js && node --check src/review-store.js && node --check src/review-copilot.js && node --check src/copilot-llm.js && node --check src/tc3-rag-client.js && node --check src/copilot-delta.js && node --check src/storage.js && node --check src/mysql-storage.js && node --check scripts/db-init.js && node --check scripts/db-admin.js && node --check scripts/synthetic-intake-smoke.js && node --check scripts/copilot-llm-smoke.mjs"
   },
   "dependencies": {
     "mysql2": "3.22.5"

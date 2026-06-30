@@ -14,7 +14,12 @@
 //   - RAG 无原文:法条语义异议(law_not_applicable)降级为「需人工复核法条」,门禁→partial,绝不伪造原文。
 //   - 任何网络/解析/红线异常:抛给上层,server.js 退回纯确定性 backbone,绝不 500、绝不 upsert。
 
-import { assertRedlineClean, scanForbidden } from "./graph-context.js";
+import {
+  assertRedlineClean,
+  scanForbidden,
+  scanCitationForbidden,
+  LAW_TEXT_VALUE_PATTERNS,
+} from "./graph-context.js";
 import { dropTracelessFindings } from "./review-copilot.js";
 
 const DEFAULT_BASE_URL = "https://tokenhub.tencentmaas.com/v1";
@@ -105,7 +110,10 @@ const SYSTEM_PROMPT = [
   "1) advisory-only:你只产异议,永不替 ETO 裁决,绝不输出审核状态或结论。",
   "2) 开口必带 trace:每条异议必须挂 node_ids 或 edge_ids,且必须落在【已审核图谱上下文】里真实存在的节点/边上;引不出 trace 就不要产这条异议。严禁虚构法条节点。",
   "3) 降级是机器门禁:当【法条原文可用】为 false 时,不得对法条适用性下硬结论,只能提示需人工复核;不得写「违反/违法/依据/根据」等硬法措辞。",
-  "4) 私有不进判断:输入已脱敏,你看不到企业名/GPS/照片/法条全文;不要臆造这些信息。",
+  "4) 私有不进判断:输入已脱敏,你看不到企业名/GPS/照片;不要臆造这些信息。",
+  "",
+  "【法条引用】段会给你已审核来源的法条原文供研判;但你引用法条时只回 locator / article_no(条款定位),",
+  "绝不得把法条原文整段回贴进异议的任何字段(一句话/证据/建议修正)。原文供你读懂,不供你复述。",
   "",
   "你只允许产出以下四类错配码,且只看语义层(确定性规则层已另行覆盖法条状态/缺定位/聚合/置信等):",
   "- issue_type_mismatch:建议问题类型与现场问题摘要语义不符。",
@@ -182,15 +190,48 @@ function projectGraphContext(graphContext) {
   };
 }
 
-/** RAG 引文只取脱敏元数据(标题/定位/相关性),正文恒不进 prompt(probe 层已 sanitize)。 */
-function projectCitations(citations) {
-  return (Array.isArray(citations) ? citations : []).map((citation) => ({
-    rag_doc_ref: citation?.rag_doc_ref ?? citation?.node_id ?? null,
-    title: citation?.title ?? citation?.law_name ?? null,
-    locator: citation?.locator ?? citation?.article_no ?? citation?.citation_locator ?? null,
-    score: citation?.score ?? citation?.relevance ?? null,
-    has_excerpt: Boolean(citation?.excerpt),
-  }));
+const MAX_EXCERPT_CHARS = 2000;
+
+/**
+ * 本次已审核来源闸(§11.3):rag_doc_ref 必须命中本次 graphContext 的 law_refs / tech_spec_refs,
+ * 且不在 blocked_refs —— 只有被本轮图谱门禁放行的来源,其法条原文才允许进 citation 段。
+ */
+function approvedRagRefs(graphContext) {
+  const ctx = graphContext || {};
+  const allowed = new Set();
+  for (const ref of [...(ctx.law_refs || []), ...(ctx.tech_spec_refs || [])]) {
+    if (ref?.rag_doc_ref) allowed.add(ref.rag_doc_ref);
+  }
+  const blocked = new Set((ctx.blocked_refs || []).map((ref) => ref?.rag_doc_ref).filter(Boolean));
+  return { allowed, blocked };
+}
+
+/**
+ * RAG 引文投影:脱敏元数据(标题/定位/相关性)+【法条原文】(已审核来源、逐条红线后才挂)。
+ * 红线分域:法条原文只取已审核来源、≤2000 字符截断,并逐条过 scanCitationForbidden + scanPrivateTier;
+ * 脏的【丢弃该条原文】(法条原文置 null,降级该条,不整体抛)。键名固定「法条原文」(绝不用 FORBIDDEN_KEYS 内的全文键)。
+ */
+function projectCitations(citations, graphContext) {
+  const { allowed, blocked } = approvedRagRefs(graphContext);
+  return (Array.isArray(citations) ? citations : []).map((citation) => {
+    const ref = citation?.rag_doc_ref ?? citation?.node_id ?? null;
+    const base = {
+      rag_doc_ref: ref,
+      title: citation?.title ?? citation?.law_name ?? null,
+      locator: citation?.locator ?? citation?.article_no ?? citation?.citation_locator ?? null,
+      score: citation?.score ?? citation?.relevance ?? null,
+      has_excerpt: Boolean(citation?.excerpt),
+    };
+    const rawExcerpt = typeof citation?.excerpt === "string" ? citation.excerpt.trim() : "";
+    // 只取已审核来源:rag_doc_ref ∈ 本次 law_refs/tech_spec_refs 且不在 blocked_refs。
+    if (!rawExcerpt || !ref || !allowed.has(ref) || blocked.has(ref)) {
+      return { ...base, "法条原文": null };
+    }
+    const excerpt = rawExcerpt.slice(0, MAX_EXCERPT_CHARS);
+    // 逐条红线:citation 段允许法条全文,但禁私有/企业/密钥/坐标/照片;命中即丢弃该条原文(降级,不整体抛)。
+    const dirty = scanCitationForbidden(excerpt).length > 0 || scanPrivateTier(excerpt).length > 0;
+    return { ...base, "法条原文": dirty ? null : excerpt };
+  });
 }
 
 function scanPrivateTier(value, pathLabel = "$", hits = []) {
@@ -207,15 +248,81 @@ function scanPrivateTier(value, pathLabel = "$", hits = []) {
   return hits;
 }
 
-/** 双闸断言:① graph-context 红线扫描(键名 + 值模式);② private-tier 判断字段显式拦截。命中即抛,不发送。 */
-function assertPromptClean(payload) {
-  // 第一闸复用 /api/graph/context 同一道红线扫描(键名 + 值模式)。
-  const redline = [...new Set(scanForbidden(payload))];
+/**
+ * strict 域断言:对 {候选, 已审核图谱上下文} 跑【完整】红线(scanForbidden 含法条全文模式)+ private-tier 拦截。
+ * 这一域绝不允许法条原文,也绝不允许私有判断字段。命中即抛,fail-closed 不发送。
+ */
+function assertPromptClean(strictPayload) {
+  // 第一闸复用 /api/graph/context 同一道红线扫描(键名 + 全集值模式,含法条全文)。
+  const redline = [...new Set(scanForbidden(strictPayload))];
   // 第二闸:private-tier 判断字段(含中文键)显式拦截,给出清晰报错。
-  const privateHits = [...new Set(scanPrivateTier(payload))];
+  const privateHits = [...new Set(scanPrivateTier(strictPayload))];
   if (redline.length || privateHits.length) {
     throw new Error(`副驾 LLM payload 命中私有/红线字段,已 fail-closed 不发送:${[...redline, ...privateHits].join(",")}`);
   }
+}
+
+/**
+ * citation 段断言(backstop):对法条引用段跑 scanCitationForbidden + scanPrivateTier。
+ * 允许法条原文,但禁私有/企业/密钥/坐标/照片;命中即抛,fail-closed。
+ * 即便 projectCitations 已逐条丢弃脏原文,这道闸仍兜底拦住任何漏网的私有/密钥/坐标。
+ */
+export function assertCitationSegmentClean(citations) {
+  const redline = [...new Set(scanCitationForbidden(citations))];
+  const privateHits = [...new Set(scanPrivateTier(citations))];
+  if (redline.length || privateHits.length) {
+    throw new Error(`副驾法条引用段命中私有/企业/密钥/坐标字段,已 fail-closed:${[...redline, ...privateHits].join(",")}`);
+  }
+}
+
+const STRIPPED_LAW_TEXT_PLACEHOLDER = "[已剥离回贴的法条原文;请按 locator / article_no 引用]";
+const FINDING_PROSE_KEYS = ["一句话", "证据", "建议修正"];
+// ≥ 该长度的连续子串与【本轮真送进 citation 段的法条原文】重合 → 判定逐字回贴。
+// 20 字对中文法条是显著连续片段:一般散文不会与某具体法条偶合 20 字,故零误杀;
+// 而单条款全文回贴(不命中下方「多条拼接 / 全文标记」正则)只能靠这道内容感知守卫抓住。
+const MIN_VERBATIM_RUN_CHARS = 20;
+
+/** 散文命中「多条拼接 / 显式全文标记」整段法条回贴模式(无需已送原文,parseFindings 内也能独立运行)。 */
+function proseHitsLawTextPattern(text) {
+  return typeof text === "string" && LAW_TEXT_VALUE_PATTERNS.some((pattern) => pattern.test(text));
+}
+
+/**
+ * 内容感知:text 是否含任一【本轮真送进 citation 段的法条原文】≥MIN_VERBATIM_RUN_CHARS 的连续子串。
+ * 精确实现「原文供研判,不许回流」——不论候选法条是单条还是多条结构,逐字回贴必被抓;
+ * 仅引用 locator(如「第七十七条」,<20 字)不会命中,合法保留。
+ */
+function proseEchoesSentLawText(text, sentLawTexts) {
+  if (typeof text !== "string" || text.length < MIN_VERBATIM_RUN_CHARS) return false;
+  for (const excerpt of sentLawTexts) {
+    if (typeof excerpt !== "string" || excerpt.length < MIN_VERBATIM_RUN_CHARS) continue;
+    for (let i = 0; i + MIN_VERBATIM_RUN_CHARS <= excerpt.length; i += 1) {
+      if (text.includes(excerpt.slice(i, i + MIN_VERBATIM_RUN_CHARS))) return true;
+    }
+  }
+  return false;
+}
+
+/**
+ * finding 级引文守卫(收残留,铁律2):剥离 LLM 异议散文里被回贴的法条原文,两道叠加——
+ *   ① 模式闸:命中 LAW_TEXT_VALUE_PATTERNS(多条拼接 / 全文标记)→ 剥离。无需已送原文,
+ *      故 parseFindings 内独立先跑一遍,任何直接消费者也拦得住整段全文(纵深第一道)。
+ *   ② 内容感知闸:散文含【本轮真送进 citation 段的法条原文】≥20 字连续子串 → 剥离。
+ *      精确抓单条款逐字回贴(单条全文不命中 ① 的多条模式),零误杀一般散文。
+ * 单条款 locator 引用(如「第七十七条」)不命中两道,合法保留。原文供研判,不许回流输出。
+ */
+function stripFindingLawFullText(finding, sentLawTexts = []) {
+  if (!finding) return finding;
+  let next = finding;
+  for (const key of FINDING_PROSE_KEYS) {
+    const text = next[key];
+    if (typeof text !== "string") continue;
+    if (proseHitsLawTextPattern(text) || proseEchoesSentLawText(text, sentLawTexts)) {
+      if (next === finding) next = { ...finding };
+      next[key] = STRIPPED_LAW_TEXT_PLACEHOLDER;
+    }
+  }
+  return next;
 }
 
 /**
@@ -226,16 +333,26 @@ function assertPromptClean(payload) {
 export function buildCopilotPrompt({ item, graphContext, citations = [] }) {
   const candidate = projectCandidate(item);
   const graph = projectGraphContext(graphContext);
-  const citationMeta = projectCitations(citations);
-  const ragAvailable = citationMeta.some((citation) => citation.has_excerpt);
-  const userPayload = {
+  const citationSegment = projectCitations(citations, graphContext);
+  // 原文真进 prompt 才算可用:某条引用挂上了「法条原文」字段。
+  const ragAvailable = citationSegment.some((citation) => Boolean(citation["法条原文"]));
+
+  // 红线分域闸 ①:strict 段(候选 + 已审核图谱上下文)过【完整】红线 + 私有(私有 + 法条全文都禁)。
+  const strictPayload = {
     "候选": candidate,
     "已审核图谱上下文": graph,
-    "法条引用元数据": citationMeta,
+  };
+  assertPromptClean(strictPayload); // 命中即抛(fail-closed,绝不发送)
+
+  // 红线分域闸 ②:法条引用段过 citation 闸(允许法条原文,禁私有/企业/密钥/坐标/照片)。
+  assertCitationSegmentClean(citationSegment); // backstop,命中即抛
+
+  const userPayload = {
+    ...strictPayload,
+    "法条引用": citationSegment,
     "法条原文可用": ragAvailable,
     "说明": ragAvailable ? null : "法条原文不可用,涉及法条适用性的判断必须降级为需人工复核,不得据原文断言。",
   };
-  assertPromptClean(userPayload); // 命中即抛(fail-closed,绝不发送)
   return [
     { role: "system", content: SYSTEM_PROMPT },
     { role: "user", content: JSON.stringify(userPayload, null, 2) },
@@ -327,12 +444,16 @@ export function parseFindings(rawText, graphContext) {
   const normalized = rawFindings
     .map((finding) => normalizeLlmFinding(finding))
     .filter((finding) => finding && LLM_ALLOWED_CODES.has(finding["错配码"]));
-  return dropTracelessFindings(normalized, ctx).filter((finding) => {
-    const trace = finding.trace || {};
-    if ((trace.node_ids?.length || 0) + (trace.edge_ids?.length || 0) <= 0) return false;
-    // 防幻觉法条:引用了具体法条/标准的异议必须锚定 context 内真实法条节点或法条关系边,否则丢弃。
-    return lawReferenceAnchored(finding, anchors);
-  });
+  return dropTracelessFindings(normalized, ctx)
+    .filter((finding) => {
+      const trace = finding.trace || {};
+      if ((trace.node_ids?.length || 0) + (trace.edge_ids?.length || 0) <= 0) return false;
+      // 防幻觉法条:引用了具体法条/标准的异议必须锚定 context 内真实法条节点或法条关系边,否则丢弃。
+      return lawReferenceAnchored(finding, anchors);
+    })
+    // 纵深第一道:整段全文回贴在解析边界即剥离,任何 parseFindings 直接消费者都不漏多条法条全文。
+    // (内容感知的单条逐字回贴剥离需已送原文,在 llmCritique 调用点二次叠加。)
+    .map((finding) => stripFindingLawFullText(finding));
 }
 
 /**
@@ -348,21 +469,26 @@ export async function llmCritique({ item, graphContext, env = process.env, fetch
 
   // RAG 取文(可选注入);默认不可用 → 涉法条语义异议降级,绝不伪造原文。
   let citations = [];
-  let ragAvailable = false;
   if (typeof ragFetch === "function") {
     try {
       const fetched = await ragFetch({ item, graphContext });
       citations = Array.isArray(fetched) ? fetched : (fetched?.citations || []);
-      ragAvailable = citations.some((citation) => citation?.excerpt) || fetched?.available === true;
     } catch {
       citations = [];
-      ragAvailable = false;
     }
   }
 
-  const messages = buildCopilotPrompt({ item, graphContext, citations }); // 私有红线断言在内,命中即抛(不发送)
+  // rag_available 的口径与 prompt 一致:法条原文【真进了 citation 段】(已审核来源 + 逐条红线后仍存活)才算可用。
+  // 脏原文被逐条丢弃 / 来源未审核 / 无 excerpt → 视为不可用,降级路径接管。
+  const citationSegment = projectCitations(citations, graphContext);
+  const ragAvailable = citationSegment.some((citation) => Boolean(citation["法条原文"]));
+
+  const messages = buildCopilotPrompt({ item, graphContext, citations }); // strict + citation 双闸,命中即抛(不发送)
   const raw = await callDeepSeek({ messages, env, fetchImpl, timeoutMs });
-  let findings = parseFindings(raw, graphContext);
+  // finding 级引文守卫:剥离任何被 LLM 回贴的法条原文 —— ① 整段全文(模式闸,parseFindings 内已先跑)
+  // + ② 本轮真送进 citation 段的单条法条原文逐字回贴(内容感知闸,需已送原文)。单条款 locator 引用合法保留。
+  const sentLawTexts = citationSegment.map((citation) => citation["法条原文"]).filter(Boolean);
+  let findings = parseFindings(raw, graphContext).map((finding) => stripFindingLawFullText(finding, sentLawTexts));
 
   let degradedNote = null;
   if (!ragAvailable) {

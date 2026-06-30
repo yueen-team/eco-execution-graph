@@ -40,14 +40,22 @@ export const FORBIDDEN_KEYS = new Set([
   "整改模板",
   "eto审核笔记",
 ]);
-const FORBIDDEN_VALUE_PATTERNS = [
-  /RAG 原文正文/i,
+// 里程碑1 红线分域:把值模式拆成「法条全文」与「密钥/PII」两域,二者并集仍是原全集。
+//   - LAW_TEXT_VALUE_PATTERNS:法条原文/整段全文。允许进【送 LLM 的 citation 段】供研判,
+//     但【绝不】进副驾输出 / 图 / shared / report(输出闸仍用全集拦)。
+//   - SECRET_PII_VALUE_PATTERNS:密钥 / 企业 / 坐标 / 照片 / 附件 URL。任何段都禁,citation 段也禁。
+export const LAW_TEXT_VALUE_PATTERNS = [
   /本法全文|全文如下|第一条.{20,}第二条/s,
+  /RAG 原文正文/i,
+];
+export const SECRET_PII_VALUE_PATTERNS = [
   /BEGIN PRIVATE KEY/i,
   /\bAKID[A-Za-z0-9]{8,}/,
   /https?:\/\/[^\s"]*(myqcloud|cos|attachment|evidence|photo)/i,
   /经度|纬度|GPS/i,
 ];
+// 默认全集:assertRedlineClean / scanForbidden 仍扫全集 → 输出闸强度不变(法条全文+私有都禁)。
+const FORBIDDEN_VALUE_PATTERNS = [...LAW_TEXT_VALUE_PATTERNS, ...SECRET_PII_VALUE_PATTERNS];
 
 const STANDARD_RE = /\b(?:GB|GB\/T|HJ|HJ\/T|DB\d{2}|DB\d{2}\/T|T\/[A-Z0-9]+)\s*[0-9][0-9A-Za-z./-]*(?:[-—－][0-9]{2,4})?\b/i;
 
@@ -173,24 +181,36 @@ function traceFor(node, edge) {
   };
 }
 
-export function scanForbidden(value, pathLabel = "$", violations = []) {
+// 共享递归扫描:键名恒用全集 FORBIDDEN_KEYS;值模式由调用方按域注入(全集 / 仅密钥PII)。
+function scanValues(value, valuePatterns, pathLabel, violations) {
   if (Array.isArray(value)) {
-    value.forEach((item, index) => scanForbidden(item, `${pathLabel}[${index}]`, violations));
+    value.forEach((item, index) => scanValues(item, valuePatterns, `${pathLabel}[${index}]`, violations));
     return violations;
   }
   if (value && typeof value === "object") {
     for (const [key, item] of Object.entries(value)) {
       if (FORBIDDEN_KEYS.has(key.toLowerCase())) violations.push(`${pathLabel}.${key}`);
-      scanForbidden(item, `${pathLabel}.${key}`, violations);
+      scanValues(item, valuePatterns, `${pathLabel}.${key}`, violations);
     }
     return violations;
   }
   if (typeof value === "string") {
-    for (const pattern of FORBIDDEN_VALUE_PATTERNS) {
+    for (const pattern of valuePatterns) {
       if (pattern.test(value)) violations.push(pathLabel);
     }
   }
   return violations;
+}
+
+// 输出/上下文闸:键名 + 全集值模式(法条全文 + 密钥/PII 都拦)。强度不变。
+export function scanForbidden(value, pathLabel = "$", violations = []) {
+  return scanValues(value, FORBIDDEN_VALUE_PATTERNS, pathLabel, violations);
+}
+
+// citation 段闸:键名用完整 FORBIDDEN_KEYS,值模式【仅】SECRET_PII_VALUE_PATTERNS(排除法条全文)。
+// → 允许法条原文进 citation 段,但仍禁私有/企业/密钥/坐标/照片。
+export function scanCitationForbidden(value, pathLabel = "$", violations = []) {
+  return scanValues(value, SECRET_PII_VALUE_PATTERNS, pathLabel, violations);
 }
 
 export function assertRedlineClean(payload) {
