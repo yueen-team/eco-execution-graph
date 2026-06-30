@@ -1963,6 +1963,86 @@ strong[data-counter], .metric strong {
   }
 }
 
+/* CTA:演示模式「展开飞轮时刻」入口。 */
+.copilot-agreement-cta {
+  align-self: flex-start;
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 6px 12px; border-radius: 999px;
+  border: 1px solid var(--eco-line); background: var(--eco-soft);
+  color: var(--eco); font-size: 12px; font-weight: 600; cursor: pointer;
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+.copilot-agreement-cta:hover { background: rgba(46, 230, 168, 0.2); transform: translateY(-1px); }
+.copilot-agreement-cta:focus-visible { outline: 2px solid var(--eco); outline-offset: 2px; }
+.copilot-agreement-cta i { width: 14px; height: 14px; }
+
+/* — 一致率「飞轮时刻」:演示整屏过场。深色背板(不用 backdrop-filter)+ 居中 dialog;
+     数字滚动(JS)+ 大曲线 draw-on(CSS,复用 §9.2 关键帧);震撼靠运动与体量,不靠炫光。 — */
+.copilot-flywheel-overlay {
+  position: fixed; inset: 0; z-index: 60;
+  display: flex; align-items: center; justify-content: center;
+  padding: 24px;
+  background: rgba(6, 15, 11, 0.86);
+  animation: copilot-flywheel-in 0.28s var(--ease-out) both;
+}
+@keyframes copilot-flywheel-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes copilot-flywheel-rise { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+.copilot-flywheel {
+  position: relative;
+  width: min(860px, 92vw);
+  padding: 30px 36px 26px;
+  border: 1px solid var(--eco-line);
+  border-radius: var(--r-lg);
+  background: var(--ink-3);
+  display: flex; flex-direction: column; gap: 14px;
+  animation: copilot-flywheel-rise 0.34s var(--ease-out) both;
+}
+.copilot-flywheel-close {
+  position: absolute; top: 14px; right: 14px;
+  width: 32px; height: 32px;
+  display: inline-flex; align-items: center; justify-content: center;
+  border: 1px solid var(--line-1); border-radius: var(--r-sm);
+  background: transparent; color: var(--text-2); cursor: pointer;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+.copilot-flywheel-close:hover, .copilot-flywheel-close:focus-visible { color: var(--text-0); border-color: var(--eco); outline: none; }
+.copilot-flywheel-close i { width: 16px; height: 16px; }
+.copilot-flywheel-kicker { display: inline-flex; align-items: center; gap: 7px; color: var(--text-2); font-size: 13px; font-weight: 600; }
+.copilot-flywheel-kicker i { width: 15px; height: 15px; color: var(--eco); }
+.copilot-flywheel-figure { display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap; }
+.copilot-flywheel-num {
+  color: var(--eco); font-size: 72px; font-weight: 700; line-height: 0.95;
+  font-variant-numeric: tabular-nums; letter-spacing: -0.02em;
+}
+.copilot-flywheel-delta {
+  display: inline-flex; align-items: center; gap: 4px;
+  color: var(--eco); font-size: 15px; font-weight: 600; font-variant-numeric: tabular-nums;
+  padding: 3px 12px; border-radius: 999px; background: rgba(46, 230, 168, 0.12);
+}
+.copilot-flywheel-delta i { width: 15px; height: 15px; }
+.copilot-flywheel-chart { width: 100%; }
+.copilot-flywheel-line { margin: 0; color: var(--text-2); font-size: 14px; line-height: 1.7; max-width: 60ch; }
+.copilot-flywheel-foot { color: var(--text-3); font-size: 12px; font-variant-numeric: tabular-nums; }
+.copilot-flywheel .copilot-spark-line {
+  stroke-dasharray: 100; stroke-dashoffset: 100;
+  animation: copilot-spark-draw 1.8s var(--ease-out) 0.1s forwards;
+}
+.copilot-flywheel .copilot-spark-area { opacity: 0; animation: copilot-spark-fade 1.9s ease forwards; }
+.copilot-flywheel .copilot-spark-step { opacity: 0; animation: copilot-spark-fade 0.5s ease 1.4s forwards; }
+.copilot-flywheel .copilot-spark-val { opacity: 0; animation: copilot-spark-fade 0.5s ease 1.5s forwards; }
+.copilot-flywheel .copilot-spark-dot {
+  transform-box: fill-box; transform-origin: center;
+  animation: copilot-spark-pulse 2s ease-in-out 1.8s infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .copilot-flywheel-overlay, .copilot-flywheel { animation: none; }
+  .copilot-flywheel .copilot-spark-line,
+  .copilot-flywheel .copilot-spark-area,
+  .copilot-flywheel .copilot-spark-step,
+  .copilot-flywheel .copilot-spark-val,
+  .copilot-flywheel .copilot-spark-dot { animation: none; stroke-dashoffset: 0; opacity: 1; }
+}
+
 /* — 列表卡的就绪信号点:从队列就能分诊 — */
 .review-card-readiness { display: flex; align-items: center; gap: 8px; margin-top: 10px; }
 .rv-dots { display: inline-flex; gap: 5px; }

@@ -364,5 +364,34 @@ export function agreementSparkline(series, opts = {}) {
   return `<svg class="copilot-spark" role="img" aria-label="${esc(aria)}" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" preserveAspectRatio="xMidYMid meet">${body}</svg>`;
 }
 
+// ============ 副驾-ETO 一致率「飞轮时刻」:演示整屏过场(纯函数返回 dialog 内层 markup) ============
+// 大号数字(JS 由 review.js 做 0→N% 滚动)+ 大曲线(CSS draw-on)+ 攀升 chip + 飞轮叙事。
+// 纯函数、零 DOM、私有零泄漏:只读 data 的 趋势/总数/一致率,曲线复用 agreementSparkline 同款脱敏。
+// review.js openFlywheelMoment 把它包进 .copilot-flywheel-overlay 背板,并接管数字滚动/draw-on/关闭。
+export function agreementFlywheelMoment(data = {}) {
+  const series = Array.isArray(data?.["趋势"]) ? data["趋势"] : [];
+  const total = Number(data?.["总数"] ?? series.length ?? 0);
+  const rate = data?.["一致率"] != null
+    ? Number(data["一致率"])
+    : (series.length ? Number(series[series.length - 1]["累计一致率"]) : null);
+  const pct = rate == null || Number.isNaN(rate) ? 0 : Math.round(rate * 100);
+  const firstRate = series.length ? Number(series[0]["累计一致率"]) : null;
+  const delta = (rate != null && firstRate != null && series.length >= 2 && !Number.isNaN(firstRate))
+    ? Math.round((rate - firstRate) * 100) : null;
+  return `
+    <div class="copilot-flywheel" role="dialog" aria-modal="true" aria-label="副驾-ETO 一致率飞轮">
+      <button type="button" class="copilot-flywheel-close" data-flywheel-close aria-label="关闭飞轮时刻"><i data-lucide="x"></i></button>
+      <span class="copilot-flywheel-kicker"><i data-lucide="radar"></i>副驾建议 × ETO 终判 · 一致率飞轮</span>
+      <div class="copilot-flywheel-figure">
+        <b class="copilot-flywheel-num" data-countup="${pct}">0%</b>
+        ${delta != null && delta > 0 ? `<span class="copilot-flywheel-delta"><i data-lucide="trending-up"></i>较起步 +${esc(delta)}pt</span>` : ""}
+      </div>
+      <div class="copilot-flywheel-chart">${agreementSparkline(series, { width: 360, height: 132 })}</div>
+      <p class="copilot-flywheel-line">每一次副驾表态都计入。分歧被捕获、被 ETO 校正,副驾越用越准 —— 而每一次裁决,始终由 ETO 拍板。</p>
+      <span class="copilot-flywheel-foot">${esc(total)} 次表态 · 按 Esc 或点击空白处退出</span>
+    </div>
+  `;
+}
+
 // section 为隔离自带一份(review.js 完整资料折叠用其同名件);本段不直接调用,保持 helper 集齐。
 export { section };

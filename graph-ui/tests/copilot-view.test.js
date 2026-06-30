@@ -6,6 +6,7 @@ import assert from "node:assert/strict";
 import {
   copilotSection,
   agreementSparkline,
+  agreementFlywheelMoment,
   COPILOT_CODE_LABELS,
   COPILOT_SEVERITY_LEVEL,
   COPILOT_EFFECTIVE_LABELS,
@@ -304,4 +305,26 @@ test("(o) agreementSparkline 飞轮元素:扁平面积 polygon + 逐点步点 + 
   assert.equal(stepCount, AGREEMENT_SERIES.length - 1, "步点数应为点数-1");
   // 动效 / 渐变 / 滤镜 / dashoffset 绝不进 SVG 串(全由 styles.css 的类驱动)——再次钉死 §9.2
   assert.equal(/gradient|filter|feGaussian|glow|animate|@keyframes|stroke-dashoffset/i.test(svg), false, "SVG 串内不得有动效/渐变/滤镜/dashoffset");
+});
+
+test("(p) agreementFlywheelMoment 飞轮时刻:dialog + 数字滚动目标 + 大曲线 + 关闭键;私有零泄漏、动效不在串内", () => {
+  const data = { "总数": 5, "趋势": AGREEMENT_SERIES, enterprise: ENTERPRISE, node: PRIVATE_NODE };
+  const html = agreementFlywheelMoment(data);
+  assert.ok(html.includes("role=\"dialog\""), "应是 dialog(aria-modal)");
+  assert.ok(html.includes("data-countup=\"83\""), "数字滚动目标 = 当前一致率整数(末点 0.83→83)");
+  assert.ok(html.includes("data-flywheel-close"), "应有关闭按钮");
+  assert.ok(html.includes("<svg"), "应含大曲线 svg");
+  // 私有零泄漏:data 里的企业/私有节点绝不回写(只读 趋势/总数/一致率)
+  for (const token of [ENTERPRISE, PRIVATE_NODE, "issue:private:", "node_ids", "legal_basis_status"]) {
+    assert.equal(html.includes(token), false, `飞轮时刻不得出现私有内容 ${token}`);
+  }
+  // 动效/渐变/滤镜全不在 markup 串内(CSS 驱动)
+  assert.equal(/gradient|filter|feGaussian|glow|@keyframes|stroke-dashoffset/i.test(html), false, "markup 串内不得有动效/渐变/滤镜");
+});
+
+test("(q) agreementFlywheelMoment 空数据:countup=0、仍渲染 dialog 壳,不报错", () => {
+  const html = agreementFlywheelMoment({});
+  assert.ok(html.includes("data-countup=\"0\""), "空数据 countup=0");
+  assert.ok(html.includes("role=\"dialog\""), "仍渲染 dialog 壳");
+  assert.equal(html.includes("<svg"), false, "空 series 不画 svg(占位文案)");
 });

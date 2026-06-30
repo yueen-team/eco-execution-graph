@@ -1,5 +1,5 @@
 import { state } from "./state.js";
-import { copilotSection, agreementSparkline } from "./copilotView.js";
+import { copilotSection, agreementSparkline, agreementFlywheelMoment } from "./copilotView.js";
 
 const STATUS_TABS = ["待审核", "已通过(待聚合)", "已进入聚合候选", "退回补充", "仅保留内部案例", "不入图", "样本不足"];
 const APP_BASE = import.meta.env.BASE_URL || "/";
@@ -842,8 +842,57 @@ function renderAgreementPanel() {
       <p class="copilot-agreement-note">${isDemo
         ? "每次副驾表态都计入。分歧被捕获、被 ETO 校正,副驾越用越准 —— 而每一次裁决,始终由 ETO 拍板。"
         : "每次副驾表态都计入,曲线随 ETO 认可上升。"}</p>
+      ${isDemo && series.length ? "<button type=\"button\" class=\"copilot-agreement-cta\" data-flywheel-open><i data-lucide=\"presentation\"></i>展开飞轮时刻</button>" : ""}
     </div>
   `;
+  if (isDemo) {
+    host.querySelector("[data-flywheel-open]")?.addEventListener("click", () => openFlywheelMoment(data));
+  }
+  window.__refreshIcons?.();
+}
+
+// ===== 一致率「飞轮时刻」演示整屏过场:数字滚动 + 大曲线 draw-on,Esc/点空白/关闭键退出 =====
+let flywheelEscHandler = null;
+
+function closeFlywheelMoment() {
+  document.querySelector(".copilot-flywheel-overlay")?.remove();
+  if (flywheelEscHandler) {
+    document.removeEventListener("keydown", flywheelEscHandler);
+    flywheelEscHandler = null;
+  }
+}
+
+// 大号数字 0→target% 滚动(ease-out cubic,~1.6s);prefers-reduced-motion 直接落终值。
+function countUpFlywheel(el) {
+  const target = Number(el.dataset.countup) || 0;
+  const reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (reduce) { el.textContent = `${target}%`; return; }
+  const dur = 1600;
+  let start = null;
+  const step = (ts) => {
+    if (start == null) start = ts;
+    const t = Math.min(1, (ts - start) / dur);
+    const eased = 1 - Math.pow(1 - t, 3);
+    el.textContent = `${Math.round(target * eased)}%`;
+    if (t < 1) requestAnimationFrame(step);
+  };
+  requestAnimationFrame(step);
+}
+
+function openFlywheelMoment(data) {
+  closeFlywheelMoment();
+  const overlay = document.createElement("div");
+  overlay.className = "copilot-flywheel-overlay";
+  overlay.innerHTML = agreementFlywheelMoment(data);
+  overlay.addEventListener("click", (event) => { if (event.target === overlay) closeFlywheelMoment(); });
+  document.body.appendChild(overlay);
+  window.__refreshIcons?.();
+  overlay.querySelector("[data-flywheel-close]")?.addEventListener("click", closeFlywheelMoment);
+  const num = overlay.querySelector("[data-countup]");
+  if (num) countUpFlywheel(num);
+  flywheelEscHandler = (event) => { if (event.key === "Escape") closeFlywheelMoment(); };
+  document.addEventListener("keydown", flywheelEscHandler);
+  overlay.querySelector("[data-flywheel-close]")?.focus();
 }
 
 function renderReviewWorkspace() {
