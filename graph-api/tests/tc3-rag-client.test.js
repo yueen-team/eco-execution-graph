@@ -211,6 +211,46 @@ test("buildRagFetch:有凭证 → 返回注入函数;多知识库循环检索 + 
   }
 });
 
+test("buildRagFetch:每条法条候选各自检索,填错的「建议问题类型」绝不进查询(防污染);多候选 → 候选×库 次", async () => {
+  const env = {
+    TENCENT_LKE_SECRET_ID: VECTOR.secretId,
+    TENCENT_LKE_SECRET_KEY: VECTOR.secretKey,
+    TENCENT_LKE_KNOWLEDGE_BASE_IDS: "kb-1,kb-2",
+  };
+  const fetchImpl = stubFetch({ Response: { Records: [] } });
+  const ragFetch = buildRagFetch(env, { fetchImpl });
+  await ragFetch({
+    item: {
+      "建议问题类型": "雨污分流不彻底", // 故意填错:旧拼接式查询会被它带偏
+      "法条规范候选": [
+        { "名称": "GB 18597 危险废物贮存污染控制标准" },
+        { "名称": "固体废物污染环境防治法 第七十七条" },
+      ],
+    },
+    graphContext: {},
+  });
+  assert.equal(fetchImpl.calls.length, 4, "2 候选 × 2 库 = 4 次,每条单候选检索");
+  const queries = fetchImpl.calls.map((c) => JSON.parse(c.init.body).Query);
+  for (const q of queries) {
+    assert.equal(q.includes("雨污分流"), false, "填错的建议问题类型绝不进检索查询(防污染)");
+  }
+  assert.ok(queries.some((q) => q.includes("GB 18597")), "应按法条候选名称检索");
+  assert.ok(queries.some((q) => q.includes("第七十七条")), "应按法条候选名称检索");
+});
+
+test("buildRagFetch:无法条候选但有建议问题类型 → 回退用类型检索(单查询)", async () => {
+  const env = {
+    TENCENT_LKE_SECRET_ID: VECTOR.secretId,
+    TENCENT_LKE_SECRET_KEY: VECTOR.secretKey,
+    TENCENT_LKE_KNOWLEDGE_BASE_IDS: "kb-1",
+  };
+  const fetchImpl = stubFetch({ Response: { Records: [] } });
+  const ragFetch = buildRagFetch(env, { fetchImpl });
+  await ragFetch({ item: { "建议问题类型": "危废标签不规范" }, graphContext: {} });
+  assert.equal(fetchImpl.calls.length, 1);
+  assert.equal(JSON.parse(fetchImpl.calls[0].init.body).Query, "危废标签不规范", "无候选时回退到建议问题类型");
+});
+
 test("buildRagFetch:item 无法条候选/建议问题类型(空 query)→ {citations:[],available:false},不发请求", async () => {
   const env = {
     TENCENT_LKE_SECRET_ID: VECTOR.secretId,

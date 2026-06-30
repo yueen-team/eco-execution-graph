@@ -327,44 +327,54 @@ function asArray(value) {
   return Array.isArray(value) ? value : [value];
 }
 
-/** 检索查询:按 item 的建议问题类型 + 法条规范候选名称拼装(均为脱敏白名单字段)。 */
-function buildRagQuery(item) {
+const MAX_RAG_QUERIES = 6;
+
+/**
+ * 检索查询集(candy 2026-06-30 优化):每条「法条规范候选名称」各自一条查询 —— 各得独立 topK,
+ * 不被【可能填错的「建议问题类型」】挤占(类型恰恰在要抓错配时最可能错,旧的拼接式查询会被带偏、
+ * 把相关标准挤出 topK 致 grounding 降级)。无法条候选时才回退到建议问题类型。均为脱敏白名单字段。
+ */
+function buildRagQueries(item) {
   const it = item || {};
-  const parts = [];
-  if (it["建议问题类型"]) parts.push(String(it["建议问题类型"]));
-  for (const candidate of asArray(it["法条规范候选"])) {
-    const name = candidate && candidate["名称"];
-    if (name) parts.push(String(name));
-  }
-  return parts.filter(Boolean).join(" ").trim();
+  const names = asArray(it["法条规范候选"])
+    .map((candidate) => candidate && candidate["名称"])
+    .filter(Boolean)
+    .map((name) => String(name).trim())
+    .filter(Boolean);
+  if (names.length) return [...new Set(names)].slice(0, MAX_RAG_QUERIES);
+  const type = it["建议问题类型"] ? String(it["建议问题类型"]).trim() : "";
+  return type ? [type] : [];
 }
 
 /**
  * 构造 copilot-llm.llmCritique 的 ragFetch 注入函数。
  *   - 缺 LKE 凭证 / 无知识库 id → 返回 null(=>RAG 降级,涉法条语义异议由 llmCritique 退为需人工复核,绝不伪造原文)。
  *   - 否则返回 async ({item,graphContext}) => {citations:[{rag_doc_ref,title,locator,excerpt,score}], available}。
- *     多 knowledgeBaseId 循环 RetrieveKnowledge(单 id,不传数组),按 rag_doc_ref 去重,只收有 excerpt(法条原文)的引文。
+ *     每条法条候选 × 每个 knowledgeBaseId 各发一次 RetrieveKnowledge(单 id,不传数组),
+ *     按 rag_doc_ref / 标题+定位 去重,只收有 excerpt(法条原文)的引文。
  */
 export function buildRagFetch(env = process.env, { fetchImpl = fetch, timeoutMs = DEFAULT_TIMEOUT_MS, topK = DEFAULT_TOP_K } = {}) {
   const config = lkeConfigFromEnv(env);
   if (!config.configured || !config.knowledgeBaseIds.length) return null;
 
   return async ({ item, graphContext } = {}) => {
-    void graphContext; // 当前按 item 法条候选/建议问题类型检索;保留签名以备后续按图谱锚点增强。
-    const query = buildRagQuery(item);
-    if (!query) return { citations: [], available: false };
+    void graphContext; // 按 item 法条候选名称(无则建议问题类型)检索;保留签名以备后续按图谱锚点增强。
+    const queries = buildRagQueries(item);
+    if (!queries.length) return { citations: [], available: false };
 
     const seen = new Set();
     const citations = [];
     for (const knowledgeBaseId of config.knowledgeBaseIds) {
-      const records = await retrieveKnowledge({ config, query, knowledgeBaseId, topK, fetchImpl, timeoutMs });
-      for (const record of records) {
-        const clean = sanitizeRetrieveRecord(record);
-        if (!clean.excerpt) continue; // 无原文不入引文(下游据 has_excerpt 判 RAG 可用性)
-        const dedupeKey = clean.rag_doc_ref || `${clean.title || ""}|${clean.locator || ""}|${clean.excerpt.slice(0, 64)}`;
-        if (seen.has(dedupeKey)) continue;
-        seen.add(dedupeKey);
-        citations.push(clean);
+      for (const query of queries) {
+        const records = await retrieveKnowledge({ config, query, knowledgeBaseId, topK, fetchImpl, timeoutMs });
+        for (const record of records) {
+          const clean = sanitizeRetrieveRecord(record);
+          if (!clean.excerpt) continue; // 无原文不入引文(下游据 has_excerpt 判 RAG 可用性)
+          const dedupeKey = clean.rag_doc_ref || `${clean.title || ""}|${clean.locator || ""}|${clean.excerpt.slice(0, 64)}`;
+          if (seen.has(dedupeKey)) continue;
+          seen.add(dedupeKey);
+          citations.push(clean);
+        }
       }
     }
     return { citations, available: citations.length > 0 };
