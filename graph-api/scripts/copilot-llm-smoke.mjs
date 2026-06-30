@@ -4,7 +4,9 @@
 //   1) 私有不进 prompt:脱敏白名单投影 + 送出前断言(copilot-llm.js 已是第一道),这里做 smoke 级二次确认;
 //   2) advisory-only:findings 绝不带审核状态 / 裁决键;
 //   3) trace 锚定防幻觉:每条 finding 的 trace 必须落在本次真实 graph context 内的 node/edge 上;
-//   4) RAG 无原文降级:JS 侧无 RAG 客户端(ragFetch=null,as-built 生产即降级)→ 涉法条语义异议降级,不伪造原文。
+//   4) RAG grounding 分域:LKE 凭证在场则 buildRagFetch 取真法条原文,经红线分域只进 prompt 的「法条引用」段供研判
+//      (grounded);缺凭证 / 取文失败 / 脏原文逐条丢弃 → 降级,涉法条适用性异议退为需人工复核,绝不伪造原文。
+//      法条原文绝不回流 findings / 报告 / 图(见 ADR-0014)。
 //
 // 隔离 / 离线纪律:
 //   - 唯一触网点是 llmCritique → callDeepSeek 那一次 fetch;无 TokenHub key → 直接 blocked,绝不触网。
@@ -208,18 +210,25 @@ export function tracesAnchored(findings, graphContext) {
   });
 }
 
-/** 脱敏 error 摘要:抹掉密钥值与 Bearer 头,截断长度。 */
+/**
+ * 脱敏 error 摘要:抹掉密钥值与 Bearer 头,再过一道结构化红线,最后截断。
+ * report.error 是唯一非键名拼接的自由文本 report 字段,故让它与其余字段获得【同一道】值模式红线:
+ * 抹 key/Bearer 后若仍命中 scanForbidden 全集(法条全文 / 密钥 / PII),整体替换为占位——
+ * 堵住「异常 message 理论上夹带模型回贴法条原文」的纵深缺口(铁律2:原文绝不回流 report)。
+ */
 function desensitizeError(error, env) {
   let message = String(error?.message || error || "unknown error");
   const config = llmConfigFromEnv(env);
   if (config.apiKey && config.apiKey.length >= 6) message = message.split(config.apiKey).join("<redacted>");
   message = message.replace(/Bearer\s+[A-Za-z0-9._~+/=-]+/g, "Bearer <redacted>");
+  if (scanForbidden(message).length > 0) return "<error redacted: forbidden pattern>";
   return message.slice(0, 300);
 }
 
 /**
  * 可测核心:不写文件、不 exit。返回 { report(脱敏), prompts(捕获的 messages 文本,仅供测试断言) }。
- * 无 TokenHub key → blocked,绝不触网。真调走 llmCritique(真 DeepSeek HTTP,ragFetch 默认 null = 生产降级)。
+ * 无 TokenHub key → blocked,绝不触网。真调走 llmCritique(真 DeepSeek HTTP);
+ * ragFetch 默认 buildRagFetch(env):有 LKE 凭证→取真法条原文 grounding,缺凭证→null→生产降级。
  */
 export async function runCopilotSmoke({
   env = process.env,
@@ -262,7 +271,7 @@ export async function runCopilotSmoke({
     // 捕获发往 DeepSeek 的请求 body,做 prompt 红线二次确认。
     const { wrapped, requests } = buildCapturingFetch(fetchImpl);
 
-    // 真调:私有红线断言在 buildCopilotPrompt 内(命中即抛,绝不发送);ragFetch=null = 生产 RAG 降级路径。
+    // 真调:私有红线断言在 buildCopilotPrompt 内(命中即抛,绝不发送);ragFetch 有 LKE→grounding,缺→降级。
     const result = await llmCritique({ item, graphContext, env, fetchImpl: wrapped, ragFetch });
     const findings = result.findings || [];
 
