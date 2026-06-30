@@ -197,27 +197,92 @@ function projectGraphContext(graphContext) {
 
 const MAX_EXCERPT_CHARS = 2000;
 
+// ── 法规标识匹配(candy 2026-06-30 选定)─────────────────────────────────────
+// 真实知识库记录常缺 opaque rag_doc_ref(或其值与图谱来源节点不同源),故「已审核来源闸」除精确
+// rag_doc_ref 外,再按【图谱已审核来源的法规标识】对接:检索引文的标准号(GB 18597)/ 条款号
+// (法名+第X条)命中本轮 graphContext 已审核来源,即视为同一来源放行。仍是「只引已审核来源」——
+// 只是用稳定的法规标识(opaque id 易漂移)做键;blocked_refs 同样按标识拦截;版本默认不敏感
+// (GB 18597 命中 GB 18597—2023)。逐条内容红线、≤2000 截断不变。
+const STANDARD_NO_RE = /(GB\/T|GB|HJ\/T|HJ|DB\d{2}\/T|DB\d{2}|T\/[A-Z][A-Z0-9]*)\s*-?\s*([0-9]{2,})/gi;
+
+/** 版本不敏感标准号键集合(GB 18597—2023 → "GB18597",不含版本后缀)。 */
+function standardKeysOf(text) {
+  const out = new Set();
+  const s = String(text || "");
+  STANDARD_NO_RE.lastIndex = 0;
+  let m;
+  while ((m = STANDARD_NO_RE.exec(s))) out.add((m[1] + m[2]).replace(/\s+/g, "").toUpperCase());
+  return out;
+}
+
+/** 法名规范化:去空白/书名号/括号/标点,供子串包含判断(防分隔符差异漏配)。 */
+function normalizeLawName(text) {
+  return String(text || "").replace(/[\s《》()()【】·,，。.、:：]/g, "");
+}
+
+/** 一条 ref/citation 的可比对文本(标题/定位/标准号/条款号/法名)。 */
+function citeText(obj) {
+  return [obj?.standard_no, obj?.article_no, obj?.title, obj?.law_name, obj?.locator, obj?.citation_locator]
+    .filter(Boolean)
+    .map(String)
+    .join(" ");
+}
+
+/** 从一组图谱来源 ref 抽取法规标识:标准号集合 + 条款标识(法名+条款号,两者俱全才生成,防过宽匹配)。 */
+function legalIdentityOf(refs) {
+  const standards = new Set();
+  const articles = []; // { lawName(normalized), articleNo(no-space) }
+  for (const ref of refs || []) {
+    standardKeysOf(citeText(ref)).forEach((s) => standards.add(s));
+    const lawName = normalizeLawName(ref?.law_name || ref?.title);
+    const articleNo = String(ref?.article_no || "").replace(/\s+/g, "");
+    if (lawName && articleNo) articles.push({ lawName, articleNo });
+  }
+  return { standards, articles };
+}
+
 /**
- * 本次已审核来源闸(§11.3):rag_doc_ref 必须命中本次 graphContext 的 law_refs / tech_spec_refs,
- * 且不在 blocked_refs —— 只有被本轮图谱门禁放行的来源,其法条原文才允许进 citation 段。
+ * 本次已审核来源闸(§11.3,candy 2026-06-30 改为法规标识匹配):
+ * 引文命中本轮 graphContext 已审核来源(精确 rag_doc_ref 或 标准号 或 法名+条款号)且不在 blocked_refs。
  */
 function approvedRagRefs(graphContext) {
   const ctx = graphContext || {};
-  const allowed = new Set();
+  const allowedDocRefs = new Set();
   for (const ref of [...(ctx.law_refs || []), ...(ctx.tech_spec_refs || [])]) {
-    if (ref?.rag_doc_ref) allowed.add(ref.rag_doc_ref);
+    if (ref?.rag_doc_ref) allowedDocRefs.add(ref.rag_doc_ref);
   }
-  const blocked = new Set((ctx.blocked_refs || []).map((ref) => ref?.rag_doc_ref).filter(Boolean));
-  return { allowed, blocked };
+  const blockedDocRefs = new Set((ctx.blocked_refs || []).map((ref) => ref?.rag_doc_ref).filter(Boolean));
+  return {
+    allowedDocRefs,
+    allowed: legalIdentityOf([...(ctx.law_refs || []), ...(ctx.tech_spec_refs || [])]),
+    blockedDocRefs,
+    blocked: legalIdentityOf(ctx.blocked_refs || []),
+  };
+}
+
+/** 引文是否命中某组法规标识(精确 docRef / 标准号 / 法名+条款号 任一即命中)。 */
+function citationHitsIdentity(citation, ref, docRefs, identity) {
+  if (ref && docRefs.has(ref)) return true;
+  const text = citeText(citation);
+  for (const std of standardKeysOf(text)) {
+    if (identity.standards.has(std)) return true;
+  }
+  if (identity.articles.length) {
+    const norm = normalizeLawName(text);
+    for (const art of identity.articles) {
+      if (norm.includes(art.lawName) && norm.includes(art.articleNo)) return true;
+    }
+  }
+  return false;
 }
 
 /**
  * RAG 引文投影:脱敏元数据(标题/定位/相关性)+【法条原文】(已审核来源、逐条红线后才挂)。
- * 红线分域:法条原文只取已审核来源、≤2000 字符截断,并逐条过 scanCitationForbidden + scanPrivateTier;
+ * 红线分域:法条原文只取已审核来源(按法规标识匹配)、≤2000 字符截断,并逐条过 scanCitationForbidden + scanPrivateTier;
  * 脏的【丢弃该条原文】(法条原文置 null,降级该条,不整体抛)。键名固定「法条原文」(绝不用 FORBIDDEN_KEYS 内的全文键)。
  */
 function projectCitations(citations, graphContext) {
-  const { allowed, blocked } = approvedRagRefs(graphContext);
+  const { allowedDocRefs, allowed, blockedDocRefs, blocked } = approvedRagRefs(graphContext);
   return (Array.isArray(citations) ? citations : []).map((citation) => {
     const ref = citation?.rag_doc_ref ?? citation?.node_id ?? null;
     const base = {
@@ -228,8 +293,10 @@ function projectCitations(citations, graphContext) {
       has_excerpt: Boolean(citation?.excerpt),
     };
     const rawExcerpt = typeof citation?.excerpt === "string" ? citation.excerpt.trim() : "";
-    // 只取已审核来源:rag_doc_ref ∈ 本次 law_refs/tech_spec_refs 且不在 blocked_refs。
-    if (!rawExcerpt || !ref || !allowed.has(ref) || blocked.has(ref)) {
+    // 只取已审核来源:命中本次 law_refs/tech_spec_refs 法规标识,且不命中 blocked_refs 标识。
+    const isApproved = citationHitsIdentity(citation, ref, allowedDocRefs, allowed);
+    const isBlocked = citationHitsIdentity(citation, ref, blockedDocRefs, blocked);
+    if (!rawExcerpt || !isApproved || isBlocked) {
       return { ...base, "法条原文": null };
     }
     const excerpt = rawExcerpt.slice(0, MAX_EXCERPT_CHARS);
