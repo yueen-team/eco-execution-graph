@@ -43,6 +43,47 @@ const DIMENSION_BY_CODE = {
 };
 const ALLOWED_SEVERITY = new Set(["blocking", "warning", "info"]);
 
+// 法条/标准类节点:法律维度异议或引用了具体法条标识的异议,必须锚定到这些真实节点之一。
+const LAW_NODE_TYPES = new Set(["law_article", "law_obligation", "tech_spec", "standard_limit"]);
+const LAW_NODE_ID_RE = /^(law|obl|spec|standard|tech):/i;
+// 散文里的法条/标准标识:GB/HJ/DB 标准号、《...》书名号、第X条。任一命中即「引用了具体法条/标准」。
+const LEGAL_IDENTIFIER_RE = /(?:GB|HJ|DB\d{2}|T)\s*\/?\s*T?\s*\d|《[^》]{2,40}》|第[一二三四五六七八九十百千零〇\d]{1,8}条/i;
+
+/**
+ * context 内法条/标准锚点:法条/标准节点 id 集合 + 触达这些节点的边 id 集合(如 obligation_of / regulated_by)。
+ * 法律维度异议必须锚定其一(法条节点 或 法条关系边),否则视为虚构法条搭真实无关 trace 便车。
+ */
+function lawAnchors(graphContext) {
+  const nodes = graphContext?.graph_context?.nodes || [];
+  const edges = graphContext?.graph_context?.edges || [];
+  const nodeIds = new Set(
+    nodes
+      .filter((node) => LAW_NODE_TYPES.has(node?.node_type) || LAW_NODE_ID_RE.test(String(node?.node_id || "")))
+      .map((node) => node.node_id),
+  );
+  const edgeIds = new Set(
+    edges
+      .filter((edge) => nodeIds.has(edge?.from) || nodeIds.has(edge?.to))
+      .map((edge) => edge.edge_id),
+  );
+  return { nodeIds, edgeIds };
+}
+
+/**
+ * 防幻觉法条·语义闸(铁律2 强化):LLM finding 若是法律维度、或散文(一句话/证据/建议修正)里引用了
+ * 具体法条/标准标识,必须 trace 锚定到本次已审核 graph context 内真实的法条/标准节点或法条关系边;否则丢弃——
+ * 否则 LLM 可把虚构法条号写进散文、把 trace 挂到任一真实但无关节点(如 issue 节点)便车存活。
+ * 体现项目「图保证引哪条」原则:引用任何法条,必须能在已审核图谱里指到它。
+ */
+function lawReferenceAnchored(finding, anchors) {
+  const prose = `${finding["一句话"] || ""} ${finding["证据"] || ""} ${finding["建议修正"] || ""}`;
+  const citesLegal = finding["判断维度"] === "法律" || LEGAL_IDENTIFIER_RE.test(prose);
+  if (!citesLegal) return true;
+  const trace = finding.trace || {};
+  return (trace.node_ids || []).some((id) => anchors.nodeIds.has(id))
+    || (trace.edge_ids || []).some((id) => anchors.edgeIds.has(id));
+}
+
 // §11.4 私有判断层键名:与 graph-context.js / review-store.js FORBIDDEN_KEYS 同源,这里显式再列一遍,
 // 以便 payload 命中时给出「私有判断字段」的清晰报错(双闸的第二道)。
 const PRIVATE_TIER_KEYS = new Set([
@@ -282,12 +323,15 @@ export function parseFindings(rawText, graphContext) {
         ? parsed.findings
         : [];
   const ctx = graphContext || { graph_context: { nodes: [], edges: [] } };
+  const anchors = lawAnchors(ctx);
   const normalized = rawFindings
     .map((finding) => normalizeLlmFinding(finding))
     .filter((finding) => finding && LLM_ALLOWED_CODES.has(finding["错配码"]));
   return dropTracelessFindings(normalized, ctx).filter((finding) => {
     const trace = finding.trace || {};
-    return (trace.node_ids?.length || 0) + (trace.edge_ids?.length || 0) > 0;
+    if ((trace.node_ids?.length || 0) + (trace.edge_ids?.length || 0) <= 0) return false;
+    // 防幻觉法条:引用了具体法条/标准的异议必须锚定 context 内真实法条节点或法条关系边,否则丢弃。
+    return lawReferenceAnchored(finding, anchors);
   });
 }
 

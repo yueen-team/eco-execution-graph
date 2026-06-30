@@ -28,6 +28,10 @@ const DECISION_KIND = {
   "不入图": "reject",
 };
 
+// 合法的副驾建议方向枚举(= ACTIONS kind 全集)。副驾回执的「副驾建议方向」必须命中其一,否则回落 null,
+// 使 ai_review_delta 成纯机器码不变量(防越权客户端借此字段注入自由文本进治理候选)。
+const ACTION_KINDS = new Set(Object.values(DECISION_KIND));
+
 // §4 错配分类法里严重度恒为 blocking 的错配码(管理经验被法律化 = 最高危;法条状态风险 = 拦截级)。
 // 「任一 blocking 异议被 ETO 驳回」即视为分歧(守门人拦截被否决,是最该沉淀的专家经验)。
 const BLOCKING_CODES = new Set([
@@ -82,7 +86,9 @@ function realIssueRef(item) {
  * @returns          ai_review_delta 候选对象,review_status 恒为 "candidate"(绝不自动晋级 approved)。
  */
 export function buildAiReviewDelta({ item, 副驾回执 = {}, 终判 = null, now = new Date().toISOString() } = {}) {
-  const 副驾建议方向 = 副驾回执?.["副驾建议方向"] ?? null;
+  // 防注入:副驾建议方向 只允许 ACTIONS kind 枚举,未命中回落 null(与采纳/驳回异议码白名单同口径)。
+  const rawDirection = 副驾回执?.["副驾建议方向"];
+  const 副驾建议方向 = ACTION_KINDS.has(rawDirection) ? rawDirection : null;
   const 采纳异议码 = asCodeList(副驾回执?.["采纳异议码"]);
   const 驳回异议码 = asCodeList(副驾回执?.["驳回异议码"]);
 
@@ -130,18 +136,30 @@ export function buildAiReviewDelta({ item, 副驾回执 = {}, 终判 = null, now
  */
 export function computeAgreementRate(deltas) {
   const rows = Array.isArray(deltas) ? deltas : [];
-  const 总数 = rows.length;
-  const 分歧数 = rows.filter((row) => row?.["是否分歧"] === true).length;
+  // 按 审核编号 去重(latest-wins):同一条 review 多次表态只算最新一条,杜绝重复裁决单向刷高一致率。
+  const latest = new Map();
+  const noId = [];
+  for (const row of rows) {
+    const id = row?.["审核编号"];
+    if (id) latest.set(id, row);
+    else noId.push(row);
+  }
+  const deduped = [...latest.values(), ...noId];
+  // 只统计 是否分歧 为严格布尔的行;非布尔/缺失行进「未知」桶,绝不静默并入一致(防误差单向偏向更高一致率)。
+  const valid = deduped.filter((row) => typeof row?.["是否分歧"] === "boolean");
+  const 未知 = deduped.length - valid.length;
+  const 总数 = valid.length;
+  const 分歧数 = valid.filter((row) => row["是否分歧"] === true).length;
   const 一致数 = 总数 - 分歧数;
   const 一致率 = 总数 ? Number((1 - 分歧数 / 总数).toFixed(4)) : null;
 
   const byDimension = new Map();
-  for (const row of rows) {
-    const dim = row?.["环保维度"] || "未标注维度";
+  for (const row of valid) {
+    const dim = row["环保维度"] || "未标注维度";
     if (!byDimension.has(dim)) byDimension.set(dim, { 总数: 0, 分歧数: 0 });
     const bucket = byDimension.get(dim);
     bucket.总数 += 1;
-    if (row?.["是否分歧"] === true) bucket.分歧数 += 1;
+    if (row["是否分歧"] === true) bucket.分歧数 += 1;
   }
   const 按维度 = {};
   for (const [dim, bucket] of byDimension) {
@@ -153,7 +171,7 @@ export function computeAgreementRate(deltas) {
     };
   }
 
-  return { "总数": 总数, "分歧数": 分歧数, "一致数": 一致数, "一致率": 一致率, "按维度": 按维度 };
+  return { "总数": 总数, "分歧数": 分歧数, "一致数": 一致数, "一致率": 一致率, "未知": 未知, "按维度": 按维度 };
 }
 
 /** ai_review_delta 独立 staging 路径(与 field-events.jsonl 同口径,运行时产生,按既有 gitignore 处理)。 */

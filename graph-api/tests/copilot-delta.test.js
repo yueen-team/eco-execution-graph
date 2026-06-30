@@ -208,3 +208,37 @@ test("(7) decisionKind 映射审核结论文本 → ACTIONS kind", () => {
   assert.equal(decisionKind("不入图"), "reject");
   assert.equal(decisionKind("未知结论"), null);
 });
+
+// 回归:红线审计 major — 副驾建议方向 必须白名单收口,自由文本注入归一 null,不污染 delta / 一致率。
+test("(9) buildAiReviewDelta:副驾建议方向 非 ACTIONS kind 自由文本 → 归一 null,不恒判分歧", () => {
+  const injected = buildAiReviewDelta({
+    item: sampleItem(),
+    副驾回执: { "副驾建议方向": "私有判断标准任意自由文本注入", "采纳异议码": ["__bad__", "law_status_risk"], "驳回异议码": ["junk"] },
+    终判: "approve",
+    now: NOW,
+  });
+  assert.equal(injected["副驾建议方向"], null, "非枚举自由文本必须归一 null,不得原样落库");
+  assert.equal(injected["是否分歧"], false, "建议方向归一 null + 无 blocking 被驳回 → 不恒判分歧");
+  assert.deepEqual(injected["采纳异议码"], ["law_status_risk"], "未知码 __bad__ 被白名单丢弃");
+  assert.deepEqual(injected["驳回异议码"], [], "未知码 junk 被白名单丢弃");
+  assert.equal(JSON.stringify(injected).includes("自由文本注入"), false, "注入文本不得进入 delta");
+});
+
+// 回归:红线审计 major — 一致率单向偏置。同审核编号去重 latest-wins + 非布尔进未知桶不算一致。
+test("(10) computeAgreementRate:同审核编号去重 + 非布尔进未知桶,杜绝一致率单向虚高", () => {
+  const dup = [
+    { "审核编号": "review:a", "是否分歧": false, "环保维度": "危险废物管理" },
+    { "审核编号": "review:a", "是否分歧": false, "环保维度": "危险废物管理" },
+    { "审核编号": "review:a", "是否分歧": false, "环保维度": "危险废物管理" },
+    { "审核编号": "review:b", "是否分歧": true, "环保维度": "危险废物管理" },
+  ];
+  const rate = computeAgreementRate(dup);
+  assert.equal(rate["总数"], 2, "同审核编号去重 latest-wins:a 算 1 条 + b 1 条");
+  assert.equal(rate["分歧数"], 1);
+  assert.equal(rate["一致率"], 0.5, "重复同意裁决不得把一致率刷高");
+
+  const malformed = computeAgreementRate([{ "审核编号": "r1", "是否分歧": "false" }, { "审核编号": "r2", "是否分歧": null }, { "审核编号": "r3" }]);
+  assert.equal(malformed["总数"], 0, "非布尔行不计入统计总数");
+  assert.equal(malformed["未知"], 3, "非布尔/缺失行进未知桶");
+  assert.equal(malformed["一致率"], null, "无有效布尔样本 → 一致率 null,不臆造 1.0");
+});

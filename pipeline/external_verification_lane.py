@@ -45,6 +45,10 @@ FORBIDDEN_PAYLOAD_KEYS = {
     "review_note",
     "eto_note",
     "eto_review_note",
+    # 与 graph-context.js / copilot-llm.js 私有键对称:中文私有判断键变体一并拦(egress 闸纵深对称)。
+    "证据判断标准",
+    "整改模板",
+    "eto审核笔记",
 }
 ALL_GATE_IDS = (
     "GRAPH-RAG-REAL-SMOKE",
