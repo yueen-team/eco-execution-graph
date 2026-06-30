@@ -373,7 +373,7 @@ def summarize_government_lineage() -> dict[str, Any]:
     }
 
 
-def summarize_copilot_llm_smoke(env: dict[str, str]) -> dict[str, Any]:
+def summarize_copilot_llm_smoke(env: dict[str, str], report: dict[str, Any] | None = None) -> dict[str, Any]:
     """十律 LLM critic 烟测门(opt-in、fail-closed)。
 
     缺 TokenHub 凭证或缺报告时报 blocked(配置缺口),不是 failed(代码回归)。
@@ -390,7 +390,8 @@ def summarize_copilot_llm_smoke(env: dict[str, str]) -> dict[str, Any]:
             "fail-closed (blocked, not failed). No private judgement standard or enterprise data is ever sent.",
             "private_tier_boundary": private_tier_boundary,
         }
-    report = read_optional_json(COPILOT_LLM_REPORT)
+    # 报告由调用方注入(run_lane 读盘后传入);单测注入 None → blocked。
+    # 不在此读盘,使单测与盘上运行时产物(如一次 401 失败遗留的 failed 报告)解耦,杜绝它拖红 verify:all。
     if report is None:
         return {
             "gate_id": "ETO-REVIEW-COPILOT-LLM-SMOKE",
@@ -457,6 +458,7 @@ def build_report(
     steps: list[dict[str, Any]],
     rag_report: dict[str, Any] | None,
     commit: dict[str, Any] | None = None,
+    copilot_report: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     preflight = build_preflight(env)
     rag = summarize_rag_report(rag_report)
@@ -474,7 +476,7 @@ def build_report(
         "ECOCHECK-GRAPH-PUSH-REAL-SMOKE": summarize_ecocheck_graph_push(env),
         "ECOCHECK-AGGREGATE-ETO-BLIND-REVIEW": summarize_aggregate_and_blind_review(),
         "GOVERNMENT-LINEAGE-REAL-IMPORT": summarize_government_lineage(),
-        "ETO-REVIEW-COPILOT-LLM-SMOKE": summarize_copilot_llm_smoke(env),
+        "ETO-REVIEW-COPILOT-LLM-SMOKE": summarize_copilot_llm_smoke(env, copilot_report),
     }
     status = lane_status(required_gate_ids, gates)
     credentials_present = preflight["status"] == "pass"
@@ -580,8 +582,19 @@ def run_lane() -> int:
         else:
             steps.append({"name": "rag-real-gate", "command": "pnpm rag:real:gate", "status": "skipped", "exit_code": None})
 
+    # 十律 LLM critic 烟测(opt-in、fail-closed):仅当 TokenHub 凭证在场才跑 runner 生成报告。
+    # 缺凭证则不跑,summarize_copilot_llm_smoke 仍报 blocked(配置缺口,非代码回归)。
+    # run_command 不传 env 给子进程,故 node smoke 自加载 .env.local(见 graph-api/scripts/copilot-llm-smoke.mjs);
+    # 与 RAG preflight(LKE 密钥)解耦 —— copilot smoke 只需 TokenHub key 即可端到端跑活体研判。
+    copilot_report: dict[str, Any] | None = None
+    if any(configured(env.get(name)) for name in TOKENHUB_ENV):
+        steps.append(run_command("copilot-llm-smoke", ["pnpm", "--dir", "graph-api", "smoke:copilot-llm"], env))
+        # 读本次刚生成的报告并注入 build_report;summarize 不再自行读盘,单测与运行时产物解耦。
+        copilot_report = read_optional_json(COPILOT_LLM_REPORT)
+
     report = build_report(
-        checked_at=utc_now(), env=env, steps=steps, rag_report=rag_report, commit=git_commit_info()
+        checked_at=utc_now(), env=env, steps=steps, rag_report=rag_report,
+        commit=git_commit_info(), copilot_report=copilot_report,
     )
     write_json(REPORT_JSON, report)
     write_markdown(report)

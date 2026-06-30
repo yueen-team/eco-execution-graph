@@ -11,6 +11,7 @@ export const FORBIDDEN_KEYS = new Set([
   "raw_text",
   "full_text",
   "original_text",
+  "article_text",
   "enterprise_name",
   "company_name",
   "gps",

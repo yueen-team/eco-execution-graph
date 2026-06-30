@@ -23,6 +23,8 @@ reports/render-proof-field-review/*.png
 reports/render-proof-field-review/*.mp4
 data/private-staging/*
 !data/private-staging/.gitkeep
+# 十律 verify:external copilot LLM 烟测的运行时产物(每次 lane 运行重生成,绝不提交)。
+reports/copilot-llm-smoke.json
 
 reports/render-proof-review-polish/*.png
 reports/render-proof-review-polish/*.mp4
