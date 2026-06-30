@@ -800,3 +800,67 @@ test("详情接口附确定性副驾研判且只读现算不落库", async () =>
     await rm(temp, { recursive: true, force: true });
   }
 });
+
+test("POST /copilot:无 LKE 凭证 → buildRagFetch(process.env)=null 注入 critique,LLM 不可用则退回 backbone", async () => {
+  const temp = path.join(os.tmpdir(), `eco-graph-copilot-rag-${Date.now()}`);
+  await mkdir(temp, { recursive: true });
+  const stagingPath = path.join(temp, "field-events.jsonl");
+  const graphPath = path.join(temp, "graph.json");
+  const publicationPath = path.join(temp, "ecocheck.json");
+  await writeFile(graphPath, JSON.stringify({
+    nodes: [
+      { node_id: "issue:hw:label-incomplete", node_type: "issue_type", name: "危废标签内容不完整", tier: "shared", review_status: "APPROVED_BASELINE" },
+      { node_id: "obl:hw:label", node_type: "law_obligation", name: "危废标签管理义务", tier: "shared", review_status: "APPROVED_BASELINE" },
+      {
+        node_id: "law:swl:art77", node_type: "law_article", name: "固体废物污染环境防治法 第七十七条",
+        tier: "shared", review_status: "APPROVED_BASELINE",
+        attrs: { law_name: "固体废物污染环境防治法", article_no: "第七十七条", rag_doc_ref: "tencent-lke://law/swl/art77", effective_status: "现行有效" },
+      },
+      { node_id: "evidence:label-photo", node_type: "evidence_field_requirement", name: "标签照片", tier: "shared", review_status: "APPROVED_BASELINE" },
+    ],
+    edges: [
+      { edge_id: "edge:regulated:label", from: "issue:hw:label-incomplete", to: "obl:hw:label", edge_type: "regulated_by", tier: "shared", review_status: "APPROVED_BASELINE", source_ref: "src:test", legal_basis_status: "internal_reviewed", confidence: 0.8, confidence_reason: ["MANUAL_REVIEWED"] },
+      { edge_id: "edge:obligation:art77", from: "obl:hw:label", to: "law:swl:art77", edge_type: "obligation_of", tier: "shared", review_status: "APPROVED_BASELINE", source_ref: "src:test", legal_basis_status: "internal_reviewed", confidence: 0.8, confidence_reason: ["MANUAL_REVIEWED"] },
+      { edge_id: "edge:evidenced:label", from: "issue:hw:label-incomplete", to: "evidence:label-photo", edge_type: "evidenced_by", tier: "shared", review_status: "APPROVED_BASELINE", source_ref: "src:test", legal_basis_status: "internal_reviewed", confidence: 0.8, confidence_reason: ["MANUAL_REVIEWED"] },
+    ],
+  }), "utf8");
+  await writeFile(publicationPath, JSON.stringify({
+    items: [{ rag_doc_ref: "tencent-lke://law/swl/art77", review_status: "approved", legal_basis_status: "internal_reviewed", citation_locator: "第七十七条", cache_policy: "metadata_only", raw_cached: false }],
+  }), "utf8");
+
+  // critique stub:捕获注入的 ragFetch;返回 available:false 让编排退回 backbone(不触网、无私有泄漏)。
+  let capturedArgs = null;
+  const copilotLlm = {
+    llmCritique: async (args) => { capturedArgs = args; return { findings: [], available: false, rag_available: false, degraded_note: null }; },
+  };
+  // 让 llmConfigFromEnv().configured 为真,编排才会进到 critique 调用点(否则提前 return backbone)。
+  const prevKey = process.env.TENCENT_TOKENHUB_API_KEY;
+  process.env.TENCENT_TOKENHUB_API_KEY = "tk-server-test-key";
+
+  const server = createServer({ stagingPath, apiToken: "secret-for-test", contextGraphPath: graphPath, contextPublicationPath: publicationPath, copilotLlm });
+  await new Promise((resolve) => server.listen(0, "127.0.0.1", resolve));
+  const base = `http://127.0.0.1:${server.address().port}`;
+  const headers = { "content-type": "application/json", authorization: "Bearer secret-for-test" };
+
+  try {
+    const create = await fetch(`${base}/api/ecocheck/field-events`, { method: "POST", headers, body: JSON.stringify(fixture) });
+    assert.equal(create.status, 201);
+    const id = (await create.json()).item["审核编号"];
+
+    const resp = await fetch(`${base}/api/review/field-events/${encodeURIComponent(id)}/copilot`, { method: "POST", headers });
+    assert.equal(resp.status, 200);
+    const body = await resp.json();
+    const copilot = body.item["副驾研判"];
+    // LLM 不可用 → 退回纯确定性 backbone(copilot.v1 三段结构),绝不 500。
+    assert.equal(copilot["副驾版本"], "copilot.v1");
+    assert.ok(Array.isArray(copilot["异议"]));
+    // 关键断言:无 LKE 凭证 → buildRagFetch(process.env)=null 被注入 critique(fail-closed、当前降级行为)。
+    assert.ok(capturedArgs, "critique 应被调用");
+    assert.equal(capturedArgs.ragFetch, null, "无 LKE 凭证 → 注入的 ragFetch 必须为 null");
+  } finally {
+    if (prevKey === undefined) delete process.env.TENCENT_TOKENHUB_API_KEY;
+    else process.env.TENCENT_TOKENHUB_API_KEY = prevKey;
+    await new Promise((resolve) => server.close(resolve));
+    await rm(temp, { recursive: true, force: true });
+  }
+});

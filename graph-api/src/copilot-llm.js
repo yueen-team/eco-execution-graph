@@ -48,6 +48,11 @@ const DIMENSION_BY_CODE = {
 };
 const ALLOWED_SEVERITY = new Set(["blocking", "warning", "info"]);
 
+// 法条引用段键名:buildCopilotPrompt 用它装配 userPayload 的 citation 段;
+// 导出供 smoke 的 partition-aware scanPrompts 用同一标识切出该段,改用 scanCitationForbidden(允许法条原文)扫,
+// 与其余段(候选 / 图谱)用全集 scanForbidden 分域,避免合法法条原文被二次闸误判 prompt 红线脏。
+export const CITATION_SEGMENT_KEY = "法条引用";
+
 // 法条/标准类节点:法律维度异议或引用了具体法条标识的异议,必须锚定到这些真实节点之一。
 const LAW_NODE_TYPES = new Set(["law_article", "law_obligation", "tech_spec", "standard_limit"]);
 const LAW_NODE_ID_RE = /^(law|obl|spec|standard|tech):/i;
@@ -349,7 +354,7 @@ export function buildCopilotPrompt({ item, graphContext, citations = [] }) {
 
   const userPayload = {
     ...strictPayload,
-    "法条引用": citationSegment,
+    [CITATION_SEGMENT_KEY]: citationSegment,
     "法条原文可用": ragAvailable,
     "说明": ragAvailable ? null : "法条原文不可用,涉及法条适用性的判断必须降级为需人工复核,不得据原文断言。",
   };

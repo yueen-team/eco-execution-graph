@@ -7,12 +7,24 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "pipeline"))
 
 from external_verification_lane import (
+    REQUIRED_ENV,
+    build_preflight,
     build_report,
     redact_text,
     resolve_ecocheck_smoke_report_path,
+    summarize_copilot_llm_smoke,
     summarize_ecocheck_graph_push,
     summarize_rag_report,
 )
+
+
+TOKENHUB_ONLY_ENV = {"TENCENT_TOKENHUB_API_KEY": "configured-tokenhub"}
+LKE_PLUS_TOKENHUB_ENV = {
+    "TENCENT_LKE_SECRET_ID": "configured-secret-id",
+    "TENCENT_LKE_SECRET_KEY": "configured-secret-key",
+    "TENCENT_LKE_KNOWLEDGE_BASE_IDS": "kb-1",
+    "TENCENT_TOKENHUB_API_KEY": "configured-tokenhub",
+}
 
 
 class ExternalVerificationLaneTest(unittest.TestCase):
@@ -189,6 +201,111 @@ class ExternalVerificationLaneTest(unittest.TestCase):
     def test_report_source_commit_defaults_when_commit_absent(self):
         report = build_report(checked_at="2026-06-23T00:00:00Z", env={}, steps=[], rag_report=None)
         self.assertIsNone(report["source_commit"]["sha"])
+
+
+class CopilotRagGroundingGateTest(unittest.TestCase):
+    """副驾 RAG grounding 分域门(M2):LKE 永不阻塞,TokenHub 仍是唯一硬要件,
+    LKE 在场即要求 grounded=true,缺 LKE 合法降级。"""
+
+    def test_grounding_surface_exposes_names_only_never_values(self):
+        # 守 ADR-0012:grounding_env_names 只列环境变量名,绝不暴露 LKE 凭证值。
+        gate = summarize_copilot_llm_smoke(LKE_PLUS_TOKENHUB_ENV, {"status": "pass", "grounded": True})
+        self.assertEqual(gate["grounding_env_names"], list(REQUIRED_ENV))
+        for name in REQUIRED_ENV:
+            self.assertIn(name, gate["grounding_env_names"])
+        # 实际凭证值绝不出现在 surface 的任何字段里。
+        flattened = repr(gate)
+        for secret in ("configured-secret-id", "configured-secret-key", "kb-1", "configured-tokenhub"):
+            self.assertNotIn(secret, flattened)
+
+    def test_lke_present_and_grounded_true_passes(self):
+        gate = summarize_copilot_llm_smoke(LKE_PLUS_TOKENHUB_ENV, {"status": "pass", "grounded": True})
+        self.assertEqual(gate["status"], "pass")
+        self.assertTrue(gate["grounding_configured"])
+        self.assertTrue(gate["grounded"])
+        self.assertEqual(gate["grounding"], "grounded")
+        self.assertIsNone(gate["reason"])
+
+    def test_lke_present_but_not_grounded_is_failed_regression(self):
+        # grounding 回归:凭证在但报告未 grounded → failed(非 blocked),即便 smoke 自身 pass。
+        gate = summarize_copilot_llm_smoke(LKE_PLUS_TOKENHUB_ENV, {"status": "pass"})
+        self.assertEqual(gate["status"], "failed")
+        self.assertEqual(gate["grounding"], "regression_lke_present_not_grounded")
+        self.assertTrue(gate["grounding_configured"])
+        self.assertIsNone(gate["grounded"])
+        self.assertIn("grounding regression", gate["reason"])
+
+    def test_lke_present_grounded_false_is_failed_regression(self):
+        gate = summarize_copilot_llm_smoke(LKE_PLUS_TOKENHUB_ENV, {"status": "pass", "grounded": False})
+        self.assertEqual(gate["status"], "failed")
+        self.assertEqual(gate["grounding"], "regression_lke_present_not_grounded")
+
+    def test_no_lke_degrades_without_failing(self):
+        # 无 LKE 凭证:grounding 合法降级,smoke pass 仍 pass(TokenHub 唯一 pass 要件)。
+        gate = summarize_copilot_llm_smoke(TOKENHUB_ONLY_ENV, {"status": "pass"})
+        self.assertEqual(gate["status"], "pass")
+        self.assertFalse(gate["grounding_configured"])
+        self.assertIsNone(gate["grounded"])
+        self.assertEqual(gate["grounding"], "degraded_no_lke_creds")
+        self.assertIsNone(gate["reason"])
+
+    def test_no_tokenhub_blocks_regardless_of_lke(self):
+        # TokenHub 缺失 → blocked(配置缺口),即便 LKE 在场;LKE 永不能替代 TokenHub。
+        gate = summarize_copilot_llm_smoke(
+            {
+                "TENCENT_LKE_SECRET_ID": "configured-secret-id",
+                "TENCENT_LKE_SECRET_KEY": "configured-secret-key",
+                "TENCENT_LKE_KNOWLEDGE_BASE_IDS": "kb-1",
+            },
+            None,
+        )
+        self.assertEqual(gate["status"], "blocked")
+        self.assertTrue(gate["grounding_configured"])
+
+    def test_grounding_regression_never_promotes_lke_to_required_default(self):
+        # LKE 永不进 DEFAULT_REQUIRED_GATE_IDS:即便 copilot gate 因 grounding 回归 failed,
+        # 默认 lane(只要求 GRAPH-RAG-REAL-SMOKE)仍按 RAG gate 判级,不被 copilot 拖红。
+        report = build_report(
+            checked_at="2026-06-22T00:00:00Z",
+            env=LKE_PLUS_TOKENHUB_ENV,
+            steps=[
+                {"name": "rag-resolve", "command": "pnpm rag:resolve", "status": "pass", "exit_code": 0},
+                {"name": "rag-real-gate", "command": "pnpm rag:real:gate", "status": "pass", "exit_code": 0},
+            ],
+            rag_report={
+                "rag_real_smoke": "pass",
+                "tokenhub_probe": {"status": "pass"},
+                "rag_retrieve_probe": {"status": "pass"},
+                "embedding_probe": {"status": "pass"},
+                "results": [{"raw_cached": False, "excerpt": ""}],
+            },
+            copilot_report={"status": "pass"},  # LKE 在场但未 grounded → copilot gate failed
+        )
+        self.assertEqual(report["required_gate_ids"], ["GRAPH-RAG-REAL-SMOKE"])
+        gate_statuses = {gate["gate_id"]: gate["status"] for gate in report["gates"]}
+        self.assertEqual(gate_statuses["ETO-REVIEW-COPILOT-LLM-SMOKE"], "failed")
+        # 默认 lane 不要求 copilot gate → 整体仍 pass(LKE/copilot 永不阻塞默认 lane)。
+        self.assertEqual(report["status"], "pass")
+
+    def test_preflight_records_lke_grounding_without_blocking(self):
+        # build_preflight 增可选 lke_rag_grounding 组:记录就绪但不进 missing(LKE 永不阻塞)。
+        preflight = build_preflight(TOKENHUB_ONLY_ENV)
+        groups = {alt["group"]: alt for alt in preflight["alternatives"]}
+        self.assertIn("lke_rag_grounding", groups)
+        self.assertFalse(groups["lke_rag_grounding"]["configured"])
+        self.assertFalse(groups["lke_rag_grounding"]["blocking"])
+        self.assertEqual(groups["lke_rag_grounding"]["accepted_env_names"], list(REQUIRED_ENV))
+        # LKE 缺失只通过既有 RAG required 项进 missing,lke_rag_grounding 组本身从不向 missing 添加额外项。
+        self.assertNotIn("lke_rag_grounding", preflight["missing"])
+
+    def test_preflight_lke_grounding_configured_when_all_three_present(self):
+        preflight = build_preflight(LKE_PLUS_TOKENHUB_ENV)
+        groups = {alt["group"]: alt for alt in preflight["alternatives"]}
+        self.assertTrue(groups["lke_rag_grounding"]["configured"])
+        self.assertEqual(
+            sorted(groups["lke_rag_grounding"]["configured_env_names"]),
+            sorted(REQUIRED_ENV),
+        )
 
 
 if __name__ == "__main__":

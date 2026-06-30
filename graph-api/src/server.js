@@ -8,6 +8,7 @@ import { createReviewStorage } from "./storage.js";
 import { assertRedlineClean, buildGraphContextResponse, contextPathsFromRoot, loadGraphContextInputs } from "./graph-context.js";
 import { buildCopilotBackbone, dropTracelessFindings } from "./review-copilot.js";
 import { llmConfigFromEnv, llmCritique } from "./copilot-llm.js";
+import { buildRagFetch } from "./tc3-rag-client.js";
 import { appendAiReviewDelta, buildAiReviewDelta, computeAgreementRate, computeAgreementSeries, decisionKind, deltaStagingPath, readAllAiReviewDeltas } from "./copilot-delta.js";
 import {
   wecomConfigFromEnv, isWecomConfigured, buildWecomLoginUrl, exchangeWecomCode,
@@ -174,7 +175,9 @@ async function computeReviewCopilotWithLlm({ item, rows, contextGraphPath, conte
   if (!llmConfigFromEnv().configured) return backbone;
   const critique = copilotLlm?.llmCritique || llmCritique;
   try {
-    const result = await critique({ item, graphContext: inputs.graphContext });
+    // M2 grounding 接入:有 LKE 凭证 → 真取已审核法条原文供 LLM 研判;缺凭证 → buildRagFetch=null → 当前 RAG 降级路径,
+    // fail-closed、低风险(不触网、不伪造原文)。GET 详情 backbone 路径(computeReviewCopilot)不变。
+    const result = await critique({ item, graphContext: inputs.graphContext, ragFetch: buildRagFetch(process.env) });
     if (!result || result.available === false) return backbone;
     return mergeLlmIntoBackbone(backbone, result, inputs.graphContext);
   } catch (error) {

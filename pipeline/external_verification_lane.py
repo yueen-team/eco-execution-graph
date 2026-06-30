@@ -129,13 +129,26 @@ def parse_required_gate_ids(env: dict[str, str]) -> list[str]:
 def build_preflight(env: dict[str, str]) -> dict[str, Any]:
     required = [{"name": name, "configured": configured(env.get(name))} for name in REQUIRED_ENV]
     tokenhub_configured = [name for name in TOKENHUB_ENV if configured(env.get(name))]
+    lke_grounding_configured = [name for name in REQUIRED_ENV if configured(env.get(name))]
     alternatives = [
         {
             "group": "tokenhub_deepseek_api_key",
             "accepted_env_names": list(TOKENHUB_ENV),
             "configured_env_names": tokenhub_configured,
             "configured": bool(tokenhub_configured),
-        }
+        },
+        {
+            # 可选 copilot RAG grounding 就绪记录:LKE 三键在场即 copilot smoke 能行使真 grounding
+            # (法条原文真进 prompt)。仅记录(配置布尔 + 仅环境名)、绝不进 missing —— LKE 永不阻塞
+            # 本 lane、永不进 DEFAULT_REQUIRED_GATE_IDS(守 ADR-0012 + ADR-0014;TokenHub 仍是唯一 HARD 要件)。
+            "group": "lke_rag_grounding",
+            "accepted_env_names": list(REQUIRED_ENV),
+            "configured_env_names": lke_grounding_configured,
+            "configured": all(configured(env.get(name)) for name in REQUIRED_ENV),
+            "blocking": False,
+            "note": "copilot RAG grounding readiness; configured means copilot smoke can ground on real law "
+            "text, absent means copilot grounding degrades (never blocks this lane).",
+        },
     ]
     missing = [item["name"] for item in required if not item["configured"]]
     if not tokenhub_configured:
@@ -374,12 +387,29 @@ def summarize_government_lineage() -> dict[str, Any]:
 
 
 def summarize_copilot_llm_smoke(env: dict[str, str], report: dict[str, Any] | None = None) -> dict[str, Any]:
-    """十律 LLM critic 烟测门(opt-in、fail-closed)。
+    """十律 LLM critic 烟测门(opt-in、fail-closed)+ 副驾 RAG grounding 分域研判。
 
     缺 TokenHub 凭证或缺报告时报 blocked(配置缺口),不是 failed(代码回归)。
     报告必须不含法条原文 / 企业数据 / copilot 私有笔记(复用 FORBIDDEN_PAYLOAD_KEYS 脱敏边界)。
+
+    RAG grounding(M2;守 ADR-0012 离线/报告边界 + ADR-0014 法条原文可进 prompt):
+      - LKE 三键(REQUIRED_ENV)在场 = copilot smoke 应行使【真 grounding】(法条原文真进 prompt),
+        smoke 报告须 grounded=true。LKE 在场但 grounded 非 true → grounding 回归(failed):
+        凭证在但没取到原文,是接线/代码缺口,不是配置缺口。
+      - LKE 缺失 = grounding 合法降级(grounding='degraded_no_lke_creds'),绝不翻红、绝不阻塞。
+      - LKE 永不阻塞 lane、永不进 DEFAULT_REQUIRED_GATE_IDS;TokenHub 仍是唯一 HARD 触发 + pass 要件。
+      - grounding_env_names 仅记录环境变量【名】、grounding_configured 仅记录布尔,绝不带值(守 ADR-0012 报告边界)。
     """
     private_tier_boundary = sorted(FORBIDDEN_PAYLOAD_KEYS)
+    # rag_grounding_available:LKE 三键(REQUIRED_ENV)是否全部在场 —— 仅决定 grounding 期望,绝不决定阻塞。
+    rag_grounding_available = all(configured(env.get(name)) for name in REQUIRED_ENV)
+    grounded = report.get("grounded") if report else None
+    # grounding surface:仅暴露布尔 + 环境名 + 报告 grounded 信号(不带任何凭证值)。
+    grounding_surface = {
+        "grounding_configured": rag_grounding_available,
+        "grounding_env_names": list(REQUIRED_ENV),
+        "grounded": grounded,
+    }
     tokenhub_configured = any(configured(env.get(name)) for name in TOKENHUB_ENV)
     if not tokenhub_configured:
         return {
@@ -388,6 +418,8 @@ def summarize_copilot_llm_smoke(env: dict[str, str], report: dict[str, Any] | No
             "report": display_path(COPILOT_LLM_REPORT),
             "reason": "TokenHub DeepSeek credentials are not configured; copilot LLM smoke is opt-in and "
             "fail-closed (blocked, not failed). No private judgement standard or enterprise data is ever sent.",
+            **grounding_surface,
+            "grounding": "degraded_no_lke_creds" if not rag_grounding_available else "not_evaluated_no_tokenhub",
             "private_tier_boundary": private_tier_boundary,
         }
     # 报告由调用方注入(run_lane 读盘后传入);单测注入 None → blocked。
@@ -399,6 +431,8 @@ def summarize_copilot_llm_smoke(env: dict[str, str], report: dict[str, Any] | No
             "report": display_path(COPILOT_LLM_REPORT),
             "reason": "Copilot LLM smoke report is missing; run the graph-api copilot LLM smoke against TokenHub "
             "with only desensitized whitelist payload.",
+            **grounding_surface,
+            "grounding": "degraded_no_lke_creds" if not rag_grounding_available else "not_evaluated_no_report",
             "private_tier_boundary": private_tier_boundary,
         }
     forbidden = find_forbidden_payload_keys(report)
@@ -411,6 +445,30 @@ def summarize_copilot_llm_smoke(env: dict[str, str], report: dict[str, Any] | No
         status = "failed"
     else:
         status = "blocked"
+
+    # ── RAG grounding 分域:LKE 永不阻塞,但 LKE 在场即要求真 grounding;否则判 grounding 回归 ──
+    if not rag_grounding_available:
+        # 无 LKE 凭证:grounding 合法降级,绝不翻红(TokenHub 仍是唯一 pass 要件)。
+        grounding = "degraded_no_lke_creds"
+    elif grounded is True:
+        grounding = "grounded"
+    else:
+        # LKE 凭证在场但报告未 grounded(grounded != true)→ grounding 回归:凭证在但没取到原文。
+        # 仅把「本可 pass」升级为 failed;已 failed/blocked 维持原状(不降级、不掩盖)。
+        grounding = "regression_lke_present_not_grounded"
+        if status == "pass":
+            status = "failed"
+
+    if status == "pass":
+        reason = None
+    elif grounding == "regression_lke_present_not_grounded":
+        reason = (
+            "LKE RAG grounding credentials are configured but the copilot smoke report is not grounded "
+            "(grounded != true): grounding regression (credentials present, real law text not retrieved), "
+            "not a config gap. LKE never blocks the lane; this only fails the opt-in copilot gate."
+        )
+    else:
+        reason = "Copilot LLM smoke must pass with no forbidden (raw law text / enterprise / private note) payload keys."
     return {
         "gate_id": "ETO-REVIEW-COPILOT-LLM-SMOKE",
         "status": status,
@@ -419,9 +477,9 @@ def summarize_copilot_llm_smoke(env: dict[str, str], report: dict[str, Any] | No
         "forbidden_payload_key_count": len(forbidden),
         "forbidden_payload_key_examples": forbidden[:10],
         "advisory_only": report.get("advisory_only", True),
-        "reason": None
-        if status == "pass"
-        else "Copilot LLM smoke must pass with no forbidden (raw law text / enterprise / private note) payload keys.",
+        **grounding_surface,
+        "grounding": grounding,
+        "reason": reason,
         "private_tier_boundary": private_tier_boundary,
     }
 

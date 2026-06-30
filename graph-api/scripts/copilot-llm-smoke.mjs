@@ -17,8 +17,9 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { llmConfigFromEnv, llmCritique } from "../src/copilot-llm.js";
-import { loadGraphContextInputs, buildGraphContextResponse, scanForbidden } from "../src/graph-context.js";
+import { llmConfigFromEnv, llmCritique, CITATION_SEGMENT_KEY } from "../src/copilot-llm.js";
+import { loadGraphContextInputs, buildGraphContextResponse, scanForbidden, scanCitationForbidden } from "../src/graph-context.js";
+import { buildRagFetch } from "../src/tc3-rag-client.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..", "..");
@@ -128,7 +129,13 @@ function buildCapturingFetch(fetchImpl) {
   return { wrapped, requests };
 }
 
-/** 扫描捕获到的 prompt(messages 全文):结构化红线(键名 + 值模式)+ 私有键名子串。 */
+/**
+ * 扫描捕获到的 prompt(messages 全文):结构化红线(键名 + 值模式)+ 私有键名子串。
+ * 【partition-aware】与 buildCopilotPrompt 分段同源:把【法条引用】段(CITATION_SEGMENT_KEY)切出来,
+ * 用 scanCitationForbidden(允许法条原文,禁私有/企业/密钥/坐标/照片)扫;其余段(候选 / 已审核图谱上下文 /
+ * 法条原文可用 / 说明)用全集 scanForbidden(含法条全文模式)扫。否则 grounded 时合法法条原文(record.Content)
+ * 进了 prompt,会被 smoke 二次闸的法条全文模式误判为 prompt_redline_clean=false。
+ */
 export function scanPrompts(requests) {
   const promptStrings = [];
   const hits = [];
@@ -150,8 +157,16 @@ export function scanPrompts(requests) {
       } catch {
         payloadObj = null;
       }
-      if (payloadObj) hits.push(...scanForbidden(payloadObj));
-      // 私有键名子串扫描(content 已是业务串,不会误报消息壳)。
+      if (payloadObj && typeof payloadObj === "object" && !Array.isArray(payloadObj)) {
+        // 分域:法条引用段允许法条原文(scanCitationForbidden),其余段全集扫描(scanForbidden,含法条全文)。
+        const { [CITATION_SEGMENT_KEY]: citationSegment, ...rest } = payloadObj;
+        hits.push(...scanForbidden(rest));
+        if (citationSegment !== undefined) hits.push(...scanCitationForbidden(citationSegment));
+      } else if (payloadObj) {
+        hits.push(...scanForbidden(payloadObj));
+      }
+      // 私有键名子串扫描(content 已是业务串,不会误报消息壳)。markers 均为私有/企业/全文键名,
+      // 合法法条原文不含这些键名,故仍对整段 content 扫描,不受 partition 影响。
       for (const marker of PROMPT_FORBIDDEN_MARKERS) {
         if (content.includes(marker)) hits.push(`marker:${marker}`);
       }
@@ -209,7 +224,7 @@ function desensitizeError(error, env) {
 export async function runCopilotSmoke({
   env = process.env,
   fetchImpl = fetch,
-  ragFetch = null,
+  ragFetch = buildRagFetch(env),
   graphPath = DEFAULT_GRAPH_PATH,
   publicationPath = DEFAULT_PUBLICATION_PATH,
   item = syntheticCandidate(),
@@ -230,6 +245,7 @@ export async function runCopilotSmoke({
         codes: [],
         rag_available: false,
         degraded: false,
+        grounded: false,
         prompt_redline_clean: true,
         trace_anchored: true,
         checked_at: now,
@@ -261,6 +277,9 @@ export async function runCopilotSmoke({
     const codes = [...new Set(findings.map((finding) => finding["错配码"]).filter(Boolean))];
     const ragAvailable = result.rag_available === true;
     const degraded = Boolean(result.degraded_note);
+    // grounded:法条原文【真进了 prompt 的 citation 段】(已审核来源 + 逐条红线后仍存活)且未降级。
+    // 缺 LKE 凭证 → ragFetch=null → ragAvailable=false → grounded=false(降级,行为不变)。
+    const grounded = ragAvailable && !degraded;
 
     const report = {
       status: redlineBroken ? "failed" : "pass",
@@ -270,6 +289,7 @@ export async function runCopilotSmoke({
       codes,
       rag_available: ragAvailable,
       degraded,
+      grounded,
       prompt_redline_clean: promptClean,
       trace_anchored: anchored,
       checked_at: now,
@@ -294,6 +314,7 @@ export async function runCopilotSmoke({
         codes: [],
         rag_available: false,
         degraded: false,
+        grounded: false,
         prompt_redline_clean: true,
         trace_anchored: true,
         checked_at: now,
@@ -344,7 +365,9 @@ function writeReport(report) {
 
 async function main() {
   const env = loadEnvLocal(ROOT, process.env);
-  const { report } = await runCopilotSmoke({ env, fetchImpl: fetch });
+  // 生产路径接入 M1 buildRagFetch:有 LKE 凭证 → 真取法条原文 grounding;缺凭证 → null → RAG 降级(不触网、行为不变)。
+  const ragFetch = buildRagFetch(env);
+  const { report } = await runCopilotSmoke({ env, fetchImpl: fetch, ragFetch });
   writeReport(report);
   // 脱敏摘要(不含候选正文 / 法条原文 / 密钥)。
   console.log(JSON.stringify({
@@ -354,6 +377,7 @@ async function main() {
     finding_count: report.finding_count,
     rag_available: report.rag_available,
     degraded: report.degraded,
+    grounded: report.grounded,
     prompt_redline_clean: report.prompt_redline_clean,
     trace_anchored: report.trace_anchored,
     report: path.relative(ROOT, REPORT_PATH).split(path.sep).join("/"),
@@ -374,6 +398,7 @@ if (invokedDirectly) {
         codes: [],
         rag_available: false,
         degraded: false,
+        grounded: false,
         prompt_redline_clean: true,
         trace_anchored: true,
         checked_at: new Date().toISOString(),

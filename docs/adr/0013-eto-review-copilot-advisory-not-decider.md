@@ -1,6 +1,6 @@
 # ADR-0013 ETO 审核副驾「十律」:advisory-only,不做裁决者
 
-- Status: Proposed(待 candy 批准 + 落地)
+- Status: Accepted(candy 已定 2026-06-28;P0/P1 已落地)
 - Date: 2026-06-28
 - 配套:`docs/api/eto-review-copilot.md`、`specs/features/eto-review-copilot.feature`
 - 关联:ADR-0002(三层授权)、ADR-0005(成效定权)、ADR-0006(暂不上图数据库)、ADR-0011(知识治理层)、ADR-0012(RAG 外部 cutover)
